@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeScape | Module 4: Get Low & Go</title>
+    <script>
+        // Suppress Tailwind CDN warning
+        console.warn = (function (originalWarn) {
+            return function (...args) {
+                if (args[0] && args[0].includes && args[0].includes('cdn.tailwindcss.com')) return;
+                originalWarn.apply(console, args);
+            };
+        })(console.warn);
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared.css">
+
+    <style>
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-card {
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .qa-input:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+        }
+
+        .answer-reveal {
+            animation: revealAnswer 0.5s ease-out forwards;
+        }
+
+        @keyframes revealAnswer {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-complete {
+            border-color: #22c55e !important;
+        }
+
+        .card-complete::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #22c55e;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen">
+
+    <!-- NAVIGATION -->
+    <nav class="ss-nav">
+        <div class="ss-nav-container">
+            <a href="../index.html" class="ss-nav-brand">
+                <i class="fa-solid fa-shield-cat"></i>
+                <h1>SafeScape <span>| Module 4</span></h1>
+            </a>
+
+            <div class="ss-module-indicators">
+                <a href="../module_1/index.html" class="ss-module-dot completed" id="nav-1" title="Module 1"><i
+                        class="fa-solid fa-check"></i></a>
+                <div class="ss-module-connector active"></div>
+                <a href="../module_2/index.html" class="ss-module-dot completed" id="nav-2" title="Module 2"><i
+                        class="fa-solid fa-check"></i></a>
+                <div class="ss-module-connector active"></div>
+                <a href="../module_3/index.html" class="ss-module-dot completed" id="nav-3" title="Module 3"><i
+                        class="fa-solid fa-check"></i></a>
+                <div class="ss-module-connector active"></div>
+                <a href="index.html" class="ss-module-dot current" title="Module 4">4</a>
+                <div class="ss-module-connector" id="conn-4-5"></div>
+                <a href="#" class="ss-module-dot locked" id="nav-5" title="Module 5">5</a>
+            </div>
+
+            <div class="text-sm text-slate-400">
+                Progress: <span id="module-progress" class="text-orange-400 font-bold">0%</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto p-6 space-y-16">
+
+        <!-- HEADER -->
+        <section class="fade-in text-center max-w-3xl mx-auto space-y-4" style="animation-delay: 0.1s;">
+            <h1
+                class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-slate-400">
+                Get Low and Go!
+            </h1>
+            <p class="text-lg text-slate-300 leading-relaxed">
+                Fire creates more than just flames. It creates a dark, toxic enemy called smoke.
+                Learn the physics of why staying low is the only way to survive.
+            </p>
+        </section>
+
+        <!-- CARDS PROGRESS -->
+        <div class="text-center">
+            <p class="text-slate-400 text-sm">Complete all 5 cards to unlock the final check</p>
+            <p class="text-orange-400 font-bold">Cards completed: <span id="cards-done">0</span>/5</p>
+        </div>
+
+        <!-- CARD 1: PHYSICS OF SMOKE -->
+        <section id="card-1"
+            class="fade-in bg-slate-800 rounded-2xl overflow-hidden shadow-xl border border-slate-700 info-card relative"
+            style="animation-delay: 0.2s;">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <div class="p-8 flex flex-col justify-center space-y-4">
+                    <h2 class="text-2xl font-bold text-orange-400"><i class="fa-solid fa-wind mr-2"></i> The Physics of
+                        Heat</h2>
+                    <p class="text-slate-300 leading-relaxed">
+                        Heat creates energy. Because hot air is lighter than cold air, it rises rapidly to the ceiling.
+                        This pushes the cooler, cleaner air down to the floor.
+                    </p>
+                    <div class="bg-slate-900/50 p-4 rounded-lg border-l-4 border-green-500">
+                        <p class="text-sm text-green-300 font-bold">The Green Zone:</p>
+                        <p class="text-sm text-slate-400">The safest air is 1-2 feet off the ground.</p>
+                    </div>
+
+                    <!-- Q&A Section -->
+                    <div class="mt-4 pt-4 border-t border-slate-700">
+                        <div id="qa-1" class="space-y-3">
+                            <p class="text-sm text-yellow-400 font-semibold"><i
+                                    class="fa-solid fa-question-circle mr-1"></i> Think About It:</p>
+                            <p class="text-slate-300 text-sm">Why does hot air rise to the ceiling?</p>
+                            <div class="flex gap-2">
+                                <input type="text" id="answer-1"
+                                    class="qa-input flex-1 bg-slate-900 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white focus:outline-none"
+                                    placeholder="Type your answer...">
+                                <button onclick="submitAnswer(1)"
+                                    class="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg text-sm font-bold transition-colors">Submit</button>
+                            </div>
+                            <div id="reveal-1"
+                                class="hidden answer-reveal bg-green-900/30 border border-green-600 rounded-lg p-3">
+                                <p class="text-green-400 text-sm font-bold"><i class="fa-solid fa-lightbulb mr-1"></i>
+                                    Answer:</p>
+                                <p class="text-white text-sm">Hot air rises because it is lighter (less dense) than cold
+                                    air. The heat makes air molecules move faster and spread apart!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- IMAGE PLACEHOLDER 1 -->
+                <div class="bg-slate-900 p-6 flex items-center justify-center">
+                    <div class="relative w-full max-w-sm">
+                        <img src="../assets/images/card1_stratification.jpg"
+                            class="w-full rounded-xl shadow-lg opacity-90 hover:opacity-100 transition-opacity"
+                            onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');">
+                        <div class="text-center text-slate-500 hidden py-16">
+                            <i class="fa-solid fa-layer-group text-5xl mb-2"></i>
+                            <p class="font-mono text-sm">[ card1_stratification.jpg ]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CARD 2: THE TOXIC CLOUD -->
+        <section id="card-2"
+            class="fade-in bg-slate-800 rounded-2xl overflow-hidden shadow-xl border border-slate-700 info-card relative"
+            style="animation-delay: 0.3s;">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <!-- Image Left on Desktop for Variety -->
+                <div class="order-2 md:order-1 bg-slate-900 p-6 flex items-center justify-center">
+                    <div class="relative w-full max-w-sm">
+                        <img src="../assets/images/card2_toxic.jpg"
+                            class="w-full rounded-xl shadow-lg opacity-90 hover:opacity-100 transition-opacity"
+                            onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');">
+                        <div class="text-center text-slate-500 hidden py-16">
+                            <i class="fa-solid fa-skull-crossbones text-5xl mb-2"></i>
+                            <p class="font-mono text-sm">[ card2_toxic.jpg ]</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-1 md:order-2 p-8 flex flex-col justify-center space-y-4">
+                    <h2 class="text-2xl font-bold text-red-500"><i class="fa-solid fa-biohazard mr-2"></i> The Toxic
+                        Cloud</h2>
+                    <p class="text-slate-300 leading-relaxed">
+                        Smoke isn't just dark air; it is full of toxic chemicals and particles.
+                        Breathing it in can make you sleepy, confused, or hurt your lungs instantly.
+                    </p>
+                    <p class="text-slate-400 text-sm italic">"Most injuries in fires come from the smoke, not the
+                        flames."</p>
+
+                    <!-- Q&A Section -->
+                    <div class="mt-4 pt-4 border-t border-slate-700">
+                        <div id="qa-2" class="space-y-3">
+                            <p class="text-sm text-yellow-400 font-semibold"><i
+                                    class="fa-solid fa-question-circle mr-1"></i> Think About It:</p>
+                            <p class="text-slate-300 text-sm">What causes more injuries in a fire - flames or smoke?</p>
+                            <div class="flex gap-2">
+                                <input type="text" id="answer-2"
+                                    class="qa-input flex-1 bg-slate-900 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white focus:outline-none"
+                                    placeholder="Type your answer...">
+                                <button onclick="submitAnswer(2)"
+                                    class="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg text-sm font-bold transition-colors">Submit</button>
+                            </div>
+                            <div id="reveal-2"
+                                class="hidden answer-reveal bg-green-900/30 border border-green-600 rounded-lg p-3">
+                                <p class="text-green-400 text-sm font-bold"><i class="fa-solid fa-lightbulb mr-1"></i>
+                                    Answer:</p>
+                                <p class="text-white text-sm">Smoke causes more injuries! It contains toxic gases like
+                                    carbon monoxide that can knock you unconscious before flames even reach you.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CARD 3: THE CRAWL TECHNIQUE -->
+        <section id="card-3"
+            class="fade-in bg-slate-800 rounded-2xl overflow-hidden shadow-xl border border-slate-700 info-card relative"
+            style="animation-delay: 0.4s;">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <div class="p-8 flex flex-col justify-center space-y-4">
+                    <h2 class="text-2xl font-bold text-blue-400"><i class="fa-solid fa-person-crawling mr-2"></i> Hands
+                        and Knees</h2>
+                    <p class="text-slate-300 leading-relaxed">
+                        Don't slither like a snake! Crawl on your hands and knees.
+                        This keeps your head in the 'Clean Air Zone' but allows you to move fast.
+                    </p>
+                    <ul class="list-disc list-inside text-slate-400 space-y-1">
+                        <li>Keep head slightly up to navigate.</li>
+                        <li>Move quickly but calmly.</li>
+                        <li>Stay near walls if visibility is zero.</li>
+                    </ul>
+
+                    <!-- Q&A Section -->
+                    <div class="mt-4 pt-4 border-t border-slate-700">
+                        <div id="qa-3" class="space-y-3">
+                            <p class="text-sm text-yellow-400 font-semibold"><i
+                                    class="fa-solid fa-question-circle mr-1"></i> Think About It:</p>
+                            <p class="text-slate-300 text-sm">Why should you crawl on hands and knees instead of
+                                slithering on your belly?</p>
+                            <div class="flex gap-2">
+                                <input type="text" id="answer-3"
+                                    class="qa-input flex-1 bg-slate-900 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white focus:outline-none"
+                                    placeholder="Type your answer...">
+                                <button onclick="submitAnswer(3)"
+                                    class="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg text-sm font-bold transition-colors">Submit</button>
+                            </div>
+                            <div id="reveal-3"
+                                class="hidden answer-reveal bg-green-900/30 border border-green-600 rounded-lg p-3">
+                                <p class="text-green-400 text-sm font-bold"><i class="fa-solid fa-lightbulb mr-1"></i>
+                                    Answer:</p>
+                                <p class="text-white text-sm">Crawling on hands and knees lets you move faster while
+                                    still keeping your head in the clean air zone near the floor. Slithering is too
+                                    slow!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- IMAGE PLACEHOLDER 3 -->
+                <div class="bg-slate-900 p-6 flex items-center justify-center">
+                    <div class="relative w-full max-w-sm">
+                        <img src="../assets/images/card3_crawl.jpg"
+                            class="w-full rounded-xl shadow-lg opacity-90 hover:opacity-100 transition-opacity"
+                            onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');">
+                        <div class="text-center text-slate-500 hidden py-16">
+                            <i class="fa-solid fa-person-running text-5xl mb-2"></i>
+                            <p class="font-mono text-sm">[ card3_crawl.jpg ]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CARD 4: THE VISIBILITY TRAP -->
+        <section id="card-4"
+            class="fade-in bg-slate-800 rounded-2xl overflow-hidden shadow-xl border border-slate-700 info-card relative"
+            style="animation-delay: 0.5s;">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <!-- Image Left on Desktop -->
+                <div class="order-2 md:order-1 bg-slate-900 p-6 flex items-center justify-center">
+                    <div class="relative w-full max-w-sm">
+                        <img src="../assets/images/card4_darkness.jpg"
+                            class="w-full rounded-xl shadow-lg opacity-90 hover:opacity-100 transition-opacity"
+                            onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');">
+                        <div class="text-center text-slate-500 hidden py-16">
+                            <i class="fa-solid fa-eye-slash text-5xl mb-2"></i>
+                            <p class="font-mono text-sm">[ card4_darkness.jpg ]</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-1 md:order-2 p-8 flex flex-col justify-center space-y-4">
+                    <h2 class="text-2xl font-bold text-purple-400"><i class="fa-solid fa-moon mr-2"></i> Pitch Black
+                    </h2>
+                    <p class="text-slate-300 leading-relaxed">
+                        In movies, smoke looks grey. In real life, smoke is <strong class="text-white">pitch
+                            black</strong>.
+                        You often cannot see your own hand in front of your face.
+                    </p>
+                    <p class="text-slate-300">Getting low helps you see the floorboards and exit paths.</p>
+
+                    <!-- Q&A Section -->
+                    <div class="mt-4 pt-4 border-t border-slate-700">
+                        <div id="qa-4" class="space-y-3">
+                            <p class="text-sm text-yellow-400 font-semibold"><i
+                                    class="fa-solid fa-question-circle mr-1"></i> Think About It:</p>
+                            <p class="text-slate-300 text-sm">How is real smoke different from smoke you see in movies?
+                            </p>
+                            <div class="flex gap-2">
+                                <input type="text" id="answer-4"
+                                    class="qa-input flex-1 bg-slate-900 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white focus:outline-none"
+                                    placeholder="Type your answer...">
+                                <button onclick="submitAnswer(4)"
+                                    class="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg text-sm font-bold transition-colors">Submit</button>
+                            </div>
+                            <div id="reveal-4"
+                                class="hidden answer-reveal bg-green-900/30 border border-green-600 rounded-lg p-3">
+                                <p class="text-green-400 text-sm font-bold"><i class="fa-solid fa-lightbulb mr-1"></i>
+                                    Answer:</p>
+                                <p class="text-white text-sm">Real smoke is pitch black, not grey like in movies! You
+                                    can't see anything - not even your own hand in front of your face.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CARD 5: THE SHIRT FILTER -->
+        <section id="card-5"
+            class="fade-in bg-slate-800 rounded-2xl overflow-hidden shadow-xl border border-slate-700 info-card relative"
+            style="animation-delay: 0.6s;">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <div class="p-8 flex flex-col justify-center space-y-4">
+                    <h2 class="text-2xl font-bold text-teal-400"><i class="fa-solid fa-shirt mr-2"></i> Use a Filter
+                    </h2>
+                    <p class="text-slate-300 leading-relaxed">
+                        If you can, pull your shirt up over your nose or use a cloth.
+                        This acts as a basic filter against large soot particles, helping you breathe a little easier.
+                    </p>
+                    <div class="bg-slate-900/50 p-4 rounded-lg border-l-4 border-teal-500">
+                        <p class="text-sm text-teal-300 font-bold">Pro Tip:</p>
+                        <p class="text-sm text-slate-400">Do not waste time looking for a wet towel. Just use your shirt
+                            and GO.</p>
+                    </div>
+
+                    <!-- Q&A Section -->
+                    <div class="mt-4 pt-4 border-t border-slate-700">
+                        <div id="qa-5" class="space-y-3">
+                            <p class="text-sm text-yellow-400 font-semibold"><i
+                                    class="fa-solid fa-question-circle mr-1"></i> Think About It:</p>
+                            <p class="text-slate-300 text-sm">What can you use to cover your nose and mouth if you don't
+                                have a mask?</p>
+                            <div class="flex gap-2">
+                                <input type="text" id="answer-5"
+                                    class="qa-input flex-1 bg-slate-900 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white focus:outline-none"
+                                    placeholder="Type your answer...">
+                                <button onclick="submitAnswer(5)"
+                                    class="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg text-sm font-bold transition-colors">Submit</button>
+                            </div>
+                            <div id="reveal-5"
+                                class="hidden answer-reveal bg-green-900/30 border border-green-600 rounded-lg p-3">
+                                <p class="text-green-400 text-sm font-bold"><i class="fa-solid fa-lightbulb mr-1"></i>
+                                    Answer:</p>
+                                <p class="text-white text-sm">Your shirt! Just pull it up over your nose. Any cloth
+                                    works as a basic filter against soot particles. Don't waste time looking for a wet
+                                    towel - just GO!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- IMAGE PLACEHOLDER 5 -->
+                <div class="bg-slate-900 p-6 flex items-center justify-center">
+                    <div class="relative w-full max-w-sm">
+                        <img src="../assets/images/card5_filter.jpg"
+                            class="w-full rounded-xl shadow-lg opacity-90 hover:opacity-100 transition-opacity"
+                            onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');">
+                        <div class="text-center text-slate-500 hidden py-16">
+                            <i class="fa-solid fa-mask-face text-5xl mb-2"></i>
+                            <p class="font-mono text-sm">[ card5_filter.jpg ]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE KNOWLEDGE CHECK -->
+        <section id="section-check"
+            class="fade-in ss-section max-w-2xl mx-auto bg-slate-900 p-8 rounded-2xl border-2 border-slate-600 text-center space-y-6"
+            style="animation-delay: 0.7s;">
+            <div class="ss-section-badge"><i class="fa-solid fa-check"></i></div>
+
+            <div id="check-locked" class="">
+                <i class="fa-solid fa-lock text-4xl text-slate-600 mb-4"></i>
+                <h3 class="text-xl font-bold text-slate-500">Complete All Cards First</h3>
+                <p class="text-slate-600 text-sm">Answer all 5 questions above to unlock the final check</p>
+            </div>
+
+            <div id="check-unlocked" class="hidden">
+                <h3 class="text-2xl font-bold text-white mb-6"><i
+                        class="fa-solid fa-clipboard-check text-yellow-400 mr-2"></i> True or False</h3>
+                <p class="text-slate-400 text-sm mb-4">Answer all 5 questions correctly to complete the module</p>
+
+                <div id="tf-questions" class="space-y-4 text-left">
+                    <!-- Questions rendered by JS -->
+                </div>
+
+                <div id="check-result" class="hidden font-bold text-xl transition-all mt-6"></div>
+            </div>
+
+            <a href="../module_5/index.html" id="btn-next" class="hidden mt-6 ss-btn ss-btn-success inline-block">
+                Continue to Module 5 <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+        </section>
+
+
+    </main>
+
+    <footer class="bg-slate-950 text-slate-500 py-8 text-center text-sm border-t border-slate-800 mt-12">
+        <p>SafeScape Intelligent Systems Project</p>
+        <p class="mt-2 text-xs opacity-50">Module 4: Get Low & Go</p>
+    </footer>
+
+    <div class="ss-toast-container" id="toast-container"></div>
+
+    <script src="../js/progress.js"></script>
+    <script>
+        // --- MODULE STATE ---
+        const moduleNum = 4;
+        let localState = {
+            cardsCompleted: [false, false, false, false, false],
+            allCardsCompleted: false,
+            tfAnswers: [null, null, null, null, null],
+            finalCheckPassed: false
+        };
+
+        // True/False Questions Data
+        const tfQuestions = [
+            { statement: "Smoke is heavy, so it sinks to the floor.", answer: false },
+            { statement: "Most fire injuries come from smoke, not flames.", answer: true },
+            { statement: "You should crawl on your hands and knees through smoke.", answer: true },
+            { statement: "Real smoke looks grey like in the movies.", answer: false },
+            { statement: "Covering your nose with your shirt can help filter some particles.", answer: true }
+        ];
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Wait for progress to load from API before checking locks
+            await SafeScapeProgress.whenReady();
+
+            if (!SafeScapeProgress.isModuleUnlocked(moduleNum)) {
+                window.location.href = '../index.html';
+                return;
+            }
+            loadProgress();
+            updateNavigation();
+            updateSectionStates();
+            updateCardsUI();
+        });
+
+        function loadProgress() {
+            const progress = SafeScapeProgress.getProgress();
+            const moduleData = progress[`module${moduleNum}`];
+            if (moduleData && moduleData.sections) {
+                localState = { ...localState, ...moduleData.sections };
+            }
+            updateModuleProgress();
+        }
+
+        function saveLocalProgress() {
+            Object.keys(localState).forEach(key => {
+                SafeScapeProgress.completeSection(moduleNum, key, localState[key]);
+            });
+            updateModuleProgress();
+            updateSectionStates();
+        }
+
+        function updateModuleProgress() {
+            let completed = 0;
+            let total = 2;
+            if (localState.allCardsCompleted) completed++;
+            if (localState.finalCheckPassed) completed++;
+            const percent = Math.round((completed / total) * 100);
+            document.getElementById('module-progress').textContent = `${percent}%`;
+        }
+
+        function updateSectionStates() {
+            if (localState.finalCheckPassed) document.getElementById('section-check').classList.add('completed');
+        }
+
+
+        function updateNavigation() {
+            const progress = SafeScapeProgress.getProgress();
+            const nav5 = document.getElementById('nav-5');
+            const module5 = progress.module5;
+            if (module5?.unlocked) {
+                nav5.classList.remove('locked');
+                nav5.classList.add('unlocked');
+                nav5.href = '../module_5/index.html';
+                if (module5?.completed) {
+                    nav5.classList.add('completed');
+                    nav5.innerHTML = '<i class="fa-solid fa-check"></i>';
+                }
+            }
+        }
+
+        // --- CARD Q&A ---
+        function updateCardsUI() {
+            const count = localState.cardsCompleted.filter(c => c).length;
+            document.getElementById('cards-done').textContent = count;
+
+            // Update card completed states
+            localState.cardsCompleted.forEach((completed, idx) => {
+                if (completed) {
+                    const card = document.getElementById(`card-${idx + 1}`);
+                    card.classList.add('card-complete');
+                    document.getElementById(`reveal-${idx + 1}`).classList.remove('hidden');
+                    const input = document.getElementById(`answer-${idx + 1}`);
+                    input.disabled = true;
+                    input.parentElement.querySelector('button').disabled = true;
+                    input.parentElement.querySelector('button').classList.add('opacity-50');
+                }
+            });
+
+            // Check if all cards done
+            if (localState.cardsCompleted.every(c => c)) {
+                localState.allCardsCompleted = true;
+                document.getElementById('check-locked').classList.add('hidden');
+                document.getElementById('check-unlocked').classList.remove('hidden');
+                renderTFQuestions();
+                saveLocalProgress();
+            }
+        }
+
+        function submitAnswer(cardNum) {
+            const input = document.getElementById(`answer-${cardNum}`);
+            const answer = input.value.trim();
+
+            if (!answer) {
+                showToast('error', 'Please type an answer first!');
+                return;
+            }
+
+            // Mark card as completed (any answer accepted)
+            localState.cardsCompleted[cardNum - 1] = true;
+
+            // Show reveal
+            document.getElementById(`reveal-${cardNum}`).classList.remove('hidden');
+            document.getElementById(`card-${cardNum}`).classList.add('card-complete');
+
+            // Disable input
+            input.disabled = true;
+            input.parentElement.querySelector('button').disabled = true;
+            input.parentElement.querySelector('button').classList.add('opacity-50');
+
+            // Update UI
+            updateCardsUI();
+            saveLocalProgress();
+            showToast('success', `Card ${cardNum} complete!`);
+
+            // Scroll to reveal
+            document.getElementById(`reveal-${cardNum}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // --- TRUE/FALSE QUESTIONS ---
+        function renderTFQuestions() {
+            const container = document.getElementById('tf-questions');
+            container.innerHTML = '';
+
+            tfQuestions.forEach((q, idx) => {
+                const div = document.createElement('div');
+                div.className = 'bg-slate-800 p-4 rounded-xl border border-slate-600';
+                div.id = `tf-q-${idx}`;
+                div.innerHTML = `
+                    <p class="text-white text-sm mb-3">${idx + 1}. "${q.statement}"</p>
+                    <div class="flex gap-2">
+                        <button onclick="answerTF(${idx}, true)" class="tf-btn flex-1 bg-slate-700 hover:bg-slate-600 py-2 rounded-lg border border-slate-500 text-sm font-bold text-white transition-colors">TRUE</button>
+                        <button onclick="answerTF(${idx}, false)" class="tf-btn flex-1 bg-slate-700 hover:bg-slate-600 py-2 rounded-lg border border-slate-500 text-sm font-bold text-white transition-colors">FALSE</button>
+                    </div>
+                    <div id="tf-feedback-${idx}" class="hidden mt-2 text-sm"></div>
+                `;
+                container.appendChild(div);
+            });
+
+            // Restore previous answers if any
+            localState.tfAnswers.forEach((ans, idx) => {
+                if (ans !== null) {
+                    restoreTFAnswer(idx, ans);
+                }
+            });
+        }
+
+        function answerTF(idx, userAnswer) {
+            const qDiv = document.getElementById(`tf-q-${idx}`);
+            const buttons = qDiv.querySelectorAll('.tf-btn');
+            const feedback = document.getElementById(`tf-feedback-${idx}`);
+            const correct = tfQuestions[idx].answer === userAnswer;
+
+            // Disable buttons
+            buttons.forEach(b => b.disabled = true);
+
+            // Store answer
+            localState.tfAnswers[idx] = userAnswer;
+
+            if (correct) {
+                if (userAnswer) {
+                    buttons[0].classList.add('bg-green-600', 'border-green-400');
+                } else {
+                    buttons[1].classList.add('bg-green-600', 'border-green-400');
+                }
+                feedback.innerHTML = '<span class="text-green-400"><i class="fa-solid fa-check mr-1"></i> Correct!</span>';
+            } else {
+                if (userAnswer) {
+                    buttons[0].classList.add('bg-red-900', 'border-red-400');
+                    buttons[1].classList.add('bg-green-600', 'border-green-400');
+                } else {
+                    buttons[1].classList.add('bg-red-900', 'border-red-400');
+                    buttons[0].classList.add('bg-green-600', 'border-green-400');
+                }
+                feedback.innerHTML = '<span class="text-red-400"><i class="fa-solid fa-xmark mr-1"></i> Incorrect</span>';
+            }
+            feedback.classList.remove('hidden');
+
+            // Check if all answered
+            checkTFComplete();
+            saveLocalProgress();
+        }
+
+        function restoreTFAnswer(idx, userAnswer) {
+            const qDiv = document.getElementById(`tf-q-${idx}`);
+            if (!qDiv) return;
+            const buttons = qDiv.querySelectorAll('.tf-btn');
+            const feedback = document.getElementById(`tf-feedback-${idx}`);
+            const correct = tfQuestions[idx].answer === userAnswer;
+
+            buttons.forEach(b => b.disabled = true);
+
+            if (correct) {
+                if (userAnswer) {
+                    buttons[0].classList.add('bg-green-600', 'border-green-400');
+                } else {
+                    buttons[1].classList.add('bg-green-600', 'border-green-400');
+                }
+                feedback.innerHTML = '<span class="text-green-400"><i class="fa-solid fa-check mr-1"></i> Correct!</span>';
+            } else {
+                if (userAnswer) {
+                    buttons[0].classList.add('bg-red-900', 'border-red-400');
+                    buttons[1].classList.add('bg-green-600', 'border-green-400');
+                } else {
+                    buttons[1].classList.add('bg-red-900', 'border-red-400');
+                    buttons[0].classList.add('bg-green-600', 'border-green-400');
+                }
+                feedback.innerHTML = '<span class="text-red-400"><i class="fa-solid fa-xmark mr-1"></i> Incorrect</span>';
+            }
+            feedback.classList.remove('hidden');
+        }
+
+        function checkTFComplete() {
+            const allAnswered = localState.tfAnswers.every(a => a !== null);
+            if (!allAnswered) return;
+
+            const allCorrect = localState.tfAnswers.every((ans, idx) => tfQuestions[idx].answer === ans);
+            const result = document.getElementById('check-result');
+            const btn = document.getElementById('btn-next');
+
+            // Calculate and save score
+            const correctCount = localState.tfAnswers.filter((ans, idx) => tfQuestions[idx].answer === ans).length;
+            SafeScapeProgress.submitQuizResult(moduleNum, correctCount, 5);
+
+            if (allCorrect) {
+                result.innerHTML = "<span class='text-green-400'><i class='fa-solid fa-check mr-2'></i>All correct! You understand smoke behavior!</span>";
+                result.classList.remove('hidden');
+                btn.classList.remove('hidden');
+
+                if (!localState.finalCheckPassed) {
+                    localState.finalCheckPassed = true;
+                    saveLocalProgress();
+                    showToast('success', '🎉 Module 4 complete! Module 5 unlocked!');
+                }
+            } else {
+                const correctCount = localState.tfAnswers.filter((ans, idx) => tfQuestions[idx].answer === ans).length;
+                result.innerHTML = `<span class='text-orange-400'><i class='fa-solid fa-info-circle mr-2'></i>You got ${correctCount}/5 correct. Review the answers above!</span>`;
+                result.classList.remove('hidden');
+
+                // Still allow progression if they answered all
+                setTimeout(() => {
+                    btn.classList.remove('hidden');
+                    if (!localState.finalCheckPassed) {
+                        localState.finalCheckPassed = true;
+                        saveLocalProgress();
+                    }
+                }, 2000);
+            }
+        }
+
+        function showToast(type, message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `ss-toast ${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+            toast.innerHTML = `<i class="fa-solid ${icons[type] || 'fa-info-circle'}"></i> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease-out reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,194 @@
+'use client';
+
+import { Button } from '@/Components/ui/button';
+import { Link } from '@inertiajs/react';
+import { PermissionGuard } from '@/Components/permission-guard';
+import TiltedCard from '@/Components/ui/tilted-card';
+import { Card, CardContent } from '@/Components/ui/card';
+import { ArrowRight, Briefcase, Users, Baby } from 'lucide-react';
+import { useAuth } from '@/lib/auth-context';
+
+// Define the type for a featured card item
+type FeaturedCardItem = {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  link: string;
+  requiredPermission: 'accessKids' | 'accessAdult' | 'accessProfessional' | 'isAdmin';
+  icon: React.ReactNode;
+  color: string;
+  btn: string;
+};
+
+// Mock data for featured cards - this will be replaced by dynamic data fetching
+const mockFeaturedCards: FeaturedCardItem[] = [
+  {
+    id: 1,
+    title: '',
+    btn: 'For Professionals',
+    description: 'Access comprehensive fire safety codes, standards, and professional training materials.',
+    imageUrl: '/professional_card.png',
+    link: '/professional',
+    requiredPermission: 'accessProfessional',
+    icon: <Briefcase className="h-6 w-6" />,
+    color: 'from-blue-500 to-blue-700',
+  },
+  {
+    id: 2,
+    title: '',
+    btn: 'For Adults',
+    description: 'Learn essential fire safety practices for your home, family, and workplace.',
+    imageUrl: '/adult_card.png',
+    link: '/adult',
+    requiredPermission: 'accessAdult',
+    icon: <Users className="h-6 w-6" />,
+    color: 'from-orange-500 to-red-600',
+  },
+  {
+    id: 3,
+    title: '',
+    btn: 'For Kids',
+    description: 'Fun and interactive modules to teach children about fire safety.',
+    imageUrl: '/kids_card.png',
+    link: '/kids',
+    requiredPermission: 'accessKids',
+    icon: <Baby className="h-6 w-6" />,
+    color: 'from-green-500 to-emerald-600',
+  },
+];
+
+interface ServerUser {
+  id: number;
+  name: string;
+  age?: number;
+  role: string;
+}
+
+export function FeaturedCards({ serverUser }: { serverUser?: ServerUser | null } = {}) {
+  const { user: clientUser } = useAuth();
+
+  // Use client user if available, otherwise reconstruct from serverUser
+  const user = clientUser || (serverUser ? {
+    ...serverUser,
+    permissions: serverUser.role === 'admin'
+      ? { accessKids: true, accessAdult: true, accessProfessional: true, isAdmin: true }
+      : serverUser.role === 'professional'
+        ? { accessKids: true, accessAdult: true, accessProfessional: true, isAdmin: false }
+        : serverUser.role === 'adult'
+          ? { accessKids: false, accessAdult: true, accessProfessional: false, isAdmin: false }
+          : serverUser.role === 'kid'
+            ? { accessKids: true, accessAdult: false, accessProfessional: false, isAdmin: false }
+            : { accessKids: false, accessAdult: false, accessProfessional: false, isAdmin: false }
+  } as any : null);
+
+  const visibleCards = mockFeaturedCards.filter(card => {
+    // 1. Not logged in — hide cards entirely
+    if (!user) {
+      return false;
+    }
+
+    // 2. Professionals and Admins see ALL cards
+    if (user.role === 'admin' || user.permissions?.accessProfessional) {
+      return true;
+    }
+
+    // 3. Age-based filtering for standard users
+    if (user.age !== undefined && user.age !== null) {
+      if (user.age < 13) {
+        // Kid (< 13): Show ONLY Kids card
+        return card.requiredPermission === 'accessKids';
+      } else {
+        // Adult (>= 13): Show ONLY Adult card
+        return card.requiredPermission === 'accessAdult';
+      }
+    }
+
+    // 4. Logged in but no age info: Show all
+    return true;
+  });
+
+  return (
+    <div className="max-w-7xl mx-auto px-4">
+      {/* Mobile: Horizontal compact cards */}
+      <div className="md:hidden space-y-3">
+        {visibleCards.map((card) => (
+          <PermissionGuard key={card.id} requiredPermission={card.requiredPermission} targetPath={card.link}>
+            <Link href={card.link} prefetch={false}>
+              <Card className="overflow-hidden hover:shadow-lg transition-all active:scale-[0.98]">
+                <CardContent className="p-0">
+                  <div className="flex items-center gap-4">
+                    {/* Icon Section */}
+                    <div className={`bg-gradient-to-br ${card.color} p-4 flex items-center justify-center text-white`}>
+                      {card.icon}
+                    </div>
+                    {/* Content */}
+                    <div className="flex-1 py-3 pr-4">
+                      <h3 className="font-bold text-base text-gray-900">{card.title}</h3>
+                      <p className="text-xs text-gray-600 line-clamp-1">{card.description}</p>
+                    </div>
+                    {/* Arrow */}
+                    <ArrowRight className="h-5 w-5 text-gray-400 mr-4 flex-shrink-0" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </PermissionGuard>
+        ))}
+      </div>
+
+      {/* Tablet & Desktop: Tilted cards */}
+      <div
+        className={`hidden md:grid gap-8 p-4 w-full ${visibleCards.length === 1
+          ? 'grid-cols-1 max-w-lg mx-auto'
+          : visibleCards.length === 2
+            ? 'grid-cols-2 max-w-3xl mx-auto'
+            : 'grid-cols-3 max-w-5xl mx-auto'
+          }`}
+      >
+        {visibleCards.map((card) => (
+          <div
+            key={card.id}
+            className="w-full transition-all duration-300"
+          >
+            <PermissionGuard requiredPermission={card.requiredPermission} targetPath={card.link}>
+              <div className="w-full">
+                <TiltedCard
+                  imageSrc={card.imageUrl}
+                  altText={card.title}
+                  captionText={card.title}
+                  containerHeight="320px"
+                  containerWidth="100%"
+                  imageHeight="280px"
+                  imageWidth="100%"
+                  scaleOnHover={1.08}
+                  rotateAmplitude={12}
+                  showMobileWarning={false}
+                  showTooltip={true}
+                  displayOverlayContent={true}
+                  overlayContent={
+                    <div className="text-white">
+                      <h3 className="text-xl font-bold mb-2 drop-shadow-lg">{card.title}</h3>
+                      <p className="text-sm text-gray-200 mb-3 line-clamp-2">{card.description}</p>
+                      <Link href={card.link} prefetch={false}>
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          className="w-full bg-white/90 hover:bg-white text-gray-900 backdrop-blur-sm"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {card.btn}
+                        </Button>
+                      </Link>
+                    </div>
+                  }
+                />
+              </div>
+            </PermissionGuard>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
