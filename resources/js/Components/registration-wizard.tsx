@@ -260,14 +260,14 @@ export function RegistrationWizard() {
           })
           const result = await response.json()
 
-          if (!result.success && response.status === 422) {
+          if (result.valid === false) {
             // Show server-side validation errors
             const serverErrors: Record<string, string> = {}
-            if (result.errors?.username) serverErrors.username = result.errors.username[0]
-            if (result.errors?.password) serverErrors.password = result.errors.password[0]
-            if (result.errors?.email) serverErrors.email = result.errors.email[0]
+            if (result.errors?.username) serverErrors.username = Array.isArray(result.errors.username) ? result.errors.username[0] : result.errors.username
+            if (result.errors?.password) serverErrors.password = Array.isArray(result.errors.password) ? result.errors.password[0] : result.errors.password
+            if (result.errors?.email) serverErrors.email = Array.isArray(result.errors.email) ? result.errors.email[0] : result.errors.email
             setValidationErrors(prev => ({ ...prev, ...serverErrors }))
-            setError(Object.values(result.errors || {}).map((e: any) => e[0]).join('. '))
+            setError(Object.values(result.errors || {}).map((e: any) => Array.isArray(e) ? e[0] : e).join('. '))
             setLoading(false)
             return
           }

@@ -17,8 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
         // API routes shouldn't be stateful as fetch requests from the frontend lack CSRF tokens.
-        // Protected API endpoints were moved to web.php.
-
+        // BUT Axios handles CSRF, so we re-enable stateful cookies for the frontend SPA APIs.
+        $middleware->api(prepend: [
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        ]);
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminRole::class,
         ]);

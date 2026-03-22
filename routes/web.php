@@ -15,11 +15,12 @@ Route::get('/about', function () {
     return Inertia::render('About');
 });
 
-// Primary User Flow Routes
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        $user = auth()->user();
-        if ($user->role === 'admin') return redirect()->route('admin');
+    // Primary User Flow Routes
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/dashboard', function () {
+            /** @var \App\Models\User $user */
+            $user = request()->user();
+            if ($user->role === 'admin') return redirect()->route('admin');
         if ($user->role === 'professional') return redirect()->route('professional');
         if ($user->role === 'kid') return redirect()->route('kids');
         return redirect()->route('adult');
@@ -44,10 +45,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('adult');
     
     Route::get('/professional', function () {
-        $blogs = BlogPost::with('author:id,name')->where('isPublished', true)->orderBy('created_at', 'desc')->get();
-        return Inertia::render('AdultDashboard', [
-            'initialBlogs' => $blogs,
-        ]);
+        return Inertia::render('ProfessionalDashboard');
     })->name('professional');
     
     // Admin routing
@@ -55,6 +53,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin', function () {
             return Inertia::render('AdminDashboard');
         })->name('admin');
+
+        Route::get('/admin/analytics', function () {
+            return Inertia::render('Admin/Analytics');
+        })->name('admin.analytics');
     });
 });
 

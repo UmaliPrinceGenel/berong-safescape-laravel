@@ -15,29 +15,17 @@ export function PageLoader() {
     }, [pathname, searchParams]);
 
     useEffect(() => {
-        // Listen for route change start
-        const handleStart = () => setIsLoading(true);
-        const handleComplete = () => setIsLoading(false);
-
-        // Use click listener to detect navigation
-        const handleClick = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
-            const link = target.closest('a');
-
-            if (link && link.href && !link.href.startsWith('#') && !link.target) {
-                const url = new URL(link.href, window.location.origin);
-                if (url.origin === window.location.origin && url.pathname !== pathname) {
-                    setIsLoading(true);
-                }
-            }
-        };
-
-        document.addEventListener('click', handleClick);
+        // Listen for route change start and finish via Inertia events
+        const removeStart = router.on('start', () => setIsLoading(true));
+        const removeFinish = router.on('finish', () => setIsLoading(false));
+        const removeNavigate = router.on('navigate', () => setIsLoading(false));
 
         return () => {
-            document.removeEventListener('click', handleClick);
+            removeStart();
+            removeFinish();
+            removeNavigate();
         };
-    }, [pathname]);
+    }, []);
 
     if (!isLoading) return null;
 
@@ -61,12 +49,10 @@ export function PageLoader() {
 
                     {/* Berong Logo */}
                     <div className="relative w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-yellow-400/50">
-                        <Image
+                        <img
                             src="/berong-official-logo.jpg"
                             alt="Berong - Loading"
-                            fill
-                            className="object-cover"
-                            priority
+                            className="w-full h-full object-cover"
                         />
                     </div>
                 </div>

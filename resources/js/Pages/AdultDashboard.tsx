@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, } from "react"
+import React, { useState } from "react"
 import { router, usePage } from '@inertiajs/react';
 import { useAuth } from "@/lib/auth-context"
 import { Navigation } from "@/Components/navigation"
@@ -12,6 +12,7 @@ import { Flame, Search, BookOpen, Calendar, User, ArrowRight, AlertCircle } from
 import type { BlogPost } from "@/lib/mock-data"
 import { Link } from '@inertiajs/react';
 import { Footer } from "@/Components/footer"
+import DashboardLayout from "@/Layouts/DashboardLayout"
 import SpotlightCard from "@/Components/ui/spotlight-card"
 import "@/components/ui/spotlight-card.css"
 import TiltedCard from "@/Components/ui/tilted-card"
@@ -21,7 +22,7 @@ interface AdultPageClientProps {
     initialBlogs: BlogPost[]
 }
 
-export default function AdultPageClient({ initialBlogs }: AdultPageClientProps) {
+const AdultPageClient = ({ initialBlogs }: AdultPageClientProps) => {
     
     const { user } = useAuth()
     const [searchQuery, setSearchQuery] = useState("")
@@ -36,10 +37,8 @@ export default function AdultPageClient({ initialBlogs }: AdultPageClientProps) 
     )
 
     return (
-        <div className="min-h-screen">
-            <Navigation />
-
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <>
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
                 {/* Welcome Banner */}
                 <AdultWelcomeBanner />
 
@@ -169,9 +168,10 @@ export default function AdultPageClient({ initialBlogs }: AdultPageClientProps) 
                     )}
                 </div>
             </main>
-
-            {/* Footer */}
-            <Footer />
-        </div>
+        </>
     )
 }
+
+AdultPageClient.layout = (page: React.ReactNode) => <DashboardLayout>{page}</DashboardLayout>
+
+export default AdultPageClient

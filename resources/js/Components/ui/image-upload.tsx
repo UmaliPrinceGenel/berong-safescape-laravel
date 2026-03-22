@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Upload, Copy, Check, Image as ImageIcon } from 'lucide-react';
 
 interface ImageUploadProps {
+  key?: React.Key;
   onUploadComplete: (url: string) => void;
   title?: string;
   description?: string;
@@ -69,17 +71,13 @@ export function ImageUpload({ onUploadComplete, title = "Image Upload", descript
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch('/api/admin/upload', {
-        method: 'POST',
-        body: formData,
+      const response = await axios.post('/api/admin/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Upload failed');
-      }
-
-      const result = await response.json();
+      const result = response.data;
       setUploadUrl(result.url);
       onUploadComplete(result.url);
     } catch (err: any) {

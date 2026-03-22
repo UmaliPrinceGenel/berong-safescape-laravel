@@ -1,0 +1,18 @@
+import React from "react";
+import { Navigation } from "@/Components/navigation";
+import { Footer } from "@/Components/footer";
+import RootLayout from "./RootLayout";
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+    return (
+        <RootLayout>
+            <div className="min-h-screen relative flex flex-col">
+                <Navigation />
+                <div className="flex-1 w-full">
+                    {children}
+                </div>
+                <Footer />
+            </div>
+        </RootLayout>
+    );
+}

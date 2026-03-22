@@ -255,22 +255,6 @@ export const FALLBACK_ASSESSMENT_QUESTIONS: FallbackQuestion[] = [
         forRoles: ["adult", "professional"]
     },
 
-    // GENERAL SAFETY AWARENESS (1 question)
-    {
-        id: -16,
-        question: "What is the emergency hotline number for the Bureau of Fire Protection (BFP) in the Philippines?",
-        options: [
-            "117",
-            "911",
-            "143",
-            "166"
-        ],
-        correctAnswer: 1,
-        explanation: "911 is the national emergency hotline in the Philippines for all emergencies, including fires. BFP also has local hotlines like 426-0219.",
-        category: "General Safety Awareness",
-        difficulty: "Easy",
-        forRoles: ["kid", "adult", "professional"]
-    },
 ]
 
 /**

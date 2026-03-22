@@ -1,10 +1,12 @@
 'use client';
 
-import { Button } from '@/Components/ui/button';
+import React from 'react';
+
+import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
-import { PermissionGuard } from '@/Components/permission-guard';
-import TiltedCard from '@/Components/ui/tilted-card';
-import { Card, CardContent } from '@/Components/ui/card';
+import { PermissionGuard } from '@/components/permission-guard';
+import TiltedCard from '@/components/ui/tilted-card';
+import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRight, Briefcase, Users, Baby } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
 
@@ -113,7 +115,8 @@ export function FeaturedCards({ serverUser }: { serverUser?: ServerUser | null }
       {/* Mobile: Horizontal compact cards */}
       <div className="md:hidden space-y-3">
         {visibleCards.map((card) => (
-          <PermissionGuard key={card.id} requiredPermission={card.requiredPermission} targetPath={card.link}>
+          <React.Fragment key={card.id}>
+          <PermissionGuard requiredPermission={card.requiredPermission} targetPath={card.link}>
             <Link href={card.link} prefetch={false}>
               <Card className="overflow-hidden hover:shadow-lg transition-all active:scale-[0.98]">
                 <CardContent className="p-0">
@@ -134,6 +137,7 @@ export function FeaturedCards({ serverUser }: { serverUser?: ServerUser | null }
               </Card>
             </Link>
           </PermissionGuard>
+          </React.Fragment>
         ))}
       </div>
 

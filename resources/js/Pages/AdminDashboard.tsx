@@ -1,5 +1,28 @@
 "use client";
 
+import axios from 'axios';
+
+const apiFetch = async (url: string, options: RequestInit = {}) => {
+  const method = options.method || 'GET';
+  let data = undefined;
+  if (options.body) {
+    try {
+      if (typeof options.body === 'string') data = JSON.parse(options.body);
+      else data = options.body;
+    } catch {
+      data = options.body;
+    }
+  }
+
+  try {
+    const res = await axios({ url, method, data, withCredentials: true });
+    return { ok: true, json: async () => res.data, status: res.status } as any;
+  } catch (err: any) {
+    if (err.response) return { ok: false, json: async () => err.response.data, status: err.response.status } as any;
+    throw err;
+  }
+};
+
 import { useEffect, useState } from "react"
 import { router, usePage } from '@inertiajs/react';
 import { useAuth } from "@/lib/auth-context"
@@ -128,12 +151,12 @@ export default function AdminPage() {
     if (isLoading) return
 
     if (!isAuthenticated) {
-      router.push("/login")
+      router.visit("/login")
       return
     }
 
     if (!user?.permissions.isAdmin) {
-      router.push("/")
+      router.visit("/")
       return
     }
 
@@ -149,7 +172,7 @@ export default function AdminPage() {
 
   const loadCarouselImages = async () => {
     try {
-      const response = await fetch('/api/content/carousel', { cache: 'no-store' })
+      const response = await apiFetch('/api/content/carousel', { cache: 'no-store' })
       if (response.ok) {
         const images = await response.json()
         setCarouselImages(images)
@@ -163,7 +186,7 @@ export default function AdminPage() {
 
   const loadBlogPosts = async () => {
     try {
-      const response = await fetch('/api/content/blogs', { cache: 'no-store' })
+      const response = await apiFetch('/api/content/blogs', { cache: 'no-store' })
       if (response.ok) {
         const blogs = await response.json()
         setBlogPosts(blogs)
@@ -177,7 +200,7 @@ export default function AdminPage() {
 
   const loadVideos = async () => {
     try {
-      const response = await fetch('/api/admin/videos', { cache: 'no-store' })
+      const response = await apiFetch('/api/admin/videos', { cache: 'no-store' })
       if (response.ok) {
         const videos = await response.json()
         setVideos(videos)
@@ -191,7 +214,7 @@ export default function AdminPage() {
 
   const loadUsers = async () => {
     try {
-      const response = await fetch('/api/admin/users', { cache: 'no-store' })
+      const response = await apiFetch('/api/admin/users', { cache: 'no-store' })
       if (response.ok) {
         const usersData = await response.json()
         setUsers(usersData)
@@ -205,7 +228,7 @@ export default function AdminPage() {
 
   const loadQuickQuestions = async () => {
     try {
-      const response = await fetch('/api/admin/quick-questions', { cache: 'no-store' })
+      const response = await apiFetch('/api/admin/quick-questions', { cache: 'no-store' })
       if (response.ok) {
         const questions = await response.json()
         setQuickQuestions(questions)
@@ -219,7 +242,7 @@ export default function AdminPage() {
 
   const loadFireCodeSections = async () => {
     try {
-      const response = await fetch('/api/admin/fire-codes', { cache: 'no-store' })
+      const response = await apiFetch('/api/admin/fire-codes', { cache: 'no-store' })
       if (response.ok) {
         const sections = await response.json()
         setFireCodeSections(sections)
@@ -247,7 +270,7 @@ export default function AdminPage() {
           setSubmittingMessage("Adding quick question...");
           closeConfirmationDialog();
 
-          const response = await fetch('/api/admin/quick-questions', {
+          const response = await apiFetch('/api/admin/quick-questions', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -281,7 +304,7 @@ export default function AdminPage() {
       "delete-quick-question",
       async () => {
         try {
-          const response = await fetch(`/api/admin/quick-questions/${id}`, {
+          const response = await apiFetch(`/api/admin/quick-questions/${id}`, {
             method: 'DELETE',
           })
 
@@ -318,7 +341,7 @@ export default function AdminPage() {
           setSubmittingMessage("Adding carousel image...");
           closeConfirmationDialog();
 
-          const response = await fetch('/api/admin/carousel', {
+          const response = await apiFetch('/api/admin/carousel', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -360,7 +383,7 @@ export default function AdminPage() {
       "delete-carousel-image",
       async () => {
         try {
-          const response = await fetch(`/api/admin/carousel/${numericId}`, {
+          const response = await apiFetch(`/api/admin/carousel/${numericId}`, {
             method: 'DELETE',
           })
 
@@ -386,7 +409,7 @@ export default function AdminPage() {
   const handleReorderCarousel = async (newOrder: CarouselImage[]) => {
     try {
       const imageIds = newOrder.map((img) => img.id)
-      const response = await fetch('/api/admin/carousel/reorder', {
+      const response = await apiFetch('/api/admin/carousel/reorder', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ imageIds }),
@@ -414,7 +437,7 @@ export default function AdminPage() {
   const handleReorderBlogs = async (newOrder: BlogPost[]) => {
     try {
       const blogIds = newOrder.map((blog) => blog.id)
-      const response = await fetch('/api/admin/blogs/reorder', {
+      const response = await apiFetch('/api/admin/blogs/reorder', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ blogIds }),
@@ -441,7 +464,7 @@ export default function AdminPage() {
   const handleReorderVideos = async (newOrder: any[]) => {
     try {
       const videoIds = newOrder.map((video) => video.id)
-      const response = await fetch('/api/admin/videos/reorder', {
+      const response = await apiFetch('/api/admin/videos/reorder', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ videoIds }),
@@ -485,7 +508,7 @@ export default function AdminPage() {
             authorId: user?.id || 1, // Default to first user if no current user
           }
 
-          const response = await fetch('/api/admin/blogs', {
+          const response = await apiFetch('/api/admin/blogs', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -520,7 +543,7 @@ export default function AdminPage() {
       "delete-blog-post",
       async () => {
         try {
-          const response = await fetch(`/api/admin/blogs/${id}`, {
+          const response = await apiFetch(`/api/admin/blogs/${id}`, {
             method: 'DELETE',
           })
 
@@ -558,7 +581,7 @@ export default function AdminPage() {
           setSubmittingMessage("Adding video...");
           closeConfirmationDialog();
 
-          const response = await fetch('/api/admin/videos', {
+          const response = await apiFetch('/api/admin/videos', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -599,7 +622,7 @@ export default function AdminPage() {
       "delete-video",
       async () => {
         try {
-          const response = await fetch(`/api/admin/videos/${numericId}`, {
+          const response = await apiFetch(`/api/admin/videos/${numericId}`, {
             method: 'DELETE',
           });
 
@@ -654,7 +677,7 @@ export default function AdminPage() {
     setRoleChangeError("")
 
     try {
-      const response = await fetch(`/api/admin/users/${roleChangeDialog.userId}/permissions`, {
+      const response = await apiFetch(`/api/admin/users/${roleChangeDialog.userId}/permissions`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -698,7 +721,7 @@ export default function AdminPage() {
           setSubmittingMessage("Adding fire code section...");
           closeConfirmationDialog();
 
-          const response = await fetch('/api/admin/fire-codes', {
+          const response = await apiFetch('/api/admin/fire-codes', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -732,7 +755,7 @@ export default function AdminPage() {
       "delete-fire-code",
       async () => {
         try {
-          const response = await fetch(`/api/admin/fire-codes/${id}`, {
+          const response = await apiFetch(`/api/admin/fire-codes/${id}`, {
             method: 'DELETE',
           })
 
@@ -784,7 +807,7 @@ export default function AdminPage() {
               <p className="text-sm sm:text-base text-muted-foreground">Manage content, users, and platform settings</p>
             </div>
             <Button
-              onClick={() => router.push("/admin/analytics")}
+              onClick={() => router.visit("/admin/analytics")}
               className="bg-orange-500 hover:bg-orange-600"
             >
               <BarChart3 className="h-4 w-4 mr-2" />

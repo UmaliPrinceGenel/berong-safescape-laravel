@@ -102,26 +102,54 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // 6. Admin Control Panel (Role Protected)
     // ==========================================
     Route::middleware(['admin'])->prefix('admin')->group(function () {
-        // Analytics & Stats
-        Route::get('/stats/overview', [AdminController::class, 'statsOverview']);
-        Route::get('/stats/demographics', [AdminController::class, 'demographics']);
+        Route::get('/stats', [AdminController::class, 'stats']);
+        Route::get('/users', [AdminController::class, 'users']);
+        Route::put('/users/{id}/role', [AdminController::class, 'updateUserRole']);
+        Route::patch('/users/{id}/permissions', [AdminController::class, 'updateUserPermissions']);
+        Route::get('/analytics', [AdminController::class, 'analytics']);
+
+        // Content management
+        Route::post('/upload', [AdminController::class, 'uploadImage']);
         
-        // User Management CRUD
-        Route::apiResource('users', AdminController::class);
-        Route::post('/users/{id}/role', [AdminController::class, 'updateRole']);
-        Route::post('/users/{id}/deactivate', [AdminController::class, 'deactivate']);
-        
-        // Content Management CRUD
-        Route::apiResource('content/blogs', ContentController::class);
-        Route::apiResource('content/videos', ContentController::class);
-        Route::apiResource('content/questions', ContentController::class);
-        Route::apiResource('content/carousel', ContentController::class);
-        
-        // Assessment Management CRUD
-        Route::apiResource('assessments/questions', AssessmentController::class);
-        
-        // Reports
-        Route::get('/reports/generate', [AdminController::class, 'generateReport']);
-        Route::get('/reports/export', [AdminController::class, 'exportData']);
+        Route::get('/posts', [ContentController::class, 'blogs']);
+        Route::post('/posts', [AdminController::class, 'createPost']);
+        Route::put('/posts/{id}', [AdminController::class, 'updatePost']);
+        Route::delete('/posts/{id}', [AdminController::class, 'deletePost']);
+
+        // Aliases to match frontend fetch calls
+        Route::get('/blogs', [ContentController::class, 'blogs']);
+        Route::post('/blogs', [AdminController::class, 'createPost']);
+        Route::put('/blogs/{id}', [AdminController::class, 'updatePost']);
+        Route::delete('/blogs/{id}', [AdminController::class, 'deletePost']);
+
+        Route::get('/videos', [ContentController::class, 'videos']);
+        Route::post('/videos', [AdminController::class, 'createVideo']);
+        Route::put('/videos/{id}', [AdminController::class, 'updateVideo']);
+        Route::delete('/videos/{id}', [AdminController::class, 'deleteVideo']);
+
+        Route::get('/questions', [ContentController::class, 'questions']);
+        Route::post('/questions', [AdminController::class, 'createQuestion']);
+        Route::put('/questions/{id}', [AdminController::class, 'updateQuestion']);
+        Route::delete('/questions/{id}', [AdminController::class, 'deleteQuestion']);
+
+        Route::get('/carousel', [ContentController::class, 'carousel']);
+        Route::post('/carousel', [AdminController::class, 'createCarouselImage']);
+        Route::put('/carousel/{id}', [AdminController::class, 'updateCarouselImage']);
+        Route::delete('/carousel/{id}', [AdminController::class, 'deleteCarouselImage']);
+        Route::post('/carousel/reorder', [AdminController::class, 'reorderCarousel']);
+
+        Route::post('/blogs/reorder', [AdminController::class, 'reorderBlogs']);
+
+        // Quick Questions Alias
+        Route::get('/quick-questions', [ContentController::class, 'questions']);
+        Route::post('/quick-questions', [AdminController::class, 'createQuestion']);
+        Route::put('/quick-questions/{id}', [AdminController::class, 'updateQuestion']);
+        Route::delete('/quick-questions/{id}', [AdminController::class, 'deleteQuestion']);
+
+        // Fire Codes
+        Route::get('/fire-codes', [AdminController::class, 'fireCodes']);
+        Route::post('/fire-codes', [AdminController::class, 'createFireCode']);
+        Route::put('/fire-codes/{id}', [AdminController::class, 'updateFireCode']);
+        Route::delete('/fire-codes/{id}', [AdminController::class, 'deleteFireCode']);
     });
 });

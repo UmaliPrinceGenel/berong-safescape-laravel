@@ -71,7 +71,7 @@ export default function ProfilePage() {
     if (isLoading) return
 
     if (!isAuthenticated) {
-      router.push("/login")
+      router.visit("/login")
       return
     }
 
@@ -154,8 +154,8 @@ export default function ProfilePage() {
       } else {
         setConfirmError(result.error || "Failed to update profile")
       }
-    } catch (err) {
-      setConfirmError("Network error. Please try again.")
+    } catch (err: any) {
+      setConfirmError(err.response?.data?.error || "Network error. Please try again.")
     } finally {
       setConfirmLoading(false)
     }
@@ -205,8 +205,8 @@ export default function ProfilePage() {
       } else {
         setError(result.error || "Failed to change password")
       }
-    } catch (err) {
-      setError("Network error. Please try again.")
+    } catch (err: any) {
+      setError(err.response?.data?.error || "Network error. Please try again.")
     } finally {
       setPasswordLoading(false)
     }
