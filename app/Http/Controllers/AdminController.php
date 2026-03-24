@@ -172,14 +172,76 @@ class AdminController extends Controller
      */
     public function createCarouselImage(Request $request)
     {
-        $image = CarouselImage::create($request->only('title', 'alt_text', 'image_url', 'order'));
+        $payload = [
+            'title' => $request->input('title'),
+            'altText' => $request->input('altText')
+                ?? $request->input('alt_text')
+                ?? $request->input('alt'),
+            'imageUrl' => $request->input('imageUrl')
+                ?? $request->input('image_url')
+                ?? $request->input('url'),
+            'order' => $request->input('order', (int) CarouselImage::max('order') + 1),
+            'isActive' => $request->boolean('isActive', true),
+        ];
+
+        validator($payload, [
+            'title' => 'required|string|max:255',
+            'altText' => 'nullable|string|max:255',
+            'imageUrl' => 'required|string|max:2048',
+            'order' => 'nullable|integer|min:0',
+            'isActive' => 'boolean',
+        ])->validate();
+
+        $image = CarouselImage::create($payload);
+
         return response()->json(['success' => true, 'image' => $image], 201);
     }
 
     public function updateCarouselImage(Request $request, $id)
     {
         $image = CarouselImage::findOrFail($id);
-        $image->update($request->only('title', 'alt_text', 'image_url', 'order', 'is_active'));
+
+        $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'altText' => 'nullable|string|max:255',
+            'alt_text' => 'nullable|string|max:255',
+            'alt' => 'nullable|string|max:255',
+            'imageUrl' => 'nullable|string|max:2048',
+            'image_url' => 'nullable|string|max:2048',
+            'url' => 'nullable|string|max:2048',
+            'order' => 'nullable|integer|min:0',
+        ]);
+
+        $updates = [];
+
+        if ($request->has('title')) {
+            $updates['title'] = $request->input('title');
+        }
+
+        if ($request->hasAny(['altText', 'alt_text', 'alt'])) {
+            $updates['altText'] = $request->input('altText')
+                ?? $request->input('alt_text')
+                ?? $request->input('alt');
+        }
+
+        if ($request->hasAny(['imageUrl', 'image_url', 'url'])) {
+            $updates['imageUrl'] = $request->input('imageUrl')
+                ?? $request->input('image_url')
+                ?? $request->input('url');
+        }
+
+        if ($request->has('order')) {
+            $updates['order'] = $request->integer('order');
+        }
+
+        if ($request->hasAny(['isActive', 'is_active'])) {
+            $updates['isActive'] = $request->boolean(
+                $request->has('isActive') ? 'isActive' : 'is_active'
+            );
+        }
+
+        $image->update($updates);
+
         return response()->json(['success' => true, 'image' => $image]);
     }
 

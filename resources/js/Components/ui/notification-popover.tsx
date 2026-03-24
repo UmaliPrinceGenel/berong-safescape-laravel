@@ -204,7 +204,7 @@ export function NotificationPopover() {
         <Button
           variant="outline"
           size="icon"
-          className="h-9 w-9 border-white/50 text-white bg-transparent hover:bg-white hover:text-red-700 hover:border-white transition-all hover:scale-110 relative"
+          className="h-10 w-10 rounded-xl border-white/50 text-white bg-transparent hover:bg-white hover:text-red-700 hover:border-white transition-all hover:scale-110 relative"
         >
           <Bell className="h-4 w-4" />
           {unreadCount > 0 && (

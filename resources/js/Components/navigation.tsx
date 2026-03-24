@@ -1,13 +1,13 @@
 "use client"
 
 import { Link } from '@inertiajs/react';
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect } from "react"
 import { useAuth } from "@/lib/auth-context"
 import { Button } from "@/components/ui/button"
-import { Bell, LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info } from "lucide-react"
+import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info } from "lucide-react"
 import Image from '@/components/Image';
 import { NotificationPopover } from "@/components/ui/notification-popover"
-import GooeyNav, { GooeyNavItem } from "@/components/ui/gooey-nav"
+import GooeyNav from "@/components/ui/gooey-nav"
 
 export function Navigation() {
   const { user, logout, isAuthenticated } = useAuth()
@@ -43,16 +43,17 @@ export function Navigation() {
 
       {/* Content Layer - Full opacity */}
       <div className="relative z-10">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center justify-between gap-4 relative">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3">
+          <div className="flex items-center justify-between gap-2 sm:gap-4 relative">
 
             {/* LEFT SECTION: Logo + Branding */}
-            <Link href="/" className="flex items-center gap-2 sm:gap-3 flex-shrink-0 hover:opacity-90 transition-opacity cursor-pointer">
+            <Link href="/" className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0 hover:opacity-90 transition-opacity cursor-pointer">
               {/* Logos */}
               <div className="flex items-center gap-1 sm:gap-2">
                 <Image
                   src="/bfp logo.png"
                   alt="Bureau of Fire Protection Logo"
+                  priority
                   width={48}
                   height={48}
                   className="rounded-full bg-white p-0.5 object-contain shadow-md w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12"
@@ -60,6 +61,7 @@ export function Navigation() {
                 <Image
                   src="/berong-official-logo.jpg"
                   alt="Berong E-Learning Logo"
+                  priority
                   width={48}
                   height={48}
                   className="rounded-full object-cover shadow-md w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 border-2 border-yellow-400/50"
@@ -67,9 +69,9 @@ export function Navigation() {
               </div>
 
               {/* Branding - Compact on mobile */}
-              <div className="min-w-0">
+              <div className="min-w-0 max-w-[155px] sm:max-w-none">
                 {/* Full branding on desktop, abbreviated on mobile */}
-                <p className="text-white font-bold text-[10px] xl:text-xs">Berong E-Learning</p>
+                <p className="text-white font-bold text-[11px] leading-none sm:text-xs">Berong E-Learning</p>
                 <h1 className="text-yellow-400 font-semibold leading-tight text-[10px] xl:text-xs hidden sm:block">
                   Fire Safety Education Platform
                 </h1>
@@ -103,7 +105,7 @@ export function Navigation() {
             </div>
 
             {/* RIGHT SECTION: Time + User Info + Icon Buttons */}
-            <div className="flex items-center gap-3 flex-shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               {/* Time + User Info Column */}
               <div className="text-right hidden md:block">
                 <p className="text-gray-300 text-xs whitespace-nowrap mb-1">
@@ -119,7 +121,7 @@ export function Navigation() {
 
               {/* Icon Buttons with hover animations */}
               {isAuthenticated ? (
-                <div className="flex gap-2">
+                <div className="hidden sm:flex gap-2">
                   <div className="relative group">
                     {/* <Link href="/about">
                       <Button
@@ -141,15 +143,16 @@ export function Navigation() {
                     </span>
                   </div>
                   <div className="relative group">
-                    <Link href="/profile">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="h-9 w-9 border-white/50 text-white bg-transparent hover:bg-white hover:text-red-700 hover:border-white transition-all hover:scale-110"
-                      >
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="icon"
+                      className="h-9 w-9 border-white/50 text-white bg-transparent hover:bg-white hover:text-red-700 hover:border-white transition-all hover:scale-110"
+                    >
+                      <Link href="/profile">
                         <User className="h-4 w-4" />
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                     <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/90 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-[9999] pointer-events-none">
                       Profile
                     </span>
@@ -169,37 +172,48 @@ export function Navigation() {
                   </div>
                 </div>
               ) : (
-                <div className="flex gap-2">
+                <div className="hidden sm:flex gap-2">
                   <div className="relative group">
-                    <Link href="/about">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="h-9 w-9 border-white/50 text-white bg-transparent hover:bg-white hover:text-red-700 hover:border-white transition-all hover:scale-110"
-                      >
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="icon"
+                      className="h-9 w-9 border-white/50 text-white bg-transparent hover:bg-white hover:text-red-700 hover:border-white transition-all hover:scale-110"
+                    >
+                      <Link href="/about">
                         <Info className="h-4 w-4" />
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                     <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/90 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-[9999] pointer-events-none">
                       About
                     </span>
                   </div>
-                  <Link href="/login">
-                    <Button className="bg-yellow-500 hover:bg-yellow-400 text-red-900 font-bold px-6 shadow-md">
-                      Sign In
-                    </Button>
-                  </Link>
+                  <Button asChild className="bg-yellow-500 hover:bg-yellow-400 text-red-900 font-bold px-6 shadow-md">
+                    <Link href="/login">Sign In</Link>
+                  </Button>
+                </div>
+              )}
+
+              {isAuthenticated && (
+                <div className="sm:hidden">
+                  <NotificationPopover />
                 </div>
               )}
 
               {/* Mobile Menu Button - More prominent */}
               <Button
-                variant="outline"
+                variant="ghost"
                 size="icon"
-                className="lg:hidden text-white border-white/50 hover:bg-white hover:text-red-700 h-10 w-10"
+                aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-nav-menu"
+                className={`lg:hidden h-10 w-10 rounded-xl shrink-0 border border-white/60 transition-all duration-200 ${mobileMenuOpen
+                  ? "!bg-white !text-red-700 !border-white shadow-md"
+                  : "!bg-transparent !text-white hover:!bg-white hover:!text-red-700 hover:!border-white"
+                  }`}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
-                {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
             </div>
           </div>
@@ -207,7 +221,7 @@ export function Navigation() {
 
         {/* Mobile Navigation Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-red-600 bg-red-800">
+          <div id="mobile-nav-menu" className="lg:hidden border-t border-red-600 bg-red-800">
             <div className="px-4 py-3 space-y-1">
               <Link
                 href="/"
@@ -274,6 +288,14 @@ export function Navigation() {
               {/* Mobile User Info */}
               {isAuthenticated && (
                 <div className="px-3 py-3 border-t border-red-600 mt-4">
+                  <Link
+                    href="/profile"
+                    className="flex items-center gap-3 px-3 py-3 mb-3 rounded-md text-white font-semibold hover:bg-red-700 transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <User className="h-5 w-5" />
+                    Profile
+                  </Link>
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-white font-semibold">{user?.name}</p>

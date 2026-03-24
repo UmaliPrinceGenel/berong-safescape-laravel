@@ -1,9 +1,8 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { router, usePage } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import {
     ArrowRight,
@@ -16,8 +15,6 @@ import {
     Download
 } from "lucide-react"
 import { Dialog, DialogContent, DialogClose, DialogTitle } from "@/components/ui/dialog"
-import { toPng } from "html-to-image"
-import jsPDF from "jspdf"
 import { useAuth } from "@/lib/auth-context"
 
 interface EligibilityData {
@@ -117,6 +114,10 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
 
         try {
             setDownloading(true);
+            const [{ toPng }, { default: JsPDF }] = await Promise.all([
+                import("html-to-image"),
+                import("jspdf"),
+            ]);
 
             // html-to-image handles modern CSS like Tailwind v4 oklch() colors much better
             const dataUrl = await toPng(certificateRef.current, {
@@ -136,7 +137,7 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
             });
 
             // A4 size in mm: 297 x 210 (Landscape)
-            const pdf = new jsPDF({
+            const pdf = new JsPDF({
                 orientation: 'landscape',
                 unit: 'mm',
                 format: 'a4'
@@ -156,9 +157,9 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
 
     const handleStartClick = () => {
         if (!isAuthenticated) {
-            router.push("/login")
+            router.visit("/login")
         } else {
-            router.push("/assessment/post-test")
+            router.visit("/assessment/post-test")
         }
     }
 
@@ -261,7 +262,7 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
                                                                 <Button
                                                                     variant="link"
                                                                     className="h-auto p-0 text-orange-600 hover:text-orange-700 text-xs"
-                                                                    onClick={() => router.push('/assessment/pre-test')}
+                                                                    onClick={() => router.visit('/assessment/pre-test')}
                                                                 >
                                                                     Take Pre-Test Now →
                                                                 </Button>
@@ -311,7 +312,7 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
                                                 </div>
                                             </div>
 
-                                            <Button onClick={() => router.push(user?.age && user.age < 18 ? "/kids" : "/adult")} className="w-full bg-slate-900 text-white hover:bg-slate-800">
+                                            <Button onClick={() => router.visit(user?.age && user.age < 18 ? "/kids" : "/adult")} className="w-full bg-slate-900 text-white hover:bg-slate-800">
                                                 Continue Learning Activities
                                             </Button>
                                         </div>

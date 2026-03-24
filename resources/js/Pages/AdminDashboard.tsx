@@ -4,6 +4,11 @@ import axios from 'axios';
 
 const apiFetch = async (url: string, options: RequestInit = {}) => {
   const method = options.method || 'GET';
+  const headers = options.headers instanceof Headers
+    ? Object.fromEntries(options.headers.entries())
+    : Array.isArray(options.headers)
+      ? Object.fromEntries(options.headers)
+      : options.headers;
   let data = undefined;
   if (options.body) {
     try {
@@ -15,11 +20,31 @@ const apiFetch = async (url: string, options: RequestInit = {}) => {
   }
 
   try {
-    const res = await axios({ url, method, data, withCredentials: true });
-    return { ok: true, json: async () => res.data, status: res.status } as any;
+    const res = await axios({
+      url,
+      method,
+      data,
+      headers,
+      withCredentials: true,
+      withXSRFToken: true,
+      validateStatus: () => true,
+    });
+
+    return {
+      ok: res.status >= 200 && res.status < 300,
+      json: async () => res.data,
+      status: res.status,
+    } as any;
   } catch (err: any) {
-    if (err.response) return { ok: false, json: async () => err.response.data, status: err.response.status } as any;
-    throw err;
+    if (err.response) {
+      return { ok: false, json: async () => err.response.data, status: err.response.status } as any;
+    }
+
+    return {
+      ok: false,
+      json: async () => ({ error: err?.message || 'Unable to reach the server' }),
+      status: 0,
+    } as any;
   }
 };
 
@@ -52,6 +77,65 @@ import {
 import { SortableCarouselList } from "@/components/sortable-carousel-list"
 import { SortableContentList } from "@/components/sortable-content-list"
 import { LoadingOverlay } from "@/components/ui/loading-overlay"
+
+const getPermissionsForRole = (role?: string) => ({
+  accessKids: role === "admin" || role === "kid" || role === "professional",
+  accessAdult: role === "admin" || role === "adult" || role === "professional",
+  accessProfessional: role === "admin" || role === "professional",
+  isAdmin: role === "admin",
+})
+
+const getApiErrorMessage = (payload: any, fallback: string) => {
+  if (!payload) return fallback
+  if (typeof payload === "string") return payload
+  if (typeof payload?.error === "string" && payload.error.trim()) return payload.error
+  if (typeof payload?.message === "string" && payload.message.trim()) return payload.message
+
+  if (payload?.errors && typeof payload.errors === "object") {
+    const firstError = Object.values(payload.errors).flat().find((value) => typeof value === "string")
+    if (typeof firstError === "string" && firstError.trim()) return firstError
+  }
+
+  return fallback
+}
+
+const normalizeCarouselImage = (image: any): CarouselImage => ({
+  id: image?.id,
+  title: image?.title ?? "",
+  altText: image?.altText ?? image?.alt_text ?? image?.alt ?? "",
+  url: image?.url ?? image?.imageUrl ?? image?.image_url ?? "",
+})
+
+const normalizeBlogPost = (post: any): BlogPost => ({
+  id: post?.id,
+  title: post?.title ?? "",
+  excerpt: post?.excerpt ?? "",
+  content: post?.content ?? "",
+  imageUrl: post?.imageUrl ?? post?.image_url ?? "",
+  category: post?.category ?? "adult",
+  createdAt: post?.createdAt ?? post?.created_at ?? new Date().toISOString(),
+  author: typeof post?.author === "string" ? post.author : post?.author?.name ?? "Unknown",
+})
+
+const normalizeVideo = (video: any) => ({
+  ...video,
+  youtubeId: video?.youtubeId ?? video?.youtube_id ?? "",
+  isActive: video?.isActive ?? video?.is_active ?? false,
+})
+
+const normalizeUser = (user: any) => ({
+  ...user,
+  email: user?.email ?? "",
+  isActive: user?.isActive ?? user?.is_active ?? true,
+  createdAt: user?.createdAt ?? user?.created_at ?? "",
+  permissions: user?.permissions ?? getPermissionsForRole(user?.role),
+})
+
+const normalizeFireCodeSection = (section: any) => ({
+  ...section,
+  sectionNum: section?.sectionNum ?? section?.section_num ?? "",
+  updatedAt: section?.updatedAt ?? section?.updated_at ?? null,
+})
 
 export default function AdminPage() {
   
@@ -174,8 +258,9 @@ export default function AdminPage() {
     try {
       const response = await apiFetch('/api/content/carousel', { cache: 'no-store' })
       if (response.ok) {
-        const images = await response.json()
-        setCarouselImages(images)
+        const payload = await response.json()
+        const images = Array.isArray(payload) ? payload : payload?.images ?? []
+        setCarouselImages(images.map(normalizeCarouselImage))
       } else {
         console.error('Failed to load carousel images')
       }
@@ -188,8 +273,9 @@ export default function AdminPage() {
     try {
       const response = await apiFetch('/api/content/blogs', { cache: 'no-store' })
       if (response.ok) {
-        const blogs = await response.json()
-        setBlogPosts(blogs)
+        const payload = await response.json()
+        const blogs = Array.isArray(payload) ? payload : payload?.posts ?? payload?.blogs ?? []
+        setBlogPosts(blogs.map(normalizeBlogPost))
       } else {
         console.error('Failed to load blog posts')
       }
@@ -202,8 +288,9 @@ export default function AdminPage() {
     try {
       const response = await apiFetch('/api/admin/videos', { cache: 'no-store' })
       if (response.ok) {
-        const videos = await response.json()
-        setVideos(videos)
+        const payload = await response.json()
+        const videos = Array.isArray(payload) ? payload : payload?.videos ?? []
+        setVideos(videos.map(normalizeVideo))
       } else {
         console.error('Failed to load videos')
       }
@@ -216,8 +303,11 @@ export default function AdminPage() {
     try {
       const response = await apiFetch('/api/admin/users', { cache: 'no-store' })
       if (response.ok) {
-        const usersData = await response.json()
-        setUsers(usersData)
+        const payload = await response.json()
+        const usersData = Array.isArray(payload)
+          ? payload
+          : payload?.users?.data ?? payload?.users ?? []
+        setUsers(usersData.map(normalizeUser))
       } else {
         console.error('Failed to load users')
       }
@@ -230,7 +320,8 @@ export default function AdminPage() {
     try {
       const response = await apiFetch('/api/admin/quick-questions', { cache: 'no-store' })
       if (response.ok) {
-        const questions = await response.json()
+        const payload = await response.json()
+        const questions = Array.isArray(payload) ? payload : payload?.questions ?? []
         setQuickQuestions(questions)
       } else {
         console.error('Failed to load quick questions')
@@ -244,8 +335,9 @@ export default function AdminPage() {
     try {
       const response = await apiFetch('/api/admin/fire-codes', { cache: 'no-store' })
       if (response.ok) {
-        const sections = await response.json()
-        setFireCodeSections(sections)
+        const payload = await response.json()
+        const sections = Array.isArray(payload) ? payload : payload?.sections ?? []
+        setFireCodeSections(sections.map(normalizeFireCodeSection))
       } else {
         console.error('Failed to load fire code sections')
       }
@@ -357,7 +449,7 @@ export default function AdminPage() {
             setTimeout(() => setSuccess(""), 3000)
           } else {
             const errorData = await response.json()
-            setError(errorData.error || "Failed to add carousel image")
+            setError(getApiErrorMessage(errorData, "Failed to add carousel image"))
           }
         } catch (error) {
           console.error('Error adding carousel image:', error)
@@ -419,8 +511,9 @@ export default function AdminPage() {
         throw new Error('Failed to reorder')
       }
 
-      const updated = await response.json()
-      setCarouselImages(updated)
+      const payload = await response.json()
+      const updated = Array.isArray(payload) ? payload : payload?.images ?? []
+      setCarouselImages(updated.map(normalizeCarouselImage))
 
       setSuccess('Carousel order updated')
       setTimeout(() => setSuccess(''), 3000)
@@ -447,8 +540,9 @@ export default function AdminPage() {
         throw new Error('Failed to reorder')
       }
 
-      const updated = await response.json()
-      setBlogPosts(updated)
+      const payload = await response.json()
+      const updated = Array.isArray(payload) ? payload : []
+      setBlogPosts(updated.length > 0 ? updated.map(normalizeBlogPost) : newOrder)
 
       setSuccess('Blog order updated')
       setTimeout(() => setSuccess(''), 3000)
@@ -474,8 +568,9 @@ export default function AdminPage() {
         throw new Error('Failed to reorder')
       }
 
-      const updated = await response.json()
-      setVideos(updated)
+      const payload = await response.json()
+      const updated = Array.isArray(payload) ? payload : []
+      setVideos(updated.length > 0 ? updated.map(normalizeVideo) : newOrder)
 
       setSuccess('Video order updated')
       setTimeout(() => setSuccess(''), 3000)

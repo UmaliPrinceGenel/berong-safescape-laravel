@@ -41,22 +41,23 @@ export function HeroCarouselClient({ images }: HeroCarouselClientProps) {
                 ]}
             >
                 <CarouselContent>
-                    {images.map((image) => (
+                    {images.map((image, index) => (
                         <CarouselItem key={image.id}>
-                            <div className="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden rounded-lg shadow-lg group/slide">
+                            <div className="relative w-full h-[250px] sm:h-80 md:h-96 overflow-hidden rounded-2xl sm:rounded-3xl shadow-lg sm:shadow-xl group/slide">
                                 <Image
                                     src={image.imageUrl}
                                     alt={image.altText ?? image.title}
+                                    priority={index === 0}
                                     fill
                                     style={{ objectFit: 'cover' }}
                                     className="transition-opacity duration-500 ease-in-out"
                                 />
 
                                 {/* Gradient Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4 sm:p-6 md:p-8 pointer-events-none">
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent flex items-end p-4 sm:p-6 md:p-8 pointer-events-none">
                                     <div className="text-white">
-                                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2">{image.title}</h2>
-                                        <p className="text-sm sm:text-base md:text-lg opacity-90 line-clamp-2">Learn more about fire safety with BFP Berong.</p>
+                                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2 drop-shadow-md line-clamp-2">{image.title}</h2>
+                                        <p className="text-sm sm:text-base md:text-lg opacity-95 line-clamp-2 max-w-[30rem]">Learn more about fire safety with BFP Berong.</p>
                                     </div>
                                 </div>
 
@@ -67,8 +68,8 @@ export function HeroCarouselClient({ images }: HeroCarouselClientProps) {
                                     aria-label={`View full screen image: ${image.title}`}
                                 >
                                     {/* Maximize Icon (Top Right) */}
-                                    <div className="absolute top-3 right-3 sm:top-4 sm:right-4 opacity-0 group-hover/slide:opacity-100 transition-opacity duration-300">
-                                        <div className="bg-black/50 backdrop-blur-sm rounded-full p-1.5 sm:p-2 text-white shadow-sm">
+                                    <div className="absolute top-3 right-3 sm:top-4 sm:right-4 opacity-100 sm:opacity-0 sm:group-hover/slide:opacity-100 transition-opacity duration-300">
+                                        <div className="bg-black/45 backdrop-blur-sm rounded-full p-1.5 sm:p-2 text-white shadow-sm">
                                             <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5" />
                                         </div>
                                     </div>

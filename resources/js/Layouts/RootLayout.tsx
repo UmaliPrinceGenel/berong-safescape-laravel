@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
       {/* Background Image Layer - 20% opacity */}
       <div
-        className="fixed inset-0 opacity-20 bg-cover z-0 pointer-events-none"
+        className="fixed inset-0 opacity-10 sm:opacity-20 bg-cover z-0 pointer-events-none"
         style={{ backgroundImage: "url('/web-background-image.jpg')", backgroundPosition: 'center 80%' }}
       />
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform, useInView } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform, useInView, useReducedMotion } from "motion/react";
 import Image from '@/components/Image';
 import { Link } from '@inertiajs/react';
 import {
@@ -91,7 +91,15 @@ const features = [
 ];
 
 // Animated Feature Card Component
-function FeatureCard({ feature, index }: { feature: { icon: any; title: string; description: string; color: string }; index: number }) {
+function FeatureCard({
+    feature,
+    index,
+    reduceMotion
+}: {
+    feature: { icon: any; title: string; description: string; color: string };
+    index: number;
+    reduceMotion: boolean;
+}) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -117,7 +125,7 @@ function FeatureCard({ feature, index }: { feature: { icon: any; title: string; 
 }
 
 // Animated Team Card Component
-function TeamCard({ member, index }: { member: typeof teamMembers[0]; index: number }) {
+function TeamCard({ member, index, reduceMotion }: { member: typeof teamMembers[0]; index: number; reduceMotion: boolean }) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-50px" });
 
@@ -131,7 +139,7 @@ function TeamCard({ member, index }: { member: typeof teamMembers[0]; index: num
                 ease: "easeOut",
                 delay: index * 0.1
             }}
-            whileHover={{
+            whileHover={reduceMotion ? undefined : {
                 scale: 1.02,
                 transition: { duration: 0.3 }
             }}
@@ -143,13 +151,13 @@ function TeamCard({ member, index }: { member: typeof teamMembers[0]; index: num
                 {/* Decorative circles */}
                 <motion.div
                     className="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded-full"
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 3, repeat: Infinity }}
+                    animate={reduceMotion ? undefined : { scale: [1, 1.1, 1] }}
+                    transition={reduceMotion ? undefined : { duration: 3, repeat: Infinity }}
                 />
                 <motion.div
                     className="absolute top-4 left-4 w-12 h-12 bg-white/10 rounded-full"
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
+                    animate={reduceMotion ? undefined : { scale: [1, 1.2, 1] }}
+                    transition={reduceMotion ? undefined : { duration: 2.5, repeat: Infinity, delay: 0.5 }}
                 />
             </div>
 
@@ -221,7 +229,7 @@ function TeamCard({ member, index }: { member: typeof teamMembers[0]; index: num
 }
 
 // Partnership Card Component
-function PartnershipCard({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+function PartnershipCard({ children, delay = 0, reduceMotion = false }: { children: React.ReactNode; delay?: number; reduceMotion?: boolean }) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -235,7 +243,7 @@ function PartnershipCard({ children, delay = 0 }: { children: React.ReactNode; d
                 ease: "easeOut",
                 delay: delay * 0.1
             }}
-            whileHover={{
+            whileHover={reduceMotion ? undefined : {
                 scale: 1.02,
                 transition: { duration: 0.3 }
             }}
@@ -247,6 +255,28 @@ function PartnershipCard({ children, delay = 0 }: { children: React.ReactNode; d
 }
 
 export function LandingAboutSection() {
+    const prefersReducedMotion = useReducedMotion();
+    const [isMobileViewport, setIsMobileViewport] = useState(false);
+
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+
+        const mediaQuery = window.matchMedia("(max-width: 768px)");
+        const updateViewport = () => setIsMobileViewport(mediaQuery.matches);
+
+        updateViewport();
+
+        if (mediaQuery.addEventListener) {
+            mediaQuery.addEventListener("change", updateViewport);
+            return () => mediaQuery.removeEventListener("change", updateViewport);
+        }
+
+        mediaQuery.addListener(updateViewport);
+        return () => mediaQuery.removeListener(updateViewport);
+    }, []);
+
+    const reduceMotion = Boolean(prefersReducedMotion || isMobileViewport);
+
     // Hero section scroll animation
     const heroRef = useRef(null);
     const { scrollYProgress: heroScrollProgress } = useScroll({
@@ -255,7 +285,7 @@ export function LandingAboutSection() {
     });
     const mascotRotateY = useTransform(heroScrollProgress, [0, 1], [0, 15]);
     const mascotScale = useTransform(heroScrollProgress, [0, 0.5], [1, 0.9]);
-    const heroTextY = useTransform(heroScrollProgress, [0, 1], [0, 100]);
+    const heroTextY = useTransform(heroScrollProgress, [0, 1], [0, reduceMotion ? 0 : 80]);
     const heroOpacity = useTransform(heroScrollProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
     const heroScale = useTransform(heroScrollProgress, [0, 0.8], [1, 0.95]);
 
@@ -287,11 +317,11 @@ export function LandingAboutSection() {
     const teamScale = useTransform(teamScrollProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 0.95]);
 
     return (
-        <div className="space-y-12 sm:space-y-20 mt-12 sm:mt-20">
+        <div className="space-y-10 sm:space-y-20 mt-10 sm:mt-20">
             {/* Meet Berong Section */}
             <motion.section
                 ref={heroRef}
-                className="relative bg-white py-12 sm:py-16 overflow-hidden rounded-3xl border border-gray-100 shadow-sm"
+                className="relative bg-white/95 backdrop-blur-sm pt-10 pb-16 sm:py-16 overflow-hidden rounded-2xl sm:rounded-3xl border border-gray-200/80 shadow-sm"
                 style={{ opacity: heroOpacity, scale: heroScale }}
             >
                 {/* Background Pattern */}
@@ -305,7 +335,7 @@ export function LandingAboutSection() {
                 </motion.div>
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+                    <div className="flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-16">
                         {/* Berong Mascot - 3D Rotation on Scroll */}
                         <motion.div
                             className="flex-shrink-0"
@@ -315,11 +345,11 @@ export function LandingAboutSection() {
                                 transformPerspective: 1000
                             }}
                         >
-                            <div className="relative w-56 h-56 sm:w-72 sm:h-72 lg:w-96 lg:h-96">
+                            <div className="relative w-44 h-44 sm:w-72 sm:h-72 lg:w-96 lg:h-96">
                                 <motion.div
                                     className="absolute inset-0 bg-red-500/20 rounded-full blur-3xl"
-                                    animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.3, 0.2] }}
-                                    transition={{ duration: 3, repeat: Infinity }}
+                                    animate={reduceMotion ? undefined : { scale: [1, 1.1, 1], opacity: [0.2, 0.3, 0.2] }}
+                                    transition={reduceMotion ? undefined : { duration: 3, repeat: Infinity }}
                                 />
                                 <motion.div
                                     className="relative w-full h-full"
@@ -327,13 +357,15 @@ export function LandingAboutSection() {
                                     whileInView={{
                                         opacity: 1,
                                         scale: 1,
-                                        y: [0, -10, 0]
+                                        ...(reduceMotion ? {} : { y: [0, -10, 0] })
                                     }}
                                     viewport={{ once: true }}
                                     transition={{
                                         opacity: { duration: 0.6 },
                                         scale: { duration: 0.6 },
-                                        y: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                                        ...(reduceMotion ? {} : {
+                                            y: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                                        })
                                     }}
                                 >
                                     <Image
@@ -348,11 +380,11 @@ export function LandingAboutSection() {
 
                         {/* Hero Content - Parallax Text */}
                         <motion.div
-                            className="text-center lg:text-left flex-grow max-w-2xl"
-                            style={{ y: heroTextY }}
+                            className="text-center lg:text-left flex-grow max-w-2xl pb-1 sm:pb-0"
+                            style={reduceMotion ? undefined : { y: heroTextY }}
                         >
                             <motion.span
-                                className="text-red-600 font-semibold text-lg sm:text-xl uppercase tracking-wider mb-4 block"
+                                className="text-red-600 font-semibold text-sm sm:text-xl uppercase tracking-[0.2em] sm:tracking-wider mb-3 sm:mb-4 block"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
@@ -361,7 +393,7 @@ export function LandingAboutSection() {
                                 About SafeScape
                             </motion.span>
                             <motion.h1
-                                className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900"
+                                className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-5 sm:mb-6 leading-tight text-gray-900"
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
@@ -370,7 +402,7 @@ export function LandingAboutSection() {
                                 Meet <span className="text-red-600">Berong</span>
                             </motion.h1>
                             <motion.p
-                                className="text-2xl sm:text-3xl font-light mb-6 text-gray-700"
+                                className="text-2xl sm:text-3xl font-light mb-4 sm:mb-6 text-gray-700"
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
@@ -379,7 +411,7 @@ export function LandingAboutSection() {
                                 Your Fire Safety Companion
                             </motion.p>
                             <motion.p
-                                className="text-lg sm:text-xl text-gray-600 leading-relaxed"
+                                className="text-base sm:text-xl text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0"
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
@@ -423,7 +455,7 @@ export function LandingAboutSection() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" style={{ perspective: 1000 }}>
                         {features.map((feature, index) => (
-                            <FeatureCard key={index} feature={feature} index={index} />
+                            <FeatureCard key={index} feature={feature} index={index} reduceMotion={reduceMotion} />
                         ))}
                     </div>
                 </div>
@@ -438,21 +470,21 @@ export function LandingAboutSection() {
                 {/* Animated Background decoration */}
                 <motion.div
                     className="absolute top-0 right-0 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"
-                    animate={{
+                    animate={reduceMotion ? undefined : {
                         x: [0, 30, 0],
                         y: [0, -20, 0],
                         scale: [1, 1.1, 1]
                     }}
-                    transition={{ duration: 8, repeat: Infinity }}
+                    transition={reduceMotion ? undefined : { duration: 8, repeat: Infinity }}
                 />
                 <motion.div
                     className="absolute bottom-0 left-0 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl"
-                    animate={{
+                    animate={reduceMotion ? undefined : {
                         x: [0, -30, 0],
                         y: [0, 20, 0],
                         scale: [1, 1.2, 1]
                     }}
-                    transition={{ duration: 10, repeat: Infinity }}
+                    transition={reduceMotion ? undefined : { duration: 10, repeat: Infinity }}
                 />
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -479,7 +511,7 @@ export function LandingAboutSection() {
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8" style={{ perspective: 1500 }}>
                         {/* LSPU Card */}
-                        <PartnershipCard delay={0}>
+                        <PartnershipCard delay={0} reduceMotion={reduceMotion}>
                             <div className="flex items-center gap-4 mb-6">
                                 <div className="relative w-20 h-20 flex-shrink-0">
                                     <Image
@@ -511,7 +543,7 @@ export function LandingAboutSection() {
                         </PartnershipCard>
 
                         {/* BFP Card */}
-                        <PartnershipCard delay={1}>
+                        <PartnershipCard delay={1} reduceMotion={reduceMotion}>
                             <div className="flex items-center gap-4 mb-6">
                                 <div className="relative w-20 h-20 flex-shrink-0">
                                     <Image
@@ -572,7 +604,7 @@ export function LandingAboutSection() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" style={{ perspective: 1200 }}>
                         {teamMembers.map((member, index) => (
-                            <TeamCard key={index} member={member} index={index} />
+                            <TeamCard key={index} member={member} index={index} reduceMotion={reduceMotion} />
                         ))}
                     </div>
                 </div>

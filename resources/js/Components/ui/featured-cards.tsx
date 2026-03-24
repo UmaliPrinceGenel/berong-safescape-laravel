@@ -27,7 +27,7 @@ type FeaturedCardItem = {
 const mockFeaturedCards: FeaturedCardItem[] = [
   {
     id: 1,
-    title: '',
+    title: 'Professional Learning',
     btn: 'For Professionals',
     description: 'Access comprehensive fire safety codes, standards, and professional training materials.',
     imageUrl: '/professional_card.png',
@@ -38,7 +38,7 @@ const mockFeaturedCards: FeaturedCardItem[] = [
   },
   {
     id: 2,
-    title: '',
+    title: 'Adult Learning',
     btn: 'For Adults',
     description: 'Learn essential fire safety practices for your home, family, and workplace.',
     imageUrl: '/adult_card.png',
@@ -49,7 +49,7 @@ const mockFeaturedCards: FeaturedCardItem[] = [
   },
   {
     id: 3,
-    title: '',
+    title: 'Kids Learning',
     btn: 'For Kids',
     description: 'Fun and interactive modules to teach children about fire safety.',
     imageUrl: '/kids_card.png',
@@ -113,25 +113,27 @@ export function FeaturedCards({ serverUser }: { serverUser?: ServerUser | null }
   return (
     <div className="max-w-7xl mx-auto px-4">
       {/* Mobile: Horizontal compact cards */}
-      <div className="md:hidden space-y-3">
+      <div className="md:hidden space-y-3.5">
         {visibleCards.map((card) => (
           <React.Fragment key={card.id}>
           <PermissionGuard requiredPermission={card.requiredPermission} targetPath={card.link}>
             <Link href={card.link} prefetch={false}>
-              <Card className="overflow-hidden hover:shadow-lg transition-all active:scale-[0.98]">
+              <Card className="overflow-hidden border border-slate-200/80 bg-white/90 backdrop-blur-sm shadow-sm transition-all duration-200 hover:shadow-md active:scale-[0.99]">
                 <CardContent className="p-0">
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3 p-3">
                     {/* Icon Section */}
-                    <div className={`bg-gradient-to-br ${card.color} p-4 flex items-center justify-center text-white`}>
+                    <div className={`bg-gradient-to-br ${card.color} h-14 w-14 rounded-xl flex items-center justify-center text-white shadow-sm shrink-0`}>
                       {card.icon}
                     </div>
                     {/* Content */}
-                    <div className="flex-1 py-3 pr-4">
-                      <h3 className="font-bold text-base text-gray-900">{card.title}</h3>
-                      <p className="text-xs text-gray-600 line-clamp-1">{card.description}</p>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-semibold text-sm text-slate-900 leading-tight">{card.btn}</h3>
+                      <p className="text-[13px] text-slate-600 line-clamp-2 leading-snug mt-1">{card.description}</p>
                     </div>
                     {/* Arrow */}
-                    <ArrowRight className="h-5 w-5 text-gray-400 mr-4 flex-shrink-0" />
+                    <div className="h-8 w-8 rounded-full border border-slate-200 bg-white flex items-center justify-center flex-shrink-0">
+                      <ArrowRight className="h-4 w-4 text-slate-500" />
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -195,4 +197,3 @@ export function FeaturedCards({ serverUser }: { serverUser?: ServerUser | null }
     </div>
   );
 }
-
