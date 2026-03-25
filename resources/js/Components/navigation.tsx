@@ -1,16 +1,17 @@
 "use client"
 
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from "react"
 import { useAuth } from "@/lib/auth-context"
 import { Button } from "@/components/ui/button"
-import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info } from "lucide-react"
-import Image from '@/components/Image';
+import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info, Settings } from "lucide-react"
 import { NotificationPopover } from "@/components/ui/notification-popover"
 import GooeyNav from "@/components/ui/gooey-nav"
 
 export function Navigation() {
   const { user, logout, isAuthenticated } = useAuth()
+  const { url } = usePage();
+  const isDashboard = url === '/';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [currentTime, setCurrentTime] = useState<string>("")
 
@@ -34,10 +35,10 @@ export function Navigation() {
   }, [])
 
   return (
-    <nav className="bg-red-700 sticky top-0 z-50 shadow-xl relative">
+    <nav className="bg-gradient-to-r from-red-600 via-orange-500 to-[#f97316] sticky top-0 z-50 shadow-md relative">
       {/* Background Image Layer - 10% opacity */}
       <div
-        className="absolute inset-0 opacity-10 bg-cover bg-center"
+        className="absolute inset-0 opacity-5 bg-cover bg-center"
         style={{ backgroundImage: "url('/web-background-image.jpg')" }}
       />
 
@@ -50,18 +51,16 @@ export function Navigation() {
             <Link href="/" className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0 hover:opacity-90 transition-opacity cursor-pointer">
               {/* Logos */}
               <div className="flex items-center gap-1 sm:gap-2">
-                <Image
+                <img
                   src="/bfp logo.png"
                   alt="Bureau of Fire Protection Logo"
-                  priority
                   width={48}
                   height={48}
                   className="rounded-full bg-white p-0.5 object-contain shadow-md w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12"
                 />
-                <Image
+                <img
                   src="/berong-official-logo.jpg"
                   alt="Berong E-Learning Logo"
-                  priority
                   width={48}
                   height={48}
                   className="rounded-full object-cover shadow-md w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 border-2 border-yellow-400/50"
@@ -69,13 +68,12 @@ export function Navigation() {
               </div>
 
               {/* Branding - Compact on mobile */}
-              <div className="min-w-0 max-w-[155px] sm:max-w-none">
-                {/* Full branding on desktop, abbreviated on mobile */}
-                <p className="text-white font-bold text-[11px] leading-none sm:text-xs">Berong E-Learning</p>
-                <h1 className="text-yellow-400 font-semibold leading-tight text-[10px] xl:text-xs hidden sm:block">
+              <div className="min-w-0 max-w-[170px] sm:max-w-none">
+                <p className="text-white font-bold text-[12px] leading-none sm:text-sm">Berong E-Learning</p>
+                <h1 className="text-yellow-400 font-bold leading-tight text-[10px] xl:text-xs hidden sm:block">
                   Fire Safety Education Platform
                 </h1>
-                <p className="text-gray-300 text-[9px] xl:text-xs hidden sm:block">
+                <p className="text-white text-[9px] xl:text-[10px] hidden sm:block opacity-90 uppercase tracking-widest mt-0.5">
                   <span className="hidden xl:inline">BUREAU OF FIRE PROTECTION STA CRUZ LAGUNA</span>
                   <span className="xl:hidden">BFP Sta. Cruz</span>
                 </p>
@@ -84,31 +82,43 @@ export function Navigation() {
 
             {/* CENTER SECTION: GooeyNav Links - Desktop - Absolutely positioned for true center */}
             <div className="hidden lg:flex items-center absolute left-1/2 transform -translate-x-1/2">
-              <GooeyNav
-                items={[
-                  { label: 'DASHBOARD', href: '/' },
-                  ...(isAuthenticated && user?.permissions.accessProfessional
-                    ? [{ label: 'PROFESSIONAL', href: '/professional' }]
-                    : []),
-                  ...(isAuthenticated && user?.permissions.accessAdult
-                    ? [{ label: 'ADULTS', href: '/adult' }]
-                    : []),
-                  ...(isAuthenticated && user?.permissions.accessKids
-                    ? [{ label: 'KIDS', href: '/kids' }]
-                    : []),
-                  ...(isAuthenticated && user?.role === 'admin'
-                    ? [{ label: 'ADMIN', href: '/admin' }]
-                    : []),
-                ]}
-                particleCount={12}
-              />
+              {!isAuthenticated ? (
+                <Link href="/">
+                  <div className={`font-extrabold text-sm tracking-wide uppercase transition-all ${
+                    isDashboard 
+                      ? "px-6 py-1.5 rounded-full border-[3px] border-white bg-yellow-400 text-red-600 shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-[0_0px_0_#b45309]"
+                      : "text-white hover:text-white/80"
+                  }`}>
+                    DASHBOARD
+                  </div>
+                </Link>
+              ) : (
+                <GooeyNav
+                  items={[
+                    { label: 'DASHBOARD', href: '/' },
+                    ...(isAuthenticated && user?.permissions.accessProfessional
+                      ? [{ label: 'PROFESSIONAL', href: '/professional' }]
+                      : []),
+                    ...(isAuthenticated && user?.permissions.accessAdult
+                      ? [{ label: 'ADULTS', href: '/adult' }]
+                      : []),
+                    ...(isAuthenticated && user?.permissions.accessKids
+                      ? [{ label: 'KIDS', href: '/kids' }]
+                      : []),
+                    ...(isAuthenticated && user?.role === 'admin'
+                      ? [{ label: 'ADMIN', href: '/admin' }]
+                      : []),
+                  ]}
+                  particleCount={12}
+                />
+              )}
             </div>
 
             {/* RIGHT SECTION: Time + User Info + Icon Buttons */}
             <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               {/* Time + User Info Column */}
-              <div className="text-right hidden md:block">
-                <p className="text-gray-300 text-xs whitespace-nowrap mb-1">
+              <div className="text-right hidden md:block mr-2">
+                <p className="text-white text-xs whitespace-nowrap font-medium opacity-90">
                   {currentTime}
                 </p>
                 {isAuthenticated && (
@@ -172,25 +182,18 @@ export function Navigation() {
                   </div>
                 </div>
               ) : (
-                <div className="hidden sm:flex gap-2">
-                  <div className="relative group">
-                    <Button
-                      asChild
-                      variant="outline"
-                      size="icon"
-                      className="h-9 w-9 border-white/50 text-white bg-transparent hover:bg-white hover:text-red-700 hover:border-white transition-all hover:scale-110"
-                    >
-                      <Link href="/about">
-                        <Info className="h-4 w-4" />
-                      </Link>
-                    </Button>
+                <div className="hidden sm:flex items-center gap-3">
+                  <div className="relative group flex items-center">
+                    <Link href="/about" className="p-2 flex items-center justify-center rounded-full bg-[#e11d48] border-[3px] border-white text-white shadow-[0_4px_0_#9f1239] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#9f1239] active:translate-y-1 active:shadow-[0_0px_0_#9f1239] transition-all">
+                      <Settings className="h-5 w-5" strokeWidth={2.5} />
+                    </Link>
                     <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/90 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-[9999] pointer-events-none">
                       About
                     </span>
                   </div>
-                  <Button asChild className="bg-yellow-500 hover:bg-yellow-400 text-red-900 font-bold px-6 shadow-md">
-                    <Link href="/login">Sign In</Link>
-                  </Button>
+                  <Link href="/login" className="bg-yellow-400 border-[3px] border-white text-red-600 font-extrabold px-6 py-1.5 rounded-full shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-[0_0px_0_#b45309] transition-all text-sm tracking-wide">
+                    Sign In
+                  </Link>
                 </div>
               )}
 

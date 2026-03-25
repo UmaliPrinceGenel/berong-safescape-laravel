@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Shield, AlertCircle, Loader2, KeyRound, Eye, EyeOff } from "lucide-react"
+import { Shield, AlertCircle, Loader2, KeyRound, Eye, EyeOff, ArrowLeft } from "lucide-react"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Link } from '@inertiajs/react';
 import Image from '@/components/Image';
@@ -214,53 +214,65 @@ function AuthContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-white to-orange-100/50 flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-hidden">
       {/* Registration Wizard Modal - Full screen overlay */}
       {showRegistrationWizard && (
-        <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm flex items-start justify-center overflow-y-auto py-8">
-          <div className="w-full max-w-2xl mx-4">
+        <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm flex items-start justify-center overflow-y-auto py-6 sm:py-8">
+          <div className="w-full max-w-2xl mx-2 sm:mx-4">
             <RegistrationWizard />
           </div>
         </div>
       )}
 
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md z-10 relative">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex justify-center gap-4 mb-4">
-            <Image src="/bfp-logo-red.jpg" alt="BFP Logo" width={60} height={60} className="h-16 w-16 object-contain" />
-            <Image
-              src="/philippine-flag-seal.jpg"
-              alt="Philippine Seal"
-              width={60}
-              height={60}
-              className="h-16 w-16 object-contain"
-            />
+        <div className="text-center mb-5 sm:mb-6">
+          <div className="flex justify-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+            <div className="h-14 w-14 sm:h-16 sm:w-16 bg-white rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100 flex items-center justify-center p-1 sm:p-1.5 flex-shrink-0">
+              <img src="/bfp-logo-red.jpg" alt="BFP Logo" width="60" height="60" className="object-contain w-full h-full" />
+            </div>
+            <div className="h-14 w-14 sm:h-16 sm:w-16 bg-white rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100 flex items-center justify-center p-1 sm:p-1.5 flex-shrink-0">
+              <img
+                src="/philippine-flag-seal.jpg"
+                alt="Philippine Seal"
+                width="60"
+                height="60"
+                className="object-contain w-full h-full"
+              />
+            </div>
           </div>
-          <h1 className="text-3xl font-bold text-primary mb-2">Berong E-Learning</h1>
-          <p className="text-muted-foreground">BFP Sta Cruz Fire Safety Education</p>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#d60000] mb-2 sm:mb-3 tracking-tight">Berong E-Learning</h1>
+          <div className="inline-flex items-center justify-center px-4 sm:px-5 py-1.5 bg-white border border-gray-200 rounded-full shadow-sm mb-2 sm:mb-4 max-w-[95%]">
+            <p className="text-[9px] sm:text-[11px] font-bold text-gray-500 uppercase tracking-widest text-center leading-tight">BFP Sta Cruz Fire Safety Education</p>
+          </div>
         </div>
 
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2 mb-2">
-              <Shield className="h-6 w-6 text-primary" />
-              <CardTitle>Access Your Account</CardTitle>
+        <Card className="border-[2px] sm:border-[3px] border-[#fb923c] rounded-[1.75rem] sm:rounded-[2.5rem] shadow-xl bg-white overflow-hidden relative pb-2 sm:pb-4 mx-auto w-full">
+          {/* Decorative shapes */}
+          <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 bg-orange-50 rounded-bl-[100px] sm:rounded-bl-[120px] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-24 h-24 sm:w-32 sm:h-32 bg-blue-50/40 rounded-tr-[80px] sm:rounded-tr-[100px] pointer-events-none" />
+
+          <CardHeader className="pt-6 sm:pt-8 pb-1 sm:pb-2 relative z-10 px-5 sm:px-6">
+            <div className="flex flex-col items-center mb-1 sm:mb-2">
+              <div className="mx-auto w-10 h-10 sm:w-12 sm:h-12 bg-red-50 border border-red-200 rounded-[14px] sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4">
+                <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" />
+              </div>
+              <CardTitle className="text-xl sm:text-2xl font-black text-slate-800 tracking-tight text-center">Access your Account</CardTitle>
             </div>
-            <CardDescription>Sign in or create an account to access learning materials</CardDescription>
+            <CardDescription className="text-center text-slate-500 font-medium text-xs sm:text-sm">Sign in or create an account to access learning materials</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="relative z-10 px-5 sm:px-8">
             <Tabs defaultValue={defaultTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login">Sign In</TabsTrigger>
-                <TabsTrigger value="register">Register</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 bg-slate-100 p-1 sm:p-1.5 rounded-xl sm:rounded-2xl h-12 sm:h-14 mb-4 sm:mb-6">
+                <TabsTrigger value="login" className="rounded-lg sm:rounded-xl font-bold text-slate-500 text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:text-[#d60000] data-[state=active]:shadow-sm transition-all h-full">Log In</TabsTrigger>
+                <TabsTrigger value="register" className="rounded-lg sm:rounded-xl font-bold text-slate-500 text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm transition-all h-full">Register</TabsTrigger>
               </TabsList>
 
               {/* Login Tab */}
-              <TabsContent value="login">
-                <form onSubmit={handleLogin} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="login-username">Username</Label>
+              <TabsContent value="login" className="mt-0">
+                <form onSubmit={handleLogin} className="space-y-3 sm:space-y-4">
+                  <div className="space-y-1 sm:space-y-1.5">
+                    <Label htmlFor="login-username" className="text-[11px] sm:text-xs font-bold text-slate-700 ml-1">Username</Label>
                     <Input
                       id="login-username"
                       type="text"
@@ -269,13 +281,14 @@ function AuthContent() {
                       onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
                       required
                       autoComplete="username"
+                      className="h-11 sm:h-12 rounded-lg sm:rounded-xl border-slate-200 bg-slate-50 px-3 sm:px-4 text-sm placeholder:text-slate-400 focus-visible:ring-[#d60000] focus-visible:border-[#d60000] transition-all font-medium text-slate-800"
                     />
                     {validationErrors.username && (
-                      <p className="mt-1 text-sm text-red-600">{validationErrors.username}</p>
+                      <p className="mt-1 text-[11px] sm:text-sm text-red-600">{validationErrors.username}</p>
                     )}
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="login-password">Password</Label>
+                  <div className="space-y-1 sm:space-y-1.5">
+                    <Label htmlFor="login-password" className="text-[11px] sm:text-xs font-bold text-slate-700 ml-1">Password</Label>
                     <div className="relative">
                       <Input
                         id="login-password"
@@ -285,38 +298,38 @@ function AuthContent() {
                         onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                         required
                         autoComplete="current-password"
-                        className="pr-10"
+                        className="h-11 sm:h-12 rounded-lg sm:rounded-xl border-slate-200 bg-slate-50 px-3 sm:px-4 text-sm placeholder:text-slate-400 focus-visible:ring-[#d60000] focus-visible:border-[#d60000] transition-all pr-10 sm:pr-12 font-medium text-slate-800"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                        className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 sm:p-1.5 transition-colors"
                         tabIndex={-1}
                       >
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        {showPassword ? <EyeOff className="h-4 w-4 sm:h-5 sm:w-5" /> : <Eye className="h-4 w-4 sm:h-5 sm:w-5" />}
                       </button>
                     </div>
                     {validationErrors.password && (
-                      <p className="mt-1 text-sm text-red-600">{validationErrors.password}</p>
+                      <p className="mt-1 text-[11px] sm:text-sm text-red-600">{validationErrors.password}</p>
                     )}
                   </div>
 
                   {error && (
-                    <Alert variant="destructive">
+                    <Alert variant="destructive" className="rounded-lg sm:rounded-xl py-2">
                       <AlertCircle className="h-4 w-4" />
-                      <AlertDescription>{error}</AlertDescription>
+                      <AlertDescription className="text-xs sm:text-sm">{error}</AlertDescription>
                     </Alert>
                   )}
 
-                  <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={loading}>
-                    {loading ? "Signing in..." : "Sign In"}
+                  <Button type="submit" className="w-full bg-[#d60000] hover:bg-[#b30000] text-white font-bold h-11 sm:h-12 rounded-lg sm:rounded-xl text-sm sm:text-md mt-1 sm:mt-2 shadow-[0_4px_14px_0_rgba(214,0,0,0.39)] transition-all" disabled={loading}>
+                    {loading ? "Signing in..." : "Log In"}
                   </Button>
 
-                  <div className="text-center">
+                  <div className="flex flex-col items-center gap-1 sm:gap-2 pt-4 sm:pt-6 pb-1 sm:pb-2">
                     <Button
                       type="button"
-                      variant="link"
-                      className="text-sm text-muted-foreground hover:text-primary"
+                      variant="ghost"
+                      className="text-[11px] sm:text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md sm:rounded-lg h-7 sm:h-8 px-2 sm:px-3"
                       onClick={() => {
                         setShowResetDialog(true)
                         setResetMessage(null)
@@ -325,45 +338,52 @@ function AuthContent() {
                         setResetStep(1)
                       }}
                     >
-                      <KeyRound className="h-3 w-3 mr-1" />
+                      <KeyRound className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1.5 text-slate-400" />
                       Forgot Password?
                     </Button>
+                    
+                    <Link href="/">
+                      <Button variant="ghost" className="text-[11px] sm:text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md sm:rounded-lg h-7 sm:h-8 px-2 sm:px-3">
+                        <ArrowLeft className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1.5 text-slate-400" />
+                        Back to Dashboard
+                      </Button>
+                    </Link>
                   </div>
                 </form>
               </TabsContent>
 
               {/* Register Tab */}
-              <TabsContent value="register">
-                <div className="space-y-4 py-4">
+              <TabsContent value="register" className="mt-0">
+                <div className="space-y-3 sm:space-y-4 py-2 sm:py-4">
                   <div className="text-center">
-                    <h3 className="text-lg font-semibold mb-2">Create Your Account</h3>
-                    <p className="text-sm text-muted-foreground mb-4">
+                    <h3 className="text-base sm:text-lg font-bold text-slate-800 mb-1 sm:mb-2 mt-1 sm:mt-2 tracking-tight">Create Your Account</h3>
+                    <p className="text-xs sm:text-sm text-slate-500 font-medium mb-4 sm:mb-6">
                       Join our fire safety community and help protect Santa Cruz, Laguna
                     </p>
                   </div>
 
                   <Button
-                    className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-11 sm:h-12 rounded-lg sm:rounded-xl text-sm sm:text-md shadow-[0_4px_14px_0_rgba(37,99,235,0.39)] transition-all"
                     onClick={() => setShowRegistrationWizard(true)}
-                    size="lg"
                   >
                     Start Registration
                   </Button>
 
-                  <p className="text-xs text-center text-muted-foreground">
+                  <p className="text-[10px] sm:text-[11px] text-center text-slate-400 font-medium mt-4 sm:mt-6 px-2 sm:px-4 leading-relaxed">
                     Registration includes a quick fire safety assessment to personalize your learning experience.
                   </p>
+                  
+                  <div className="flex flex-col items-center pt-1 sm:pt-2">
+                    <Link href="/">
+                      <Button variant="ghost" className="text-[11px] sm:text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md sm:rounded-lg h-7 sm:h-8 px-2 sm:px-3">
+                        <ArrowLeft className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1.5 text-slate-400" />
+                        Back to Dashboard
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </TabsContent>
             </Tabs>
-
-            <div className="mt-6 text-center">
-              <Link href="/">
-                <Button variant="link" className="text-accent">
-                  Back to Dashboard
-                </Button>
-              </Link>
-            </div>
           </CardContent>
         </Card>
 

@@ -12,7 +12,8 @@ import {
     Loader2,
     LogIn,
     X,
-    Download
+    Download,
+    Shield
 } from "lucide-react"
 import { Dialog, DialogContent, DialogClose, DialogTitle } from "@/components/ui/dialog"
 import { useAuth } from "@/lib/auth-context"
@@ -172,35 +173,39 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
     }
 
     return (
-        // <section className="pt-72 pb-24 bg-gradient-to-b from-white to-orange-50/50">
-        <div className="max-w-4xl mx-auto pt-24">
-            <div className="max-w-4xl mx-auto text-center mb-20">
-                <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">Final Assessment</h2>
-                <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                    Completed your training? Take the official post-test to certify your knowledge and become a SafeScape Hero.
-                </p>
-            </div>
+        <div className="w-full bg-[#f1f5f9] rounded-[2.5rem] py-16 px-6 sm:px-12 border border-slate-200 shadow-sm relative overflow-hidden">
+            {/* Background Decorations */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-slate-200/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-80 h-80 bg-slate-200/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
+            
+            <div className="max-w-4xl mx-auto relative z-10">
+                <div className="text-center mb-12 sm:mb-16">
+                    <h2 className="text-4xl sm:text-5xl font-black text-slate-800 mb-4 sm:mb-6">Final Assessment</h2>
+                    <p className="text-lg sm:text-xl text-slate-600 font-medium max-w-2xl mx-auto">
+                        Completed your training? Take the official post-test to certify your knowledge and become a SafeScape Hero.
+                    </p>
+                </div>
 
-            <div className="max-w-3xl mx-auto">
-                <div className="overflow-hidden rounded-3xl bg-white/0">
-                    <div className="md:flex">
-                        <div className="md:w-2/5 bg-gradient-to-br from-orange-500 to-red-600 p-8 text-white flex flex-col justify-center items-center text-center rounded-3xl md:rounded-r-none shadow-xl relative z-10">
-                            <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mb-4 shadow-inner">
-                                <Trophy className="w-10 h-10 text-white" />
+                <div className="max-w-3xl mx-auto shadow-xl rounded-3xl hover:shadow-2xl transition-shadow duration-300">
+                    <div className="overflow-hidden rounded-3xl bg-white">
+                        <div className="md:flex">
+                            <div className="md:w-5/12 bg-[#fb5656] p-8 text-white flex flex-col justify-center items-center text-center rounded-3xl md:rounded-r-none relative z-10 shadow-[4px_0_24px_rgba(0,0,0,0.1)]">
+                                <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-6 border border-white/20">
+                                    <Trophy className="w-8 h-8 text-white" strokeWidth={2.5} />
+                                </div>
+                                <h3 className="text-2xl font-black mb-2 tracking-tight">SafeScape Hero</h3>
+                                <p className="text-white/90 text-xs font-bold tracking-widest uppercase">Post-Test Assessment</p>
                             </div>
-                            <h3 className="text-2xl font-bold mb-2">SafeScape Hero</h3>
-                            <p className="text-orange-100 text-sm">Post-Test Assessment</p>
-                        </div>
 
-                        <div className="md:w-3/5 p-8 flex flex-col justify-center bg-slate-50 rounded-3xl md:rounded-l-none">
+                            <div className="md:w-7/12 p-8 sm:p-10 flex flex-col justify-center bg-white rounded-3xl md:rounded-l-none z-0">
                             {!isAuthenticated ? (
                                 <div className="space-y-4">
-                                    <h4 className="text-xl font-bold text-slate-800">Ready to prove your skills?</h4>
-                                    <p className="text-slate-600">
+                                    <h4 className="text-2xl font-bold text-slate-800">Ready to prove your skills?</h4>
+                                    <p className="text-slate-600 font-medium">
                                         Log in to access the final assessment. You'll need to complete the learning modules first!
                                     </p>
-                                    <Button onClick={handleStartClick} className="w-full bg-slate-900 hover:bg-slate-800 text-white">
-                                        <LogIn className="mr-2 h-4 w-4" /> Login to Start
+                                    <Button onClick={handleStartClick} className="w-full bg-[#1e293b] hover:bg-slate-800 text-white font-bold h-12 rounded-xl mt-4">
+                                        <Shield className="mr-2 h-5 w-5" /> Login to Start
                                     </Button>
                                 </div>
                             ) : (
@@ -322,6 +327,9 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            {/* End of max-w-4xl wrapper */}
             </div>
 
             {/* Certificate Modal */}
