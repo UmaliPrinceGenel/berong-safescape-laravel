@@ -4,9 +4,15 @@ import { Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from "react"
 import { useAuth } from "@/lib/auth-context"
 import { Button } from "@/components/ui/button"
-import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info, Settings } from "lucide-react"
+import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info, Settings, ChevronDown } from "lucide-react"
 import { NotificationPopover } from "@/components/ui/notification-popover"
 import GooeyNav from "@/components/ui/gooey-nav"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export function Navigation() {
   const { user, logout, isAuthenticated } = useAuth()
@@ -18,16 +24,21 @@ export function Navigation() {
   // Update time every minute
   useEffect(() => {
     const updateTime = () => {
-      setCurrentTime(new Date().toLocaleString('en-US', {
-        timeZone: 'Asia/Manila',
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true
-      }))
+        const date = new Date()
+        const timeStr = date.toLocaleString('en-US', {
+          timeZone: 'Asia/Manila',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        })
+        const dateStr = date.toLocaleString('en-US', {
+          timeZone: 'Asia/Manila',
+          weekday: 'long',
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        })
+        setCurrentTime(`${dateStr} at ${timeStr}`)
     }
     updateTime()
     const interval = setInterval(updateTime, 60000)
@@ -35,7 +46,7 @@ export function Navigation() {
   }, [])
 
   return (
-    <nav className="bg-gradient-to-r from-red-600 via-orange-500 to-[#f97316] sticky top-0 z-50 shadow-md relative">
+    <nav className="bg-gradient-to-r from-[#ff3b3b] to-[#ff7b00] sticky top-0 z-50 shadow-md relative">
       {/* Background Image Layer - 10% opacity */}
       <div
         className="absolute inset-0 opacity-5 bg-cover bg-center"
@@ -45,153 +56,176 @@ export function Navigation() {
       {/* Content Layer - Full opacity */}
       <div className="relative z-10">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3">
-          <div className="flex items-center justify-between gap-2 sm:gap-4 relative">
+          <div className="flex items-center justify-between w-full gap-2 sm:gap-4 relative">
 
             {/* LEFT SECTION: Logo + Branding */}
-            <Link href="/" className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0 hover:opacity-90 transition-opacity cursor-pointer">
-              {/* Logos */}
-              <div className="flex items-center gap-1 sm:gap-2">
-                <img
-                  src="/bfp logo.png"
-                  alt="Bureau of Fire Protection Logo"
-                  width={48}
-                  height={48}
-                  className="rounded-full bg-white p-0.5 object-contain shadow-md w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12"
-                />
-                <img
-                  src="/berong-official-logo.jpg"
-                  alt="Berong E-Learning Logo"
-                  width={48}
-                  height={48}
-                  className="rounded-full object-cover shadow-md w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 border-2 border-yellow-400/50"
-                />
-              </div>
+            <div className="flex-1 flex justify-start min-w-0">
+              <Link href="/" className="flex items-center gap-1.5 sm:gap-3 hover:opacity-90 transition-opacity cursor-pointer">
+                {/* Logos */}
+                <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                  <img
+                    src="/bfp logo.png"
+                    alt="Bureau of Fire Protection Logo"
+                    width={48}
+                    height={48}
+                    className="rounded-full bg-white p-0.5 object-contain shadow-md w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12"
+                  />
+                  <img
+                    src="/berong-official-logo.jpg"
+                    alt="Berong E-Learning Logo"
+                    width={48}
+                    height={48}
+                    className="rounded-full object-cover shadow-md w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 border-2 border-yellow-400/50"
+                  />
+                </div>
 
-              {/* Branding - Compact on mobile */}
-              <div className="min-w-0 max-w-[170px] sm:max-w-none">
-                <p className="text-white font-bold text-[12px] leading-none sm:text-sm">Berong E-Learning</p>
-                <h1 className="text-yellow-400 font-bold leading-tight text-[10px] xl:text-xs hidden sm:block">
-                  Fire Safety Education Platform
-                </h1>
-                <p className="text-white text-[9px] xl:text-[10px] hidden sm:block opacity-90 uppercase tracking-widest mt-0.5">
-                  <span className="hidden xl:inline">BUREAU OF FIRE PROTECTION STA CRUZ LAGUNA</span>
-                  <span className="xl:hidden">BFP Sta. Cruz</span>
-                </p>
-              </div>
-            </Link>
+                {/* Branding - Compact on mobile */}
+                <div className="min-w-0 max-w-[170px] sm:max-w-none shrink">
+                  <p className="text-white font-bold text-[12px] leading-none sm:text-sm truncate">Berong E-Learning</p>
+                  <h1 className="text-yellow-400 font-bold leading-tight text-[10px] xl:text-xs hidden sm:block truncate">
+                    Fire Safety Education Platform
+                  </h1>
+                  <p className="text-white text-[9px] xl:text-[10px] hidden sm:block opacity-90 uppercase tracking-widest mt-0.5 truncate">
+                    <span className="hidden xl:inline">BUREAU OF FIRE PROTECTION STA CRUZ LAGUNA</span>
+                    <span className="xl:hidden">BFP Sta. Cruz</span>
+                  </p>
+                </div>
+              </Link>
+            </div>
 
-            {/* CENTER SECTION: GooeyNav Links - Desktop - Absolutely positioned for true center */}
-            <div className="hidden lg:flex items-center absolute left-1/2 transform -translate-x-1/2">
-              {!isAuthenticated ? (
-                <Link href="/">
-                  <div className={`font-extrabold text-sm tracking-wide uppercase transition-all ${
-                    isDashboard 
-                      ? "px-6 py-1.5 rounded-full border-[3px] border-white bg-yellow-400 text-red-600 shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-[0_0px_0_#b45309]"
-                      : "text-white hover:text-white/80"
-                  }`}>
-                    DASHBOARD
-                  </div>
-                </Link>
-              ) : (
-                <GooeyNav
-                  items={[
-                    { label: 'DASHBOARD', href: '/' },
-                    ...(isAuthenticated && user?.permissions.accessProfessional
-                      ? [{ label: 'PROFESSIONAL', href: '/professional' }]
-                      : []),
-                    ...(isAuthenticated && user?.permissions.accessAdult
-                      ? [{ label: 'ADULTS', href: '/adult' }]
-                      : []),
-                    ...(isAuthenticated && user?.permissions.accessKids
-                      ? [{ label: 'KIDS', href: '/kids' }]
-                      : []),
-                    ...(isAuthenticated && user?.role === 'admin'
-                      ? [{ label: 'ADMIN', href: '/admin' }]
-                      : []),
-                  ]}
-                  particleCount={12}
-                />
+            {/* CENTER SECTION: Navigation Links - Desktop */}
+            <div className="hidden lg:flex flex-none items-center justify-center gap-2 xl:gap-6 px-2">
+              <Link 
+                href="/" 
+                className={isDashboard 
+                  ? "font-extrabold text-sm tracking-wide uppercase px-4 xl:px-5 py-1.5 rounded-full border-[3px] border-white bg-yellow-400 text-black shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-none transition-all duration-200 active:duration-75"
+                  : "font-extrabold text-sm tracking-wide uppercase text-white hover:text-yellow-200 transition-colors drop-shadow-sm py-1.5 px-2 xl:px-3 whitespace-nowrap"
+                }
+              >
+                DASHBOARD
+              </Link>
+              
+              {isAuthenticated && (
+                <DropdownMenu modal={false}>
+                  <DropdownMenuTrigger 
+                    className={(!isDashboard && url !== '/login' && url !== '/register' && url !== '/about' && url !== '/profile')
+                      ? "font-extrabold text-sm tracking-wide uppercase px-4 xl:px-5 py-1.5 rounded-full border-[3px] border-white bg-yellow-400 text-black shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-none data-[state=open]:translate-y-1 data-[state=open]:shadow-none transition-all duration-200 active:duration-75 flex items-center gap-1.5 group outline-none cursor-pointer" 
+                      : "font-extrabold text-sm tracking-wide uppercase text-white hover:text-yellow-200 transition-colors drop-shadow-sm py-1.5 px-2 xl:px-3 flex items-center gap-1.5 whitespace-nowrap outline-none cursor-pointer"
+                    }
+                  >
+                    {url.startsWith('/professional') ? 'PROFESSIONAL' :
+                     url.startsWith('/adult') ? 'ADULTS' :
+                     url.startsWith('/kids') ? 'KIDS' :
+                     url.startsWith('/admin') ? 'ADMIN' : 'MENU'}
+                    <ChevronDown className={(!isDashboard && url !== '/login' && url !== '/register' && url !== '/about' && url !== '/profile') ? "h-4 w-4 text-black font-bold transition-transform group-data-[state=open]:rotate-180" : "h-4 w-4 text-white font-bold transition-transform group-data-[state=open]:rotate-180"} strokeWidth={3} />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56 bg-white border-2 border-slate-200 shadow-xl rounded-[14px] p-1.5 z-[100]" sideOffset={12}>
+                    {user?.permissions.accessProfessional && (
+                      <Link href="/professional" className="block w-full">
+                        <DropdownMenuItem className="cursor-pointer font-bold rounded-lg py-2.5 px-3 flex items-center justify-between hover:bg-slate-100 focus:bg-slate-100 transition-colors">
+                          <span className={url.startsWith('/professional') ? "text-yellow-600" : "text-slate-700"}>PROFESSIONAL</span>
+                          {url.startsWith('/professional') && <div className="h-2 w-2 rounded-full bg-yellow-400 shadow-sm" />}
+                        </DropdownMenuItem>
+                      </Link>
+                    )}
+                    {user?.permissions.accessAdult && (
+                      <Link href="/adult" className="block w-full">
+                        <DropdownMenuItem className="cursor-pointer font-bold rounded-lg py-2.5 px-3 flex items-center justify-between hover:bg-slate-100 focus:bg-slate-100 transition-colors">
+                          <span className={url.startsWith('/adult') ? "text-yellow-600" : "text-slate-700"}>ADULTS</span>
+                          {url.startsWith('/adult') && <div className="h-2 w-2 rounded-full bg-yellow-400 shadow-sm" />}
+                        </DropdownMenuItem>
+                      </Link>
+                    )}
+                    {user?.permissions.accessKids && (
+                      <Link href="/kids" className="block w-full">
+                        <DropdownMenuItem className="cursor-pointer font-bold rounded-lg py-2.5 px-3 flex items-center justify-between hover:bg-slate-100 focus:bg-slate-100 transition-colors">
+                          <span className={url.startsWith('/kids') ? "text-yellow-600" : "text-slate-700"}>KIDS</span>
+                          {url.startsWith('/kids') && <div className="h-2 w-2 rounded-full bg-yellow-400 shadow-sm" />}
+                        </DropdownMenuItem>
+                      </Link>
+                    )}
+                    {user?.role === 'admin' && (
+                      <Link href="/admin" className="block w-full">
+                        <DropdownMenuItem className="cursor-pointer font-bold rounded-lg py-2.5 px-3 flex items-center justify-between hover:bg-slate-100 focus:bg-slate-100 transition-colors">
+                          <span className={url.startsWith('/admin') ? "text-yellow-600" : "text-slate-700"}>ADMIN PANEL</span>
+                          {url.startsWith('/admin') && <div className="h-2 w-2 rounded-full bg-yellow-400 shadow-sm" />}
+                        </DropdownMenuItem>
+                      </Link>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
             </div>
 
             {/* RIGHT SECTION: Time + User Info + Icon Buttons */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3">
               {/* Time + User Info Column */}
-              <div className="text-right hidden md:block mr-2">
-                <p className="text-white text-xs whitespace-nowrap font-medium opacity-90">
+              <div className="text-right hidden xl:block mr-2 tracking-wide">
+                <p className="text-white text-xs whitespace-nowrap font-medium drop-shadow-sm">
                   {currentTime}
                 </p>
                 {isAuthenticated && (
-                  <>
-                    <p className="text-white font-semibold text-sm">{user?.name}</p>
-                    <p className="text-yellow-400 text-xs capitalize">{user?.role}</p>
-                  </>
+                  <div className="flex flex-col items-end mt-0.5 whitespace-nowrap">
+                    <p className="text-white font-bold text-sm leading-none drop-shadow-sm">{user?.name || 'Admin User'}</p>
+                    <p className="text-yellow-300 text-xs capitalize leading-tight mt-0.5 drop-shadow-sm">{user?.role || 'Admin'}</p>
+                  </div>
                 )}
               </div>
 
-              {/* Icon Buttons with hover animations */}
+              {/* Icon Buttons matching the mockup (User, Bell, Settings) */}
               {isAuthenticated ? (
-                <div className="hidden sm:flex gap-2">
-                  <div className="relative group">
-                    {/* <Link href="/about">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="h-9 w-9 border-white/50 text-white bg-transparent hover:bg-white hover:text-red-700 hover:border-white transition-all hover:scale-110"
-                      >
-                        <Info className="h-4 w-4" />
-                      </Button>
-                    </Link> */}
-                    <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/90 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-[9999] pointer-events-none">
-                      About
-                    </span>
-                  </div>
-                  <div className="relative group">
+                <div className="hidden sm:flex items-center gap-2">
+                  <div className="relative group flex items-center">
                     <NotificationPopover />
                     <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/90 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-[9999] pointer-events-none">
                       Notifications
                     </span>
                   </div>
-                  <div className="relative group">
-                    <Button
-                      asChild
-                      variant="outline"
-                      size="icon"
-                      className="h-9 w-9 border-white/50 text-white bg-transparent hover:bg-white hover:text-red-700 hover:border-white transition-all hover:scale-110"
-                    >
-                      <Link href="/profile">
-                        <User className="h-4 w-4" />
-                      </Link>
-                    </Button>
+
+                  <div className="relative group flex items-center">
+                    <Link href="/profile" className="flex items-center justify-center p-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-[#facc15] border-[3px] border-white text-white shadow-[0_4px_0_#ca8a04] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#ca8a04] active:translate-y-1 active:shadow-none transition-all duration-200 active:duration-75">
+                      <User className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
+                    </Link>
                     <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/90 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-[9999] pointer-events-none">
                       Profile
                     </span>
                   </div>
-                  <div className="relative group">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={logout}
-                      className="h-9 w-9 border-white text-white hover:bg-red-600 hover:border-white bg-transparent transition-transform hover:scale-110"
+
+                  <DropdownMenu modal={false}>
+                    <DropdownMenuTrigger
+                      className="flex items-center justify-center p-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-[#e11d48] border-[3px] border-white text-white shadow-[0_4px_0_#9f1239] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#9f1239] active:translate-y-1 active:shadow-none data-[state=open]:translate-y-1 data-[state=open]:shadow-none transition-all duration-200 active:duration-75 outline-none cursor-pointer"
                     >
-                      <LogOut className="h-4 w-4" />
-                    </Button>
-                    <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/90 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-[9999] pointer-events-none">
-                      Logout
-                    </span>
-                  </div>
+                      <Settings className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
+                    </DropdownMenuTrigger>
+                    
+                    <DropdownMenuContent className="w-48 bg-white border-2 border-slate-200 shadow-xl rounded-[14px] p-1.5 z-[100] mt-2 mr-2" align="end" sideOffset={8}>
+                      <div className="px-2 py-1.5 mb-1 border-b border-slate-100">
+                        <p className="text-sm font-semibold text-slate-800">My Account</p>
+                      </div>
+
+                      <DropdownMenuItem 
+                        onClick={logout} 
+                        className="focus:bg-red-50 focus:text-red-700 rounded-lg cursor-pointer py-2 px-2.5 transition-colors group flex items-center justify-between text-sm font-bold tracking-wide text-red-600 mt-1"
+                      >
+                        <span className="flex items-center gap-2">
+                          <LogOut className="h-4 w-4 text-red-500 group-hover:text-red-700 transition-colors" />
+                          Log Out
+                        </span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               ) : (
                 <div className="hidden sm:flex items-center gap-3">
                   <div className="relative group flex items-center">
-                    <Link href="/about" className="p-2 flex items-center justify-center rounded-full bg-[#e11d48] border-[3px] border-white text-white shadow-[0_4px_0_#9f1239] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#9f1239] active:translate-y-1 active:shadow-[0_0px_0_#9f1239] transition-all">
+                    <Link href="/about" className="p-2 flex items-center justify-center rounded-full bg-[#e11d48] border-[3px] border-white text-white shadow-[0_4px_0_#9f1239] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#9f1239] active:translate-y-1 active:shadow-none transition-all duration-200 active:duration-75">
                       <Settings className="h-5 w-5" strokeWidth={2.5} />
                     </Link>
                     <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/90 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-[9999] pointer-events-none">
                       About
                     </span>
                   </div>
-                  <Link href="/login" className="bg-yellow-400 border-[3px] border-white text-red-600 font-extrabold px-6 py-1.5 rounded-full shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-[0_0px_0_#b45309] transition-all text-sm tracking-wide">
+                  <Link href="/login" className="bg-yellow-400 border-[3px] border-white text-red-600 font-extrabold px-6 py-1.5 rounded-full shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-none transition-all duration-200 active:duration-75 text-sm tracking-wide">
                     Sign In
                   </Link>
                 </div>
@@ -223,102 +257,108 @@ export function Navigation() {
         </div>
 
         {/* Mobile Navigation Menu */}
-        {mobileMenuOpen && (
-          <div id="mobile-nav-menu" className="lg:hidden border-t border-red-600 bg-red-800">
-            <div className="px-4 py-3 space-y-1">
+        <div
+          id="mobile-nav-menu"
+          className={`lg:hidden absolute top-full left-0 w-full bg-[#b91c1c] shadow-2xl transition-all duration-300 ease-in-out origin-top border-t border-black/10 overflow-hidden ${
+            mobileMenuOpen ? "max-h-[900px] opacity-100 visible" : "max-h-0 opacity-0 invisible"
+          }`}
+        >
+          <div className={`px-4 py-4 space-y-1 transform transition-transform duration-300 delay-75 ${mobileMenuOpen ? "translate-y-0" : "-translate-y-4"}`}>
+            <Link
+              href="/"
+              className="flex items-center gap-4 px-4 py-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Home className="h-6 w-6" />
+              Dashboard
+            </Link>
+
+            <Link
+              href="/about"
+              className="flex items-center gap-4 px-4 py-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Info className="h-6 w-6" />
+              About
+            </Link>
+
+            {isAuthenticated && user?.permissions.accessProfessional && (
               <Link
-                href="/"
-                className="flex items-center gap-3 px-3 py-3 rounded-md text-white font-semibold hover:bg-red-700 transition-colors"
+                href="/professional"
+                className="flex items-center gap-4 px-4 py-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <Home className="h-5 w-5" />
-                Dashboard
+                <Briefcase className="h-6 w-6" />
+                Professional
               </Link>
+            )}
 
+            {isAuthenticated && user?.permissions.accessAdult && (
               <Link
-                href="/about"
-                className="flex items-center gap-3 px-3 py-3 rounded-md text-white font-semibold hover:bg-red-700 transition-colors"
+                href="/adult"
+                className="flex items-center gap-4 px-4 py-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <Info className="h-5 w-5" />
-                About
+                <Users className="h-6 w-6" />
+                Adults
               </Link>
+            )}
 
-              {isAuthenticated && user?.permissions.accessProfessional && (
+            {isAuthenticated && user?.permissions.accessKids && (
+              <Link
+                href="/kids"
+                className="flex items-center gap-4 px-4 py-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Baby className="h-6 w-6" />
+                Kids
+              </Link>
+            )}
+
+            {isAuthenticated && user?.role === "admin" && (
+              <Link
+                href="/admin"
+                className="flex items-center gap-4 px-4 py-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Shield className="h-6 w-6" />
+                Admin
+              </Link>
+            )}
+
+            {/* Mobile User Info */}
+            {isAuthenticated && (
+              <>
+                <div className="h-px bg-white/10 my-4 mx-4"></div>
+                
                 <Link
-                  href="/professional"
-                  className="flex items-center gap-3 px-3 py-3 rounded-md text-white font-semibold hover:bg-red-700 transition-colors"
+                  href="/profile"
+                  className="flex items-center gap-4 px-4 py-4 mb-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Briefcase className="h-5 w-5" />
-                  Professional
+                  <User className="h-6 w-6" />
+                  Profile
                 </Link>
-              )}
-
-              {isAuthenticated && user?.permissions.accessAdult && (
-                <Link
-                  href="/adult"
-                  className="flex items-center gap-3 px-3 py-3 rounded-md text-white font-semibold hover:bg-red-700 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Users className="h-5 w-5" />
-                  Adults
-                </Link>
-              )}
-
-              {isAuthenticated && user?.permissions.accessKids && (
-                <Link
-                  href="/kids"
-                  className="flex items-center gap-3 px-3 py-3 rounded-md text-white font-semibold hover:bg-red-700 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Baby className="h-5 w-5" />
-                  Kids
-                </Link>
-              )}
-
-              {isAuthenticated && user?.role === "admin" && (
-                <Link
-                  href="/admin"
-                  className="flex items-center gap-3 px-3 py-3 rounded-md text-white font-semibold hover:bg-red-700 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Shield className="h-5 w-5" />
-                  Admin
-                </Link>
-              )}
-
-              {/* Mobile User Info */}
-              {isAuthenticated && (
-                <div className="px-3 py-3 border-t border-red-600 mt-4">
-                  <Link
-                    href="/profile"
-                    className="flex items-center gap-3 px-3 py-3 mb-3 rounded-md text-white font-semibold hover:bg-red-700 transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <User className="h-5 w-5" />
-                    Profile
-                  </Link>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-white font-semibold">{user?.name}</p>
-                      <p className="text-yellow-400 text-sm capitalize">{user?.role}</p>
-                    </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={logout}
-                      className="border-white text-white hover:bg-red-600 bg-transparent"
-                    >
-                      <LogOut className="h-4 w-4 mr-2" />
-                      Logout
-                    </Button>
+                
+                <div className="flex items-center justify-between px-4 pb-4">
+                  <div>
+                    <p className="text-white font-bold tracking-wide text-lg">{user?.name}</p>
+                    <p className="text-yellow-400 text-sm font-semibold capitalize">{user?.role}</p>
                   </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={logout}
+                    className="rounded-full border border-white text-white hover:bg-white hover:text-[#b91c1c] bg-transparent h-9 px-4 font-bold text-sm transition-all shadow-sm"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </Button>
                 </div>
-              )}
-            </div>
+              </>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </nav>
   )

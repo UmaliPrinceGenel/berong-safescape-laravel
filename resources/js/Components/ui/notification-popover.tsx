@@ -201,21 +201,18 @@ export function NotificationPopover() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-10 w-10 rounded-xl border-white/50 text-white bg-transparent hover:bg-white hover:text-red-700 hover:border-white transition-all hover:scale-110 relative"
+        <button
+          className="relative flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-[#0ea5e9] border-[3px] border-white text-white shadow-[0_4px_0_#0284c7] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#0284c7] active:translate-y-1 active:shadow-[0_0px_0_#0284c7] transition-all"
         >
-          <Bell className="h-4 w-4" />
+          <Bell className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
           {unreadCount > 0 && (
             <Badge
-              className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
-              variant="destructive"
+              className="absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 border-2 border-white rounded-full p-0 flex items-center justify-center text-[9px] sm:text-[10px] bg-red-500 hover:bg-red-500"
             >
               {unreadCount}
             </Badge>
           )}
-        </Button>
+        </button>
       </PopoverTrigger>
       <PopoverContent className="w-96 p-0" align="end">
         <div className="flex items-center justify-between p-4 border-b">

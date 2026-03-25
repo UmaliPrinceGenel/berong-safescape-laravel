@@ -577,7 +577,7 @@ export function LandingAboutSection() {
             {/* Research Team Section */}
             <motion.section
                 ref={teamRef}
-                className="py-16 sm:py-24 bg-transparent rounded-3xl"
+                className="pt-16 sm:pt-24 pb-4 sm:pb-8 bg-transparent rounded-3xl"
                 style={{ opacity: teamOpacity, scale: teamScale }}
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

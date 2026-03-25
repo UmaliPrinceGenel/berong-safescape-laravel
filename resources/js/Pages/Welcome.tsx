@@ -43,13 +43,17 @@ export default function Welcome() {
             <FeaturedCards serverUser={mappedUser} />
           </section>
 
-          <Suspense fallback={<section className="mb-10 sm:mb-12 h-72 animate-pulse rounded-3xl bg-slate-100" />}>
-            <LandingAboutSection />
-          </Suspense>
+          <section className="mb-16 sm:mb-24 mt-8 sm:mt-12">
+            <Suspense fallback={<div className="h-72 animate-pulse rounded-3xl bg-slate-100" />}>
+              <LandingAboutSection />
+            </Suspense>
+          </section>
 
-          <Suspense fallback={<section className="mb-12 h-56 animate-pulse rounded-3xl bg-slate-100" />}>
-            <LandingAssessmentSection serverUser={mappedUser} />
-          </Suspense>
+          <section className="mb-12 sm:mb-16">
+            <Suspense fallback={<div className="h-56 animate-pulse rounded-3xl bg-slate-100" />}>
+              <LandingAssessmentSection serverUser={mappedUser} />
+            </Suspense>
+          </section>
         </main>
 
         <Footer />

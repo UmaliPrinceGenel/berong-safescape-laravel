@@ -28,6 +28,16 @@ const ProfessionalDashboard = ({ initialVideos = professionalVideos }: Professio
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedVideo, setSelectedVideo] = useState<VideoContent | null>(null)
     const trackedVideos = useRef<Set<string>>(new Set())
+    const playerRef = useRef<HTMLDivElement>(null)
+
+    React.useEffect(() => {
+        if (selectedVideo) {
+            setTimeout(() => {
+                playerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            }, 100)
+        }
+    }, [selectedVideo])
+
     const videos = initialVideos
 
     // Handle video selection with tracking
@@ -49,87 +59,74 @@ const ProfessionalDashboard = ({ initialVideos = professionalVideos }: Professio
     )
 
     return (
-        <>
+        <div className="min-h-screen relative">
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
                 {/* Welcome Banner */}
                 <ProfessionalWelcomeBanner />
 
                 {/* Access Notice */}
-                <Alert className="mb-6 border-primary bg-primary/5">
-                    <Shield className="h-4 w-4 text-primary" />
-                    <AlertDescription className="text-foreground">
+                <Alert className="mb-6 border border-red-500 rounded-xl bg-white text-slate-800 shadow-sm">
+                    <Shield className="h-4 w-4 text-red-500" />
+                    <AlertDescription className="text-slate-700 font-medium">
                         This section contains professional-level content for firefighters and fire safety professionals.
                     </AlertDescription>
                 </Alert>
 
                 {/* Quick Links - Horizontal on mobile, grid on desktop */}
-                <div className="space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 mb-6 sm:mb-8">
-                    <SpotlightCard spotlightColor="rgba(220, 38, 38, 0.15)">
-                        <Card
-                            className="relative overflow-hidden hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-primary h-full group"
-                            onClick={() => document.getElementById('training-videos-section')?.scrollIntoView({ behavior: 'smooth' })}
-                        >
-                            <div
-                                className="absolute inset-0 bg-cover bg-center z-0 opacity-20 group-hover:opacity-30 transition-opacity"
-                                style={{ backgroundImage: "url('/Training Vidoes Modal.png')" }}
-                            />
-                            <CardContent className="relative z-10 p-3 sm:p-4 bg-background/60 backdrop-blur-[2px]">
-                                <div className="flex items-center gap-3">
-                                    <Video className="h-5 w-5 text-primary flex-shrink-0 drop-shadow-md" />
-                                    <div className="min-w-0 flex-1 drop-shadow-sm">
-                                        <CardTitle className="text-base sm:text-xl text-foreground font-extrabold">Training Videos</CardTitle>
-                                        <p className="text-xs sm:text-sm text-foreground/90 font-medium truncate">{videos.length} professional training videos</p>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </SpotlightCard>
+                <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 mb-8 sm:mb-10">
+                    <Card
+                        className="overflow-hidden hover:shadow-md transition-all cursor-pointer border-y border-r border-slate-200 border-l-[4px] border-l-red-500 rounded-2xl bg-white h-full group"
+                        onClick={() => document.getElementById('training-videos-section')?.scrollIntoView({ behavior: 'smooth' })}
+                    >
+                        <CardContent className="p-4 sm:p-5 flex items-center gap-4">
+                            <div className="p-3 bg-red-50 rounded-xl">
+                                <Video className="h-6 w-6 text-red-500" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                                <CardTitle className="text-base sm:text-lg text-slate-800 font-bold mb-1">Training Videos</CardTitle>
+                                <p className="text-xs sm:text-sm text-slate-500 font-medium truncate">{videos.length} professional training videos</p>
+                            </div>
+                        </CardContent>
+                    </Card>
 
-                    <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.15)">
-                        <Card
-                            className="relative overflow-hidden hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-secondary h-full group"
-                            onClick={() => document.getElementById('manuals-section')?.scrollIntoView({ behavior: 'smooth' })}
-                        >
-                            <div
-                                className="absolute inset-0 bg-cover bg-center z-0 opacity-20 group-hover:opacity-30 transition-opacity"
-                                style={{ backgroundImage: "url('/BFP Manuals Modal.png')" }}
-                            />
-                            <CardContent className="relative z-10 p-3 sm:p-4 bg-background/60 backdrop-blur-[2px]">
-                                <div className="flex items-center gap-3">
-                                    <BookOpen className="h-5 w-5 text-secondary flex-shrink-0 drop-shadow-md" />
-                                    <div className="min-w-0 flex-1 drop-shadow-sm">
-                                        <CardTitle className="text-base sm:text-xl text-foreground font-extrabold">BFP Manuals</CardTitle>
-                                        <p className="text-xs sm:text-sm text-foreground/90 font-medium truncate">Standard operating procedures and guidelines</p>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </SpotlightCard>
+                    <Card
+                        className="overflow-hidden hover:shadow-md transition-all cursor-pointer border-y border-r border-slate-200 border-l-[4px] border-l-blue-500 rounded-2xl bg-white h-full group"
+                        onClick={() => document.getElementById('manuals-section')?.scrollIntoView({ behavior: 'smooth' })}
+                    >
+                        <CardContent className="p-4 sm:p-5 flex items-center gap-4">
+                            <div className="p-3 bg-blue-50 rounded-xl">
+                                <BookOpen className="h-6 w-6 text-blue-500" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                                <CardTitle className="text-base sm:text-lg text-slate-800 font-bold mb-1">BFP Manuals</CardTitle>
+                                <p className="text-xs sm:text-sm text-slate-500 font-medium truncate">Standard operating procedures and guidelines</p>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
 
                 {/* Search Bar */}
-                <div className="mb-6">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                        <Input
-                            type="text"
-                            placeholder="Search training videos..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10"
-                        />
-                    </div>
+                <div className="mb-10 relative">
+                    <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+                    <Input
+                        type="text"
+                        placeholder="Search training videos..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-14 py-6 rounded-full border-2 border-slate-200 bg-white shadow-sm focus-visible:ring-red-500 text-base"
+                    />
                 </div>
 
                 {/* Video Player */}
                 {selectedVideo && (
-                    <Card className="mb-8">
-                        <CardHeader>
-                            <CardTitle className="text-2xl">{selectedVideo.title}</CardTitle>
-                            <CardDescription>{selectedVideo.description}</CardDescription>
+                    <div ref={playerRef} className="max-w-5xl mx-auto mb-12">
+                        <Card className="bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden pt-6 px-6">
+                        <CardHeader className="px-0 pt-0 pb-4">
+                            <CardTitle className="text-2xl text-slate-800 font-extrabold">{selectedVideo.title}</CardTitle>
+                            <CardDescription className="text-slate-500 font-medium">{selectedVideo.description}</CardDescription>
                         </CardHeader>
-                        <CardContent>
-                            <div className="aspect-video bg-black rounded-lg overflow-hidden mb-4">
+                        <CardContent className="px-0 pb-6">
+                            <div className="aspect-video bg-black rounded-2xl overflow-hidden mb-5 shadow-inner">
                                 <iframe
                                     width="100%"
                                     height="100%"
@@ -140,27 +137,28 @@ const ProfessionalDashboard = ({ initialVideos = professionalVideos }: Professio
                                     className="w-full h-full"
                                 />
                             </div>
-                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                <div className="flex items-center gap-1">
+                            <div className="flex items-center gap-4 text-sm font-semibold">
+                                <div className="flex items-center gap-1.5 text-slate-500">
                                     <Clock className="h-4 w-4" />
                                     <span>{selectedVideo.duration}</span>
                                 </div>
-                                <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary/10 text-primary text-xs">
-                                    Professional
+                                <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-bold bg-red-50 text-red-600 text-xs tracking-wide">
+                                    PROFESSIONAL
                                 </span>
                             </div>
                         </CardContent>
                     </Card>
+                    </div>
                 )}
 
                 {/* Video Grid */}
                 <div id="training-videos-section">
-                    <h2 className="text-2xl font-bold mb-4 text-foreground">Training Videos</h2>
+                    <h2 className="text-2xl font-bold mb-6 text-slate-800">Training Videos</h2>
                     {filteredVideos.length === 0 ? (
-                        <Card>
-                            <CardContent className="py-12 text-center">
-                                <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                                <p className="text-muted-foreground">No videos found matching your search.</p>
+                        <Card className="rounded-[2rem] border-slate-200 hover:shadow-md transition-shadow">
+                            <CardContent className="py-12 text-center text-slate-500">
+                                <AlertCircle className="h-12 w-12 text-slate-400 mx-auto mb-4" />
+                                <p className="font-medium">No videos found matching your search.</p>
                             </CardContent>
                         </Card>
                     ) : (
@@ -168,30 +166,32 @@ const ProfessionalDashboard = ({ initialVideos = professionalVideos }: Professio
                             {filteredVideos.map((video) => (
                                 <Card
                                     key={video.id}
-                                    className="hover:shadow-lg transition-shadow cursor-pointer group"
+                                    className="hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group bg-white rounded-[1.5rem] border-2 border-slate-100/60 overflow-hidden"
                                     onClick={() => handleVideoSelect(video)}
                                 >
-                                    <CardHeader className="pb-3">
-                                        <div className="aspect-video bg-muted rounded-lg overflow-hidden mb-3 relative">
+                                    <CardHeader className="p-0 mb-4">
+                                        <div className="aspect-video bg-slate-100 overflow-hidden relative">
                                             <img
                                                 src={`https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`}
                                                 alt={video.title}
-                                                className="w-full h-full object-cover"
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                             />
-                                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <Play className="h-12 w-12 text-white" />
+                                            <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                <div className="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+                                                    <Play className="h-6 w-6 text-white ml-1" fill="currentColor" />
+                                                </div>
                                             </div>
                                         </div>
-                                        <CardTitle className="text-lg line-clamp-2">{video.title}</CardTitle>
                                     </CardHeader>
-                                    <CardContent>
-                                        <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{video.description}</p>
+                                    <CardContent className="px-5 pb-5">
+                                        <CardTitle className="text-[17px] font-bold text-slate-800 line-clamp-2 mb-2 group-hover:text-red-600 transition-colors">{video.title}</CardTitle>
+                                        <p className="text-sm text-slate-600 font-medium line-clamp-2 mb-4 leading-relaxed">{video.description}</p>
                                         <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                            <div className="flex items-center gap-1.5 text-sm text-slate-600 font-semibold">
                                                 <Clock className="h-4 w-4" />
                                                 <span>{video.duration}</span>
                                             </div>
-                                            <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary/10 text-primary text-xs">
+                                            <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-bold bg-red-50 text-red-600 text-[10px] tracking-wider uppercase">
                                                 Professional
                                             </span>
                                         </div>
@@ -203,41 +203,31 @@ const ProfessionalDashboard = ({ initialVideos = professionalVideos }: Professio
                 </div>
 
                 {/* Resources Section */}
-                <div id="manuals-section" className="mt-12">
-                    <h2 className="text-2xl font-bold mb-6 text-foreground">Additional Resources</h2>
-                    <div className="grid md:grid-cols-1 gap-6">
-                        <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.2)">
-                            <Card className="relative overflow-hidden h-full group">
-                                <div
-                                    className="absolute inset-0 bg-cover bg-center z-0 opacity-20 group-hover:opacity-30 transition-opacity"
-                                    style={{ backgroundImage: "url('/BFP Standard Operating Procedures Manuals Modal.png')" }}
-                                />
-                                <div className="relative z-10 bg-background/60 backdrop-blur-[2px] h-full flex flex-col">
-                                    <CardHeader>
-                                        <div className="flex items-center gap-3 mb-2 drop-shadow-sm">
-                                            <BookOpen className="h-6 w-6 text-secondary drop-shadow-md" />
-                                            <CardTitle className="text-foreground font-extrabold">BFP Standard Operating Procedures</CardTitle>
-                                        </div>
-                                    </CardHeader>
-                                    <CardContent className="flex-1 flex flex-col justify-between">
-                                        <p className="text-foreground/90 font-medium mb-4 text-pretty drop-shadow-sm">
-                                            Access comprehensive manuals covering firefighting operations, emergency response protocols, and
-                                            safety procedures.
-                                        </p>
-                                        <ManualsDialog>
-                                            <Button className="bg-secondary/90 hover:bg-secondary text-secondary-foreground cursor-pointer shadow-md w-fit">
-                                                <FileText className="h-4 w-4 mr-2" />
-                                                View Manuals
-                                            </Button>
-                                        </ManualsDialog>
-                                    </CardContent>
-                                </div>
-                            </Card>
-                        </SpotlightCard>
+                <div id="manuals-section" className="mt-12 mb-8">
+                    <h2 className="text-2xl font-bold mb-6 text-slate-800">Additional Resources</h2>
+                    <div className="bg-slate-100/70 rounded-3xl border border-slate-200 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 transition-colors hover:bg-slate-100">
+                        <div className="flex items-start gap-4 flex-1">
+                            <div className="p-3 bg-white rounded-xl shadow-sm shrink-0">
+                                <BookOpen className="h-6 w-6 text-slate-600" />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-bold text-slate-800 mb-2">BFP Standard Operating Procedures</h3>
+                                <p className="text-slate-600 font-medium text-sm md:text-base leading-relaxed">
+                                    Access comprehensive manuals covering firefighting operations, emergency response protocols, and
+                                    safety procedures.
+                                </p>
+                            </div>
+                        </div>
+                        <ManualsDialog>
+                            <Button className="shrink-0 h-auto bg-slate-700 hover:bg-slate-600 text-white shadow-[0_6px_0_0_#0f172a] hover:shadow-[0_4px_0_0_#0f172a] active:shadow-none hover:translate-y-[2px] active:translate-y-[6px] transition-all rounded-full px-8 py-3.5 font-bold text-base flex items-center">
+                                <FileText className="h-5 w-5 mr-2" />
+                                View Manuals
+                            </Button>
+                        </ManualsDialog>
                     </div>
                 </div>
             </main>
-        </>
+        </div>
     )
 }
 

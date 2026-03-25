@@ -13,11 +13,11 @@ interface KidsNavBarProps {
 
 export function KidsNavBar({ activeCategory, onCategoryChange }: KidsNavBarProps) {
   const categories = [
-    { id: "all" as ContentCategory, label: "All", icon: Home, color: "bg-blue-500 hover:bg-blue-600" },
-    { id: "videos" as ContentCategory, label: "Videos", icon: Video, color: "bg-purple-500 hover:bg-purple-600" },
-    { id: "games" as ContentCategory, label: "Games", icon: Gamepad2, color: "bg-green-500 hover:bg-green-600" },
-    { id: "activities" as ContentCategory, label: "Activities", icon: Sparkles, color: "bg-yellow-500 hover:bg-yellow-600" },
-    { id: "modules" as ContentCategory, label: "My Lessons", icon: BookOpen, color: "bg-red-500 hover:bg-red-600" },
+    { id: "all" as ContentCategory, label: "All", icon: Home, color: "bg-slate-500 hover:bg-slate-400", shadow: "shadow-[0_4px_0_0_#334155] hover:shadow-[0_6px_0_0_#334155]" },
+    { id: "videos" as ContentCategory, label: "Videos", icon: Video, color: "bg-purple-500 hover:bg-purple-400", shadow: "shadow-[0_4px_0_0_#7e22ce] hover:shadow-[0_6px_0_0_#7e22ce]" },
+    { id: "games" as ContentCategory, label: "Games", icon: Gamepad2, color: "bg-green-500 hover:bg-green-400", shadow: "shadow-[0_4px_0_0_#15803d] hover:shadow-[0_6px_0_0_#15803d]" },
+    { id: "activities" as ContentCategory, label: "Activities", icon: Sparkles, color: "bg-yellow-400 hover:bg-yellow-300", shadow: "shadow-[0_4px_0_0_#b45309] hover:shadow-[0_6px_0_0_#b45309]" },
+    { id: "modules" as ContentCategory, label: "My Lessons", icon: BookOpen, color: "bg-blue-500 hover:bg-blue-400", shadow: "shadow-[0_4px_0_0_#1d4ed8] hover:shadow-[0_6px_0_0_#1d4ed8]" },
   ]
 
   return (
@@ -33,14 +33,14 @@ export function KidsNavBar({ activeCategory, onCategoryChange }: KidsNavBarProps
               key={category.id}
               onClick={() => onCategoryChange(category.id)}
               className={cn(
-                "flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg",
+                "flex items-center gap-2.5 px-8 py-3.5 rounded-full font-black text-sm uppercase transition-all duration-200 active:duration-75 border-2",
                 isActive
-                  ? `${category.color} text-white scale-105 ring-4 ring-offset-2 ring-offset-white`
-                  : "bg-white text-gray-700 hover:bg-gray-100"
+                  ? `${category.color} text-white border-transparent ${category.shadow} active:translate-y-[4px] active:shadow-none hover:-translate-y-0.5`
+                  : "bg-white text-slate-700 border-transparent shadow-[0_4px_0_0_#cbd5e1] hover:-translate-y-0.5 hover:shadow-[0_6px_0_0_#cbd5e1] hover:text-blue-600 active:translate-y-[4px] active:shadow-none"
               )}
             >
-              <Icon className="h-6 w-6" />
-              <span>{category.label}</span>
+              <Icon className="h-5 w-5" strokeWidth={2.5} />
+              <span className="tracking-wide">{category.label}</span>
             </button>
           )
         })}
@@ -48,7 +48,7 @@ export function KidsNavBar({ activeCategory, onCategoryChange }: KidsNavBarProps
 
       {/* Mobile Navigation - Fit all 5 buttons */}
       <div className="md:hidden">
-        <div className="flex justify-between gap-1.5">
+        <div className="flex justify-between gap-2 overflow-x-auto pb-4 px-1 snap-x scrollbar-hide">
           {categories.map((category) => {
             const Icon = category.icon
             const isActive = activeCategory === category.id
@@ -58,14 +58,14 @@ export function KidsNavBar({ activeCategory, onCategoryChange }: KidsNavBarProps
                 key={category.id}
                 onClick={() => onCategoryChange(category.id)}
                 className={cn(
-                  "flex flex-col items-center gap-1 px-2 py-2.5 rounded-xl font-bold text-[10px] transition-all flex-1 min-w-0",
+                  "flex flex-col items-center justify-center gap-1.5 px-4 py-3 rounded-2xl font-black text-[10px] sm:text-xs uppercase transition-all duration-200 active:duration-75 min-w-[80px] snap-center shrink-0",
                   isActive
-                    ? `${category.color} text-white ring-2 ring-offset-1`
-                    : "bg-white text-gray-700 hover:bg-gray-100 shadow-sm"
+                    ? `${category.color} text-white ${category.shadow} active:translate-y-[2px] active:shadow-none`
+                    : "bg-white text-slate-700 shadow-[0_2px_0_0_#cbd5e1] active:translate-y-[2px] active:shadow-none hover:text-blue-600"
                 )}
               >
-                <Icon className="h-5 w-5" />
-                <span className="truncate w-full text-center">{category.label}</span>
+                <Icon className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
+                <span className="tracking-wider">{category.label}</span>
               </button>
             )
           })}

@@ -901,14 +901,14 @@ export default function AdminPage() {
               </div>
               <p className="text-sm sm:text-base text-muted-foreground">Manage content, users, and platform settings</p>
             </div>
-            <Button
+            <button
               onClick={() => router.visit("/admin/analytics")}
-              className="bg-orange-500 hover:bg-orange-600"
+              className="flex items-center gap-2 bg-[#ff6b00] text-white font-extrabold px-4 sm:px-5 pb-2 pt-2.5 rounded-xl text-sm shadow-[0_4px_0_#c2410c] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#c2410c] active:translate-y-1 active:shadow-[0_0px_0_#c2410c] transition-all"
             >
-              <BarChart3 className="h-4 w-4 mr-2" />
+              <BarChart3 className="h-4 w-4" />
               <span className="hidden sm:inline">Community Analytics</span>
               <span className="sm:hidden">Analytics</span>
-            </Button>
+            </button>
           </div>
         </div>
 
@@ -933,42 +933,42 @@ export default function AdminPage() {
           <TabsList className="flex w-full sm:grid sm:grid-cols-6 bg-muted/50 p-1.5 rounded-xl gap-1">
             <TabsTrigger
               value="carousel"
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all rounded-lg py-2.5 sm:py-2 px-1 sm:px-4"
+              className="flex-1 font-bold text-slate-500 data-[state=active]:bg-[#d60000] data-[state=active]:text-white transition-all rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-1 sm:px-4 data-[state=active]:shadow-[0_4px_0_#991b1b] data-[state=active]:translate-y-0 translate-y-1 hover:-translate-y-0.5 hover:bg-slate-200 data-[state=active]:hover:-translate-y-0.5 data-[state=active]:hover:shadow-[0_6px_0_#991b1b]"
             >
               <ImageIcon className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-2" />
               <span className="hidden sm:inline text-sm">Carousel</span>
             </TabsTrigger>
             <TabsTrigger
               value="blogs"
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all rounded-lg py-2.5 sm:py-2 px-1 sm:px-4"
+              className="flex-1 font-bold text-slate-500 data-[state=active]:bg-[#d60000] data-[state=active]:text-white transition-all rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-1 sm:px-4 data-[state=active]:shadow-[0_4px_0_#991b1b] data-[state=active]:translate-y-0 translate-y-1 hover:-translate-y-0.5 hover:bg-slate-200 data-[state=active]:hover:-translate-y-0.5 data-[state=active]:hover:shadow-[0_6px_0_#991b1b]"
             >
               <FileText className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-2" />
               <span className="hidden sm:inline text-sm">Blogs</span>
             </TabsTrigger>
             <TabsTrigger
               value="videos"
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all rounded-lg py-2.5 sm:py-2 px-1 sm:px-4"
+              className="flex-1 font-bold text-slate-500 data-[state=active]:bg-[#d60000] data-[state=active]:text-white transition-all rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-1 sm:px-4 data-[state=active]:shadow-[0_4px_0_#991b1b] data-[state=active]:translate-y-0 translate-y-1 hover:-translate-y-0.5 hover:bg-slate-200 data-[state=active]:hover:-translate-y-0.5 data-[state=active]:hover:shadow-[0_6px_0_#991b1b]"
             >
               <Video className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-2" />
               <span className="hidden sm:inline text-sm">Videos</span>
             </TabsTrigger>
             <TabsTrigger
               value="users"
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all rounded-lg py-2.5 sm:py-2 px-1 sm:px-4"
+              className="flex-1 font-bold text-slate-500 data-[state=active]:bg-[#d60000] data-[state=active]:text-white transition-all rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-1 sm:px-4 data-[state=active]:shadow-[0_4px_0_#991b1b] data-[state=active]:translate-y-0 translate-y-1 hover:-translate-y-0.5 hover:bg-slate-200 data-[state=active]:hover:-translate-y-0.5 data-[state=active]:hover:shadow-[0_6px_0_#991b1b]"
             >
               <Users className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-2" />
               <span className="hidden sm:inline text-sm">Users</span>
             </TabsTrigger>
             <TabsTrigger
               value="quick-questions"
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all rounded-lg py-2.5 sm:py-2 px-1 sm:px-4"
+              className="flex-1 font-bold text-slate-500 data-[state=active]:bg-[#d60000] data-[state=active]:text-white transition-all rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-1 sm:px-4 data-[state=active]:shadow-[0_4px_0_#991b1b] data-[state=active]:translate-y-0 translate-y-1 hover:-translate-y-0.5 hover:bg-slate-200 data-[state=active]:hover:-translate-y-0.5 data-[state=active]:hover:shadow-[0_6px_0_#991b1b]"
             >
               <HelpCircle className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-2" />
               <span className="hidden sm:inline text-sm">Q&A</span>
             </TabsTrigger>
             <TabsTrigger
               value="fire-codes"
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all rounded-lg py-2.5 sm:py-2 px-1 sm:px-4"
+              className="flex-1 font-bold text-slate-500 data-[state=active]:bg-[#d60000] data-[state=active]:text-white transition-all rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-1 sm:px-4 data-[state=active]:shadow-[0_4px_0_#991b1b] data-[state=active]:translate-y-0 translate-y-1 hover:-translate-y-0.5 hover:bg-slate-200 data-[state=active]:hover:-translate-y-0.5 data-[state=active]:hover:shadow-[0_6px_0_#991b1b]"
             >
               <BookOpen className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-2" />
               <span className="hidden sm:inline text-sm">Fire Codes</span>
@@ -1065,10 +1065,14 @@ export default function AdminPage() {
                   </div>
                 </div>
                 {/* Image URL is now set automatically from the upload component - hidden from user */}
-                <Button onClick={handleAddCarousel} variant="secondary">
+                <button
+                  type="button"
+                  onClick={handleAddCarousel}
+                  className="inline-flex items-center justify-center bg-[#d60000] text-white font-extrabold px-5 pb-2 pt-2.5 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Image
-                </Button>
+                </button>
               </CardContent>
             </Card>
 
@@ -1137,10 +1141,14 @@ export default function AdminPage() {
                     rows={6}
                   />
                 </div>
-                <Button onClick={handleAddBlog} variant="default">
+                <button
+                  type="button"
+                  onClick={handleAddBlog}
+                  className="inline-flex items-center justify-center bg-[#d60000] text-white font-extrabold px-5 pb-2 pt-2.5 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Blog Post
-                </Button>
+                </button>
               </CardContent>
             </Card>
 
@@ -1237,10 +1245,14 @@ export default function AdminPage() {
                     <Label htmlFor="video-active">Active</Label>
                   </div>
                 </div>
-                <Button onClick={handleAddVideo} variant="default" className="w-full md:w-auto">
+                <button
+                  type="button"
+                  onClick={handleAddVideo}
+                  className="w-full md:w-auto inline-flex items-center justify-center bg-[#d60000] text-white font-extrabold px-5 pb-2 pt-2.5 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Video
-                </Button>
+                </button>
               </CardContent>
             </Card>
 
@@ -1407,10 +1419,14 @@ export default function AdminPage() {
                     rows={4}
                   />
                 </div>
-                <Button onClick={handleAddQuickQuestion} variant="secondary">
+                <button
+                  type="button"
+                  onClick={handleAddQuickQuestion}
+                  className="inline-flex items-center justify-center bg-[#d60000] text-white font-extrabold px-5 pb-2 pt-2.5 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Quick Question
-                </Button>
+                </button>
               </CardContent>
             </Card>
 
@@ -1438,14 +1454,14 @@ export default function AdminPage() {
                           </div>
                           <p className="text-sm text-muted-foreground mt-2">{question.responseText}</p>
                         </div>
-                        <Button
-                          variant="destructive"
-                          size="icon"
+                        <button
+                          type="button"
                           onClick={() => handleDeleteQuickQuestion(question.id)}
-                          className="ml-4"
+                          className="ml-4 flex items-center justify-center bg-red-600 text-white font-extrabold h-10 w-10 pb-1 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                          aria-label="Delete question"
                         >
                           <Trash2 className="h-4 w-4" />
-                        </Button>
+                        </button>
                       </div>
                     ))
                   )}
@@ -1501,10 +1517,14 @@ export default function AdminPage() {
                     onChange={(e) => setNewFireCode({ ...newFireCode, content: e.target.value })}
                   />
                 </div>
-                <Button variant="default" onClick={handleAddFireCode}>
+                <button
+                  type="button"
+                  onClick={handleAddFireCode}
+                  className="inline-flex items-center justify-center bg-[#d60000] text-white font-extrabold px-5 pb-2 pt-2.5 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Fire Code Section
-                </Button>
+                </button>
               </CardContent>
             </Card>
 
@@ -1532,14 +1552,14 @@ export default function AdminPage() {
                             Last updated: {new Date(section.updatedAt).toLocaleDateString()}
                           </p>
                         </div>
-                        <Button
-                          variant="destructive"
-                          size="icon"
+                        <button
+                          type="button"
                           onClick={() => handleDeleteFireCode(section.id)}
-                          className="ml-4"
+                          className="ml-4 flex items-center justify-center bg-red-600 text-white font-extrabold h-10 w-10 pb-1 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                          aria-label="Delete section"
                         >
                           <Trash2 className="h-4 w-4" />
-                        </Button>
+                        </button>
                       </div>
                     ))
                   )}
