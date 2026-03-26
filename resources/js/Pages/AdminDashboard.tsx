@@ -1316,39 +1316,51 @@ export default function AdminPage() {
                             </p>
                           </div>
                         </div>
-                        <div className="flex flex-wrap gap-2">
-                          <Button
-                            size="sm"
-                            variant={u.permissions.accessKids ? "default" : "outline"}
+                        <div className="flex flex-wrap gap-2 sm:gap-3">
+                          <button
+                            type="button"
                             onClick={() => promptRoleChange(u.id, "accessKids", u.name)}
-                            className={u.permissions.accessKids ? "bg-secondary" : ""}
+                            className={`inline-flex items-center justify-center font-extrabold px-4 pb-1.5 pt-2 rounded-xl text-xs sm:text-sm transition-all ${
+                              u.permissions.accessKids
+                                ? "bg-slate-600 text-white shadow-[0_4px_0_#1e293b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#1e293b] active:translate-y-1 active:shadow-[0_0px_0_#1e293b]"
+                                : "bg-white border-2 border-slate-200 text-slate-500 shadow-[0_4px_0_#e2e8f0] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] hover:bg-slate-50 active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0]"
+                            }`}
                           >
                             Kids Access
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant={u.permissions.accessAdult ? "default" : "outline"}
+                          </button>
+                          <button
+                            type="button"
                             onClick={() => promptRoleChange(u.id, "accessAdult", u.name)}
-                            className={u.permissions.accessAdult ? "bg-accent" : ""}
+                            className={`inline-flex items-center justify-center font-extrabold px-4 pb-1.5 pt-2 rounded-xl text-xs sm:text-sm transition-all ${
+                              u.permissions.accessAdult
+                                ? "bg-teal-700 text-white shadow-[0_4px_0_#134e4a] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#134e4a] active:translate-y-1 active:shadow-[0_0px_0_#134e4a]"
+                                : "bg-white border-2 border-slate-200 text-slate-500 shadow-[0_4px_0_#e2e8f0] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] hover:bg-slate-50 active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0]"
+                            }`}
                           >
                             Adult Access
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant={u.permissions.accessProfessional ? "default" : "outline"}
+                          </button>
+                          <button
+                            type="button"
                             onClick={() => promptRoleChange(u.id, "accessProfessional", u.name)}
-                            className={u.permissions.accessProfessional ? "bg-primary" : ""}
+                            className={`inline-flex items-center justify-center font-extrabold px-4 pb-1.5 pt-2 rounded-xl text-xs sm:text-sm transition-all ${
+                              u.permissions.accessProfessional
+                                ? "bg-[#d60000] text-white shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b]"
+                                : "bg-white border-2 border-slate-200 text-slate-500 shadow-[0_4px_0_#e2e8f0] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] hover:bg-slate-50 active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0]"
+                            }`}
                           >
                             Professional Access
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant={u.permissions.isAdmin ? "default" : "outline"}
+                          </button>
+                          <button
+                            type="button"
                             onClick={() => promptRoleChange(u.id, "isAdmin", u.name)}
-                            className={u.permissions.isAdmin ? "bg-foreground text-background" : ""}
+                            className={`inline-flex items-center justify-center font-extrabold px-4 pb-1.5 pt-2 rounded-xl text-xs sm:text-sm transition-all ${
+                              u.permissions.isAdmin
+                                ? "bg-slate-900 text-white shadow-[0_4px_0_#000000] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#000000] active:translate-y-1 active:shadow-[0_0px_0_#000000]"
+                                : "bg-white border-2 border-slate-200 text-slate-500 shadow-[0_4px_0_#e2e8f0] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] hover:bg-slate-50 active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0]"
+                            }`}
                           >
                             Admin
-                          </Button>
+                          </button>
                         </div>
                       </div>
                     ))

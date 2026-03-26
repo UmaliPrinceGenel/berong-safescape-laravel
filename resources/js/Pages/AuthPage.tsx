@@ -106,15 +106,15 @@ function AuthContent() {
         else if (result.user.role === 'adult') redirectPath = '/adult'
         else if (result.user.role === 'kid') redirectPath = '/kids'
       }
-      // Small delay to ensure cookie is fully set before middleware checks it
-      await new Promise(resolve => setTimeout(resolve, 100))
+      // Small delay to ensure cookie is fully set and let loading animation play out
+      await new Promise(resolve => setTimeout(resolve, 1500))
       // Use full page navigation to clear Next.js router cache
       window.location.href = redirectPath
+      return // Ensure we don't setLoading(false) so loader persists
     } else {
       setError(result.error || "Invalid username or password")
+      setLoading(false)
     }
-
-    setLoading(false)
   }
 
   const handleResetPassword = async () => {
@@ -205,13 +205,17 @@ function AuthContent() {
     if (result.success) {
       // Redirect based on user role
       const redirectPath = getRedirectPath()
+      
+      // Small delay to let the loading screen animation play out smoothly
+      await new Promise(resolve => setTimeout(resolve, 1500))
+      
       // Use full page navigation to clear Next.js router cache
       window.location.href = redirectPath
+      return // Ensure we don't setLoading(false) so loader persists
     } else {
       setError(result.error || "Registration failed. Username may already be taken.")
+      setLoading(false)
     }
-
-    setLoading(false)
   }
 
   return (

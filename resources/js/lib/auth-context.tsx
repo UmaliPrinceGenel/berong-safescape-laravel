@@ -123,7 +123,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return new Promise((resolve) => {
         router.post('/register', { username, password, password_confirmation: password, name, age }, {
             onSuccess: () => {
-                setIsAuthenticating(false);
+                // Do not setIsAuthenticating(false) here, we wait for full page reload to Dashboard
                 resolve({ success: true });
             },
             onError: (errors) => {
@@ -139,7 +139,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return new Promise((resolve) => {
         router.post('/login', { username, password }, {
             onSuccess: (page) => {
-                setIsAuthenticating(false);
+                // Do not setIsAuthenticating(false) here, we wait for full page reload to Dashboard
                 const fetchedUser = (page.props as any).auth?.user;
                 if (!fetchedUser) return resolve({ success: false, error: 'Login parsing failed' });
                 const userWithPermissions = { ...fetchedUser, permissions: determinePermissions(fetchedUser.role) };
