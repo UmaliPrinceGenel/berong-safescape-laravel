@@ -16,6 +16,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Link } from '@inertiajs/react';
 import Image from '@/components/Image';
 import { RegistrationWizard } from "@/components/registration-wizard"
+import { Chatbot } from "@/components/chatbot"
 
 function AuthContent() {
   

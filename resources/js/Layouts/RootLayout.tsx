@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ProfileCheckWrapper>
             {children}
           </ProfileCheckWrapper>
-          {/* <Chatbot /> */ /* Deferred integration per Phase 6 rules */}
+          <Chatbot />
           <LoginLoader />
           <LogoutLoader />
         </AuthProvider>

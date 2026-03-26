@@ -48,6 +48,8 @@ const processedIntents = Object.entries(chatbotIntents).map(([tag, data]) => {
 export function Chatbot() {
   const { isAuthenticated } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
+  const [showCTA, setShowCTA] = useState(true)
+  const ctaTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const [inputValue, setInputValue] = useState("")
   const [quickQuestions, setQuickQuestions] = useState<Record<string, QuickQuestion[]>>({})
@@ -58,6 +60,36 @@ export function Chatbot() {
   // Draggable chathead state - vertical position only (stays on right side)
   const [isDragging, setIsDragging] = useState(false)
   const constraintsRef = useRef<HTMLDivElement>(null)
+
+  const startCTATimeout = () => {
+    if (ctaTimeoutRef.current) clearTimeout(ctaTimeoutRef.current)
+    ctaTimeoutRef.current = setTimeout(() => {
+      setShowCTA(false)
+    }, 5000)
+  }
+
+  useEffect(() => {
+    if (!isOpen) {
+      setShowCTA(true)
+      startCTATimeout()
+    }
+    return () => {
+      if (ctaTimeoutRef.current) clearTimeout(ctaTimeoutRef.current)
+    }
+  }, [isOpen])
+
+  const handleMouseEnter = () => {
+    if (!isOpen && !isDragging) {
+      setShowCTA(true)
+      if (ctaTimeoutRef.current) clearTimeout(ctaTimeoutRef.current)
+    }
+  }
+
+  const handleMouseLeave = () => {
+    if (!isOpen) {
+      startCTATimeout()
+    }
+  }
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -238,6 +270,8 @@ export function Chatbot() {
           {!isOpen && (
             <motion.div
               className="pointer-events-auto absolute right-0 bottom-0"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
               drag="y"
               dragConstraints={constraintsRef}
               dragElastic={0.1}
@@ -266,22 +300,36 @@ export function Chatbot() {
               </div>
 
               {/* Speech Bubble CTA */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ delay: 1.5, type: "spring", stiffness: 200 }}
-                className="absolute bottom-full mb-3 right-0 bg-white text-gray-900 text-xs md:text-sm font-bold px-4 py-2 rounded-2xl rounded-br-none shadow-xl border border-gray-100 whitespace-nowrap z-50 pointer-events-none"
-              >
-                Let&apos;s learn about fire safety! 🚒
-                <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-white border-b border-r border-gray-100 transform rotate-45"></div>
-              </motion.div>
+              <AnimatePresence>
+                {showCTA && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.5, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+                    exit={{ opacity: 0, scale: 0.5, y: 20, transition: { delay: 0, duration: 0.2 } }}
+                    transition={{ 
+                      delay: 1.5,
+                      y: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+                      default: { type: "spring", stiffness: 200 }
+                    }}
+                    className="absolute bottom-full mb-4 right-0 z-50 pointer-events-auto"
+                  >
+                    <div className="relative bg-white border-[4px] border-[#ff6b00] rounded-[2rem] px-5 sm:px-6 py-2 sm:py-3 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3)]">
+                      <div className="text-[#e60000] font-black text-xs sm:text-sm md:text-base leading-[1.2] text-center tracking-wide whitespace-nowrap">
+                        LET&apos;S LEARN ABOUT<br />FIRE SAFETY!
+                      </div>
+                      {/* The tail */}
+                      <div className="absolute -bottom-[11px] right-6 sm:right-10 w-4 h-4 sm:w-5 sm:h-5 bg-white border-b-[4px] border-r-[4px] border-[#ff6b00] transform rotate-45 rounded-br-[3px]"></div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               <Image
                 src="/RD Logo.png"
                 alt="Berong - BFP Assistant"
                 width={180}
                 height={180}
-                className="chatbot-berong-image drop-shadow-2xl select-none w-32 md:w-36 lg:w-40 h-auto transition-all duration-300"
+                className="chatbot-berong-image drop-shadow-2xl select-none w-24 sm:w-28 md:w-36 lg:w-40 h-auto transition-all duration-300"
                 draggable={false}
                 priority
               />
