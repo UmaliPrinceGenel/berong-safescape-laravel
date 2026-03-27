@@ -1168,7 +1168,7 @@ export default function AdminPage() {
                   </div>
                   <p className="text-sm text-muted-foreground">{post.excerpt}</p>
                   <p className="text-xs text-muted-foreground mt-2">
-                    By {post.author} • {new Date(post.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                    By {typeof post.author === 'string' ? post.author : post.author?.name} • {new Date(post.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                   </p>
                 </>
               )}
