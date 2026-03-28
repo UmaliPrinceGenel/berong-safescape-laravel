@@ -23,6 +23,14 @@ const KidsDashboardPage = ({}: KidsPageProps) => {
   const [activeCategory, setActiveCategory] = useState<ContentCategory>("all")
   const [allContent, setAllContent] = useState<ContentCardData[]>([])
   const [filteredContent, setFilteredContent] = useState<ContentCardData[]>([])
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   // Load content
   useEffect(() => {
@@ -110,31 +118,35 @@ const KidsDashboardPage = ({}: KidsPageProps) => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Animated Particles Background - Fire themed */}
-      <Particles
-        className="z-0"
-        quantity={100}
-        color="#ef4444"
-        size={2.5}
-        staticity={30}
-        ease={80}
-      />
-      <Particles
-        className="z-0"
-        quantity={60}
-        color="#f97316"
-        size={3}
-        staticity={50}
-        ease={60}
-      />
-      <Particles
-        className="z-0"
-        quantity={40}
-        color="#fbbf24"
-        size={2}
-        staticity={40}
-        ease={70}
-      />
+      {/* Animated Particles Background - Fire themed (Hidden on Mobile) */}
+      {!isMobile && (
+        <>
+          <Particles
+            className="z-0"
+            quantity={100}
+            color="#ef4444"
+            size={2.5}
+            staticity={30}
+            ease={80}
+          />
+          <Particles
+            className="z-0"
+            quantity={60}
+            color="#f97316"
+            size={3}
+            staticity={50}
+            ease={60}
+          />
+          <Particles
+            className="z-0"
+            quantity={40}
+            color="#fbbf24"
+            size={2}
+            staticity={40}
+            ease={70}
+          />
+        </>
+      )}
 
       <div className="relative z-10 w-full h-full flex-1">
 

@@ -16,6 +16,31 @@ use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
     /**
+     * Inertia Pages with Preloaded Data
+     */
+    public function dashboardPage()
+    {
+        return \Inertia\Inertia::render('AdminDashboard', [
+            'initialCarouselImages' => \App\Models\CarouselImage::where('isActive', true)->orderBy('order', 'asc')->get(),
+            'initialBlogPosts' => \App\Models\BlogPost::with('author:id,name')->orderBy('created_at', 'desc')->get(),
+            'initialVideos' => \App\Models\Video::orderBy('created_at', 'desc')->get(),
+            'initialUsers' => \App\Models\User::latest()->paginate(20),
+            'initialQuickQuestions' => \App\Models\QuickQuestion::where('isActive', true)->orderBy('created_at', 'desc')->get(),
+            'initialFireCodeSections' => \App\Models\FireCodeSection::orderBy('section_num')->get(),
+        ]);
+    }
+
+    public function analyticsPage()
+    {
+        return \Inertia\Inertia::render('Admin/Analytics', [
+            'initialSummaryData' => $this->getSummaryAnalytics(),
+            'initialBarangayData' => $this->getBarangayAnalytics(),
+            'initialDemographicData' => $this->getDemographicAnalytics(),
+            'initialKnowledgeData' => $this->getKnowledgeAnalytics(),
+        ]);
+    }
+
+    /**
      * Dashboard stats
      */
     public function stats()
@@ -353,7 +378,7 @@ class AdminController extends Controller
         $section = \App\Models\FireCodeSection::create([
             'title' => $request->title,
             'section_num' => $request->sectionNum,
-            'content' => $request->content,
+            'content' => $request->input('content'),
             'parent_section_id' => $request->parentSectionId,
         ]);
 
@@ -366,7 +391,7 @@ class AdminController extends Controller
         $section->update([
             'title' => $request->title ?? $section->title,
             'section_num' => $request->sectionNum ?? $section->section_num,
-            'content' => $request->content ?? $section->content,
+            'content' => $request->input('content') ?? $section->content,
             'parent_section_id' => $request->parentSectionId ?? $section->parent_section_id,
         ]);
 

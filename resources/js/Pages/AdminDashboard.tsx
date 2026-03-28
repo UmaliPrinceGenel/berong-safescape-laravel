@@ -137,22 +137,33 @@ const normalizeFireCodeSection = (section: any) => ({
   updatedAt: section?.updatedAt ?? section?.updated_at ?? null,
 })
 
-export default function AdminPage() {
+export default function AdminPage({
+  initialCarouselImages,
+  initialBlogPosts,
+  initialVideos,
+  initialUsers,
+  initialQuickQuestions,
+  initialFireCodeSections,
+}: any) {
   
   const { user, isAuthenticated, isLoading } = useAuth()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(!initialCarouselImages)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submittingMessage, setSubmittingMessage] = useState("")
   const [success, setSuccess] = useState("")
   const [error, setError] = useState("")
 
   // Carousel Management
-  const [carouselImages, setCarouselImages] = useState<CarouselImage[]>([])
+  const [carouselImages, setCarouselImages] = useState<CarouselImage[]>(
+    initialCarouselImages ? initialCarouselImages.map(normalizeCarouselImage) : []
+  )
   const [newCarousel, setNewCarousel] = useState({ title: "", alt: "", url: "" })
   const [carouselUploadKey, setCarouselUploadKey] = useState(0)
 
   // Blog Management
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(
+    initialBlogPosts ? initialBlogPosts.map(normalizeBlogPost) : []
+  )
   const [newBlog, setNewBlog] = useState({
     title: "",
     excerpt: "",
@@ -163,7 +174,9 @@ export default function AdminPage() {
   const [blogUploadKey, setBlogUploadKey] = useState(0)
 
   // Video Management
-  const [videos, setVideos] = useState<any[]>([])
+  const [videos, setVideos] = useState<any[]>(
+    initialVideos ? initialVideos.map(normalizeVideo) : []
+  )
   const [newVideo, setNewVideo] = useState({
     title: "",
     description: "",
@@ -174,7 +187,11 @@ export default function AdminPage() {
   })
 
   // User Management
-  const [users, setUsers] = useState<any[]>([])
+  // Extract data array if it's paginated (Laravel paginate wrapper)
+  const resolvedUsers = initialUsers 
+    ? (Array.isArray(initialUsers) ? initialUsers : initialUsers.data ?? []) 
+    : []
+  const [users, setUsers] = useState<any[]>(resolvedUsers.map(normalizeUser))
   const [userSearchQuery, setUserSearchQuery] = useState("")
 
   // Filter users based on search query
@@ -185,7 +202,7 @@ export default function AdminPage() {
   )
 
   // Quick Questions Management
-  const [quickQuestions, setQuickQuestions] = useState<any[]>([])
+  const [quickQuestions, setQuickQuestions] = useState<any[]>(initialQuickQuestions || [])
   const [newQuickQuestion, setNewQuickQuestion] = useState({
     category: "emergency",
     questionText: "",
@@ -194,7 +211,9 @@ export default function AdminPage() {
   })
 
   // Fire Codes Management
-  const [fireCodeSections, setFireCodeSections] = useState<any[]>([])
+  const [fireCodeSections, setFireCodeSections] = useState<any[]>(
+    initialFireCodeSections ? initialFireCodeSections.map(normalizeFireCodeSection) : []
+  )
   const [newFireCode, setNewFireCode] = useState({
     title: "",
     sectionNum: "",
@@ -244,15 +263,19 @@ export default function AdminPage() {
       return
     }
 
-    // Load data from database
-    loadCarouselImages()
-    loadBlogPosts()
-    loadVideos() // Load videos
-    loadUsers()
-    loadQuickQuestions()
-    loadFireCodeSections()
-    setLoading(false)
-  }, [isAuthenticated, user, router, isLoading])
+    // Only load from database if Inertia props aren't provided
+    if (!initialCarouselImages) {
+      loadCarouselImages()
+      loadBlogPosts()
+      loadVideos()
+      loadUsers()
+      loadQuickQuestions()
+      loadFireCodeSections()
+      setLoading(false)
+    } else {
+      setLoading(false)
+    }
+  }, [isAuthenticated, user, router, isLoading, initialCarouselImages])
 
   const loadCarouselImages = async () => {
     try {

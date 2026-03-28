@@ -55,16 +55,21 @@ interface KnowledgeData {
   incorrectAnswers: number
 }
 
-export default function AnalyticsDashboard() {
+export default function AnalyticsDashboard({ 
+  initialSummaryData, 
+  initialBarangayData, 
+  initialDemographicData, 
+  initialKnowledgeData 
+}: any) {
   const { user, isLoading: authLoading } = useAuth()
   
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(!initialSummaryData)
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState("")
-  const [summary, setSummary] = useState<SummaryData | null>(null)
-  const [barangayData, setBarangayData] = useState<BarangayData[]>([])
-  const [demographicData, setDemographicData] = useState<DemographicData | null>(null)
-  const [knowledgeData, setKnowledgeData] = useState<KnowledgeData[]>([])
+  const [summary, setSummary] = useState<SummaryData | null>(initialSummaryData || null)
+  const [barangayData, setBarangayData] = useState<BarangayData[]>(initialBarangayData || [])
+  const [demographicData, setDemographicData] = useState<DemographicData | null>(initialDemographicData || null)
+  const [knowledgeData, setKnowledgeData] = useState<KnowledgeData[]>(initialKnowledgeData || [])
   const [activeTab, setActiveTab] = useState("overview")
 
   useEffect(() => {
@@ -74,8 +79,14 @@ export default function AnalyticsDashboard() {
       router.visit("/")
       return
     }
-    fetchAllData()
-  }, [user, router, authLoading])
+    
+    // Only fetch if initial data wasn't provided by Inertia
+    if (!initialSummaryData) {
+      fetchAllData()
+    } else {
+      setLoading(false)
+    }
+  }, [user, router, authLoading, initialSummaryData])
 
   const fetchAllData = async (refresh = false) => {
     try {

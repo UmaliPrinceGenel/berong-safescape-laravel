@@ -25,6 +25,11 @@ function SplashCursor({
         const canvas = canvasRef.current;
         if (!canvas) return;
 
+        // Disable on mobile/touch devices for performance
+        if (typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches)) {
+            return;
+        }
+
         // Track if the effect is still active for cleanup
         let isActive = true;
 

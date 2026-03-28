@@ -50,13 +50,8 @@ Route::get('/about', function () {
     
     // Admin routing
     Route::middleware('admin')->group(function () {
-        Route::get('/admin', function () {
-            return Inertia::render('AdminDashboard');
-        })->name('admin');
-
-        Route::get('/admin/analytics', function () {
-            return Inertia::render('Admin/Analytics');
-        })->name('admin.analytics');
+        Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'dashboardPage'])->name('admin');
+        Route::get('/admin/analytics', [\App\Http\Controllers\AdminController::class, 'analyticsPage'])->name('admin.analytics');
     });
 });
 
