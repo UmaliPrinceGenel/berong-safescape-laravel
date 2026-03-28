@@ -44,7 +44,7 @@ export function HeroCarouselClient({ images }: HeroCarouselClientProps) {
                 <CarouselContent>
                     {images.map((image, index) => (
                         <CarouselItem key={image.id}>
-                            <div className="relative w-full h-[50vh] sm:h-[70vh] min-h-[400px] overflow-hidden rounded-[2.5rem] shadow-2xl border border-gray-200 group/slide">
+                            <div className="relative isolate w-full h-[50vh] sm:h-[70vh] min-h-[400px] overflow-hidden rounded-[2.5rem] shadow-2xl border border-gray-200 group/slide [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]">
                                 <img
                                     src={image.imageUrl}
                                     alt={image.altText ?? image.title}
@@ -52,7 +52,7 @@ export function HeroCarouselClient({ images }: HeroCarouselClientProps) {
                                 />
 
                                 {/* Gradient Overlay - Bottom Left aligned */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent flex flex-col justify-end items-start p-6 pb-12 sm:p-10 sm:pb-16 md:p-14 md:pb-20 pointer-events-none">
+                                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent flex flex-col justify-end items-start p-6 pb-12 sm:p-10 sm:pb-16 md:p-14 md:pb-20 pointer-events-none rounded-[2.5rem]">
                                     <div className="relative z-10 text-white w-full max-w-5xl pointer-events-auto">
                                         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 sm:mb-6 drop-shadow-2xl tracking-tight leading-tight">
                                             {image.title}
@@ -68,7 +68,7 @@ export function HeroCarouselClient({ images }: HeroCarouselClientProps) {
                                 {/* Transparent Clickable Overlay Button */}
                                 <button
                                     onClick={() => handleImageClick(image)}
-                                    className="absolute inset-0 z-10 w-full h-full cursor-pointer bg-transparent hover:bg-white/5 transition-colors outline-none focus:ring-2 focus:ring-primary focus:ring-inset"
+                                    className="absolute inset-0 z-10 w-full h-full cursor-pointer bg-transparent hover:bg-white/5 transition-colors outline-none focus:ring-2 focus:ring-primary focus:ring-inset rounded-[2.5rem]"
                                     aria-label={`View full screen image: ${image.title}`}
                                 >
                                     {/* Maximize Icon (Top Right) */}

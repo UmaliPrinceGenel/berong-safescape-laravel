@@ -31,7 +31,15 @@ interface ContentCardProps {
 export function ContentCard({ content, onClick }: ContentCardProps) {
   const [imageError, setImageError] = useState(false)
 
-  if (content.type === "module") {
+  if (true) {
+    const bgColors: Record<string, string> = {
+      video: "bg-purple-500",
+      activity: "bg-yellow-500",
+      module: "bg-blue-500",
+      game: "bg-green-500",
+      exam: "bg-red-500"
+    }
+
     const innerModuleContent = (
       <div className={cn(
         "flex flex-col md:flex-row bg-white rounded-[2rem] border-4 transition-all overflow-hidden h-full",
@@ -40,10 +48,10 @@ export function ContentCard({ content, onClick }: ContentCardProps) {
           : "border-slate-100 shadow-[0_8px_0_0_#cbd5e1] hover:shadow-[0_4px_0_0_#cbd5e1] hover:translate-y-1"
       )}>
         {/* Left Side (Visual) */}
-        <div className="relative w-full md:w-5/12 bg-blue-500 p-8 flex items-center justify-center shrink-0 min-h-[200px]">
+        <div className={`relative w-full md:w-5/12 ${bgColors[content.type] || "bg-blue-500"} p-8 flex items-center justify-center shrink-0 min-h-[200px]`}>
           <div className="absolute top-4 left-4 z-10">
             <Badge className="bg-white text-slate-800 font-extrabold px-3 py-1 shadow-sm text-[10px] uppercase tracking-wider">
-              MODULE
+              {content.type}
             </Badge>
           </div>
 
@@ -104,7 +112,7 @@ export function ContentCard({ content, onClick }: ContentCardProps) {
 
             {!content.isLocked ? (
               <button className="flex items-center gap-2 bg-white border-2 border-slate-200 hover:border-blue-200 hover:bg-blue-50 text-slate-800 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-black text-sm sm:text-base shadow-[0_4px_0_0_#e2e8f0] hover:shadow-[0_2px_0_0_#bfdbfe] hover:translate-y-0.5 active:translate-y-1 active:shadow-none transition-all">
-                START <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" strokeWidth={3} />
+                {content.type === "video" ? "WATCH" : content.type === "game" ? "PLAY" : "START"} <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" strokeWidth={3} />
               </button>
             ) : (
               <div className="text-xs text-slate-400 font-bold uppercase tracking-wider flex items-center gap-1.5 bg-slate-100 px-4 py-2 rounded-full">

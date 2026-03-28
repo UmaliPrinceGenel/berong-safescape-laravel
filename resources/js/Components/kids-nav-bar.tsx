@@ -46,9 +46,9 @@ export function KidsNavBar({ activeCategory, onCategoryChange }: KidsNavBarProps
         })}
       </div>
 
-      {/* Mobile Navigation - Fit all 5 buttons */}
-      <div className="md:hidden">
-        <div className="flex justify-between gap-2 overflow-x-auto pb-4 px-1 snap-x scrollbar-hide">
+      {/* Mobile Navigation - Wrapping Grid */}
+      <div className="md:hidden w-full px-2 mb-2">
+        <div className="flex flex-wrap justify-center gap-2 pb-2">
           {categories.map((category) => {
             const Icon = category.icon
             const isActive = activeCategory === category.id
@@ -58,14 +58,14 @@ export function KidsNavBar({ activeCategory, onCategoryChange }: KidsNavBarProps
                 key={category.id}
                 onClick={() => onCategoryChange(category.id)}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-1.5 px-4 py-3 rounded-2xl font-black text-[10px] sm:text-xs uppercase transition-all duration-200 active:duration-75 min-w-[80px] snap-center shrink-0",
+                  "flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-full font-black text-[11px] uppercase transition-all duration-200 active:duration-75 shrink-0 border-2",
                   isActive
-                    ? `${category.color} text-white ${category.shadow} active:translate-y-[2px] active:shadow-none`
-                    : "bg-white text-slate-700 shadow-[0_2px_0_0_#cbd5e1] active:translate-y-[2px] active:shadow-none hover:text-blue-600"
+                    ? `${category.color} text-white border-transparent ${category.shadow} active:translate-y-[4px] active:shadow-none hover:-translate-y-0.5`
+                    : "bg-white text-slate-700 border-transparent shadow-[0_4px_0_0_#cbd5e1] hover:-translate-y-0.5 hover:shadow-[0_6px_0_0_#cbd5e1] hover:text-blue-600 active:translate-y-[4px] active:shadow-none"
                 )}
               >
-                <Icon className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
-                <span className="tracking-wider">{category.label}</span>
+                <Icon className="h-4 w-4 shrink-0" strokeWidth={3} />
+                <span className="tracking-wider whitespace-nowrap">{category.label}</span>
               </button>
             )
           })}

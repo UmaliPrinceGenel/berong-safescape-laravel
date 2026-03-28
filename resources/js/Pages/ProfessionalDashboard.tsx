@@ -75,7 +75,7 @@ const ProfessionalDashboard = ({ initialVideos = professionalVideos }: Professio
                 {/* Quick Links - Horizontal on mobile, grid on desktop */}
                 <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 mb-8 sm:mb-10">
                     <Card
-                        className="overflow-hidden hover:shadow-md transition-all cursor-pointer border-y border-r border-slate-200 border-l-[4px] border-l-red-500 rounded-2xl bg-white h-full group"
+                        className="overflow-hidden cursor-pointer border-2 border-b-[4px] border-slate-200 hover:border-slate-300 rounded-2xl bg-white h-full group active:border-b-2 active:translate-y-[2px] transition-all shadow-sm hover:shadow-md"
                         onClick={() => document.getElementById('training-videos-section')?.scrollIntoView({ behavior: 'smooth' })}
                     >
                         <CardContent className="p-4 sm:p-5 flex items-center gap-4">
@@ -90,7 +90,7 @@ const ProfessionalDashboard = ({ initialVideos = professionalVideos }: Professio
                     </Card>
 
                     <Card
-                        className="overflow-hidden hover:shadow-md transition-all cursor-pointer border-y border-r border-slate-200 border-l-[4px] border-l-blue-500 rounded-2xl bg-white h-full group"
+                        className="overflow-hidden cursor-pointer border-2 border-b-[4px] border-slate-200 hover:border-slate-300 rounded-2xl bg-white h-full group active:border-b-2 active:translate-y-[2px] transition-all shadow-sm hover:shadow-md"
                         onClick={() => document.getElementById('manuals-section')?.scrollIntoView({ behavior: 'smooth' })}
                     >
                         <CardContent className="p-4 sm:p-5 flex items-center gap-4">
@@ -166,7 +166,7 @@ const ProfessionalDashboard = ({ initialVideos = professionalVideos }: Professio
                             {filteredVideos.map((video) => (
                                 <Card
                                     key={video.id}
-                                    className="hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group bg-white rounded-[1.5rem] border-2 border-slate-100/60 overflow-hidden"
+                                    className="cursor-pointer group bg-white rounded-[1.5rem] border-2 border-b-[4px] border-slate-200 overflow-hidden hover:-translate-y-1 active:border-b-2 active:translate-y-[2px] transition-all hover:border-slate-300 shadow-sm hover:shadow-md"
                                     onClick={() => handleVideoSelect(video)}
                                 >
                                     <CardHeader className="p-0 mb-4">

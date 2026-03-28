@@ -30,17 +30,17 @@ export function ProfessionalWelcomeBanner() {
                     Ready to continue your professional development? <br className="hidden sm:block" /> Access the latest protocols and training modules.
                 </p>
 
-                <div className="flex flex-wrap justify-center gap-4">
-                    <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-black/20 border border-white/5 text-slate-300 text-xs font-semibold tracking-wide">
+                <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mt-2">
+                    <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-slate-800 border-2 border-b-[3px] border-slate-950 text-slate-200 text-xs font-bold tracking-wide shadow-md">
                         <Clock className="w-4 h-4 text-slate-400" />
-                        Sunday, March 19, 2026
+                        {currentDate}
                     </span>
-                    <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-black/20 border border-white/5 text-slate-300 text-xs font-semibold tracking-wide">
-                        <CheckCircle className="h-4 w-4 text-green-400" />
+                    <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-slate-800 border-2 border-b-[3px] border-slate-950 text-slate-200 text-xs font-bold tracking-wide shadow-md">
+                        <CheckCircle className="h-4 w-4 text-green-400 stroke-[3px]" />
                         System Operational
                     </span>
-                    <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-black/20 border border-white/5 text-slate-300 text-xs font-semibold tracking-wide">
-                        <FileText className="h-4 w-4 text-blue-400" />
+                    <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-slate-800 border-2 border-b-[3px] border-slate-950 text-slate-200 text-xs font-bold tracking-wide shadow-md">
+                        <FileText className="h-4 w-4 text-blue-400 stroke-[3px]" />
                         New Protocols Available
                     </span>
                 </div>

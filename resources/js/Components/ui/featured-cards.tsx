@@ -33,7 +33,7 @@ const mockFeaturedCards: FeaturedCardItem[] = [
     imageUrl: '/professional_card.png',
     link: '/professional',
     requiredPermission: 'accessProfessional',
-    icon: <Briefcase className="h-6 w-6" />,
+    icon: <Briefcase className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2.5} />,
     color: 'from-blue-500 to-blue-700',
   },
   {
@@ -44,7 +44,7 @@ const mockFeaturedCards: FeaturedCardItem[] = [
     imageUrl: '/adult_card.png',
     link: '/adult',
     requiredPermission: 'accessAdult',
-    icon: <Users className="h-6 w-6" />,
+    icon: <Users className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2.5} />,
     color: 'from-orange-500 to-red-600',
   },
   {
@@ -55,7 +55,7 @@ const mockFeaturedCards: FeaturedCardItem[] = [
     imageUrl: '/kids_card.png',
     link: '/kids',
     requiredPermission: 'accessKids',
-    icon: <Baby className="h-6 w-6" />,
+    icon: <Baby className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2.5} />,
     color: 'from-green-500 to-emerald-600',
   },
 ];
@@ -117,22 +117,22 @@ export function FeaturedCards({ serverUser }: { serverUser?: ServerUser | null }
         {visibleCards.map((card) => (
           <React.Fragment key={card.id}>
           <PermissionGuard requiredPermission={card.requiredPermission} targetPath={card.link}>
-            <Link href={card.link} prefetch={false}>
-              <Card className="overflow-hidden border border-slate-200/80 bg-white/90 backdrop-blur-sm shadow-sm transition-all duration-200 hover:shadow-md active:scale-[0.99]">
+            <Link href={card.link} prefetch={false} className="outline-none">
+              <Card className="overflow-hidden border-[3px] border-slate-200 bg-white shadow-[0_4px_0_#cbd5e1] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#cbd5e1] active:translate-y-1 active:shadow-[0_0px_0_#cbd5e1] transition-all duration-200 rounded-[1.25rem] group cursor-pointer">
                 <CardContent className="p-0">
-                  <div className="flex items-center gap-3 p-3">
+                  <div className="flex items-center gap-3.5 sm:gap-4 p-3.5 sm:p-4">
                     {/* Icon Section */}
-                    <div className={`bg-gradient-to-br ${card.color} h-14 w-14 rounded-xl flex items-center justify-center text-white shadow-sm shrink-0`}>
+                    <div className={`bg-gradient-to-br ${card.color} h-14 w-14 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl flex items-center justify-center text-white shadow-[0_4px_0_rgba(0,0,0,0.15)] border-2 border-white/20 shrink-0 group-hover:scale-105 transition-transform`}>
                       {card.icon}
                     </div>
                     {/* Content */}
                     <div className="min-w-0 flex-1">
-                      <h3 className="font-semibold text-sm text-slate-900 leading-tight">{card.btn}</h3>
-                      <p className="text-[13px] text-slate-600 line-clamp-2 leading-snug mt-1">{card.description}</p>
+                      <h3 className="font-extrabold text-[15px] sm:text-base text-slate-800 leading-tight tracking-tight">{card.btn}</h3>
+                      <p className="text-[12px] sm:text-[13px] font-semibold text-slate-500 line-clamp-2 leading-snug mt-1">{card.description}</p>
                     </div>
                     {/* Arrow */}
-                    <div className="h-8 w-8 rounded-full border border-slate-200 bg-white flex items-center justify-center flex-shrink-0">
-                      <ArrowRight className="h-4 w-4 text-slate-500" />
+                    <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-full border-[3px] border-white bg-yellow-400 text-white flex items-center justify-center flex-shrink-0 shadow-[0_3px_0_#b45309] group-hover:-translate-y-0.5 group-hover:shadow-[0_5px_0_#b45309] group-hover:bg-yellow-300 group-active:translate-y-1 group-active:shadow-[0_0px_0_#b45309] transition-all">
+                      <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={3} />
                     </div>
                   </div>
                 </CardContent>
@@ -180,7 +180,7 @@ export function FeaturedCards({ serverUser }: { serverUser?: ServerUser | null }
                         <Button
                           variant="secondary"
                           size="sm"
-                          className="w-full bg-white/90 hover:bg-white text-gray-900 backdrop-blur-sm"
+                          className="w-full font-extrabold text-sm tracking-wide bg-white border-[3px] border-white/40 shadow-[0_4px_0_rgba(0,0,0,0.2)] hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(0,0,0,0.25)] active:translate-y-1 active:shadow-[0_0px_0_rgba(0,0,0,0.2)] text-gray-900 transition-all rounded-xl py-2 h-auto"
                           onClick={(e) => e.stopPropagation()}
                         >
                           {card.btn}

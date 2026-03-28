@@ -238,121 +238,143 @@ export function Navigation() {
               )}
 
               {/* Mobile Menu Button - More prominent */}
-              <Button
-                variant="ghost"
-                size="icon"
+              <button
+                type="button"
                 aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-nav-menu"
-                className={`lg:hidden h-10 w-10 rounded-xl shrink-0 border border-white/60 transition-all duration-200 ${mobileMenuOpen
-                  ? "!bg-white !text-red-700 !border-white shadow-md"
-                  : "!bg-transparent !text-white hover:!bg-white hover:!text-red-700 hover:!border-white"
-                  }`}
+                className={`lg:hidden flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-[14px] shrink-0 transition-all duration-200 outline-none bg-yellow-400 border-[3px] border-white text-white ${
+                  mobileMenuOpen 
+                    ? "translate-y-1 shadow-[0_0px_0_#b45309]" 
+                    : "shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-[0_0px_0_#b45309]"
+                }`}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
-                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </Button>
+                {mobileMenuOpen ? <X className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={3} /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />}
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Navigation Menu */}
+        {/* Mobile Navigation Menu Overlay Card */}
         <div
           id="mobile-nav-menu"
-          className={`lg:hidden absolute top-full left-0 w-full bg-[#b91c1c] shadow-2xl transition-all duration-300 ease-in-out origin-top border-t border-black/10 overflow-hidden ${
-            mobileMenuOpen ? "max-h-[900px] opacity-100 visible" : "max-h-0 opacity-0 invisible"
+          className={`lg:hidden absolute top-[calc(100%+8px)] left-4 right-4 bg-[#334155] rounded-[1.25rem] shadow-2xl transition-all duration-300 ease-in-out origin-top-right z-[100] border-2 border-[#1e293b]/50 ${
+            mobileMenuOpen ? "opacity-100 visible scale-100 translate-y-0" : "opacity-0 invisible scale-95 -translate-y-4"
           }`}
         >
-          <div className={`px-4 py-4 space-y-1 transform transition-transform duration-300 delay-75 ${mobileMenuOpen ? "translate-y-0" : "-translate-y-4"}`}>
+          {/* Caret pointing up to the hamburger */}
+          <div className="absolute -top-2.5 right-[18px] w-6 h-6 bg-[#334155] rotate-45 rounded-[3px] z-[-1] border-l-2 border-t-2 border-[#1e293b]/50"></div>
+          
+          <div className="py-3 flex flex-col">
             <Link
               href="/"
-              className="flex items-center gap-4 px-4 py-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
+              className={`flex items-center gap-4 px-6 py-3.5 font-bold text-[15px] transition-colors ${url === '/' ? 'text-yellow-400 bg-white/5' : 'text-white hover:bg-white/5'}`}
               onClick={() => setMobileMenuOpen(false)}
             >
-              <Home className="h-6 w-6" />
-              Dashboard
+              <Home className="h-5 w-5 shrink-0" strokeWidth={2.5} />
+              <span className="flex-1">Dashboard</span>
+              {url === '/' && <div className="h-2 w-2 rounded-full bg-yellow-400 shadow-[0_0_8px_#facc15]" />}
             </Link>
 
             <Link
               href="/about"
-              className="flex items-center gap-4 px-4 py-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
+              className={`flex items-center gap-4 px-6 py-3.5 font-bold text-[15px] transition-colors ${url === '/about' ? 'text-yellow-400 bg-white/5' : 'text-white hover:bg-white/5'}`}
               onClick={() => setMobileMenuOpen(false)}
             >
-              <Info className="h-6 w-6" />
-              About
+              <Info className="h-5 w-5 shrink-0" strokeWidth={2.5} />
+              <span className="flex-1">About</span>
+              {url === '/about' && <div className="h-2 w-2 rounded-full bg-yellow-400 shadow-[0_0_8px_#facc15]" />}
             </Link>
 
             {isAuthenticated && user?.permissions.accessProfessional && (
               <Link
                 href="/professional"
-                className="flex items-center gap-4 px-4 py-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
+                className={`flex items-center gap-4 px-6 py-3.5 font-bold text-[15px] transition-colors ${url.startsWith('/professional') ? 'text-yellow-400 bg-white/5' : 'text-white hover:bg-white/5'}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <Briefcase className="h-6 w-6" />
-                Professional
+                <Briefcase className="h-5 w-5 shrink-0" strokeWidth={2.5} />
+                <span className="flex-1">Professional</span>
+                {url.startsWith('/professional') && <div className="h-2 w-2 rounded-full bg-yellow-400 shadow-[0_0_8px_#facc15]" />}
               </Link>
             )}
 
             {isAuthenticated && user?.permissions.accessAdult && (
               <Link
                 href="/adult"
-                className="flex items-center gap-4 px-4 py-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
+                className={`flex items-center gap-4 px-6 py-3.5 font-bold text-[15px] transition-colors ${url.startsWith('/adult') ? 'text-yellow-400 bg-white/5' : 'text-white hover:bg-white/5'}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <Users className="h-6 w-6" />
-                Adults
+                <User className="h-5 w-5 shrink-0" strokeWidth={2.5} />
+                <span className="flex-1">Adults</span>
+                {url.startsWith('/adult') && <div className="h-2 w-2 rounded-full bg-yellow-400 shadow-[0_0_8px_#facc15]" />}
               </Link>
             )}
 
             {isAuthenticated && user?.permissions.accessKids && (
               <Link
                 href="/kids"
-                className="flex items-center gap-4 px-4 py-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
+                className={`flex items-center gap-4 px-6 py-3.5 font-bold text-[15px] transition-colors ${url.startsWith('/kids') ? 'text-yellow-400 bg-white/5' : 'text-white hover:bg-white/5'}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <Baby className="h-6 w-6" />
-                Kids
+                <Baby className="h-5 w-5 shrink-0" strokeWidth={2.5} />
+                <span className="flex-1">Kids</span>
+                {url.startsWith('/kids') && <div className="h-2 w-2 rounded-full bg-yellow-400 shadow-[0_0_8px_#facc15]" />}
               </Link>
             )}
 
             {isAuthenticated && user?.role === "admin" && (
               <Link
                 href="/admin"
-                className="flex items-center gap-4 px-4 py-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
+                className={`flex items-center gap-4 px-6 py-3.5 font-bold text-[15px] transition-colors ${url.startsWith('/admin') ? 'text-yellow-400 bg-white/5' : 'text-white hover:bg-white/5'}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <Shield className="h-6 w-6" />
-                Admin
+                <Shield className="h-5 w-5 shrink-0" strokeWidth={2.5} />
+                <span className="flex-1">Admin</span>
+                {url.startsWith('/admin') && <div className="h-2 w-2 rounded-full bg-yellow-400 shadow-[0_0_8px_#facc15]" />}
               </Link>
             )}
+
+            {/* DateTime Divider */}
+            <div className="h-[1px] bg-slate-800/60 w-full my-2"></div>
+            
+            <div className="px-6 py-2">
+              <p className="text-slate-200 text-[11px] leading-relaxed drop-shadow-sm font-medium">
+                {currentTime.split(' at ')[0] || 'Loading date...'} at <br/> {currentTime.split(' at ')[1] || '...'}
+              </p>
+            </div>
 
             {/* Mobile User Info */}
             {isAuthenticated && (
               <>
-                <div className="h-px bg-white/10 my-4 mx-4"></div>
+                <div className="h-[1px] bg-slate-800/60 w-full my-2"></div>
                 
-                <Link
-                  href="/profile"
-                  className="flex items-center gap-4 px-4 py-4 mb-4 rounded-xl text-white font-bold text-[15px] hover:bg-white/10 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <User className="h-6 w-6" />
-                  Profile
-                </Link>
-                
-                <div className="flex items-center justify-between px-4 pb-4">
-                  <div>
-                    <p className="text-white font-bold tracking-wide text-lg">{user?.name}</p>
-                    <p className="text-yellow-400 text-sm font-semibold capitalize">{user?.role}</p>
+                <div className="flex items-center justify-between px-6 py-3 pb-2">
+                  <div className="flex items-center gap-2.5">
+                    <Link href="/profile" onClick={() => setMobileMenuOpen(false)} className="outline-none">
+                      <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-yellow-400 border-[3px] border-white flex items-center justify-center shadow-[0_3px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_4px_0_#b45309] active:translate-y-0.5 active:shadow-[0_0px_0_#b45309] transition-all cursor-pointer shrink-0">
+                        <User className="h-5 w-5 sm:h-6 sm:w-6 text-white" strokeWidth={2.5} />
+                      </div>
+                    </Link>
+                    
+                    {/* Dark Badge for role */}
+                    <div className="bg-[#1e293b] rounded-lg px-3 py-1.5 flex flex-col justify-center border border-slate-700/50 shadow-inner">
+                      <p className="text-white font-bold text-[11px] sm:text-xs leading-tight drop-shadow-sm truncate max-w-[80px] sm:max-w-[100px]">{user?.name || "User"}</p>
+                      <p className="text-yellow-400 font-semibold text-[10px] sm:text-xs leading-tight capitalize drop-shadow-sm truncate">{user?.role || "Role"}</p>
+                    </div>
                   </div>
+
+                  {/* Red Logout Button */}
                   <Button
                     variant="outline"
-                    size="sm"
-                    onClick={logout}
-                    className="rounded-full border border-white text-white hover:bg-white hover:text-[#b91c1c] bg-transparent h-9 px-4 font-bold text-sm transition-all shadow-sm"
+                    onClick={() => {
+                      setMobileMenuOpen(false)
+                      logout()
+                    }}
+                    className="rounded-full bg-[#e11d48] border-[2px] border-white text-white hover:bg-rose-700 hover:text-white h-9 sm:h-10 px-3 sm:px-4 font-bold text-xs sm:text-sm shadow-[0_3px_0_#9f1239] hover:-translate-y-0.5 hover:shadow-[0_4px_0_#9f1239] active:translate-y-1 active:shadow-[0_0px_0_#9f1239] transition-all shrink-0 outline-none"
                   >
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Logout
+                    <LogOut className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" strokeWidth={2.5} />
+                    Log out
                   </Button>
                 </div>
               </>

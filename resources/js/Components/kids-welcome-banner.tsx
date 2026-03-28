@@ -21,7 +21,7 @@ export function KidsWelcomeBanner() {
         {/* Avatar */}
         <div className="mb-4 inline-flex items-center justify-center rounded-full ring-8 ring-pink-400/40 bg-pink-100 shadow-xl backdrop-blur-md animate-bounce-slow">
           <div className="bg-pink-200 rounded-full h-16 w-16 sm:h-20 sm:w-20 flex items-center justify-center border-4 border-pink-300">
-             <span className="text-4xl sm:text-5xl drop-shadow-md">🐶</span>
+             <span className="text-4xl sm:text-5xl drop-shadow-md">🐮</span>
           </div>
         </div>
 

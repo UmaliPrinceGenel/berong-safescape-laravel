@@ -22,7 +22,7 @@ export function ContentGrid({ contents, emptyMessage = "No content available yet
       {contents.map((content) => (
         <div 
           key={content.id} 
-          className={content.type === "module" ? "col-span-2 sm:col-span-2 lg:col-span-full max-w-[900px] mx-auto w-full" : ""}
+          className="col-span-2 sm:col-span-2 lg:col-span-full max-w-[900px] mx-auto w-full"
         >
           <ContentCard content={content} />
         </div>
