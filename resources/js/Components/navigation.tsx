@@ -237,6 +237,13 @@ export function Navigation() {
                 </div>
               )}
 
+              {/* Mobile Sign In Button - visible when not authenticated */}
+              {!isAuthenticated && (
+                <Link href="/login" className="sm:hidden bg-yellow-400 border-[3px] border-white text-red-600 font-extrabold px-4 py-1.5 rounded-full shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-none transition-all duration-200 active:duration-75 text-[11px] tracking-wide shrink-0 whitespace-nowrap">
+                  Sign In
+                </Link>
+              )}
+
               {/* Mobile Menu Button - More prominent */}
               <button
                 type="button"

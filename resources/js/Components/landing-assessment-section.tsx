@@ -204,9 +204,9 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
                                     <p className="text-slate-600 font-medium">
                                         Log in to access the final assessment. You'll need to complete the learning modules first!
                                     </p>
-                                    <Button onClick={handleStartClick} className="w-full bg-[#1e293b] hover:bg-slate-800 text-white font-bold h-12 rounded-xl mt-4">
-                                        <Shield className="mr-2 h-5 w-5" /> Login to Start
-                                    </Button>
+                                    <button onClick={handleStartClick} className="w-full bg-[#1e293b] hover:bg-slate-800 text-white font-black h-12 rounded-full mt-4 border-2 border-slate-900 border-b-[4px] active:border-b-2 active:translate-y-[2px] shadow-sm transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-sm">
+                                        <Shield className="h-5 w-5" /> Login to Start
+                                    </button>
                                 </div>
                             ) : (
                                 <div className="space-y-4">
@@ -225,12 +225,12 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
                                                 <span className="font-medium">Assessment Completed</span>
                                             </div>
                                             <div className="flex gap-3">
-                                                <Button onClick={handleStartClick} variant="outline" className="flex-1">
+                                                <button onClick={handleStartClick} className="flex-1 h-11 bg-white hover:bg-slate-50 text-slate-700 font-black rounded-full border-2 border-slate-200 border-b-[4px] active:border-b-2 active:translate-y-[2px] shadow-sm transition-all flex items-center justify-center uppercase tracking-wider text-xs">
                                                     View Results
-                                                </Button>
-                                                <Button onClick={() => setShowCertificate(true)} className="flex-1 text-white bg-red-700 hover:bg-red-800">
+                                                </button>
+                                                <button onClick={() => setShowCertificate(true)} className="flex-1 h-11 text-white bg-red-600 hover:bg-red-500 font-black rounded-full border-2 border-red-700 border-b-[4px] active:border-b-2 active:translate-y-[2px] shadow-sm transition-all flex items-center justify-center uppercase tracking-wider text-xs">
                                                     View Certificate
-                                                </Button>
+                                                </button>
                                             </div>
                                         </div>
                                     ) : eligibility?.eligible ? (
@@ -241,9 +241,9 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
                                             <div className="flex items-center gap-2 text-sm text-green-600 font-medium mb-2">
                                                 <Check className="h-4 w-4" /> Requirements Met
                                             </div>
-                                            <Button onClick={handleStartClick} className="w-full bg-green-600 hover:bg-green-700 text-white shadow-green-200 shadow-lg">
-                                                Start Assessment <ArrowRight className="ml-2 h-4 w-4" />
-                                            </Button>
+                                            <button onClick={handleStartClick} className="w-full h-12 bg-green-600 hover:bg-green-500 text-white font-black rounded-full border-2 border-green-700 border-b-[4px] active:border-b-2 active:translate-y-[2px] shadow-sm transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-sm">
+                                                Start Assessment <ArrowRight className="h-4 w-4" />
+                                            </button>
                                         </div>
                                     ) : (
                                         <div className="space-y-4">
@@ -317,9 +317,9 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
                                                 </div>
                                             </div>
 
-                                            <Button onClick={() => router.visit(user?.age && user.age < 18 ? "/kids" : "/adult")} className="w-full bg-slate-900 text-white hover:bg-slate-800">
+                                            <button onClick={() => router.visit(user?.age && user.age < 18 ? "/kids" : "/adult")} className="w-full h-12 bg-slate-900 text-white hover:bg-slate-800 font-black rounded-full border-2 border-slate-950 border-b-[4px] active:border-b-2 active:translate-y-[2px] shadow-sm transition-all flex items-center justify-center uppercase tracking-wider text-sm">
                                                 Continue Learning Activities
-                                            </Button>
+                                            </button>
                                         </div>
                                     )}
                                 </div>

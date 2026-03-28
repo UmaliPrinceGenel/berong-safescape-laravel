@@ -230,15 +230,18 @@ export default function AnalyticsDashboard() {
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" alignOffset={0} side="bottom" sideOffset={12} avoidCollisions={false} className="w-[180px] sm:w-[220px] rounded-[1.25rem] border-4 border-slate-200 shadow-[0_8px_0_0_#cbd5e1] p-2 font-black uppercase tracking-wider text-[11px] sm:text-sm text-slate-600 bg-white z-[100] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=top]:slide-in-from-bottom-2">
-                     {activeTab !== 'barangay' && (
-                       <DropdownMenuItem onClick={() => setActiveTab('barangay')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors focus:bg-slate-100 active:scale-95 active:bg-slate-200 mb-1 text-slate-700 outline-none">By Barangay</DropdownMenuItem>
-                     )}
-                     {activeTab !== 'demographics' && (
-                       <DropdownMenuItem onClick={() => setActiveTab('demographics')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors focus:bg-slate-100 active:scale-95 active:bg-slate-200 mb-1 text-slate-700 outline-none">Demographics</DropdownMenuItem>
-                     )}
-                     {activeTab !== 'knowledge' && (
-                       <DropdownMenuItem onClick={() => setActiveTab('knowledge')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors focus:bg-slate-100 active:scale-95 active:bg-slate-200 text-slate-700 outline-none">Knowledge Gaps</DropdownMenuItem>
-                     )}
+                     <DropdownMenuItem onClick={() => setActiveTab('barangay')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors focus:bg-slate-100 active:scale-95 active:bg-slate-200 mb-1 text-slate-700 outline-none flex items-center justify-between">
+                       By Barangay
+                       {activeTab === 'barangay' && <div className="w-3 h-3 rounded-full bg-yellow-400 border-2 border-yellow-500 shrink-0" />}
+                     </DropdownMenuItem>
+                     <DropdownMenuItem onClick={() => setActiveTab('demographics')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors focus:bg-slate-100 active:scale-95 active:bg-slate-200 mb-1 text-slate-700 outline-none flex items-center justify-between">
+                       Demographics
+                       {activeTab === 'demographics' && <div className="w-3 h-3 rounded-full bg-yellow-400 border-2 border-yellow-500 shrink-0" />}
+                     </DropdownMenuItem>
+                     <DropdownMenuItem onClick={() => setActiveTab('knowledge')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors focus:bg-slate-100 active:scale-95 active:bg-slate-200 text-slate-700 outline-none flex items-center justify-between">
+                       Knowledge Gaps
+                       {activeTab === 'knowledge' && <div className="w-3 h-3 rounded-full bg-yellow-400 border-2 border-yellow-500 shrink-0" />}
+                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
