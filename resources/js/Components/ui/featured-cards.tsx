@@ -27,35 +27,35 @@ type FeaturedCardItem = {
 const mockFeaturedCards: FeaturedCardItem[] = [
   {
     id: 1,
-    title: '',
+    title: 'Professional Learning',
     btn: 'For Professionals',
     description: 'Access comprehensive fire safety codes, standards, and professional training materials.',
     imageUrl: '/professional_card.png',
     link: '/professional',
     requiredPermission: 'accessProfessional',
-    icon: <Briefcase className="h-6 w-6" />,
+    icon: <Briefcase className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2.5} />,
     color: 'from-blue-500 to-blue-700',
   },
   {
     id: 2,
-    title: '',
+    title: 'Adult Learning',
     btn: 'For Adults',
     description: 'Learn essential fire safety practices for your home, family, and workplace.',
     imageUrl: '/adult_card.png',
     link: '/adult',
     requiredPermission: 'accessAdult',
-    icon: <Users className="h-6 w-6" />,
+    icon: <Users className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2.5} />,
     color: 'from-orange-500 to-red-600',
   },
   {
     id: 3,
-    title: '',
+    title: 'Kids Learning',
     btn: 'For Kids',
     description: 'Fun and interactive modules to teach children about fire safety.',
     imageUrl: '/kids_card.png',
     link: '/kids',
     requiredPermission: 'accessKids',
-    icon: <Baby className="h-6 w-6" />,
+    icon: <Baby className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2.5} />,
     color: 'from-green-500 to-emerald-600',
   },
 ];
@@ -113,25 +113,27 @@ export function FeaturedCards({ serverUser }: { serverUser?: ServerUser | null }
   return (
     <div className="max-w-7xl mx-auto px-4">
       {/* Mobile: Horizontal compact cards */}
-      <div className="md:hidden space-y-3">
+      <div className="md:hidden space-y-3.5">
         {visibleCards.map((card) => (
           <React.Fragment key={card.id}>
           <PermissionGuard requiredPermission={card.requiredPermission} targetPath={card.link}>
-            <Link href={card.link} prefetch={false}>
-              <Card className="overflow-hidden hover:shadow-lg transition-all active:scale-[0.98]">
+            <Link href={card.link} prefetch={false} className="outline-none">
+              <Card className="overflow-hidden border-[3px] border-slate-200 bg-white shadow-[0_4px_0_#cbd5e1] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#cbd5e1] active:translate-y-1 active:shadow-[0_0px_0_#cbd5e1] transition-all duration-200 rounded-[1.25rem] group cursor-pointer">
                 <CardContent className="p-0">
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3.5 sm:gap-4 p-3.5 sm:p-4">
                     {/* Icon Section */}
-                    <div className={`bg-gradient-to-br ${card.color} p-4 flex items-center justify-center text-white`}>
+                    <div className={`bg-gradient-to-br ${card.color} h-14 w-14 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl flex items-center justify-center text-white shadow-[0_4px_0_rgba(0,0,0,0.15)] border-2 border-white/20 shrink-0 group-hover:scale-105 transition-transform`}>
                       {card.icon}
                     </div>
                     {/* Content */}
-                    <div className="flex-1 py-3 pr-4">
-                      <h3 className="font-bold text-base text-gray-900">{card.title}</h3>
-                      <p className="text-xs text-gray-600 line-clamp-1">{card.description}</p>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-extrabold text-[15px] sm:text-base text-slate-800 leading-tight tracking-tight">{card.btn}</h3>
+                      <p className="text-[12px] sm:text-[13px] font-semibold text-slate-500 line-clamp-2 leading-snug mt-1">{card.description}</p>
                     </div>
                     {/* Arrow */}
-                    <ArrowRight className="h-5 w-5 text-gray-400 mr-4 flex-shrink-0" />
+                    <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-full border-[3px] border-white bg-yellow-400 text-white flex items-center justify-center flex-shrink-0 shadow-[0_3px_0_#b45309] group-hover:-translate-y-0.5 group-hover:shadow-[0_5px_0_#b45309] group-hover:bg-yellow-300 group-active:translate-y-1 group-active:shadow-[0_0px_0_#b45309] transition-all">
+                      <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={3} />
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -178,7 +180,7 @@ export function FeaturedCards({ serverUser }: { serverUser?: ServerUser | null }
                         <Button
                           variant="secondary"
                           size="sm"
-                          className="w-full bg-white/90 hover:bg-white text-gray-900 backdrop-blur-sm"
+                          className="w-full font-extrabold text-sm tracking-wide bg-white border-[3px] border-white/40 shadow-[0_4px_0_rgba(0,0,0,0.2)] hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(0,0,0,0.25)] active:translate-y-1 active:shadow-[0_0px_0_rgba(0,0,0,0.2)] text-gray-900 transition-all rounded-xl py-2 h-auto"
                           onClick={(e) => e.stopPropagation()}
                         >
                           {card.btn}
@@ -195,4 +197,3 @@ export function FeaturedCards({ serverUser }: { serverUser?: ServerUser | null }
     </div>
   );
 }
-

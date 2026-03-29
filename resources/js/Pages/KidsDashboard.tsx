@@ -12,6 +12,7 @@ import { Footer } from "@/Components/footer"
 import DashboardLayout from "@/Layouts/DashboardLayout"
 import React from "react"
 import Particles from "@/components/ui/particles"
+import { useSettings } from "@/lib/settings-context"
 
 interface KidsPageProps {
   // If modules come from backend, we could accept them here, but for now we restore the old static logic exactly
@@ -20,9 +21,18 @@ interface KidsPageProps {
 
 const KidsDashboardPage = ({}: KidsPageProps) => {
   const { user, isAuthenticated, isLoading } = useAuth()
+  const { reduceMotion } = useSettings()
   const [activeCategory, setActiveCategory] = useState<ContentCategory>("all")
   const [allContent, setAllContent] = useState<ContentCardData[]>([])
   const [filteredContent, setFilteredContent] = useState<ContentCardData[]>([])
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   // Load content
   useEffect(() => {
@@ -41,101 +51,7 @@ const KidsDashboardPage = ({}: KidsPageProps) => {
       },
 
       // Games
-      {
-        id: "game-1",
-        title: "Fire Safety Clicker",
-        description: "Click to save the day! Learn fire safety while having fun",
-        type: "game",
-        emoji: "🖱️",
-        href: "/kids/games/clicker",
-        difficulty: "easy",
-        category: "games"
-      },
-      {
-        id: "game-2",
-        title: "Flammable Shooter",
-        description: "Identify and avoid flammable objects in this action game",
-        type: "game",
-        emoji: "🎯",
-        href: "/kids/games/flammable-shooter",
-        difficulty: "medium",
-        category: "games"
-      },
-      {
-        id: "game-3",
-        title: "Llama-O-Rama",
-        description: "Help Llama escape from fire hazards!",
-        type: "game",
-        emoji: "🦙",
-        href: "/kids/games/llama-o-rama",
-        difficulty: "easy",
-        category: "games"
-      },
-      {
-        id: "game-4",
-        title: "Ms. Unicorn's Adventure",
-        description: "Join Ms. Unicorn on a fire safety quest",
-        type: "game",
-        emoji: "🦄",
-        href: "/kids/games/msunicorn",
-        difficulty: "easy",
-        category: "games"
-      },
-      {
-        id: "game-5",
-        title: "House Player Defense",
-        description: "Defend your house from fire hazards in this strategy game",
-        type: "game",
-        emoji: "🏠",
-        href: "/kids/games/house-player-defense",
-        difficulty: "hard",
-        category: "games"
-      },
-      // Module Games (Standalone versions)
-      {
-        id: "game-element-mixer",
-        title: "Element Mixer Lab",
-        description: "Learn about the Fire Triangle! Drag and drop elements to create fire.",
-        type: "game",
-        emoji: "🧪",
-        href: "/kids/games/element-mixer",
-        difficulty: "easy",
-        category: "games",
-        isNew: true
-      },
-      {
-        id: "game-rhythm-marshal",
-        title: "Rhythm Marshal Challenge",
-        description: "Lead your team to safety by pressing SPACEBAR on the beat!",
-        type: "game",
-        emoji: "🥁",
-        href: "/kids/games/rhythm-marshal",
-        difficulty: "medium",
-        category: "games",
-        isNew: true
-      },
-      {
-        id: "game-smoke-labyrinth",
-        title: "The Smoke Labyrinth",
-        description: "Navigate through smoke and escape! Check doors before opening.",
-        type: "game",
-        emoji: "🌫️",
-        href: "/kids/games/smoke-labyrinth",
-        difficulty: "medium",
-        category: "games",
-        isNew: true
-      },
-      {
-        id: "game-sdr-sequence",
-        title: "SDR Sequence Challenge",
-        description: "Click STOP → DROP → ROLL in order! Avoid the decoy words.",
-        type: "game",
-        emoji: "🎯",
-        href: "/kids/games/sdr-sequence",
-        difficulty: "hard",
-        category: "games",
-        isNew: true
-      },
+      // (Games mapped for replacement next month)
 
       // Videos
       {
@@ -204,31 +120,35 @@ const KidsDashboardPage = ({}: KidsPageProps) => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Animated Particles Background - Fire themed */}
-      <Particles
-        className="z-0"
-        quantity={100}
-        color="#ef4444"
-        size={2.5}
-        staticity={30}
-        ease={80}
-      />
-      <Particles
-        className="z-0"
-        quantity={60}
-        color="#f97316"
-        size={3}
-        staticity={50}
-        ease={60}
-      />
-      <Particles
-        className="z-0"
-        quantity={40}
-        color="#fbbf24"
-        size={2}
-        staticity={40}
-        ease={70}
-      />
+      {/* Animated Particles Background - Fire themed (Hidden on Mobile or when Reduce Motion is on) */}
+      {!isMobile && !reduceMotion && (
+        <>
+          <Particles
+            className="z-0"
+            quantity={100}
+            color="#ef4444"
+            size={2.5}
+            staticity={30}
+            ease={80}
+          />
+          <Particles
+            className="z-0"
+            quantity={60}
+            color="#f97316"
+            size={3}
+            staticity={50}
+            ease={60}
+          />
+          <Particles
+            className="z-0"
+            quantity={40}
+            color="#fbbf24"
+            size={2}
+            staticity={40}
+            ease={70}
+          />
+        </>
+      )}
 
       <div className="relative z-10 w-full h-full flex-1">
 

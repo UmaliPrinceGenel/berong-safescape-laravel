@@ -16,6 +16,31 @@ use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
     /**
+     * Inertia Pages with Preloaded Data
+     */
+    public function dashboardPage()
+    {
+        return \Inertia\Inertia::render('AdminDashboard', [
+            'initialCarouselImages' => \App\Models\CarouselImage::where('isActive', true)->orderBy('order', 'asc')->get(),
+            'initialBlogPosts' => \App\Models\BlogPost::with('author:id,name')->orderBy('created_at', 'desc')->get(),
+            'initialVideos' => \App\Models\Video::orderBy('created_at', 'desc')->get(),
+            'initialUsers' => \App\Models\User::latest()->paginate(20),
+            'initialQuickQuestions' => \App\Models\QuickQuestion::where('isActive', true)->orderBy('created_at', 'desc')->get(),
+            'initialFireCodeSections' => \App\Models\FireCodeSection::orderBy('section_num')->get(),
+        ]);
+    }
+
+    public function analyticsPage()
+    {
+        return \Inertia\Inertia::render('Admin/Analytics', [
+            'initialSummaryData' => $this->getSummaryAnalytics(),
+            'initialBarangayData' => $this->getBarangayAnalytics(),
+            'initialDemographicData' => $this->getDemographicAnalytics(),
+            'initialKnowledgeData' => $this->getKnowledgeAnalytics(),
+        ]);
+    }
+
+    /**
      * Dashboard stats
      */
     public function stats()
@@ -172,14 +197,76 @@ class AdminController extends Controller
      */
     public function createCarouselImage(Request $request)
     {
-        $image = CarouselImage::create($request->only('title', 'alt_text', 'image_url', 'order'));
+        $payload = [
+            'title' => $request->input('title'),
+            'altText' => $request->input('altText')
+                ?? $request->input('alt_text')
+                ?? $request->input('alt'),
+            'imageUrl' => $request->input('imageUrl')
+                ?? $request->input('image_url')
+                ?? $request->input('url'),
+            'order' => $request->input('order', (int) CarouselImage::max('order') + 1),
+            'isActive' => $request->boolean('isActive', true),
+        ];
+
+        validator($payload, [
+            'title' => 'required|string|max:255',
+            'altText' => 'nullable|string|max:255',
+            'imageUrl' => 'required|string|max:2048',
+            'order' => 'nullable|integer|min:0',
+            'isActive' => 'boolean',
+        ])->validate();
+
+        $image = CarouselImage::create($payload);
+
         return response()->json(['success' => true, 'image' => $image], 201);
     }
 
     public function updateCarouselImage(Request $request, $id)
     {
         $image = CarouselImage::findOrFail($id);
-        $image->update($request->only('title', 'alt_text', 'image_url', 'order', 'is_active'));
+
+        $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'altText' => 'nullable|string|max:255',
+            'alt_text' => 'nullable|string|max:255',
+            'alt' => 'nullable|string|max:255',
+            'imageUrl' => 'nullable|string|max:2048',
+            'image_url' => 'nullable|string|max:2048',
+            'url' => 'nullable|string|max:2048',
+            'order' => 'nullable|integer|min:0',
+        ]);
+
+        $updates = [];
+
+        if ($request->has('title')) {
+            $updates['title'] = $request->input('title');
+        }
+
+        if ($request->hasAny(['altText', 'alt_text', 'alt'])) {
+            $updates['altText'] = $request->input('altText')
+                ?? $request->input('alt_text')
+                ?? $request->input('alt');
+        }
+
+        if ($request->hasAny(['imageUrl', 'image_url', 'url'])) {
+            $updates['imageUrl'] = $request->input('imageUrl')
+                ?? $request->input('image_url')
+                ?? $request->input('url');
+        }
+
+        if ($request->has('order')) {
+            $updates['order'] = $request->integer('order');
+        }
+
+        if ($request->hasAny(['isActive', 'is_active'])) {
+            $updates['isActive'] = $request->boolean(
+                $request->has('isActive') ? 'isActive' : 'is_active'
+            );
+        }
+
+        $image->update($updates);
+
         return response()->json(['success' => true, 'image' => $image]);
     }
 
@@ -291,7 +378,7 @@ class AdminController extends Controller
         $section = \App\Models\FireCodeSection::create([
             'title' => $request->title,
             'section_num' => $request->sectionNum,
-            'content' => $request->content,
+            'content' => $request->input('content'),
             'parent_section_id' => $request->parentSectionId,
         ]);
 
@@ -304,7 +391,7 @@ class AdminController extends Controller
         $section->update([
             'title' => $request->title ?? $section->title,
             'section_num' => $request->sectionNum ?? $section->section_num,
-            'content' => $request->content ?? $section->content,
+            'content' => $request->input('content') ?? $section->content,
             'parent_section_id' => $request->parentSectionId ?? $section->parent_section_id,
         ]);
 

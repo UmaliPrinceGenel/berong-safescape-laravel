@@ -4,6 +4,11 @@ import axios from 'axios';
 
 const apiFetch = async (url: string, options: RequestInit = {}) => {
   const method = options.method || 'GET';
+  const headers = options.headers instanceof Headers
+    ? Object.fromEntries(options.headers.entries())
+    : Array.isArray(options.headers)
+      ? Object.fromEntries(options.headers)
+      : options.headers;
   let data = undefined;
   if (options.body) {
     try {
@@ -15,11 +20,31 @@ const apiFetch = async (url: string, options: RequestInit = {}) => {
   }
 
   try {
-    const res = await axios({ url, method, data, withCredentials: true });
-    return { ok: true, json: async () => res.data, status: res.status } as any;
+    const res = await axios({
+      url,
+      method,
+      data,
+      headers,
+      withCredentials: true,
+      withXSRFToken: true,
+      validateStatus: () => true,
+    });
+
+    return {
+      ok: res.status >= 200 && res.status < 300,
+      json: async () => res.data,
+      status: res.status,
+    } as any;
   } catch (err: any) {
-    if (err.response) return { ok: false, json: async () => err.response.data, status: err.response.status } as any;
-    throw err;
+    if (err.response) {
+      return { ok: false, json: async () => err.response.data, status: err.response.status } as any;
+    }
+
+    return {
+      ok: false,
+      json: async () => ({ error: err?.message || 'Unable to reach the server' }),
+      status: 0,
+    } as any;
   }
 };
 
@@ -53,22 +78,92 @@ import { SortableCarouselList } from "@/components/sortable-carousel-list"
 import { SortableContentList } from "@/components/sortable-content-list"
 import { LoadingOverlay } from "@/components/ui/loading-overlay"
 
-export default function AdminPage() {
+const getPermissionsForRole = (role?: string) => ({
+  accessKids: role === "admin" || role === "kid" || role === "professional",
+  accessAdult: role === "admin" || role === "adult" || role === "professional",
+  accessProfessional: role === "admin" || role === "professional",
+  isAdmin: role === "admin",
+})
+
+const getApiErrorMessage = (payload: any, fallback: string) => {
+  if (!payload) return fallback
+  if (typeof payload === "string") return payload
+  if (typeof payload?.error === "string" && payload.error.trim()) return payload.error
+  if (typeof payload?.message === "string" && payload.message.trim()) return payload.message
+
+  if (payload?.errors && typeof payload.errors === "object") {
+    const firstError = Object.values(payload.errors).flat().find((value) => typeof value === "string")
+    if (typeof firstError === "string" && firstError.trim()) return firstError
+  }
+
+  return fallback
+}
+
+const normalizeCarouselImage = (image: any): CarouselImage => ({
+  id: image?.id,
+  title: image?.title ?? "",
+  altText: image?.altText ?? image?.alt_text ?? image?.alt ?? "",
+  url: image?.url ?? image?.imageUrl ?? image?.image_url ?? "",
+})
+
+const normalizeBlogPost = (post: any): BlogPost => ({
+  id: post?.id,
+  title: post?.title ?? "",
+  excerpt: post?.excerpt ?? "",
+  content: post?.content ?? "",
+  imageUrl: post?.imageUrl ?? post?.image_url ?? "",
+  category: post?.category ?? "adult",
+  createdAt: post?.createdAt ?? post?.created_at ?? new Date().toISOString(),
+  author: typeof post?.author === "string" ? post.author : post?.author?.name ?? "Unknown",
+})
+
+const normalizeVideo = (video: any) => ({
+  ...video,
+  youtubeId: video?.youtubeId ?? video?.youtube_id ?? "",
+  isActive: video?.isActive ?? video?.is_active ?? false,
+})
+
+const normalizeUser = (user: any) => ({
+  ...user,
+  email: user?.email ?? "",
+  isActive: user?.isActive ?? user?.is_active ?? true,
+  createdAt: user?.createdAt ?? user?.created_at ?? "",
+  permissions: user?.permissions ?? getPermissionsForRole(user?.role),
+})
+
+const normalizeFireCodeSection = (section: any) => ({
+  ...section,
+  sectionNum: section?.sectionNum ?? section?.section_num ?? "",
+  updatedAt: section?.updatedAt ?? section?.updated_at ?? null,
+})
+
+export default function AdminPage({
+  initialCarouselImages,
+  initialBlogPosts,
+  initialVideos,
+  initialUsers,
+  initialQuickQuestions,
+  initialFireCodeSections,
+}: any) {
   
   const { user, isAuthenticated, isLoading } = useAuth()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(!initialCarouselImages)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submittingMessage, setSubmittingMessage] = useState("")
   const [success, setSuccess] = useState("")
   const [error, setError] = useState("")
 
   // Carousel Management
-  const [carouselImages, setCarouselImages] = useState<CarouselImage[]>([])
+  const [carouselImages, setCarouselImages] = useState<CarouselImage[]>(
+    initialCarouselImages ? initialCarouselImages.map(normalizeCarouselImage) : []
+  )
   const [newCarousel, setNewCarousel] = useState({ title: "", alt: "", url: "" })
   const [carouselUploadKey, setCarouselUploadKey] = useState(0)
 
   // Blog Management
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(
+    initialBlogPosts ? initialBlogPosts.map(normalizeBlogPost) : []
+  )
   const [newBlog, setNewBlog] = useState({
     title: "",
     excerpt: "",
@@ -79,7 +174,9 @@ export default function AdminPage() {
   const [blogUploadKey, setBlogUploadKey] = useState(0)
 
   // Video Management
-  const [videos, setVideos] = useState<any[]>([])
+  const [videos, setVideos] = useState<any[]>(
+    initialVideos ? initialVideos.map(normalizeVideo) : []
+  )
   const [newVideo, setNewVideo] = useState({
     title: "",
     description: "",
@@ -90,7 +187,11 @@ export default function AdminPage() {
   })
 
   // User Management
-  const [users, setUsers] = useState<any[]>([])
+  // Extract data array if it's paginated (Laravel paginate wrapper)
+  const resolvedUsers = initialUsers 
+    ? (Array.isArray(initialUsers) ? initialUsers : initialUsers.data ?? []) 
+    : []
+  const [users, setUsers] = useState<any[]>(resolvedUsers.map(normalizeUser))
   const [userSearchQuery, setUserSearchQuery] = useState("")
 
   // Filter users based on search query
@@ -101,7 +202,7 @@ export default function AdminPage() {
   )
 
   // Quick Questions Management
-  const [quickQuestions, setQuickQuestions] = useState<any[]>([])
+  const [quickQuestions, setQuickQuestions] = useState<any[]>(initialQuickQuestions || [])
   const [newQuickQuestion, setNewQuickQuestion] = useState({
     category: "emergency",
     questionText: "",
@@ -110,7 +211,9 @@ export default function AdminPage() {
   })
 
   // Fire Codes Management
-  const [fireCodeSections, setFireCodeSections] = useState<any[]>([])
+  const [fireCodeSections, setFireCodeSections] = useState<any[]>(
+    initialFireCodeSections ? initialFireCodeSections.map(normalizeFireCodeSection) : []
+  )
   const [newFireCode, setNewFireCode] = useState({
     title: "",
     sectionNum: "",
@@ -160,22 +263,27 @@ export default function AdminPage() {
       return
     }
 
-    // Load data from database
-    loadCarouselImages()
-    loadBlogPosts()
-    loadVideos() // Load videos
-    loadUsers()
-    loadQuickQuestions()
-    loadFireCodeSections()
-    setLoading(false)
-  }, [isAuthenticated, user, router, isLoading])
+    // Only load from database if Inertia props aren't provided
+    if (!initialCarouselImages) {
+      loadCarouselImages()
+      loadBlogPosts()
+      loadVideos()
+      loadUsers()
+      loadQuickQuestions()
+      loadFireCodeSections()
+      setLoading(false)
+    } else {
+      setLoading(false)
+    }
+  }, [isAuthenticated, user, router, isLoading, initialCarouselImages])
 
   const loadCarouselImages = async () => {
     try {
       const response = await apiFetch('/api/content/carousel', { cache: 'no-store' })
       if (response.ok) {
-        const images = await response.json()
-        setCarouselImages(images)
+        const payload = await response.json()
+        const images = Array.isArray(payload) ? payload : payload?.images ?? []
+        setCarouselImages(images.map(normalizeCarouselImage))
       } else {
         console.error('Failed to load carousel images')
       }
@@ -188,8 +296,9 @@ export default function AdminPage() {
     try {
       const response = await apiFetch('/api/content/blogs', { cache: 'no-store' })
       if (response.ok) {
-        const blogs = await response.json()
-        setBlogPosts(blogs)
+        const payload = await response.json()
+        const blogs = Array.isArray(payload) ? payload : payload?.posts ?? payload?.blogs ?? []
+        setBlogPosts(blogs.map(normalizeBlogPost))
       } else {
         console.error('Failed to load blog posts')
       }
@@ -202,8 +311,9 @@ export default function AdminPage() {
     try {
       const response = await apiFetch('/api/admin/videos', { cache: 'no-store' })
       if (response.ok) {
-        const videos = await response.json()
-        setVideos(videos)
+        const payload = await response.json()
+        const videos = Array.isArray(payload) ? payload : payload?.videos ?? []
+        setVideos(videos.map(normalizeVideo))
       } else {
         console.error('Failed to load videos')
       }
@@ -216,8 +326,11 @@ export default function AdminPage() {
     try {
       const response = await apiFetch('/api/admin/users', { cache: 'no-store' })
       if (response.ok) {
-        const usersData = await response.json()
-        setUsers(usersData)
+        const payload = await response.json()
+        const usersData = Array.isArray(payload)
+          ? payload
+          : payload?.users?.data ?? payload?.users ?? []
+        setUsers(usersData.map(normalizeUser))
       } else {
         console.error('Failed to load users')
       }
@@ -230,7 +343,8 @@ export default function AdminPage() {
     try {
       const response = await apiFetch('/api/admin/quick-questions', { cache: 'no-store' })
       if (response.ok) {
-        const questions = await response.json()
+        const payload = await response.json()
+        const questions = Array.isArray(payload) ? payload : payload?.questions ?? []
         setQuickQuestions(questions)
       } else {
         console.error('Failed to load quick questions')
@@ -244,8 +358,9 @@ export default function AdminPage() {
     try {
       const response = await apiFetch('/api/admin/fire-codes', { cache: 'no-store' })
       if (response.ok) {
-        const sections = await response.json()
-        setFireCodeSections(sections)
+        const payload = await response.json()
+        const sections = Array.isArray(payload) ? payload : payload?.sections ?? []
+        setFireCodeSections(sections.map(normalizeFireCodeSection))
       } else {
         console.error('Failed to load fire code sections')
       }
@@ -357,7 +472,7 @@ export default function AdminPage() {
             setTimeout(() => setSuccess(""), 3000)
           } else {
             const errorData = await response.json()
-            setError(errorData.error || "Failed to add carousel image")
+            setError(getApiErrorMessage(errorData, "Failed to add carousel image"))
           }
         } catch (error) {
           console.error('Error adding carousel image:', error)
@@ -419,8 +534,9 @@ export default function AdminPage() {
         throw new Error('Failed to reorder')
       }
 
-      const updated = await response.json()
-      setCarouselImages(updated)
+      const payload = await response.json()
+      const updated = Array.isArray(payload) ? payload : payload?.images ?? []
+      setCarouselImages(updated.map(normalizeCarouselImage))
 
       setSuccess('Carousel order updated')
       setTimeout(() => setSuccess(''), 3000)
@@ -447,8 +563,9 @@ export default function AdminPage() {
         throw new Error('Failed to reorder')
       }
 
-      const updated = await response.json()
-      setBlogPosts(updated)
+      const payload = await response.json()
+      const updated = Array.isArray(payload) ? payload : []
+      setBlogPosts(updated.length > 0 ? updated.map(normalizeBlogPost) : newOrder)
 
       setSuccess('Blog order updated')
       setTimeout(() => setSuccess(''), 3000)
@@ -474,8 +591,9 @@ export default function AdminPage() {
         throw new Error('Failed to reorder')
       }
 
-      const updated = await response.json()
-      setVideos(updated)
+      const payload = await response.json()
+      const updated = Array.isArray(payload) ? payload : []
+      setVideos(updated.length > 0 ? updated.map(normalizeVideo) : newOrder)
 
       setSuccess('Video order updated')
       setTimeout(() => setSuccess(''), 3000)
@@ -806,14 +924,14 @@ export default function AdminPage() {
               </div>
               <p className="text-sm sm:text-base text-muted-foreground">Manage content, users, and platform settings</p>
             </div>
-            <Button
+            <button
               onClick={() => router.visit("/admin/analytics")}
-              className="bg-orange-500 hover:bg-orange-600"
+              className="flex items-center gap-2 bg-[#ff6b00] text-white font-extrabold px-4 sm:px-5 pb-2 pt-2.5 rounded-xl text-sm shadow-[0_4px_0_#c2410c] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#c2410c] active:translate-y-1 active:shadow-[0_0px_0_#c2410c] transition-all"
             >
-              <BarChart3 className="h-4 w-4 mr-2" />
+              <BarChart3 className="h-4 w-4" />
               <span className="hidden sm:inline">Community Analytics</span>
               <span className="sm:hidden">Analytics</span>
-            </Button>
+            </button>
           </div>
         </div>
 
@@ -838,42 +956,42 @@ export default function AdminPage() {
           <TabsList className="flex w-full sm:grid sm:grid-cols-6 bg-muted/50 p-1.5 rounded-xl gap-1">
             <TabsTrigger
               value="carousel"
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all rounded-lg py-2.5 sm:py-2 px-1 sm:px-4"
+              className="flex-1 font-bold text-slate-500 data-[state=active]:bg-[#d60000] data-[state=active]:text-white transition-all rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-1 sm:px-4 data-[state=active]:shadow-[0_4px_0_#991b1b] data-[state=active]:translate-y-0 translate-y-1 hover:-translate-y-0.5 hover:bg-slate-200 data-[state=active]:hover:-translate-y-0.5 data-[state=active]:hover:shadow-[0_6px_0_#991b1b]"
             >
               <ImageIcon className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-2" />
               <span className="hidden sm:inline text-sm">Carousel</span>
             </TabsTrigger>
             <TabsTrigger
               value="blogs"
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all rounded-lg py-2.5 sm:py-2 px-1 sm:px-4"
+              className="flex-1 font-bold text-slate-500 data-[state=active]:bg-[#d60000] data-[state=active]:text-white transition-all rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-1 sm:px-4 data-[state=active]:shadow-[0_4px_0_#991b1b] data-[state=active]:translate-y-0 translate-y-1 hover:-translate-y-0.5 hover:bg-slate-200 data-[state=active]:hover:-translate-y-0.5 data-[state=active]:hover:shadow-[0_6px_0_#991b1b]"
             >
               <FileText className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-2" />
               <span className="hidden sm:inline text-sm">Blogs</span>
             </TabsTrigger>
             <TabsTrigger
               value="videos"
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all rounded-lg py-2.5 sm:py-2 px-1 sm:px-4"
+              className="flex-1 font-bold text-slate-500 data-[state=active]:bg-[#d60000] data-[state=active]:text-white transition-all rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-1 sm:px-4 data-[state=active]:shadow-[0_4px_0_#991b1b] data-[state=active]:translate-y-0 translate-y-1 hover:-translate-y-0.5 hover:bg-slate-200 data-[state=active]:hover:-translate-y-0.5 data-[state=active]:hover:shadow-[0_6px_0_#991b1b]"
             >
               <Video className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-2" />
               <span className="hidden sm:inline text-sm">Videos</span>
             </TabsTrigger>
             <TabsTrigger
               value="users"
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all rounded-lg py-2.5 sm:py-2 px-1 sm:px-4"
+              className="flex-1 font-bold text-slate-500 data-[state=active]:bg-[#d60000] data-[state=active]:text-white transition-all rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-1 sm:px-4 data-[state=active]:shadow-[0_4px_0_#991b1b] data-[state=active]:translate-y-0 translate-y-1 hover:-translate-y-0.5 hover:bg-slate-200 data-[state=active]:hover:-translate-y-0.5 data-[state=active]:hover:shadow-[0_6px_0_#991b1b]"
             >
               <Users className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-2" />
               <span className="hidden sm:inline text-sm">Users</span>
             </TabsTrigger>
             <TabsTrigger
               value="quick-questions"
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all rounded-lg py-2.5 sm:py-2 px-1 sm:px-4"
+              className="flex-1 font-bold text-slate-500 data-[state=active]:bg-[#d60000] data-[state=active]:text-white transition-all rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-1 sm:px-4 data-[state=active]:shadow-[0_4px_0_#991b1b] data-[state=active]:translate-y-0 translate-y-1 hover:-translate-y-0.5 hover:bg-slate-200 data-[state=active]:hover:-translate-y-0.5 data-[state=active]:hover:shadow-[0_6px_0_#991b1b]"
             >
               <HelpCircle className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-2" />
               <span className="hidden sm:inline text-sm">Q&A</span>
             </TabsTrigger>
             <TabsTrigger
               value="fire-codes"
-              className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all rounded-lg py-2.5 sm:py-2 px-1 sm:px-4"
+              className="flex-1 font-bold text-slate-500 data-[state=active]:bg-[#d60000] data-[state=active]:text-white transition-all rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-1 sm:px-4 data-[state=active]:shadow-[0_4px_0_#991b1b] data-[state=active]:translate-y-0 translate-y-1 hover:-translate-y-0.5 hover:bg-slate-200 data-[state=active]:hover:-translate-y-0.5 data-[state=active]:hover:shadow-[0_6px_0_#991b1b]"
             >
               <BookOpen className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-2" />
               <span className="hidden sm:inline text-sm">Fire Codes</span>
@@ -970,10 +1088,14 @@ export default function AdminPage() {
                   </div>
                 </div>
                 {/* Image URL is now set automatically from the upload component - hidden from user */}
-                <Button onClick={handleAddCarousel} variant="secondary">
+                <button
+                  type="button"
+                  onClick={handleAddCarousel}
+                  className="inline-flex items-center justify-center bg-[#d60000] text-white font-extrabold px-5 pb-2 pt-2.5 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Image
-                </Button>
+                </button>
               </CardContent>
             </Card>
 
@@ -1042,10 +1164,14 @@ export default function AdminPage() {
                     rows={6}
                   />
                 </div>
-                <Button onClick={handleAddBlog} variant="default">
+                <button
+                  type="button"
+                  onClick={handleAddBlog}
+                  className="inline-flex items-center justify-center bg-[#d60000] text-white font-extrabold px-5 pb-2 pt-2.5 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Blog Post
-                </Button>
+                </button>
               </CardContent>
             </Card>
 
@@ -1065,7 +1191,7 @@ export default function AdminPage() {
                   </div>
                   <p className="text-sm text-muted-foreground">{post.excerpt}</p>
                   <p className="text-xs text-muted-foreground mt-2">
-                    By {post.author} • {new Date(post.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                    By {typeof post.author === 'string' ? post.author : post.author?.name} • {new Date(post.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                   </p>
                 </>
               )}
@@ -1142,10 +1268,14 @@ export default function AdminPage() {
                     <Label htmlFor="video-active">Active</Label>
                   </div>
                 </div>
-                <Button onClick={handleAddVideo} variant="default" className="w-full md:w-auto">
+                <button
+                  type="button"
+                  onClick={handleAddVideo}
+                  className="w-full md:w-auto inline-flex items-center justify-center bg-[#d60000] text-white font-extrabold px-5 pb-2 pt-2.5 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Video
-                </Button>
+                </button>
               </CardContent>
             </Card>
 
@@ -1209,39 +1339,51 @@ export default function AdminPage() {
                             </p>
                           </div>
                         </div>
-                        <div className="flex flex-wrap gap-2">
-                          <Button
-                            size="sm"
-                            variant={u.permissions.accessKids ? "default" : "outline"}
+                        <div className="flex flex-wrap gap-2 sm:gap-3">
+                          <button
+                            type="button"
                             onClick={() => promptRoleChange(u.id, "accessKids", u.name)}
-                            className={u.permissions.accessKids ? "bg-secondary" : ""}
+                            className={`inline-flex items-center justify-center font-extrabold px-4 pb-1.5 pt-2 rounded-xl text-xs sm:text-sm transition-all ${
+                              u.permissions.accessKids
+                                ? "bg-slate-600 text-white shadow-[0_4px_0_#1e293b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#1e293b] active:translate-y-1 active:shadow-[0_0px_0_#1e293b]"
+                                : "bg-white border-2 border-slate-200 text-slate-500 shadow-[0_4px_0_#e2e8f0] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] hover:bg-slate-50 active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0]"
+                            }`}
                           >
                             Kids Access
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant={u.permissions.accessAdult ? "default" : "outline"}
+                          </button>
+                          <button
+                            type="button"
                             onClick={() => promptRoleChange(u.id, "accessAdult", u.name)}
-                            className={u.permissions.accessAdult ? "bg-accent" : ""}
+                            className={`inline-flex items-center justify-center font-extrabold px-4 pb-1.5 pt-2 rounded-xl text-xs sm:text-sm transition-all ${
+                              u.permissions.accessAdult
+                                ? "bg-teal-700 text-white shadow-[0_4px_0_#134e4a] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#134e4a] active:translate-y-1 active:shadow-[0_0px_0_#134e4a]"
+                                : "bg-white border-2 border-slate-200 text-slate-500 shadow-[0_4px_0_#e2e8f0] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] hover:bg-slate-50 active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0]"
+                            }`}
                           >
                             Adult Access
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant={u.permissions.accessProfessional ? "default" : "outline"}
+                          </button>
+                          <button
+                            type="button"
                             onClick={() => promptRoleChange(u.id, "accessProfessional", u.name)}
-                            className={u.permissions.accessProfessional ? "bg-primary" : ""}
+                            className={`inline-flex items-center justify-center font-extrabold px-4 pb-1.5 pt-2 rounded-xl text-xs sm:text-sm transition-all ${
+                              u.permissions.accessProfessional
+                                ? "bg-[#d60000] text-white shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b]"
+                                : "bg-white border-2 border-slate-200 text-slate-500 shadow-[0_4px_0_#e2e8f0] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] hover:bg-slate-50 active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0]"
+                            }`}
                           >
                             Professional Access
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant={u.permissions.isAdmin ? "default" : "outline"}
+                          </button>
+                          <button
+                            type="button"
                             onClick={() => promptRoleChange(u.id, "isAdmin", u.name)}
-                            className={u.permissions.isAdmin ? "bg-foreground text-background" : ""}
+                            className={`inline-flex items-center justify-center font-extrabold px-4 pb-1.5 pt-2 rounded-xl text-xs sm:text-sm transition-all ${
+                              u.permissions.isAdmin
+                                ? "bg-slate-900 text-white shadow-[0_4px_0_#000000] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#000000] active:translate-y-1 active:shadow-[0_0px_0_#000000]"
+                                : "bg-white border-2 border-slate-200 text-slate-500 shadow-[0_4px_0_#e2e8f0] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] hover:bg-slate-50 active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0]"
+                            }`}
                           >
                             Admin
-                          </Button>
+                          </button>
                         </div>
                       </div>
                     ))
@@ -1312,10 +1454,14 @@ export default function AdminPage() {
                     rows={4}
                   />
                 </div>
-                <Button onClick={handleAddQuickQuestion} variant="secondary">
+                <button
+                  type="button"
+                  onClick={handleAddQuickQuestion}
+                  className="inline-flex items-center justify-center bg-[#d60000] text-white font-extrabold px-5 pb-2 pt-2.5 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Quick Question
-                </Button>
+                </button>
               </CardContent>
             </Card>
 
@@ -1343,14 +1489,14 @@ export default function AdminPage() {
                           </div>
                           <p className="text-sm text-muted-foreground mt-2">{question.responseText}</p>
                         </div>
-                        <Button
-                          variant="destructive"
-                          size="icon"
+                        <button
+                          type="button"
                           onClick={() => handleDeleteQuickQuestion(question.id)}
-                          className="ml-4"
+                          className="ml-4 flex items-center justify-center bg-red-600 text-white font-extrabold h-10 w-10 pb-1 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                          aria-label="Delete question"
                         >
                           <Trash2 className="h-4 w-4" />
-                        </Button>
+                        </button>
                       </div>
                     ))
                   )}
@@ -1406,10 +1552,14 @@ export default function AdminPage() {
                     onChange={(e) => setNewFireCode({ ...newFireCode, content: e.target.value })}
                   />
                 </div>
-                <Button variant="default" onClick={handleAddFireCode}>
+                <button
+                  type="button"
+                  onClick={handleAddFireCode}
+                  className="inline-flex items-center justify-center bg-[#d60000] text-white font-extrabold px-5 pb-2 pt-2.5 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Fire Code Section
-                </Button>
+                </button>
               </CardContent>
             </Card>
 
@@ -1437,14 +1587,14 @@ export default function AdminPage() {
                             Last updated: {new Date(section.updatedAt).toLocaleDateString()}
                           </p>
                         </div>
-                        <Button
-                          variant="destructive"
-                          size="icon"
+                        <button
+                          type="button"
                           onClick={() => handleDeleteFireCode(section.id)}
-                          className="ml-4"
+                          className="ml-4 flex items-center justify-center bg-red-600 text-white font-extrabold h-10 w-10 pb-1 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                          aria-label="Delete section"
                         >
                           <Trash2 className="h-4 w-4" />
-                        </Button>
+                        </button>
                       </div>
                     ))
                   )}

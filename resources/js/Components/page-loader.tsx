@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { router, usePage } from '@inertiajs/react';
+import { motion, AnimatePresence } from 'motion/react';
 import Image from '@/components/Image';
 
 export function PageLoader() {
@@ -27,46 +28,73 @@ export function PageLoader() {
         };
     }, []);
 
-    if (!isLoading) return null;
-
     return (
-        <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-gradient-to-br from-red-700 via-red-600 to-orange-600">
-            {/* Animated background pattern */}
-            <div className="absolute inset-0 opacity-10">
-                <div className="absolute inset-0 bg-[url('/web-background-image.jpg')] bg-cover" style={{ backgroundPosition: 'center 80%' }} />
-            </div>
-
-            {/* Loader content */}
-            <div className="relative z-10 flex flex-col items-center">
-                {/* Berong Logo Spinner */}
-                <div className="relative">
-                    {/* Outer spinning ring */}
-                    <div className="absolute -inset-4 border-4 border-yellow-400/30 rounded-full"></div>
-                    <div className="absolute -inset-4 border-4 border-transparent border-t-yellow-400 border-r-orange-500 rounded-full animate-spin"></div>
-
-                    {/* Glow effect behind logo */}
-                    <div className="absolute inset-0 bg-yellow-500/30 rounded-full blur-xl animate-pulse"></div>
-
-                    {/* Berong Logo */}
-                    <div className="relative w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-yellow-400/50">
-                        <img
-                            src="/berong-official-logo.jpg"
-                            alt="Berong - Loading"
-                            className="w-full h-full object-cover"
-                        />
+        <AnimatePresence>
+            {isLoading && (
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="fixed inset-0 z-[999999] flex items-center justify-center"
+                >
+                    {/* Background Image and Red Overlay */}
+                    <div
+                        className="absolute inset-0 bg-cover bg-center"
+                        style={{ backgroundImage: "url('/bfp-sta-cruz-fire-station.jpg')" }}
+                    >
+                        <div className="absolute inset-0 bg-[#d60000]/90 backdrop-blur-sm" />
                     </div>
-                </div>
 
-                {/* Loading text */}
-                <div className="mt-8 text-center">
-                    <p className="text-white font-semibold text-lg">Loading</p>
-                    <div className="flex gap-1 justify-center mt-1">
-                        <span className="w-2 h-2 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                        <span className="w-2 h-2 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                        <span className="w-2 h-2 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                    {/* Loader content */}
+                    <div className="relative z-10 flex flex-col items-center">
+                        {/* Berong Logo Spinner */}
+                        <motion.div 
+                            animate={{
+                                scale: [1, 1.05, 1],
+                            }}
+                            transition={{
+                                duration: 1.5,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                            }}
+                            className="relative mb-8"
+                        >
+                            {/* Outer spinning ring */}
+                            <div className="absolute -inset-4 border-4 border-yellow-400/30 rounded-full"></div>
+                            <div className="absolute -inset-4 border-4 border-transparent border-t-yellow-400 border-r-orange-500 rounded-full animate-spin"></div>
+
+                            {/* Glow effect behind logo */}
+                            <div className="absolute inset-0 bg-yellow-500/30 rounded-full blur-xl animate-pulse"></div>
+
+                            {/* Berong Logo */}
+                            <div className="relative w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-yellow-400/50">
+                                <img
+                                    src="/berong-official-logo.jpg"
+                                    alt="Berong - Loading"
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        </motion.div>
+
+                        {/* Loading text */}
+                        <div className="text-center flex flex-col items-center">
+                            <motion.p 
+                                className="text-white font-bold text-lg mb-1 tracking-wider"
+                                animate={{ opacity: [0.7, 1, 0.7] }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                            >
+                                Loading
+                            </motion.p>
+                            <div className="flex gap-1.5 justify-center mt-1">
+                                <span className="w-2.5 h-2.5 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                                <span className="w-2.5 h-2.5 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                                <span className="w-2.5 h-2.5 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 }

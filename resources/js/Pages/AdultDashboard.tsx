@@ -43,9 +43,9 @@ const AdultPageClient = ({ initialBlogs }: AdultPageClientProps) => {
                 <AdultWelcomeBanner />
 
                 {/* Access Notice */}
-                <Alert className="mb-6 border-accent bg-accent/5">
+                <Alert className="mb-6 border border-accent rounded-xl bg-white text-slate-800 shadow-sm">
                     <Flame className="h-4 w-4 text-accent" />
-                    <AlertDescription className="text-foreground">
+                    <AlertDescription className="text-slate-700 font-medium">
                         Learn essential fire safety practices to protect your home and family.
                     </AlertDescription>
                 </Alert>
@@ -54,7 +54,7 @@ const AdultPageClient = ({ initialBlogs }: AdultPageClientProps) => {
                 <div className="space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 mb-6 sm:mb-8">
                     <SpotlightCard spotlightColor="rgba(245, 158, 11, 0.15)">
                         <Card
-                            className="relative overflow-hidden hover:shadow-lg transition-shadow cursor-pointer border-l-4 border-l-accent h-full group"
+                            className="relative overflow-hidden hover:shadow-md transition-all cursor-pointer border-y border-r border-slate-200 border-l-[4px] border-l-accent rounded-2xl bg-white h-full group"
                             onClick={() => document.getElementById('articles-section')?.scrollIntoView({ behavior: 'smooth' })}
                         >
                             <div
@@ -77,7 +77,7 @@ const AdultPageClient = ({ initialBlogs }: AdultPageClientProps) => {
                     </SpotlightCard>
 
                     <SpotlightCard spotlightColor="rgba(239, 68, 68, 0.15)">
-                        <Card className="relative overflow-hidden hover:shadow-lg transition-shadow cursor-pointer border-l-4 border-l-red-500 h-full group">
+                        <Card className="relative overflow-hidden hover:shadow-md transition-all cursor-pointer border-y border-r border-slate-200 border-l-[4px] border-l-red-500 rounded-2xl bg-white h-full group">
                             <div
                                 className="absolute inset-0 bg-cover bg-center z-0 opacity-20 group-hover:opacity-30 transition-opacity"
                                 style={{ backgroundImage: "url('/EDITH Modal.png')" }}
@@ -91,9 +91,9 @@ const AdultPageClient = ({ initialBlogs }: AdultPageClientProps) => {
                                             Interactive tool to visualize how fire spreads in different environments.
                                         </p>
                                         <Link href="/adult/simulation">
-                                            <Button size="sm" className="bg-red-500 hover:bg-red-600 text-white w-full sm:w-auto mt-2 shadow-md">
+                                            <Button size="sm" className="bg-red-500 hover:bg-red-600 text-white w-full sm:w-auto mt-2 font-bold rounded-full shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all">
                                                 Launch Simulator
-                                                <ArrowRight className="h-4 w-4 ml-2" />
+                                                <ArrowRight className="h-4 w-4 ml-2" strokeWidth={3} />
                                             </Button>
                                         </Link>
                                     </div>
@@ -104,17 +104,15 @@ const AdultPageClient = ({ initialBlogs }: AdultPageClientProps) => {
                 </div>
 
                 {/* Search Bar */}
-                <div className="mb-6">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                        <Input
-                            type="text"
-                            placeholder="Search fire safety articles..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10"
-                        />
-                    </div>
+                <div className="mb-10 relative">
+                    <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+                    <Input
+                        type="text"
+                        placeholder="Search fire safety articles..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-14 py-6 rounded-full border-2 border-slate-200 bg-white shadow-sm focus-visible:ring-red-500 text-base text-slate-800 placeholder:text-slate-400"
+                    />
                 </div>
 
                 {/* Blog Grid */}

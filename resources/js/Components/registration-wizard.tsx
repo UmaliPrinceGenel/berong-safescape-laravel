@@ -250,7 +250,10 @@ export function RegistrationWizard() {
         try {
           const response = await fetch('/api/auth/validate-credentials', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
             body: JSON.stringify({
               username: data.username,
               password: data.password,
@@ -312,7 +315,10 @@ export function RegistrationWizard() {
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
         body: JSON.stringify({
           firstName: data.firstName,
           lastName: data.lastName,
@@ -380,54 +386,65 @@ export function RegistrationWizard() {
     const rating = getScoreRating(percentage)
 
     return (
-      <Card className="w-full max-w-lg mx-auto">
-        <CardHeader className="text-center">
-          <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-            <Check className="w-8 h-8 text-green-600" />
+      <Card className="w-full max-w-lg mx-auto border-none shadow-[0_8px_30px_rgba(0,0,0,0.12)] rounded-3xl overflow-hidden">
+        <div className="bg-gradient-to-r from-red-600 via-orange-500 to-orange-400 p-6 text-center rounded-t-3xl">
+          <div className="mx-auto w-20 h-20 bg-white rounded-full flex items-center justify-center mb-4 shadow-lg">
+            <Check className="w-10 h-10 text-green-500" />
           </div>
-          <CardTitle className="text-2xl">Registration Complete!</CardTitle>
-          <CardDescription>Welcome to SafeScape Fire Safety Learning</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="text-center p-6 bg-gray-50 rounded-lg">
-            <p className="text-sm text-muted-foreground mb-2">Your Pre-Test Score</p>
-            <div className="text-4xl font-bold" style={{ color: rating.color }}>
+          <h2 className="text-2xl font-bold text-white">Registration Complete! 🎉</h2>
+          <p className="text-white/80 text-sm mt-1">Welcome to SafeScape Fire Safety Learning</p>
+        </div>
+        <CardContent className="space-y-6 p-6">
+          <div className="text-center p-6 bg-orange-50 rounded-2xl border-2 border-orange-200">
+            <p className="text-sm text-orange-600 font-semibold mb-2">Your Pre-Test Score</p>
+            <div className="text-5xl font-black" style={{ color: rating.color }}>
               {registrationResult.score} / {registrationResult.maxScore}
             </div>
-            <p className="text-lg font-medium mt-2" style={{ color: rating.color }}>
+            <p className="text-lg font-bold mt-2" style={{ color: rating.color }}>
               {rating.label}
             </p>
-            <p className="text-sm text-muted-foreground mt-4">
+            <p className="text-sm text-slate-500 mt-4">
               This is your baseline score. Complete modules and activities to unlock the Post-Test
               and see how much you&apos;ve improved!
             </p>
           </div>
 
-          <Button onClick={handleContinue} className="w-full" size="lg">
-            Start Learning
-            <ChevronRight className="ml-2 h-4 w-4" />
-          </Button>
+          <button
+            onClick={handleContinue}
+            className="w-full bg-yellow-400 text-red-600 font-extrabold py-3 rounded-full text-lg shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-[0_0px_0_#b45309] transition-all flex items-center justify-center gap-2"
+          >
+            🚀 Start Learning
+            <ChevronRight className="h-5 w-5" />
+          </button>
         </CardContent>
       </Card>
     )
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>
-        <div className="flex items-center gap-2 mb-4">
-          <Shield className="h-8 w-8 text-orange-500" />
-          <span className="text-xl font-bold">SafeScape</span>
+    <Card className="w-full max-w-3xl mx-auto border-none shadow-[0_8px_30px_rgba(0,0,0,0.12)] rounded-3xl overflow-hidden">
+      {/* Colorful Gradient Header */}
+      <div className="bg-red-600 px-6 pt-5 pb-6 rounded-t-3xl">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow">
+            <Shield className="h-5 w-5 text-orange-500" />
+          </div>
+          <span className="text-xl font-bold text-white">SafeScape</span>
         </div>
-        <CardTitle>Create Your Account</CardTitle>
-        <CardDescription>
+        <h2 className="text-2xl font-bold text-white">Create Your Account 🎓</h2>
+        <p className="text-white/80 text-sm">
           Step {currentStep} of {STEPS.length}: {STEPS[currentStep - 1].description}
-        </CardDescription>
+        </p>
 
-        {/* Progress Indicator */}
+        {/* Progress Bar */}
         <div className="mt-4">
-          <Progress value={(currentStep / STEPS.length) * 100} className="h-2" />
-          <div className="flex justify-between mt-2">
+          <div className="w-full bg-white/30 rounded-full h-3 overflow-hidden">
+            <div
+              className="bg-yellow-400 h-3 rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${(currentStep / STEPS.length) * 100}%` }}
+            />
+          </div>
+          <div className="flex justify-between mt-3">
             {STEPS.map((step) => {
               const Icon = step.icon
               const isCompleted = currentStep > step.id
@@ -435,72 +452,82 @@ export function RegistrationWizard() {
               return (
                 <div
                   key={step.id}
-                  className={`flex flex-col items-center ${isCompleted ? "text-green-600" : isCurrent ? "text-orange-500" : "text-gray-400"
-                    }`}
+                  className={`flex flex-col items-center transition-all ${
+                    isCompleted ? "text-yellow-300" : isCurrent ? "text-white" : "text-white/40"
+                  }`}
                 >
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isCompleted ? "bg-green-100" : isCurrent ? "bg-orange-100" : "bg-gray-100"
-                    }`}>
-                    {isCompleted ? <Check className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center border-[3px] transition-all ${
+                    isCompleted
+                      ? "bg-yellow-400 border-white text-red-600 shadow-[0_3px_0_#b45309]"
+                      : isCurrent
+                        ? "bg-white border-yellow-400 text-orange-500 shadow-lg"
+                        : "bg-white/20 border-white/30 text-white/60"
+                  }`}>
+                    {isCompleted ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
                   </div>
-                  <span className="text-xs mt-1 hidden sm:block">{step.title}</span>
+                  <span className="text-xs mt-1.5 font-semibold hidden sm:block">{step.title}</span>
                 </div>
               )
             })}
           </div>
         </div>
+      </div>
+      <CardHeader className="sr-only">
+        <CardTitle>Create Your Account</CardTitle>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="p-6">
         {error && (
-          <Alert variant="destructive" className="mb-4">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
+          <div className="mb-4 p-3 bg-red-50 border-2 border-red-200 rounded-2xl flex items-start gap-2">
+            <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
+            <p className="text-red-600 text-sm font-medium">{error}</p>
+          </div>
         )}
 
         {/* Step 1: Basic Info */}
         {currentStep === 1 && (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div>
-              <Label htmlFor="lastName">Last Name *</Label>
+              <Label htmlFor="lastName" className="text-sm font-bold text-slate-700">Last Name *</Label>
               <Input
                 id="lastName"
                 placeholder="Enter your last name"
                 value={data.lastName}
                 onChange={(e) => updateField("lastName", e.target.value)}
-                className={validationErrors.lastName ? "border-red-500" : ""}
+                className={`rounded-xl border-2 h-11 text-base focus:border-orange-400 focus:ring-orange-400 ${validationErrors.lastName ? "border-red-400 bg-red-50" : "border-gray-200"}`}
               />
               {validationErrors.lastName && (
-                <p className="text-sm text-red-500 mt-1">{validationErrors.lastName}</p>
+                <p className="text-sm text-red-500 mt-1 font-medium">⚠️ {validationErrors.lastName}</p>
               )}
             </div>
 
             <div>
-              <Label htmlFor="firstName">First Name *</Label>
+              <Label htmlFor="firstName" className="text-sm font-bold text-slate-700">First Name *</Label>
               <Input
                 id="firstName"
                 placeholder="Enter your first name"
                 value={data.firstName}
                 onChange={(e) => updateField("firstName", e.target.value)}
-                className={validationErrors.firstName ? "border-red-500" : ""}
+                className={`rounded-xl border-2 h-11 text-base focus:border-orange-400 focus:ring-orange-400 ${validationErrors.firstName ? "border-red-400 bg-red-50" : "border-gray-200"}`}
               />
               {validationErrors.firstName && (
-                <p className="text-sm text-red-500 mt-1">{validationErrors.firstName}</p>
+                <p className="text-sm text-red-500 mt-1 font-medium">⚠️ {validationErrors.firstName}</p>
               )}
             </div>
 
             <div>
-              <Label htmlFor="middleName">Middle Name (Optional)</Label>
+              <Label htmlFor="middleName" className="text-sm font-bold text-slate-700">Middle Name (Optional)</Label>
               <Input
                 id="middleName"
                 placeholder="Enter your middle name"
                 value={data.middleName}
                 onChange={(e) => updateField("middleName", e.target.value)}
+                className="rounded-xl border-2 border-gray-200 h-11 text-base focus:border-orange-400 focus:ring-orange-400"
               />
             </div>
 
             <div>
-              <Label htmlFor="age">Age *</Label>
+              <Label htmlFor="age" className="text-sm font-bold text-slate-700">Age *</Label>
               <Input
                 id="age"
                 type="number"
@@ -509,27 +536,27 @@ export function RegistrationWizard() {
                 max="120"
                 value={data.age}
                 onChange={(e) => updateField("age", e.target.value)}
-                className={validationErrors.age ? "border-red-500" : ""}
+                className={`rounded-xl border-2 h-11 text-base focus:border-orange-400 focus:ring-orange-400 ${validationErrors.age ? "border-red-400 bg-red-50" : "border-gray-200"}`}
               />
               {validationErrors.age && (
-                <p className="text-sm text-red-500 mt-1">{validationErrors.age}</p>
+                <p className="text-sm text-red-500 mt-1 font-medium">⚠️ {validationErrors.age}</p>
               )}
             </div>
 
             <div>
-              <Label>Gender *</Label>
+              <Label className="text-sm font-bold text-slate-700">Gender *</Label>
               <Select value={data.gender} onValueChange={(value) => updateField("gender", value)}>
-                <SelectTrigger className={validationErrors.gender ? "border-red-500" : ""}>
+                <SelectTrigger className={`rounded-xl border-2 h-11 text-base focus:border-orange-400 ${validationErrors.gender ? "border-red-400 bg-red-50" : "border-gray-200"}`}>
                   <SelectValue placeholder="Select your gender" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="rounded-xl">
                   {GENDER_OPTIONS.map((option) => (
                     <SelectItem key={option} value={option}>{option}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
               {validationErrors.gender && (
-                <p className="text-sm text-red-500 mt-1">{validationErrors.gender}</p>
+                <p className="text-sm text-red-500 mt-1 font-medium">⚠️ {validationErrors.gender}</p>
               )}
             </div>
           </div>
@@ -755,7 +782,7 @@ export function RegistrationWizard() {
 
         {/* Step 4: Pre-Test */}
         {currentStep === 4 && (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {loading ? (
               <div className="flex items-center justify-center py-12">
                 <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
@@ -770,19 +797,11 @@ export function RegistrationWizard() {
               </div>
             ) : (
               <>
-                <div className="mb-4">
-                  <div className="flex justify-between text-sm text-muted-foreground mb-2">
-                    <span>Question {currentQuestionIndex + 1} of {questions.length}</span>
-                    <span>{Object.keys(data.preTestAnswers).length} answered</span>
-                  </div>
-                  <Progress value={((currentQuestionIndex + 1) / questions.length) * 100} className="h-2" />
-                </div>
-
-                <div className="p-4 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-orange-600 mb-2">
+                <div className="p-4 bg-orange-50 rounded-2xl border-2 border-orange-200">
+                  <span className="inline-block text-xs font-bold text-orange-600 bg-orange-100 px-3 py-1 rounded-full mb-2">
                     {questions[currentQuestionIndex].category}
-                  </p>
-                  <h3 className="text-lg font-medium mb-4">
+                  </span>
+                  <h3 className="text-base font-bold text-slate-800 mb-3">
                     {questions[currentQuestionIndex].question}
                   </h3>
 
@@ -791,9 +810,9 @@ export function RegistrationWizard() {
                     onValueChange={(value) => handleAnswerQuestion(questions[currentQuestionIndex].id, parseInt(value))}
                   >
                     {questions[currentQuestionIndex].options.map((option, index) => (
-                      <div key={index} className="flex items-center space-x-2 p-3 rounded-lg hover:bg-gray-100">
-                        <RadioGroupItem value={index.toString()} id={`option-${index}`} />
-                        <Label htmlFor={`option-${index}`} className="flex-1 cursor-pointer">
+                      <div key={index} className="flex items-center space-x-2 p-2 rounded-xl hover:bg-orange-100/60 border-2 border-transparent hover:border-orange-300 transition-all cursor-pointer">
+                        <RadioGroupItem value={index.toString()} id={`option-${index}`} className="border-orange-400 text-orange-500" />
+                        <Label htmlFor={`option-${index}`} className="flex-1 cursor-pointer font-medium">
                           {option}
                         </Label>
                       </div>
@@ -802,57 +821,71 @@ export function RegistrationWizard() {
                 </div>
 
                 {/* Question Navigation */}
-                <div className="flex justify-between mt-4">
-                  <Button
-                    variant="outline"
+                <div className="flex justify-between mt-3">
+                  <button
                     onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
                     disabled={currentQuestionIndex === 0}
+                    className={`flex items-center gap-1 font-bold px-4 py-2 rounded-full border-[3px] transition-all text-sm ${
+                      currentQuestionIndex === 0
+                        ? "border-gray-200 text-gray-300 cursor-not-allowed"
+                        : "border-gray-300 text-slate-600 shadow-[0_3px_0_#94a3b8] hover:-translate-y-0.5 hover:shadow-[0_5px_0_#94a3b8] active:translate-y-1 active:shadow-[0_0px_0_#94a3b8]"
+                    }`}
                   >
-                    <ChevronLeft className="h-4 w-4 mr-1" />
+                    <ChevronLeft className="h-4 w-4" />
                     Previous
-                  </Button>
+                  </button>
 
                   {currentQuestionIndex < questions.length - 1 ? (
-                    <Button
+                    <button
                       onClick={() => setCurrentQuestionIndex(prev => prev + 1)}
                       disabled={data.preTestAnswers[questions[currentQuestionIndex].id] === undefined}
+                      className={`flex items-center gap-1 font-extrabold px-5 py-2 rounded-full border-[3px] transition-all text-sm ${
+                        data.preTestAnswers[questions[currentQuestionIndex].id] === undefined
+                          ? "bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed"
+                          : "bg-yellow-400 text-red-600 border-white shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-[0_0px_0_#b45309]"
+                      }`}
                     >
                       Next
-                      <ChevronRight className="h-4 w-4 ml-1" />
-                    </Button>
+                      <ChevronRight className="h-4 w-4" />
+                    </button>
                   ) : (
-                    <Button
+                    <button
                       onClick={handleSubmit}
                       disabled={loading || Object.keys(data.preTestAnswers).length < questions.length}
-                      className="bg-green-600 hover:bg-green-700"
+                      className={`flex items-center gap-1 font-extrabold px-5 py-2 rounded-full border-[3px] transition-all text-sm ${
+                        loading || Object.keys(data.preTestAnswers).length < questions.length
+                          ? "bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed"
+                          : "bg-green-500 text-white border-green-300 shadow-[0_4px_0_#166534] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#166534] active:translate-y-1 active:shadow-[0_0px_0_#166534]"
+                      }`}
                     >
                       {loading ? (
                         <>
-                          <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                          <Loader2 className="h-4 w-4 animate-spin" />
                           Submitting...
                         </>
                       ) : (
                         <>
                           Complete Registration
-                          <Check className="h-4 w-4 ml-1" />
+                          <Check className="h-4 w-4" />
                         </>
                       )}
-                    </Button>
+                    </button>
                   )}
                 </div>
 
                 {/* Question dots for quick navigation */}
-                <div className="flex justify-center gap-2 mt-4 flex-wrap">
+                <div className="flex justify-center gap-1.5 mt-3">
                   {questions.map((q, idx) => (
                     <button
                       key={q.id}
                       onClick={() => setCurrentQuestionIndex(idx)}
-                      className={`w-8 h-8 rounded-full text-xs font-medium transition-colors ${currentQuestionIndex === idx
-                        ? "bg-orange-500 text-white"
-                        : data.preTestAnswers[q.id] !== undefined
-                          ? "bg-green-100 text-green-700 border border-green-300"
-                          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                        }`}
+                      className={`w-8 h-8 rounded-full text-[11px] font-bold transition-all border-2 ${
+                        currentQuestionIndex === idx
+                          ? "bg-orange-500 text-white border-orange-300 shadow-[0_3px_0_#c2410c] scale-110"
+                          : data.preTestAnswers[q.id] !== undefined
+                            ? "bg-green-400 text-white border-green-300 shadow-[0_2px_0_#166534]"
+                            : "bg-gray-100 text-gray-400 border-gray-200 hover:bg-gray-200"
+                      }`}
                     >
                       {idx + 1}
                     </button>
@@ -869,28 +902,38 @@ export function RegistrationWizard() {
 
         {/* Navigation Buttons */}
         {currentStep < 4 && (
-          <div className="flex justify-between mt-6">
-            <Button
-              variant="outline"
+          <div className="flex justify-between mt-8">
+            <button
               onClick={handleBack}
               disabled={currentStep === 1}
+              className={`flex items-center gap-1 font-bold px-5 py-2.5 rounded-full border-[3px] transition-all text-sm ${
+                currentStep === 1
+                  ? "border-gray-200 text-gray-300 cursor-not-allowed"
+                  : "border-gray-300 text-slate-600 shadow-[0_3px_0_#94a3b8] hover:-translate-y-0.5 hover:shadow-[0_5px_0_#94a3b8] active:translate-y-1 active:shadow-[0_0px_0_#94a3b8]"
+              }`}
             >
-              <ChevronLeft className="h-4 w-4 mr-1" />
+              <ChevronLeft className="h-4 w-4" />
               Back
-            </Button>
-            <Button onClick={handleNext}>
+            </button>
+            <button
+              onClick={handleNext}
+              className="flex items-center gap-1 bg-yellow-400 text-red-600 font-extrabold px-6 py-2.5 rounded-full border-[3px] border-white shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-[0_0px_0_#b45309] transition-all text-sm"
+            >
               Next
-              <ChevronRight className="h-4 w-4 ml-1" />
-            </Button>
+              <ChevronRight className="h-4 w-4" />
+            </button>
           </div>
         )}
 
         {currentStep === 4 && questions.length > 0 && (
-          <div className="flex justify-start mt-6">
-            <Button variant="outline" onClick={handleBack}>
-              <ChevronLeft className="h-4 w-4 mr-1" />
+          <div className="flex justify-start mt-8">
+            <button
+              onClick={handleBack}
+              className="flex items-center gap-1 font-bold px-5 py-2.5 rounded-full border-[3px] border-gray-300 text-slate-600 shadow-[0_3px_0_#94a3b8] hover:-translate-y-0.5 hover:shadow-[0_5px_0_#94a3b8] active:translate-y-1 active:shadow-[0_0px_0_#94a3b8] transition-all text-sm"
+            >
+              <ChevronLeft className="h-4 w-4" />
               Back to Account
-            </Button>
+            </button>
           </div>
         )}
       </CardContent>

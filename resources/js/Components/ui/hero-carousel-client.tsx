@@ -3,8 +3,9 @@
 import { useState } from "react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay"
-import Image from '@/components/Image';
-import { Maximize2 } from "lucide-react"
+import { Maximize2, Shield } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Link } from '@inertiajs/react';
 import { ImageViewerModal } from "@/components/image-viewer-modal"
 
 type CarouselImage = {
@@ -41,34 +42,38 @@ export function HeroCarouselClient({ images }: HeroCarouselClientProps) {
                 ]}
             >
                 <CarouselContent>
-                    {images.map((image) => (
+                    {images.map((image, index) => (
                         <CarouselItem key={image.id}>
-                            <div className="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden rounded-lg shadow-lg group/slide">
-                                <Image
+                            <div className="relative isolate w-full h-[50vh] sm:h-[70vh] min-h-[400px] overflow-hidden rounded-[2.5rem] shadow-2xl border border-gray-200 group/slide [mask-image:radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]">
+                                <img
                                     src={image.imageUrl}
                                     alt={image.altText ?? image.title}
-                                    fill
-                                    style={{ objectFit: 'cover' }}
-                                    className="transition-opacity duration-500 ease-in-out"
+                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[15000ms] ease-out scale-100 group-hover/slide:scale-105"
                                 />
 
-                                {/* Gradient Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4 sm:p-6 md:p-8 pointer-events-none">
-                                    <div className="text-white">
-                                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2">{image.title}</h2>
-                                        <p className="text-sm sm:text-base md:text-lg opacity-90 line-clamp-2">Learn more about fire safety with BFP Berong.</p>
+                                {/* Gradient Overlay - Bottom Left aligned */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent flex flex-col justify-end items-start p-6 pb-12 sm:p-10 sm:pb-16 md:p-14 md:pb-20 pointer-events-none rounded-[2.5rem]">
+                                    <div className="relative z-10 text-white w-full max-w-5xl pointer-events-auto">
+                                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 sm:mb-6 drop-shadow-2xl tracking-tight leading-tight">
+                                            {image.title}
+                                        </h1>
+                                        {image.altText && (
+                                            <p className="text-base sm:text-xl md:text-2xl font-medium text-gray-200 drop-shadow-md max-w-3xl">
+                                                {image.altText}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
 
                                 {/* Transparent Clickable Overlay Button */}
                                 <button
                                     onClick={() => handleImageClick(image)}
-                                    className="absolute inset-0 z-10 w-full h-full cursor-pointer bg-transparent hover:bg-white/5 transition-colors outline-none focus:ring-2 focus:ring-primary focus:ring-inset"
+                                    className="absolute inset-0 z-10 w-full h-full cursor-pointer bg-transparent hover:bg-white/5 transition-colors outline-none focus:ring-2 focus:ring-primary focus:ring-inset rounded-[2.5rem]"
                                     aria-label={`View full screen image: ${image.title}`}
                                 >
                                     {/* Maximize Icon (Top Right) */}
-                                    <div className="absolute top-3 right-3 sm:top-4 sm:right-4 opacity-0 group-hover/slide:opacity-100 transition-opacity duration-300">
-                                        <div className="bg-black/50 backdrop-blur-sm rounded-full p-1.5 sm:p-2 text-white shadow-sm">
+                                    <div className="absolute top-3 right-3 sm:top-4 sm:right-4 opacity-100 sm:opacity-0 sm:group-hover/slide:opacity-100 transition-opacity duration-300">
+                                        <div className="bg-black/45 backdrop-blur-sm rounded-full p-1.5 sm:p-2 text-white shadow-sm">
                                             <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5" />
                                         </div>
                                     </div>

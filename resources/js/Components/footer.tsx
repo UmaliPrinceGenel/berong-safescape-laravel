@@ -4,7 +4,6 @@ import { Link } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { FooterDialogContent } from '@/components/ui/footer-dialog';
 import { useState } from 'react';
-import Image from '@/components/Image';
 
 // Define types for footer links
 type FooterLink = {
@@ -70,31 +69,31 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-gray-900 text-white py-8 sm:py-12">
+    <footer className="bg-[#111827] text-white py-12 sm:py-16 border-t-[8px] border-[#1e293b]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* BFP Logo and Description Column */}
-          <div className="col-span-2 sm:col-span-2 md:col-span-1">
+          <div className="col-span-2 sm:col-span-2 lg:col-span-1">
             <div className="flex items-center">
-              <Image
-                src="/RD Logo.png"
+              <img
+                src="/berong-official-logo.jpg"
                 alt="BFP Berong Logo"
                 width={64}
                 height={64}
-                className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
+                className="w-12 h-12 sm:w-16 sm:h-16 object-contain rounded-full"
               />
               <div className="ml-3 sm:ml-4">
                 <h3 className="text-base sm:text-lg font-bold">BFP Berong</h3>
-                <p className="text-xs sm:text-sm text-gray-400">Fire Safety Education Platform</p>
+                <p className="text-xs sm:text-sm text-slate-400">Fire Safety Education Platform</p>
               </div>
             </div>
-            <p className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-400">
+            <p className="mt-4 text-sm text-slate-400 font-medium leading-relaxed">
               Empowering communities with knowledge and skills for fire safety.
             </p>
-            <div className="mt-3 sm:mt-4 flex space-x-4">
+            <div className="mt-6">
               {socialMediaLinks.map((social, index) => (
                 <Link key={index} href={social.url} target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" size="sm" className="text-black border-gray-600 hover:bg-gray-700 text-xs sm:text-sm h-8 sm:h-9 px-2 sm:px-3">
+                  <Button className="bg-white hover:bg-slate-200 text-black font-bold h-10 px-6 rounded-lg text-sm shadow-sm transition-colors">
                     {social.name}
                   </Button>
                 </Link>
@@ -105,13 +104,13 @@ export function Footer() {
           {/* Footer Link Columns */}
           {footerColumns.map((column, index) => (
             <div key={index} className="col-span-1">
-              <h4 className="text-sm sm:text-lg font-semibold mb-2 sm:mb-4">{column.title}</h4>
-              <ul className="space-y-1 sm:space-y-2">
+              <h4 className="text-base font-bold mb-4 sm:mb-6">{column.title}</h4>
+              <ul className="space-y-3 sm:space-y-4">
                 {column.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
                     <button
                       onClick={() => handleLinkClick(link)}
-                      className="text-gray-400 hover:text-white transition-colors block text-left w-full text-xs sm:text-sm py-1"
+                      className="text-slate-400 hover:text-white font-medium transition-colors block text-left w-full text-sm py-1"
                     >
                       {link.name}
                     </button>
@@ -122,8 +121,8 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-800 text-center">
-          <p className="text-xs sm:text-sm text-gray-400">
+        <div className="mt-12 sm:mt-16 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-center items-center">
+          <p className="text-sm text-slate-500 font-medium">
             &copy; {new Date().getFullYear()} BFP Sta.Cruz Laguna. All rights reserved.
           </p>
         </div>

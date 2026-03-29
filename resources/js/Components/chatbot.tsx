@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { MessageCircle, X, Send, Sparkles } from "lucide-react"
 import Image from '@/components/Image';
-import { motion, AnimatePresence } from "motion/react"
+import { motion, AnimatePresence, useMotionValue, animate } from "motion/react"
 import { useAuth } from "@/lib/auth-context"
 import { Link } from '@inertiajs/react';
 import ReactMarkdown from "react-markdown"
@@ -48,6 +48,8 @@ const processedIntents = Object.entries(chatbotIntents).map(([tag, data]) => {
 export function Chatbot() {
   const { isAuthenticated } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
+  const [showCTA, setShowCTA] = useState(true)
+  const ctaTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const [inputValue, setInputValue] = useState("")
   const [quickQuestions, setQuickQuestions] = useState<Record<string, QuickQuestion[]>>({})
@@ -55,9 +57,103 @@ export function Chatbot() {
   const [showQuickQuestions, setShowQuickQuestions] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  // Draggable chathead state - vertical position only (stays on right side)
+  // Draggable chathead state - full XY drag with rotation
   const [isDragging, setIsDragging] = useState(false)
+  const [isOnLeft, setIsOnLeft] = useState(false)
   const constraintsRef = useRef<HTMLDivElement>(null)
+  const chatheadRef = useRef<HTMLDivElement>(null)
+  const dragX = useMotionValue(0)
+  const dragY = useMotionValue(0)
+  // Separate rotation value - only tilts during active dragging, resets to 0 when snapped
+  const rotationValue = useMotionValue(0)
+  const lastDragX = useRef(0)
+
+  // Entry slide-in animation via motion value (so it doesn't conflict with snap)
+  useEffect(() => {
+    if (!isOpen) {
+      rotationValue.set(0)
+      if (isOnLeft) {
+        // Re-enter from the left side
+        const screenWidth = window.innerWidth
+        const chatheadWidth = chatheadRef.current?.offsetWidth || 160
+        const leftOffset = screenWidth < 640 ? 0 : 5  // less offset on mobile
+        const targetX = -(screenWidth - chatheadWidth) + leftOffset  // adjust berong sides
+        dragX.set(targetX - 100) // start further off-screen left
+        animate(dragX, targetX, { type: "spring", stiffness: 400, damping: 25 })
+      } else {
+        // Re-enter from the right side (default)
+        dragX.set(100)
+        animate(dragX, 0, { type: "spring", stiffness: 400, damping: 25 })
+      }
+    }
+  }, [isOpen])
+
+  // Snap to nearest screen edge when drag ends
+  const handleDragEnd = () => {
+    setIsDragging(false)
+    // Reset rotation to 0 (straight) when snapping
+    animate(rotationValue, 0, { type: "spring", stiffness: 400, damping: 30 })
+
+    const chatheadEl = chatheadRef.current
+    if (!chatheadEl) return
+
+    const chatheadWidth = chatheadEl.offsetWidth
+    const screenWidth = window.innerWidth
+    const currentCenterX = (screenWidth - chatheadWidth) + dragX.get() + chatheadWidth / 2
+    const isCloserToLeft = currentCenterX < screenWidth / 2
+
+    if (isCloserToLeft) {
+      // Snap to left edge
+      const leftOffset = screenWidth < 640 ? 0 : 5  // less offset on mobile
+      const targetX = -(screenWidth - chatheadWidth) + leftOffset  // adjust berong sides
+      animate(dragX, targetX, { type: "spring", stiffness: 400, damping: 30 })
+      setIsOnLeft(true)
+    } else {
+      // Snap back to right edge (original position)
+      animate(dragX, 0, { type: "spring", stiffness: 400, damping: 30 })
+      setIsOnLeft(false)
+    }
+  }
+
+  // Update rotation based on drag movement delta (tilt while dragging)
+  const handleDrag = () => {
+    const currentX = dragX.get()
+    const delta = currentX - lastDragX.current
+    // Clamp rotation between -15 and 15 degrees based on drag direction
+    const newRotation = Math.max(-15, Math.min(15, delta * -0.5))
+    rotationValue.set(newRotation)
+    lastDragX.current = currentX
+  }
+
+  const startCTATimeout = () => {
+    if (ctaTimeoutRef.current) clearTimeout(ctaTimeoutRef.current)
+    ctaTimeoutRef.current = setTimeout(() => {
+      setShowCTA(false)
+    }, 5000)
+  }
+
+  useEffect(() => {
+    if (!isOpen) {
+      setShowCTA(true)
+      startCTATimeout()
+    }
+    return () => {
+      if (ctaTimeoutRef.current) clearTimeout(ctaTimeoutRef.current)
+    }
+  }, [isOpen])
+
+  const handleMouseEnter = () => {
+    if (!isOpen && !isDragging) {
+      setShowCTA(true)
+      if (ctaTimeoutRef.current) clearTimeout(ctaTimeoutRef.current)
+    }
+  }
+
+  const handleMouseLeave = () => {
+    if (!isOpen) {
+      startCTATimeout()
+    }
+  }
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -232,21 +328,25 @@ export function Chatbot() {
   return (
     <>
       {/* Chatbot Toggle - Berong Character fixed to right side, draggable vertically */}
-      <div ref={constraintsRef} className="fixed top-0 bottom-0 right-0 w-[180px] z-[60] pointer-events-none">
+      <div ref={constraintsRef} className="fixed inset-0 z-[60] pointer-events-none">
         {/* Berong Character - Clickable to toggle chat, hidden when chat is open */}
         <AnimatePresence>
           {!isOpen && (
             <motion.div
               className="pointer-events-auto absolute right-0 bottom-0"
-              drag="y"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              drag
               dragConstraints={constraintsRef}
               dragElastic={0.1}
               dragMomentum={false}
-              onDragStart={() => setIsDragging(true)}
-              onDragEnd={() => setIsDragging(false)}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 100 }}
+              onDragStart={() => { setIsDragging(true); lastDragX.current = dragX.get() }}
+              onDrag={handleDrag}
+              onDragEnd={handleDragEnd}
+              ref={chatheadRef}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               whileHover={{ scale: isDragging ? 1 : 1.05 }}
               whileTap={{ scale: 0.95 }}
               whileDrag={{ scale: 1.1, cursor: "grabbing" }}
@@ -256,32 +356,50 @@ export function Chatbot() {
                 if (!isDragging) setIsOpen(true)
               }}
               style={{
+                x: dragX,
+                y: dragY,
+                rotate: rotationValue,
                 cursor: isDragging ? "grabbing" : "pointer",
                 touchAction: "none" // Better touch support
               }}
             >
               {/* Drag handle hint */}
               <div className="absolute top-2 left-2 bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5 text-[10px] text-white/80 opacity-0 hover:opacity-100 transition-opacity">
-                ↕ Drag
+                ✥ Drag me
               </div>
 
               {/* Speech Bubble CTA */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ delay: 1.5, type: "spring", stiffness: 200 }}
-                className="absolute bottom-full mb-3 right-0 bg-white text-gray-900 text-xs md:text-sm font-bold px-4 py-2 rounded-2xl rounded-br-none shadow-xl border border-gray-100 whitespace-nowrap z-50 pointer-events-none"
-              >
-                Let&apos;s learn about fire safety! 🚒
-                <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-white border-b border-r border-gray-100 transform rotate-45"></div>
-              </motion.div>
+              <AnimatePresence>
+                {showCTA && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.5, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+                    exit={{ opacity: 0, scale: 0.5, y: 20, transition: { delay: 0, duration: 0.2 } }}
+                    transition={{ 
+                      delay: 1.5,
+                      y: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+                      default: { type: "spring", stiffness: 200 }
+                    }}
+                    className={`absolute bottom-full mb-4 z-50 pointer-events-auto ${isOnLeft ? 'left-4' : 'right-0'}`}
+                  >
+                    <div className="relative bg-white border-[4px] border-[#ff6b00] rounded-[2rem] px-5 sm:px-6 py-2 sm:py-3 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3)]">
+                      <div className="text-[#e60000] font-black text-xs sm:text-sm md:text-base leading-[1.2] text-center tracking-wide whitespace-nowrap">
+                        LET&apos;S LEARN ABOUT<br />FIRE SAFETY!
+                      </div>
+                      {/* The tail - positioned based on which side */}
+                      <div className={`absolute -bottom-[11px] w-4 h-4 sm:w-5 sm:h-5 bg-white border-b-[4px] border-r-[4px] border-[#ff6b00] transform rotate-45 rounded-br-[3px] ${isOnLeft ? 'left-6 sm:left-10' : 'right-6 sm:right-10'}`}></div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               <Image
                 src="/RD Logo.png"
                 alt="Berong - BFP Assistant"
                 width={180}
                 height={180}
-                className="chatbot-berong-image drop-shadow-2xl select-none w-32 md:w-36 lg:w-40 h-auto transition-all duration-300"
+                className="chatbot-berong-image drop-shadow-2xl select-none w-24 sm:w-28 md:w-36 lg:w-40 h-auto transition-all duration-300"
+                style={{ transform: isOnLeft ? 'scaleX(-1)' : 'none' }}
                 draggable={false}
                 priority
               />
@@ -290,27 +408,21 @@ export function Chatbot() {
         </AnimatePresence>
       </div>
 
-      {/* Chatbot Window - Positioned above chathead on the right */}
+      {/* Chatbot Window - Positioned based on which side Berong is on */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{
               opacity: 0,
               scale: 0,
-              originX: 1,
-              originY: 1
             }}
             animate={{
               opacity: 1,
               scale: 1,
-              originX: 1,
-              originY: 1
             }}
             exit={{
               opacity: 0,
               scale: 0,
-              originX: 1,
-              originY: 1
             }}
             transition={{
               type: "spring",
@@ -318,8 +430,8 @@ export function Chatbot() {
               damping: 30,
               mass: 0.8
             }}
-            className="chatbot-window-container fixed bottom-24 right-6 z-50"
-            style={{ transformOrigin: 'bottom right' }}
+            className={`chatbot-window-container fixed bottom-24 z-50 ${isOnLeft ? 'left-6' : 'right-6'}`}
+            style={{ transformOrigin: isOnLeft ? 'bottom left' : 'bottom right' }}
           >
             <Card className="chatbot-window w-[480px] max-w-[90vw] h-[70vh] min-h-[450px] max-h-[620px] flex flex-col shadow-2xl border-secondary p-0 gap-0 overflow-hidden">
               {/* Header */}

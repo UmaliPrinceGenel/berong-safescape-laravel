@@ -6,27 +6,13 @@ import { router, usePage } from '@inertiajs/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent } from "@/components/ui/tabs"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Progress } from "@/components/ui/progress"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import {
-  Users,
-  ClipboardCheck,
-  TrendingUp,
-  Award,
-  MapPin,
-  BarChart3,
-  Download,
-  RefreshCw,
-  ArrowLeft,
-  Loader2,
-  AlertCircle,
-  Clock,
-  Target,
-  BookOpen,
-  Gamepad2,
-  Video,
-  Flame
+import { 
+  Users, Award, TrendingUp, AlertTriangle, 
+  MapPin, Clock, ArrowLeft, RefreshCw, BarChart3, Download, ClipboardCheck, ArrowRight, ShieldAlert, FileText, Target, Flame, Briefcase, GraduationCap, Loader2, AlertCircle, BookOpen, Gamepad2, Video, ChevronDown
 } from "lucide-react"
 import { useAuth } from "@/lib/auth-context"
 import { BARANGAYS_SANTA_CRUZ, ASSESSMENT_CATEGORIES } from "@/lib/constants"
@@ -69,16 +55,21 @@ interface KnowledgeData {
   incorrectAnswers: number
 }
 
-export default function AnalyticsDashboard() {
+export default function AnalyticsDashboard({ 
+  initialSummaryData, 
+  initialBarangayData, 
+  initialDemographicData, 
+  initialKnowledgeData 
+}: any) {
   const { user, isLoading: authLoading } = useAuth()
   
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(!initialSummaryData)
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState("")
-  const [summary, setSummary] = useState<SummaryData | null>(null)
-  const [barangayData, setBarangayData] = useState<BarangayData[]>([])
-  const [demographicData, setDemographicData] = useState<DemographicData | null>(null)
-  const [knowledgeData, setKnowledgeData] = useState<KnowledgeData[]>([])
+  const [summary, setSummary] = useState<SummaryData | null>(initialSummaryData || null)
+  const [barangayData, setBarangayData] = useState<BarangayData[]>(initialBarangayData || [])
+  const [demographicData, setDemographicData] = useState<DemographicData | null>(initialDemographicData || null)
+  const [knowledgeData, setKnowledgeData] = useState<KnowledgeData[]>(initialKnowledgeData || [])
   const [activeTab, setActiveTab] = useState("overview")
 
   useEffect(() => {
@@ -88,8 +79,14 @@ export default function AnalyticsDashboard() {
       router.visit("/")
       return
     }
-    fetchAllData()
-  }, [user, router, authLoading])
+    
+    // Only fetch if initial data wasn't provided by Inertia
+    if (!initialSummaryData) {
+      fetchAllData()
+    } else {
+      setLoading(false)
+    }
+  }, [user, router, authLoading, initialSummaryData])
 
   const fetchAllData = async (refresh = false) => {
     try {
@@ -158,52 +155,115 @@ export default function AnalyticsDashboard() {
   const maxKnowledgeScore = 100
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        {/* Header */}
-        <div className="bg-white border-b sticky top-0 z-10 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 pt-4 pb-2">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-start sm:items-center gap-3">
-                <Button variant="ghost" size="icon" onClick={() => router.visit("/admin")} className="mt-1 sm:mt-0 flex-shrink-0">
-                  <ArrowLeft className="h-5 w-5" />
+    <div 
+      className="min-h-screen pb-12 font-sans selection:bg-red-500 selection:text-white relative bg-fixed bg-cover bg-center"
+      style={{ backgroundImage: "url('/web-background-image.jpg')", backgroundPosition: 'center 80%' }}
+    >
+      {/* Heavy semi-transparent overlay so the image is 'a little bit seen' */}
+      <div className="absolute inset-0 bg-slate-50/90 sm:bg-slate-50/85 z-0 pointer-events-none"></div>
+
+      {/* Content wrapper */}
+      <div className="relative z-10 flex flex-col">
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          {/* Header */}
+          <div className="bg-white border-b-2 border-slate-200 fixed top-0 w-full z-50 shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 pt-4 sm:pt-6 pb-4">
+            <div className="flex flex-col gap-4">
+              
+              {/* Top Row: Title Area */}
+              <div className="flex items-start gap-3 sm:gap-4">
+                <button 
+                  onClick={() => router.visit("/admin")} 
+                  className="h-10 w-10 sm:h-12 sm:w-12 bg-white rounded-full border-2 border-slate-200 border-b-[4px] active:border-b-2 active:translate-y-[2px] shadow-sm flex items-center justify-center hover:bg-slate-50 transition-all shrink-0 mt-1 sm:mt-0"
+                >
+                  <ArrowLeft className="h-5 w-5 sm:h-6 sm:w-6 text-slate-700" strokeWidth={3} />
+                </button>
+                <div className="flex-1 min-w-0">
+                  <h1 className="text-xl sm:text-3xl font-black text-slate-800 flex items-center gap-2 sm:gap-3 leading-tight tracking-tight">
+                    <div className="p-1.5 sm:p-2 bg-orange-100 rounded-lg sm:rounded-xl shrink-0 border-2 border-orange-200">
+                      <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600" strokeWidth={3} />
+                    </div>
+                    Analytics
+                  </h1>
+                  <p className="text-[10px] sm:text-xs text-slate-400 font-bold mt-1.5 sm:mt-2 tracking-wide uppercase truncate">
+                    Santa Cruz, Laguna • Fire Safety Data
+                  </p>
+                </div>
+              </div>
+              
+              {/* Middle Row: Actions + Tab Selector */}
+              <div className="flex flex-wrap items-center gap-2">
+                <Button
+                  variant="outline"
+                  className="rounded-full border-2 border-slate-200 border-b-[4px] active:border-b-2 active:translate-y-[2px] shadow-sm font-bold text-slate-700 bg-white hover:bg-slate-50 transition-all h-10 px-4 sm:px-6"
+                  onClick={() => fetchAllData(true)}
+                  disabled={refreshing}
+                >
+                  <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? "animate-spin" : ""}`} strokeWidth={3} />
+                  Refresh
                 </Button>
-              <div>
-                <h1 className="text-2xl font-bold flex items-center gap-2">
-                  <BarChart3 className="h-6 w-6 text-orange-500" />
-                  Community Analytics Dashboard
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  Fire Safety Risk Assessment Data - Santa Cruz, Laguna
-                </p>
+                <Button 
+                  onClick={handleExport}
+                  className="rounded-full border-2 border-red-700 border-b-[4px] active:border-b-2 active:translate-y-[2px] shadow-sm font-bold bg-red-600 hover:bg-red-500 text-white transition-all h-10 px-4 sm:px-6"
+                >
+                  <Download className="h-4 w-4 mr-2" strokeWidth={3} />
+                  Export CSV
+                </Button>
+
+                {/* Tab Selector Pill — inline with actions */}
+                <div className="flex bg-[#1c1d22] rounded-[2rem] p-1.5 sm:p-2 shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] border-b-[4px] sm:border-b-[6px] border-[#0a0a0c] w-fit max-w-[95%] sm:max-w-full gap-1 overflow-hidden sm:ml-auto">
+                {/* Left Side: Overview Button */}
+                <button 
+                  onClick={() => setActiveTab('overview')}
+                  className={activeTab === 'overview'
+                    ? "bg-yellow-400 border-2 sm:border-[3px] border-white rounded-[1.5rem] shadow-[0_3px_0_0_#ca8a04] sm:shadow-[0_4px_0_0_#ca8a04] px-3 sm:px-6 py-2.5 flex items-center justify-center select-none z-50 transition-transform active:translate-y-[3px] active:shadow-none min-w-[90px]"
+                    : "flex items-center px-3 sm:px-5 py-2.5 active:opacity-70 transition-all outline-none select-none justify-center group hover:bg-white/10 rounded-[1.5rem] cursor-pointer min-w-[90px]"
+                  }
+                >
+                   <span className={`font-black tracking-widest uppercase text-[10px] sm:text-xs pt-0.5 whitespace-nowrap drop-shadow-sm ${activeTab === 'overview' ? 'text-slate-900 drop-shadow-none' : 'text-slate-300 group-hover:text-white'}`}>
+                      Overview
+                   </span>
+                </button>
+                
+                {/* Right Side: Dropdown (Text Trigger) */}
+                <DropdownMenu modal={false}>
+                  <DropdownMenuTrigger asChild>
+                    <button 
+                      className={activeTab !== 'overview'
+                        ? "bg-yellow-400 border-2 sm:border-[3px] border-white rounded-[1.5rem] shadow-[0_3px_0_0_#ca8a04] sm:shadow-[0_4px_0_0_#ca8a04] px-2 sm:px-5 py-2.5 flex items-center justify-center gap-1 select-none z-50 transition-transform active:translate-y-[3px] active:shadow-none group flex-1 min-w-[120px]"
+                        : "flex items-center gap-1 px-2 sm:px-5 py-2.5 active:opacity-70 transition-all outline-none select-none group justify-center hover:bg-white/10 rounded-[1.5rem] cursor-pointer flex-1 min-w-[100px]"
+                      }
+                    >
+                       <span className={`font-black tracking-widest uppercase text-[10px] sm:text-xs pt-0.5 truncate drop-shadow-sm ${activeTab !== 'overview' ? 'text-slate-900 drop-shadow-none' : 'text-slate-300 group-hover:text-white'}`}>
+                          {activeTab === 'overview' ? 'Menu' : activeTab === 'barangay' ? 'By Barangay' : activeTab === 'demographics' ? 'Demographics' : 'Data Gaps'}
+                       </span>
+                       <ChevronDown className={`h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-data-[state=open]:rotate-180 drop-shadow-sm shrink-0 ${activeTab !== 'overview' ? 'text-slate-900 drop-shadow-none' : 'text-slate-300 group-hover:text-white'}`} strokeWidth={3} />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" alignOffset={0} side="bottom" sideOffset={12} avoidCollisions={false} className="w-[180px] sm:w-[220px] rounded-[1.25rem] border-4 border-slate-200 shadow-[0_8px_0_0_#cbd5e1] p-2 font-black uppercase tracking-wider text-[11px] sm:text-sm text-slate-600 bg-white z-[100] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=top]:slide-in-from-bottom-2">
+                     <DropdownMenuItem onClick={() => setActiveTab('barangay')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors focus:bg-slate-100 active:scale-95 active:bg-slate-200 mb-1 text-slate-700 outline-none flex items-center justify-between">
+                       By Barangay
+                       {activeTab === 'barangay' && <div className="w-3 h-3 rounded-full bg-yellow-400 border-2 border-yellow-500 shrink-0" />}
+                     </DropdownMenuItem>
+                     <DropdownMenuItem onClick={() => setActiveTab('demographics')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors focus:bg-slate-100 active:scale-95 active:bg-slate-200 mb-1 text-slate-700 outline-none flex items-center justify-between">
+                       Demographics
+                       {activeTab === 'demographics' && <div className="w-3 h-3 rounded-full bg-yellow-400 border-2 border-yellow-500 shrink-0" />}
+                     </DropdownMenuItem>
+                     <DropdownMenuItem onClick={() => setActiveTab('knowledge')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors focus:bg-slate-100 active:scale-95 active:bg-slate-200 text-slate-700 outline-none flex items-center justify-between">
+                       Knowledge Gaps
+                       {activeTab === 'knowledge' && <div className="w-3 h-3 rounded-full bg-yellow-400 border-2 border-yellow-500 shrink-0" />}
+                     </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
               </div>
             </div>
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                onClick={() => fetchAllData(true)}
-                disabled={refreshing}
-              >
-                <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
-                Refresh
-              </Button>
-              <Button onClick={handleExport}>
-                <Download className="h-4 w-4 mr-2" />
-                Export CSV
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 pb-3">
-            <TabsList className="flex overflow-x-auto overflow-y-hidden justify-start sm:justify-center w-full max-w-full bg-slate-100 p-1">
-              <TabsTrigger value="overview" className="whitespace-nowrap">Overview</TabsTrigger>
-              <TabsTrigger value="barangay" className="whitespace-nowrap">By Barangay</TabsTrigger>
-              <TabsTrigger value="demographics" className="whitespace-nowrap">Demographics</TabsTrigger>
-              <TabsTrigger value="knowledge" className="whitespace-nowrap">Knowledge Gaps</TabsTrigger>
-            </TabsList>
           </div>
         </div>
 
+        {/* Spacer to prevent content from hiding behind the fixed header */}
+        <div className="h-[200px] sm:h-[200px]" aria-hidden="true" />
+        
         <div className="max-w-7xl mx-auto px-4 py-6">
           {error && (
             <Alert variant="destructive" className="mb-6">
@@ -217,449 +277,524 @@ export default function AnalyticsDashboard() {
             {summary && (
               <div className="space-y-6">
                 {/* Key Metrics */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-sm font-medium text-muted-foreground">
-                        Total Users
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center justify-between">
-                        <span className="text-3xl font-bold">{summary.totalUsers}</span>
-                        <Users className="h-8 w-8 text-blue-500" />
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+                  <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between">
+                    <div className="absolute -right-6 -top-6 w-20 h-20 sm:w-24 sm:h-24 bg-blue-100 rounded-full blur-2xl group-hover:bg-blue-200 transition-colors"></div>
+                    <div className="flex justify-between items-start mb-2 sm:mb-6 relative z-10">
+                      <span className="font-extrabold text-slate-500 uppercase tracking-tight sm:tracking-wider text-[11px] sm:text-sm leading-tight">Total Users</span>
+                      <div className="p-2 sm:p-3 bg-blue-50 rounded-xl sm:rounded-2xl text-blue-500 shadow-sm border sm:border-2 border-blue-100 shrink-0">
+                        <Users className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5}/>
                       </div>
-                      <p className="text-xs text-muted-foreground mt-2">
-                        {summary.profilesCompleted} profiles completed
-                      </p>
-                    </CardContent>
-                  </Card>
+                    </div>
+                    <div className="relative z-10 mt-2 sm:mt-0">
+                      <div className="text-4xl sm:text-5xl font-black text-slate-800 drop-shadow-sm leading-none">{summary.totalUsers}</div>
+                      <p className="font-bold text-slate-400 mt-1.5 text-[11px] sm:text-sm leading-tight">{summary.profilesCompleted} profiles</p>
+                    </div>
+                  </div>
 
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-sm font-medium text-muted-foreground">
-                        Pre-Tests Taken
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center justify-between">
-                        <span className="text-3xl font-bold">{summary.preTestsTaken}</span>
-                        <ClipboardCheck className="h-8 w-8 text-orange-500" />
+                  <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between">
+                    <div className="absolute -right-6 -top-6 w-20 h-20 sm:w-24 sm:h-24 bg-orange-100 rounded-full blur-2xl group-hover:bg-orange-200 transition-colors"></div>
+                    <div className="flex justify-between items-start mb-2 sm:mb-6 relative z-10">
+                      <span className="font-extrabold text-slate-500 uppercase tracking-tight sm:tracking-wider text-[11px] sm:text-sm leading-tight">Pre-Tests Taken</span>
+                      <div className="p-2 sm:p-3 bg-orange-50 rounded-xl sm:rounded-2xl text-orange-500 shadow-sm border sm:border-2 border-orange-100 shrink-0">
+                        <ClipboardCheck className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5}/>
                       </div>
-                      <p className="text-xs text-muted-foreground mt-2">
-                        Avg score: {summary.averagePreTestScore}/15
-                      </p>
-                    </CardContent>
-                  </Card>
+                    </div>
+                    <div className="relative z-10 mt-2 sm:mt-0">
+                      <div className="text-4xl sm:text-5xl font-black text-slate-800 drop-shadow-sm leading-none">{summary.preTestsTaken}</div>
+                      <p className="font-bold text-slate-400 mt-1.5 text-[11px] sm:text-sm leading-tight">Avg score: {summary.averagePreTestScore}/15</p>
+                    </div>
+                  </div>
 
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-sm font-medium text-muted-foreground">
-                        Post-Tests Taken
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center justify-between">
-                        <span className="text-3xl font-bold">{summary.postTestsTaken}</span>
-                        <Award className="h-8 w-8 text-green-500" />
+                  <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between">
+                    <div className="absolute -right-6 -top-6 w-20 h-20 sm:w-24 sm:h-24 bg-emerald-100 rounded-full blur-2xl group-hover:bg-emerald-200 transition-colors"></div>
+                    <div className="flex justify-between items-start mb-2 sm:mb-6 relative z-10">
+                      <span className="font-extrabold text-slate-500 uppercase tracking-tight sm:tracking-wider text-[11px] sm:text-sm leading-tight">Post-Tests Taken</span>
+                      <div className="p-2 sm:p-3 bg-emerald-50 rounded-xl sm:rounded-2xl text-emerald-500 shadow-sm border sm:border-2 border-emerald-100 shrink-0">
+                        <Award className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5}/>
                       </div>
-                      <p className="text-xs text-muted-foreground mt-2">
-                        Avg score: {summary.averagePostTestScore}/15
-                      </p>
-                    </CardContent>
-                  </Card>
+                    </div>
+                    <div className="relative z-10 mt-2 sm:mt-0">
+                      <div className="text-4xl sm:text-5xl font-black text-slate-800 drop-shadow-sm leading-none">{summary.postTestsTaken}</div>
+                      <p className="font-bold text-slate-400 mt-1.5 text-[11px] sm:text-sm leading-tight">Avg score: {summary.averagePostTestScore}/15</p>
+                    </div>
+                  </div>
 
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-sm font-medium text-muted-foreground">
-                        Avg Improvement
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center justify-between">
-                        <span className={`text-3xl font-bold ${summary.averageImprovement >= 0 ? "text-green-600" : "text-red-600"}`}>
-                          {summary.averageImprovement >= 0 ? "+" : ""}{summary.averageImprovement}
-                        </span>
-                        <TrendingUp className="h-8 w-8 text-green-500" />
+                  <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between">
+                    <div className="absolute -right-6 -top-6 w-20 h-20 sm:w-24 sm:h-24 bg-red-100 rounded-full blur-2xl group-hover:bg-red-200 transition-colors"></div>
+                    <div className="flex justify-between items-start mb-2 sm:mb-6 relative z-10">
+                      <span className="font-extrabold text-slate-500 uppercase tracking-tight sm:tracking-wider text-[11px] sm:text-sm leading-tight">Avg Improv.</span>
+                      <div className="p-2 sm:p-3 bg-red-50 rounded-xl sm:rounded-2xl text-red-500 shadow-sm border sm:border-2 border-red-100 shrink-0">
+                        <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5}/>
                       </div>
-                      <p className="text-xs text-muted-foreground mt-2">
-                        points from pre to post-test
-                      </p>
-                    </CardContent>
-                  </Card>
+                    </div>
+                    <div className="relative z-10 mt-2 sm:mt-0">
+                      <div className={`text-4xl sm:text-5xl font-black drop-shadow-sm leading-none ${summary.averageImprovement >= 0 ? "text-green-500" : "text-red-500"}`}>
+                        {summary.averageImprovement >= 0 ? "+" : ""}{summary.averageImprovement}
+                      </div>
+                      <p className="font-bold text-slate-400 mt-1.5 text-[11px] sm:text-sm leading-tight">points improved</p>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Engagement Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                        <Target className="h-4 w-4" />
-                        Total Engagement Points
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <span className="text-2xl font-bold">{summary.totalEngagementPoints.toLocaleString()}</span>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        Avg {summary.avgEngagementPerUser} per user
-                      </p>
-                    </CardContent>
-                  </Card>
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+                  <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-4 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all col-span-2 lg:col-span-1">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-4">
+                      <div className="p-2 sm:p-2.5 bg-purple-100 rounded-lg sm:rounded-xl text-purple-600 shadow-sm border sm:border-2 border-purple-200">
+                        <Target className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
+                      </div>
+                      <span className="font-extrabold text-slate-500 uppercase tracking-tight sm:tracking-wider text-[12px] sm:text-sm">Total Points</span>
+                    </div>
+                    <div className="mt-2 sm:mt-0">
+                      <span className="text-3xl sm:text-4xl font-black text-slate-800 drop-shadow-sm leading-none">{summary.totalEngagementPoints.toLocaleString()}</span>
+                      <p className="font-bold text-slate-400 mt-1 sm:mt-2 text-[11px] sm:text-sm">Avg {summary.avgEngagementPerUser} per user</p>
+                    </div>
+                  </div>
 
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                        <Clock className="h-4 w-4" />
-                        Active Users Today
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <span className="text-2xl font-bold">{summary.activeUsersToday}</span>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        logged activities today
-                      </p>
-                    </CardContent>
-                  </Card>
+                  <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-4 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-4">
+                      <div className="p-2 sm:p-2.5 bg-yellow-100 rounded-lg sm:rounded-xl text-yellow-600 shadow-sm border sm:border-2 border-yellow-200">
+                        <Clock className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
+                      </div>
+                      <span className="font-extrabold text-slate-500 uppercase tracking-tight sm:tracking-wider text-[12px] sm:text-sm">Active Today</span>
+                    </div>
+                    <div className="mt-2 sm:mt-0">
+                      <span className="text-3xl sm:text-4xl font-black text-slate-800 drop-shadow-sm leading-none">{summary.activeUsersToday}</span>
+                      <p className="font-bold text-slate-400 mt-1 sm:mt-2 text-[11px] sm:text-sm">activities today</p>
+                    </div>
+                  </div>
 
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                        <Users className="h-4 w-4" />
-                        Active This Week
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <span className="text-2xl font-bold">{summary.activeUsersThisWeek}</span>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        unique users with activity
-                      </p>
-                    </CardContent>
-                  </Card>
+                  <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-4 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-4">
+                      <div className="p-2 sm:p-2.5 bg-emerald-100 rounded-lg sm:rounded-xl text-emerald-600 shadow-sm border sm:border-2 border-emerald-200">
+                        <Users className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
+                      </div>
+                      <span className="font-extrabold text-slate-500 uppercase tracking-tight sm:tracking-wider text-[12px] sm:text-sm">This Week</span>
+                    </div>
+                    <div className="mt-2 sm:mt-0">
+                      <span className="text-3xl sm:text-4xl font-black text-slate-800 drop-shadow-sm leading-none">{summary.activeUsersThisWeek}</span>
+                      <p className="font-bold text-slate-400 mt-1 sm:mt-2 text-[11px] sm:text-sm">unique users</p>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Completion Funnel */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>User Journey Funnel</CardTitle>
-                    <CardDescription>Tracking user progression through the platform</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div>
-                        <div className="flex justify-between text-sm mb-1">
-                          <span>Registered Users</span>
-                          <span>{summary?.totalUsers || 0}</span>
-                        </div>
-                        <Progress value={100} className="h-4 bg-blue-100" />
-                      </div>
-                      <div>
-                        <div className="flex justify-between text-sm mb-1">
-                          <span>Completed Profile & Pre-Test</span>
-                          <span>{summary?.profilesCompleted || 0} ({(summary?.totalUsers || 0) > 0 ? Math.round(((summary?.profilesCompleted || 0) / (summary?.totalUsers || 1)) * 100) : 0}%)</span>
-                        </div>
-                        <Progress 
-                          value={(summary?.totalUsers || 0) > 0 ? ((summary?.profilesCompleted || 0) / (summary?.totalUsers || 1)) * 100 : 0} 
-                          className="h-4 bg-orange-100" 
-                        />
-                      </div>
-                      <div>
-                        <div className="flex justify-between text-sm mb-1">
-                          <span>Completed Post-Test</span>
-                          <span>{summary?.postTestsTaken || 0} ({(summary?.totalUsers || 0) > 0 ? Math.round(((summary?.postTestsTaken || 0) / (summary?.totalUsers || 1)) * 100) : 0}%)</span>
-                        </div>
-                        <Progress 
-                          value={(summary?.totalUsers || 0) > 0 ? ((summary?.postTestsTaken || 0) / (summary?.totalUsers || 1)) * 100 : 0} 
-                          className="h-4 bg-green-100" 
+                {/* Completion Funnel Replacement */}
+                <div className="mb-6 space-y-3 sm:space-y-4">
+                  <div className="flex items-center gap-2 mb-3 mt-8">
+                    <Target className="h-6 w-6 text-indigo-500" strokeWidth={3} />
+                    <h3 className="font-black text-slate-700 text-lg uppercase tracking-tight">User Journey Funnel</h3>
+                  </div>
+                  
+                  {/* Step 1 */}
+                  <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-4 sm:p-5 relative overflow-hidden flex items-center gap-4 group hover:-translate-y-1 transition-all">
+                    <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-xl sm:rounded-2xl flex items-center justify-center border-2 border-blue-200 shadow-inner">
+                      <Users className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500" strokeWidth={2.5}/>
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-black text-slate-800 text-base sm:text-xl leading-tight">Registered Users</div>
+                      <div className="font-bold text-slate-400 text-[10px] sm:text-sm mt-0.5">Total platform adoption</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl sm:text-4xl font-black text-blue-600 drop-shadow-sm leading-none">{summary?.totalUsers || 0}</div>
+                      <div className="font-bold text-slate-400 text-[10px] sm:text-xs mt-1 bg-slate-100 px-2 py-0.5 rounded-full inline-block">100% Core Base</div>
+                    </div>
+                  </div>
+
+                  {/* Step 2 */}
+                  <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-4 sm:p-5 relative overflow-hidden flex items-center gap-4 group hover:-translate-y-1 transition-all">
+                    <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 bg-orange-100 rounded-xl sm:rounded-2xl flex items-center justify-center border-2 border-orange-200 shadow-inner">
+                      <ClipboardCheck className="h-6 w-6 sm:h-8 sm:w-8 text-orange-500" strokeWidth={2.5}/>
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-black text-slate-800 text-base sm:text-xl leading-tight">Profiles & Pre-Test</div>
+                      <div className="font-bold text-slate-400 text-[10px] sm:text-sm mt-0.5">Initial assessment completion</div>
+                      {/* Thick visual progress bar */}
+                      <div className="w-full h-2.5 sm:h-3 bg-slate-100 rounded-full mt-2 sm:mt-3 overflow-hidden border border-slate-200">
+                        <div 
+                          className="h-full bg-orange-400 rounded-full transition-all duration-1000" 
+                          style={{ width: `${(summary?.totalUsers || 0) > 0 ? ((summary?.profilesCompleted || 0) / (summary?.totalUsers || 1)) * 100 : 0}%` }}
                         />
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                    <div className="text-right flex flex-col items-end">
+                      <div className="text-2xl sm:text-4xl font-black text-orange-600 drop-shadow-sm leading-none">{summary?.profilesCompleted || 0}</div>
+                      <div className="font-extrabold text-orange-500 text-[10px] sm:text-xs mt-1 bg-orange-50 px-2 py-0.5 rounded-full inline-block border border-orange-100">
+                        {(summary?.totalUsers || 0) > 0 ? Math.round(((summary?.profilesCompleted || 0) / (summary?.totalUsers || 1)) * 100) : 0}% Conv.
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-4 sm:p-5 relative overflow-hidden flex items-center gap-4 group hover:-translate-y-1 transition-all">
+                    <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 bg-emerald-100 rounded-xl sm:rounded-2xl flex items-center justify-center border-2 border-emerald-200 shadow-inner">
+                      <Award className="h-6 w-6 sm:h-8 sm:w-8 text-emerald-500" strokeWidth={2.5}/>
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-black text-slate-800 text-base sm:text-xl leading-tight">Post-Test Graduates</div>
+                      <div className="font-bold text-slate-400 text-[10px] sm:text-sm mt-0.5">Final learning validation</div>
+                      {/* Thick visual progress bar */}
+                      <div className="w-full h-2.5 sm:h-3 bg-slate-100 rounded-full mt-2 sm:mt-3 overflow-hidden border border-slate-200">
+                        <div 
+                          className="h-full bg-emerald-400 rounded-full transition-all duration-1000" 
+                          style={{ width: `${(summary?.totalUsers || 0) > 0 ? ((summary?.postTestsTaken || 0) / (summary?.totalUsers || 1)) * 100 : 0}%` }}
+                        />
+                      </div>
+                    </div>
+                    <div className="text-right flex flex-col items-end">
+                      <div className="text-2xl sm:text-4xl font-black text-emerald-600 drop-shadow-sm leading-none">{summary?.postTestsTaken || 0}</div>
+                      <div className="font-extrabold text-emerald-500 text-[10px] sm:text-xs mt-1 bg-emerald-50 px-2 py-0.5 rounded-full inline-block border border-emerald-100">
+                        {(summary?.totalUsers || 0) > 0 ? Math.round(((summary?.postTestsTaken || 0) / (summary?.totalUsers || 1)) * 100) : 0}% Conv.
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
               </div>
             )}
           </TabsContent>
 
           {/* Barangay Tab */}
-          <TabsContent value="barangay">
-            <div className="space-y-6">
-              <Card className="w-full overflow-hidden">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <MapPin className="h-5 w-5 text-orange-500" />
-                    Users by Barangay
-                  </CardTitle>
-                  <CardDescription>
-                    Distribution of users across Santa Cruz, Laguna barangays
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {(Array.isArray(barangayData) ? barangayData : []).filter(b => b.userCount > 0).map((b) => (
-                      <div key={b.barangay} className="flex items-center gap-4">
-                        <div className="w-40 text-sm font-medium truncate">{b.barangay}</div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2">
-                            <div 
-                              className="h-6 bg-gradient-to-r from-orange-400 to-orange-600 rounded"
-                              style={{ width: `${(b.userCount / maxBarangayUsers) * 100}%`, minWidth: "20px" }}
-                            />
-                            <span className="text-sm font-medium">{b.userCount}</span>
-                          </div>
+          <TabsContent value="barangay" className="mt-4 sm:mt-6">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-5 sm:p-8 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col">
+                <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                  <div className="p-2.5 sm:p-3 bg-orange-100 rounded-xl sm:rounded-2xl text-orange-600 border-2 border-orange-200 shadow-sm shrink-0">
+                    <MapPin className="h-6 w-6 sm:h-8 sm:w-8" strokeWidth={2.5} />
+                  </div>
+                  <div>
+                    <h3 className="font-black text-slate-800 text-lg sm:text-2xl uppercase tracking-tight leading-none">Users by Barangay</h3>
+                    <p className="font-bold text-slate-400 text-xs sm:text-sm mt-1 sm:mt-1.5 uppercase tracking-wide">Distribution of users across Santa Cruz, Laguna barangays</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-3 sm:space-y-4">
+                  {(Array.isArray(barangayData) ? barangayData : []).filter(b => b.userCount > 0).map((b) => (
+                    <div key={b.barangay} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 p-3 sm:p-5 bg-slate-50 rounded-xl sm:rounded-[1.5rem] border-2 border-slate-100 transition-colors hover:bg-slate-100">
+                      <div className="w-full sm:w-56 text-sm sm:text-base font-black text-slate-700 uppercase tracking-tight truncate">{b.barangay}</div>
+                      <div className="flex-1 w-full flex items-center gap-3 sm:gap-4">
+                        <div className="w-full h-3 sm:h-5 bg-slate-200 rounded-full overflow-hidden border border-slate-300">
+                           <div className="h-full bg-orange-400 rounded-full transition-all duration-1000" style={{ width: `${(b.userCount / maxBarangayUsers) * 100}%` }} />
+                        </div>
+                        <div className="w-12 sm:w-16 text-right font-black text-slate-800 text-base sm:text-lg">{b.userCount}</div>
+                      </div>
+                    </div>
+                  ))}
+                  {((Array.isArray(barangayData) ? barangayData : []).filter(b => (b.userCount || 0) > 0).length === 0) && (
+                    <p className="text-center text-slate-400 font-bold py-8 text-sm">No barangay data available yet</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Score Analytics — Mobile-Friendly Cards */}
+              <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-5 sm:p-8 relative overflow-hidden flex flex-col">
+                <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                  <div className="p-2.5 sm:p-3 bg-blue-100 rounded-xl sm:rounded-2xl text-blue-600 border-2 border-blue-200 shadow-sm shrink-0">
+                    <BarChart3 className="h-6 w-6 sm:h-8 sm:w-8" strokeWidth={2.5} />
+                  </div>
+                  <div>
+                    <h3 className="font-black text-slate-800 text-lg sm:text-2xl uppercase tracking-tight leading-none">Pre-Test vs Post-Test Scores by Barangay</h3>
+                    <p className="font-bold text-slate-400 text-xs sm:text-sm mt-1 sm:mt-1.5 uppercase tracking-wide">Average assessment scores comparison</p>
+                  </div>
+                </div>
+
+                {/* Desktop: Table layout */}
+                <div className="hidden lg:block">
+                  <table className="w-full text-sm border-separate border-spacing-y-3">
+                    <thead>
+                      <tr className="text-slate-400 uppercase tracking-widest text-xs font-black">
+                        <th className="text-left px-6">Barangay</th>
+                        <th className="text-center px-4">Users</th>
+                        <th className="text-center px-4">Avg Pre-Test</th>
+                        <th className="text-center px-4">Avg Post-Test</th>
+                        <th className="text-center px-6">Improvement</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {(Array.isArray(barangayData) ? barangayData : []).filter(b => (b.userCount || 0) > 0).map((b) => (
+                        <tr key={b.barangay} className="bg-slate-50 border-2 border-slate-100 transition-colors hover:bg-slate-100">
+                          <td className="py-5 px-6 font-black uppercase tracking-tight text-slate-700 rounded-l-[1.5rem] border-y-2 border-l-2 border-slate-100 text-sm">{b.barangay}</td>
+                          <td className="py-5 px-4 text-center font-bold text-slate-500 border-y-2 border-slate-100 text-lg tabular-nums">{b.userCount}</td>
+                          <td className="py-5 px-4 text-center border-y-2 border-slate-100">
+                            <span className="bg-orange-100 text-orange-600 border-2 border-orange-200 px-4 py-2 rounded-full font-black text-sm">
+                              {b.avgPreTestScore}/15
+                            </span>
+                          </td>
+                          <td className="py-5 px-4 text-center border-y-2 border-slate-100">
+                            <span className="bg-emerald-100 text-emerald-600 border-2 border-emerald-200 px-4 py-2 rounded-full font-black text-sm">
+                              {b.avgPostTestScore}/15
+                            </span>
+                          </td>
+                          <td className="py-5 px-6 text-center rounded-r-[1.5rem] border-y-2 border-r-2 border-slate-100">
+                            <span className={`font-black text-base px-4 py-2 rounded-full border-2 ${b.avgImprovement >= 0 ? 'bg-green-100 text-green-700 border-green-200 shadow-sm' : 'bg-red-100 text-red-700 border-red-200 shadow-sm'}`}>
+                              {b.avgImprovement >= 0 ? "+" : ""}{b.avgImprovement}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {((Array.isArray(barangayData) ? barangayData : []).filter(b => (b.userCount || 0) > 0).length === 0) && (
+                    <p className="text-center text-slate-400 font-bold py-8 text-sm">No data available</p>
+                  )}
+                </div>
+
+                {/* Mobile: Card layout */}
+                <div className="lg:hidden space-y-3">
+                  {(Array.isArray(barangayData) ? barangayData : []).filter(b => (b.userCount || 0) > 0).map((b) => (
+                    <div key={b.barangay} className="bg-slate-50 rounded-xl border-2 border-slate-100 p-4 transition-colors hover:bg-slate-100">
+                      <div className="font-black text-slate-700 uppercase tracking-tight text-sm mb-3">{b.barangay}</div>
+                      <div className="grid grid-cols-4 gap-2">
+                        <div className="flex flex-col items-center bg-white rounded-xl border-2 border-slate-200 border-b-[3px] p-2.5">
+                          <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">Users</span>
+                          <span className="text-lg font-black text-slate-700 tabular-nums leading-none">{b.userCount}</span>
+                        </div>
+                        <div className="flex flex-col items-center bg-orange-50 rounded-xl border-2 border-orange-200 border-b-[3px] p-2.5">
+                          <span className="text-[9px] font-extrabold text-orange-400 uppercase tracking-wider mb-1">Pre</span>
+                          <span className="text-base font-black text-orange-600 tabular-nums leading-none">{b.avgPreTestScore}/15</span>
+                        </div>
+                        <div className="flex flex-col items-center bg-emerald-50 rounded-xl border-2 border-emerald-200 border-b-[3px] p-2.5">
+                          <span className="text-[9px] font-extrabold text-emerald-400 uppercase tracking-wider mb-1">Post</span>
+                          <span className="text-base font-black text-emerald-600 tabular-nums leading-none">{b.avgPostTestScore}/15</span>
+                        </div>
+                        <div className={`flex flex-col items-center rounded-xl border-2 border-b-[3px] p-2.5 ${b.avgImprovement >= 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                          <span className={`text-[9px] font-extrabold uppercase tracking-wider mb-1 ${b.avgImprovement >= 0 ? 'text-green-400' : 'text-red-400'}`}>Improv</span>
+                          <span className={`text-lg font-black tabular-nums leading-none ${b.avgImprovement >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                            {b.avgImprovement >= 0 ? "+" : ""}{b.avgImprovement}
+                          </span>
                         </div>
                       </div>
-                    ))}
-                    {((Array.isArray(barangayData) ? barangayData : []).filter(b => (b.userCount || 0) > 0).length === 0) && (
-                      <p className="text-center text-muted-foreground py-8">No barangay data available yet</p>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="w-full overflow-hidden">
-                <CardHeader>
-                  <CardTitle>Pre-Test vs Post-Test Scores by Barangay</CardTitle>
-                  <CardDescription>
-                    Average assessment scores comparison
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="px-0 sm:px-6">
-                  <div className="overflow-x-auto w-full px-4 sm:px-0 pb-4">
-                    <table className="w-full text-sm min-w-[550px]">
-                      <thead>
-                        <tr className="border-b">
-                          <th className="whitespace-nowrap text-left py-2 px-2">Barangay</th>
-                          <th className="whitespace-nowrap text-center py-2 px-2">Users</th>
-                          <th className="whitespace-nowrap text-center py-2 px-2">Avg Pre-Test</th>
-                          <th className="whitespace-nowrap text-center py-2 px-2">Avg Post-Test</th>
-                          <th className="whitespace-nowrap text-center py-2 px-2">Improvement</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {(Array.isArray(barangayData) ? barangayData : []).filter(b => (b.userCount || 0) > 0).map((b) => (
-                          <tr key={b.barangay} className="border-b hover:bg-gray-50">
-                            <td className="py-2 px-2 font-medium">{b.barangay}</td>
-                            <td className="py-2 px-2 text-center">{b.userCount}</td>
-                            <td className="py-2 px-2 text-center">
-                              <Badge variant="outline">{b.avgPreTestScore}/15</Badge>
-                            </td>
-                            <td className="py-2 px-2 text-center">
-                              <Badge variant="outline" className="bg-green-50">{b.avgPostTestScore}/15</Badge>
-                            </td>
-                            <td className={`py-2 px-2 text-center font-medium ${b.avgImprovement >= 0 ? "text-green-600" : "text-red-600"}`}>
-                              {b.avgImprovement >= 0 ? "+" : ""}{b.avgImprovement}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    {((Array.isArray(barangayData) ? barangayData : []).filter(b => (b.userCount || 0) > 0).length === 0) && (
-                      <p className="text-center text-muted-foreground py-8">No data available</p>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+                    </div>
+                  ))}
+                  {((Array.isArray(barangayData) ? barangayData : []).filter(b => (b.userCount || 0) > 0).length === 0) && (
+                    <p className="text-center text-slate-400 font-bold py-8 text-sm">No data available</p>
+                  )}
+                </div>
+              </div>
             </div>
           </TabsContent>
-
           {/* Demographics Tab */}
-          <TabsContent value="demographics">
+          <TabsContent value="demographics" className="mt-4 sm:mt-6">
             {demographicData && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-3 sm:gap-6">
+                
                 {/* Gender */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Gender Distribution</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {Object.entries(demographicData?.gender || ({} as Record<string, number>)).map(([gender, count]) => {
-                        const total = Object.values(demographicData?.gender || ({} as Record<string, number>)).reduce((a: number, b: number) => a + b, 0) as number
+                <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-5 sm:p-6 lg:p-8 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="p-2 sm:p-2.5 bg-pink-100 rounded-lg sm:rounded-xl text-pink-600 border sm:border-2 border-pink-200 shadow-sm shrink-0">
+                      <Users className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
+                    </div>
+                    <h3 className="font-extrabold text-slate-700 text-xs sm:text-sm uppercase tracking-tight leading-tight">Gender</h3>
+                  </div>
+                  
+                  <div className="space-y-4 sm:space-y-5 flex-1">
+                    {Object.entries(demographicData?.gender || ({} as Record<string, number>)).map(([gender, count]) => {
+                      const total = Object.values(demographicData?.gender || ({} as Record<string, number>)).reduce((a: number, b: number) => a + b, 0) as number
+                      const percentage = total > 0 ? Math.round(((count as number) / total) * 100) : 0
+                      return (
+                        <div key={gender} className="w-full">
+                          <div className="flex justify-between items-end mb-1.5 sm:mb-2">
+                            <span className="font-bold text-slate-700 text-[11px] sm:text-sm leading-none">{gender}</span>
+                            <span className="font-black text-slate-500 text-[11px] sm:text-sm leading-none">{percentage}%</span>
+                          </div>
+                          <div className="w-full h-3 sm:h-4 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                            <div className="h-full bg-pink-400 rounded-full transition-all duration-1000" style={{ width: `${percentage}%` }} />
+                          </div>
+                          <p className="text-right text-slate-400 font-bold text-[10px] sm:text-[11px] mt-1 sm:mt-1.5">{count} users</p>
+                        </div>
+                      )
+                    })}
+                    {Object.keys(demographicData.gender).length === 0 && (
+                      <p className="text-center text-slate-400 font-bold py-4 text-xs">No data</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Age Groups */}
+                <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-5 sm:p-6 lg:p-8 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="p-2 sm:p-2.5 bg-purple-100 rounded-lg sm:rounded-xl text-purple-600 border sm:border-2 border-purple-200 shadow-sm shrink-0">
+                      <Clock className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
+                    </div>
+                    <h3 className="font-extrabold text-slate-700 text-xs sm:text-sm uppercase tracking-tight leading-tight">Age Groups</h3>
+                  </div>
+                  
+                  <div className="space-y-4 sm:space-y-5 flex-1">
+                    {Object.entries(demographicData?.ageGroups || ({} as Record<string, number>))
+                      .filter(([_, count]) => (count as number) > 0)
+                      .map(([age, count]) => {
+                        const total = Object.values(demographicData?.ageGroups || ({} as Record<string, number>)).reduce((a: number, b: number) => a + b, 0) as number
                         const percentage = total > 0 ? Math.round(((count as number) / total) * 100) : 0
                         return (
-                          <div key={gender} className="flex items-center gap-4">
-                            <div className="w-24 text-sm font-medium">{gender}</div>
-                            <div className="flex-1">
-                              <Progress value={percentage} className="h-4" />
+                          <div key={age} className="w-full">
+                            <div className="flex justify-between items-end mb-1.5 sm:mb-2">
+                              <span className="font-bold text-slate-700 text-[11px] sm:text-sm leading-none">{age}</span>
+                              <span className="font-black text-slate-500 text-[11px] sm:text-sm leading-none">{percentage}%</span>
                             </div>
-                            <div className="w-16 text-right text-sm">
-                              {count} ({percentage}%)
+                            <div className="w-full h-3 sm:h-4 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                              <div className="h-full bg-purple-400 rounded-full transition-all duration-1000" style={{ width: `${percentage}%` }} />
                             </div>
+                            <p className="text-right text-slate-400 font-bold text-[10px] sm:text-[11px] mt-1 sm:mt-1.5">{count} users</p>
                           </div>
                         )
                       })}
-                      {Object.keys(demographicData.gender).length === 0 && (
-                        <p className="text-center text-muted-foreground py-4">No data</p>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Age Groups */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Age Groups</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {Object.entries(demographicData?.ageGroups || ({} as Record<string, number>))
-                        .filter(([_, count]) => (count as number) > 0)
-                        .map(([age, count]) => {
-                          const total = Object.values(demographicData?.ageGroups || ({} as Record<string, number>)).reduce((a: number, b: number) => a + b, 0) as number
-                          const percentage = total > 0 ? Math.round(((count as number) / total) * 100) : 0
-                          return (
-                            <div key={age} className="flex items-center gap-4">
-                              <div className="w-24 text-sm font-medium">{age}</div>
-                              <div className="flex-1">
-                                <Progress value={percentage} className="h-4" />
-                              </div>
-                              <div className="w-16 text-right text-sm">
-                                {count} ({percentage}%)
-                              </div>
-                            </div>
-                          )
-                        })}
-                      {Object.values(demographicData.ageGroups).every(v => v === 0) && (
-                        <p className="text-center text-muted-foreground py-4">No data</p>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
+                    {Object.values(demographicData.ageGroups).every(v => v === 0) && (
+                      <p className="text-center text-slate-400 font-bold py-4 text-xs">No data</p>
+                    )}
+                  </div>
+                </div>
 
                 {/* Occupations */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Occupations (Adults)</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {Object.entries(demographicData?.occupations || ({} as Record<string, number>))
-                        .sort(([, a], [, b]) => (b as number) - (a as number))
-                        .slice(0, 10)
-                        .map(([occupation, count]) => {
-                          const total = Object.values(demographicData?.occupations || ({} as Record<string, number>)).reduce((a: number, b: number) => a + b, 0) as number
-                          const percentage = total > 0 ? Math.round(((count as number) / total) * 100) : 0
-                          return (
-                            <div key={occupation} className="flex items-center gap-4">
-                              <div className="w-32 text-sm font-medium truncate">{occupation}</div>
-                              <div className="flex-1">
-                                <Progress value={percentage} className="h-4" />
-                              </div>
-                              <div className="w-16 text-right text-sm">
-                                {count}
-                              </div>
-                            </div>
-                          )
-                        })}
-                      {Object.keys(demographicData.occupations).length === 0 && (
-                        <p className="text-center text-muted-foreground py-4">No data</p>
-                      )}
+                <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-5 sm:p-6 lg:p-8 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="p-2 sm:p-2.5 bg-emerald-100 rounded-lg sm:rounded-xl text-emerald-600 border sm:border-2 border-emerald-200 shadow-sm shrink-0">
+                      <Briefcase className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
                     </div>
-                  </CardContent>
-                </Card>
+                    <h3 className="font-extrabold text-slate-700 text-xs sm:text-sm uppercase tracking-tight leading-tight">Occupations</h3>
+                  </div>
+                  
+                  <div className="space-y-4 sm:space-y-5 flex-1">
+                    {Object.entries(demographicData?.occupations || ({} as Record<string, number>))
+                      .sort(([, a], [, b]) => (b as number) - (a as number))
+                      .slice(0, 5) // Limit to top 5 to prevent massive 2x2 cards
+                      .map(([occupation, count]) => {
+                        const total = Object.values(demographicData?.occupations || ({} as Record<string, number>)).reduce((a: number, b: number) => a + b, 0) as number
+                        const percentage = total > 0 ? Math.round(((count as number) / total) * 100) : 0
+                        return (
+                          <div key={occupation} className="w-full">
+                            <div className="flex justify-between items-end mb-1.5 sm:mb-2">
+                              <span className="font-bold text-slate-700 text-[11px] sm:text-sm leading-none truncate max-w-[70%]">{occupation}</span>
+                              <span className="font-black text-slate-500 text-[11px] sm:text-sm leading-none">{percentage}%</span>
+                            </div>
+                            <div className="w-full h-3 sm:h-4 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                              <div className="h-full bg-emerald-400 rounded-full transition-all duration-1000" style={{ width: `${percentage}%` }} />
+                            </div>
+                            <p className="text-right text-slate-400 font-bold text-[10px] sm:text-[11px] mt-1 sm:mt-1.5">{count} adults</p>
+                          </div>
+                        )
+                      })}
+                    {Object.keys(demographicData.occupations).length === 0 && (
+                      <p className="text-center text-slate-400 font-bold py-4 text-xs">No data</p>
+                    )}
+                  </div>
+                </div>
 
                 {/* Schools */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Schools (Kids)</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {Object.entries(demographicData?.schools || ({} as Record<string, number>))
-                        .sort(([, a], [, b]) => (b as number) - (a as number))
-                        .slice(0, 10)
-                        .map(([school, count]) => {
-                          const total = Object.values(demographicData?.schools || ({} as Record<string, number>)).reduce((a: number, b: number) => a + b, 0) as number
-                          const percentage = total > 0 ? Math.round(((count as number) / total) * 100) : 0
-                          return (
-                            <div key={school} className="flex items-center gap-4">
-                              <div className="w-32 text-sm font-medium truncate" title={school}>{school}</div>
-                              <div className="flex-1">
-                                <Progress value={percentage} className="h-4" />
-                              </div>
-                              <div className="w-16 text-right text-sm">
-                                {count}
-                              </div>
-                            </div>
-                          )
-                        })}
-                      {Object.keys(demographicData.schools).length === 0 && (
-                        <p className="text-center text-muted-foreground py-4">No data</p>
-                      )}
+                <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-5 sm:p-6 lg:p-8 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="p-2 sm:p-2.5 bg-sky-100 rounded-lg sm:rounded-xl text-sky-600 border sm:border-2 border-sky-200 shadow-sm shrink-0">
+                      <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
                     </div>
-                  </CardContent>
-                </Card>
+                    <h3 className="font-extrabold text-slate-700 text-xs sm:text-sm uppercase tracking-tight leading-tight">Schools</h3>
+                  </div>
+                  
+                  <div className="space-y-4 sm:space-y-5 flex-1">
+                    {Object.entries(demographicData?.schools || ({} as Record<string, number>))
+                      .sort(([, a], [, b]) => (b as number) - (a as number))
+                      .slice(0, 5) // Limit to top 5
+                      .map(([school, count]) => {
+                        const total = Object.values(demographicData?.schools || ({} as Record<string, number>)).reduce((a: number, b: number) => a + b, 0) as number
+                        const percentage = total > 0 ? Math.round(((count as number) / total) * 100) : 0
+                        return (
+                          <div key={school} className="w-full">
+                            <div className="flex justify-between items-end mb-1.5 sm:mb-2">
+                              <span className="font-bold text-slate-700 text-[11px] sm:text-sm leading-none truncate max-w-[70%]">{school}</span>
+                              <span className="font-black text-slate-500 text-[11px] sm:text-sm leading-none">{percentage}%</span>
+                            </div>
+                            <div className="w-full h-3 sm:h-4 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                              <div className="h-full bg-sky-400 rounded-full transition-all duration-1000" style={{ width: `${percentage}%` }} />
+                            </div>
+                            <p className="text-right text-slate-400 font-bold text-[10px] sm:text-[11px] mt-1 sm:mt-1.5">{count} kids</p>
+                          </div>
+                        )
+                      })}
+                    {Object.keys(demographicData.schools).length === 0 && (
+                      <p className="text-center text-slate-400 font-bold py-4 text-xs">No data</p>
+                    )}
+                  </div>
+                </div>
+
               </div>
             )}
           </TabsContent>
 
           {/* Knowledge Gaps Tab */}
-          <TabsContent value="knowledge">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Flame className="h-5 w-5 text-orange-500" />
-                  Knowledge Gap Analysis
-                </CardTitle>
-                <CardDescription>
-                  Areas where users struggle most (sorted by lowest scores first)
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+          <TabsContent value="knowledge" className="mt-4 sm:mt-6">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="bg-white rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 border-b-[4px] sm:border-b-[6px] p-5 sm:p-8 lg:p-8 relative overflow-hidden flex flex-col">
+                <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                  <div className="p-2.5 sm:p-3 bg-orange-100 rounded-xl sm:rounded-2xl text-orange-600 border-2 border-orange-200 shadow-sm shrink-0">
+                    <Flame className="h-6 w-6 sm:h-8 sm:w-8" strokeWidth={2.5} />
+                  </div>
+                  <div>
+                    <h3 className="font-black text-slate-800 text-lg sm:text-2xl uppercase tracking-tight leading-none">Knowledge Gap Analysis</h3>
+                    <p className="font-bold text-slate-400 text-xs sm:text-sm mt-1 sm:mt-1.5 uppercase tracking-wide">Areas where users struggle most (sorted by lowest scores first)</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3 sm:space-y-4">
                   {(Array.isArray(knowledgeData) ? knowledgeData : []).map((k) => (
-                    <div key={k.category} className="border rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-medium">{k.category}</span>
-                        <Badge 
-                          variant={k.avgScore >= 70 ? "default" : k.avgScore >= 50 ? "secondary" : "destructive"}
-                        >
+                    <div key={k.category} className="bg-slate-50 rounded-xl sm:rounded-2xl border-2 border-slate-100 p-4 sm:p-5 lg:p-6 transition-colors hover:bg-slate-100">
+                      <div className="flex items-center justify-between mb-3 sm:mb-4">
+                        <span className="font-black text-slate-700 text-sm sm:text-base uppercase tracking-tight">{k.category}</span>
+                        <span className={`font-black text-xs sm:text-sm px-3 sm:px-4 py-1.5 rounded-full border-2 ${
+                          k.avgScore >= 70 
+                            ? 'bg-green-100 text-green-700 border-green-200' 
+                            : k.avgScore >= 50 
+                              ? 'bg-yellow-100 text-yellow-700 border-yellow-200' 
+                              : 'bg-red-100 text-red-700 border-red-200'
+                        }`}>
                           {k.avgScore}% correct
-                        </Badge>
+                        </span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="flex-1">
-                          <div 
-                            className={`h-4 rounded ${
-                              k.avgScore >= 70 ? "bg-green-500" : k.avgScore >= 50 ? "bg-yellow-500" : "bg-red-500"
-                            }`}
-                            style={{ width: `${k.avgScore}%`, minWidth: "4px" }}
-                          />
-                        </div>
+                      <div className="w-full h-3 sm:h-4 bg-slate-200 rounded-full overflow-hidden border border-slate-300">
+                        <div 
+                          className={`h-full rounded-full transition-all duration-1000 ${
+                            k.avgScore >= 70 ? "bg-green-400" : k.avgScore >= 50 ? "bg-yellow-400" : "bg-red-400"
+                          }`}
+                          style={{ width: `${k.avgScore}%`, minWidth: "4px" }}
+                        />
                       </div>
-                      <div className="flex gap-4 mt-2 text-xs text-muted-foreground">
-                        <span>Questions: {k.totalQuestions}</span>
-                        <span>Correct: {k.correctAnswers}</span>
-                        <span>Incorrect: {k.incorrectAnswers}</span>
+                      <div className="flex flex-wrap gap-3 sm:gap-5 mt-2.5 sm:mt-3">
+                        <span className="font-bold text-slate-400 text-[10px] sm:text-xs uppercase tracking-wider">Questions: {k.totalQuestions}</span>
+                        <span className="font-bold text-emerald-400 text-[10px] sm:text-xs uppercase tracking-wider">Correct: {k.correctAnswers}</span>
+                        <span className="font-bold text-red-400 text-[10px] sm:text-xs uppercase tracking-wider">Incorrect: {k.incorrectAnswers}</span>
                       </div>
                     </div>
                   ))}
                   {knowledgeData.length === 0 && (
-                    <p className="text-center text-muted-foreground py-8">No assessment data available yet</p>
+                    <p className="text-center text-slate-400 font-bold py-8 text-sm">No assessment data available yet</p>
                   )}
                 </div>
 
                 {knowledgeData.length > 0 && (
-                  <div className="mt-6 p-4 bg-orange-50 rounded-lg">
-                    <h4 className="font-medium text-orange-800 mb-2">📊 Insights</h4>
-                    <ul className="text-sm text-orange-700 space-y-1">
+                  <div className="mt-6 sm:mt-8 bg-orange-50 rounded-xl sm:rounded-2xl border-2 border-orange-200 p-4 sm:p-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <BarChart3 className="h-5 w-5 text-orange-500" strokeWidth={2.5} />
+                      <h4 className="font-black text-orange-700 text-sm sm:text-base uppercase tracking-tight">Insights</h4>
+                    </div>
+                    <div className="space-y-2">
                       {(Array.isArray(knowledgeData) ? knowledgeData : []).filter(k => (k.avgScore || 0) < 50).length > 0 && (
-                        <li>
-                          • <strong>Priority Focus Areas:</strong> {(Array.isArray(knowledgeData) ? knowledgeData : []).filter(k => (k.avgScore || 0) < 50).map(k => k.category).join(", ")}
-                        </li>
+                        <p className="font-bold text-orange-600 text-xs sm:text-sm">
+                          <span className="text-orange-800">Priority Focus Areas:</span>{" "}
+                          {(Array.isArray(knowledgeData) ? knowledgeData : []).filter(k => (k.avgScore || 0) < 50).map(k => k.category).join(", ")}
+                        </p>
                       )}
                       {(Array.isArray(knowledgeData) ? knowledgeData : []).filter(k => (k.avgScore || 0) >= 70).length > 0 && (
-                        <li>
-                          • <strong>Strong Knowledge Areas:</strong> {(Array.isArray(knowledgeData) ? knowledgeData : []).filter(k => (k.avgScore || 0) >= 70).map(k => k.category).join(", ")}
-                        </li>
+                        <p className="font-bold text-emerald-600 text-xs sm:text-sm">
+                          <span className="text-emerald-800">Strong Knowledge Areas:</span>{" "}
+                          {(Array.isArray(knowledgeData) ? knowledgeData : []).filter(k => (k.avgScore || 0) >= 70).map(k => k.category).join(", ")}
+                        </p>
                       )}
-                    </ul>
+                    </div>
                   </div>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </TabsContent>
         </div>
       </Tabs>
+      </div>
     </div>
   )
 }

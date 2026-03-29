@@ -74,15 +74,14 @@ function SortableContentItem<T extends SortableItem>({
                 {renderContent(item)}
             </div>
 
-            <Button
-                variant="destructive"
-                size="icon"
+            <button
+                type="button"
                 onClick={() => onDelete(item.id)}
-                className="ml-4 shrink-0"
-                aria-label="Delete"
+                className="ml-4 shrink-0 flex items-center justify-center bg-red-600 text-white font-extrabold h-10 w-10 pb-1 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                aria-label="Delete item"
             >
                 <Trash2 className="h-4 w-4" />
-            </Button>
+            </button>
         </div>
     )
 }

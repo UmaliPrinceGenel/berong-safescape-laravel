@@ -34,7 +34,7 @@ export default function GooeyNav({
         return pathname.startsWith(item.href);
     });
 
-    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, index: number) => {
+    const handleClick = (e: React.MouseEvent<Element>, index: number) => {
         if (index === activeIndex) return;
     };
 

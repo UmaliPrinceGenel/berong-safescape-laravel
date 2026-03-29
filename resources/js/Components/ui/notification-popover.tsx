@@ -201,59 +201,56 @@ export function NotificationPopover() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-9 w-9 border-white/50 text-white bg-transparent hover:bg-white hover:text-red-700 hover:border-white transition-all hover:scale-110 relative"
+        <button
+          className="relative flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-[#0ea5e9] border-[3px] border-white text-white shadow-[0_4px_0_#0284c7] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#0284c7] active:translate-y-1 active:shadow-[0_0px_0_#0284c7] data-[state=open]:!translate-y-1 data-[state=open]:!shadow-[0_0px_0_#0284c7] transition-all outline-none"
         >
-          <Bell className="h-4 w-4" />
+          <Bell className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
           {unreadCount > 0 && (
             <Badge
-              className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
-              variant="destructive"
+              className="absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 border-2 border-white rounded-full p-0 flex items-center justify-center text-[9px] sm:text-[10px] bg-red-500 hover:bg-red-500"
             >
               {unreadCount}
             </Badge>
           )}
-        </Button>
+        </button>
       </PopoverTrigger>
-      <PopoverContent className="w-96 p-0" align="end">
-        <div className="flex items-center justify-between p-4 border-b">
-          <h3 className="font-semibold">Notifications</h3>
+      <PopoverContent className="w-[calc(100vw-2rem)] sm:w-96 p-0 rounded-[1.25rem] border-2 border-slate-200/60 shadow-2xl overflow-hidden" align="end" sideOffset={12} collisionPadding={16}>
+        <div className="flex items-center justify-between p-4 lg:px-5 border-b border-slate-100 bg-slate-50/80 backdrop-blur-sm">
+          <h3 className="font-extrabold text-slate-800 text-lg tracking-tight">Notifications</h3>
           {unreadCount > 0 && (
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={markAllAsRead}
-              className="h-auto p-1 text-xs"
+              className="h-auto py-1.5 px-3 text-xs rounded-full font-bold shadow-[0_3px_0_#e2e8f0] hover:-translate-y-0.5 hover:shadow-[0_4px_0_#e2e8f0] active:translate-y-0.5 active:shadow-[0_1px_0_#e2e8f0] border-2 transition-all outline-none"
             >
-              <Check className="h-3 w-3 mr-1" />
+              <Check className="h-3.5 w-3.5 mr-1" strokeWidth={3} />
               Mark all as read
             </Button>
           )}
         </div>
         <ScrollArea className="h-[450px]">
-          <div className="p-2">
+          <div className="p-3">
             {loading ? (
-              <div className="p-6 text-center text-sm text-muted-foreground">
+              <div className="p-6 text-center text-sm text-slate-500 font-medium">
                 Loading notifications...
               </div>
             ) : error ? (
-              <div className="p-6 text-center text-sm text-destructive">
+              <div className="p-6 text-center text-sm text-red-500 font-medium">
                 {error}
               </div>
             ) : notifications.length === 0 ? (
-              <div className="p-6 text-center text-sm text-muted-foreground">
+              <div className="p-6 text-center text-sm text-slate-500 font-medium">
                 No notifications yet
               </div>
             ) : (
-              <div className="space-y-1">
+              <div className="space-y-2">
                 {notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`p-3 rounded-md transition-colors group relative ${!notification.isRead
-                      ? "bg-accent/50 hover:bg-accent/70"
-                      : "hover:bg-muted/50"
+                    className={`p-3.5 rounded-xl transition-all group relative border-2 ${!notification.isRead
+                      ? "bg-blue-50/50 border-blue-200/50 hover:bg-blue-50/80 hover:-translate-y-0.5 hover:shadow-sm"
+                      : "bg-white border-transparent hover:border-slate-100 hover:bg-slate-50/80 hover:-translate-y-0.5 hover:shadow-sm"
                       }`}
                   >
                     <div className="flex items-start gap-3">
@@ -284,7 +281,7 @@ export function NotificationPopover() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="absolute top-2 right-2 h-6 w-6 text-foreground bg-background/50 hover:bg-background border border-transparent hover:border-border shadow-sm transition-all"
+                          className="absolute top-2.5 right-2.5 h-7 w-7 rounded-full text-slate-400 bg-transparent hover:bg-white border-2 border-transparent hover:border-slate-200 hover:text-slate-600 shadow-none hover:shadow-[0_2px_0_#e2e8f0] hover:-translate-y-0.5 active:translate-y-0 active:shadow-none transition-all outline-none"
                         >
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
