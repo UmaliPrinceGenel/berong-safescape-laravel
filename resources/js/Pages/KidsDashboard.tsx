@@ -12,6 +12,7 @@ import { Footer } from "@/Components/footer"
 import DashboardLayout from "@/Layouts/DashboardLayout"
 import React from "react"
 import Particles from "@/components/ui/particles"
+import { useSettings } from "@/lib/settings-context"
 
 interface KidsPageProps {
   // If modules come from backend, we could accept them here, but for now we restore the old static logic exactly
@@ -20,6 +21,7 @@ interface KidsPageProps {
 
 const KidsDashboardPage = ({}: KidsPageProps) => {
   const { user, isAuthenticated, isLoading } = useAuth()
+  const { reduceMotion } = useSettings()
   const [activeCategory, setActiveCategory] = useState<ContentCategory>("all")
   const [allContent, setAllContent] = useState<ContentCardData[]>([])
   const [filteredContent, setFilteredContent] = useState<ContentCardData[]>([])
@@ -118,8 +120,8 @@ const KidsDashboardPage = ({}: KidsPageProps) => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Animated Particles Background - Fire themed (Hidden on Mobile) */}
-      {!isMobile && (
+      {/* Animated Particles Background - Fire themed (Hidden on Mobile or when Reduce Motion is on) */}
+      {!isMobile && !reduceMotion && (
         <>
           <Particles
             className="z-0"

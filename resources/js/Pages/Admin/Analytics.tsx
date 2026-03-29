@@ -226,7 +226,7 @@ export default function AnalyticsDashboard({
                 </button>
                 
                 {/* Right Side: Dropdown (Text Trigger) */}
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                   <DropdownMenuTrigger asChild>
                     <button 
                       className={activeTab !== 'overview'

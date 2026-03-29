@@ -23,6 +23,15 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  // Sync the CSS class on <html> for global CSS animation kill-switch
+  useEffect(() => {
+    if (reduceMotion) {
+      document.documentElement.classList.add("reduce-motion");
+    } else {
+      document.documentElement.classList.remove("reduce-motion");
+    }
+  }, [reduceMotion]);
+
   const setReduceMotion = (value: boolean) => {
     setReduceMotionState(value);
     localStorage.setItem("safescape-reduce-motion", String(value));

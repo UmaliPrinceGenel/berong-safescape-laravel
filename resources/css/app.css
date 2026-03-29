@@ -160,3 +160,32 @@
     max-height: none !important;
   }
 }
+
+/* ============================================
+   REDUCE MOTION - Global Animation Kill Switch
+   ============================================
+   When .reduce-motion is on <html>, ALL CSS 
+   transitions and animations become instant.
+   Transforms and box-shadows are NOT removed 
+   so dropdowns and hover states still work 
+   correctly — they just happen instantly.
+   ============================================ */
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  animation-delay: 0ms !important;
+  transition-duration: 0.001ms !important;
+  transition-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Remove backdrop blur for GPU savings on mobile */
+html.reduce-motion .backdrop-blur-sm,
+html.reduce-motion .backdrop-blur-md,
+html.reduce-motion .backdrop-blur-lg,
+html.reduce-motion .backdrop-blur-xl {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}

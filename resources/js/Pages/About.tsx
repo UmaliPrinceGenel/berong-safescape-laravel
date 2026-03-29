@@ -7,6 +7,7 @@ import Image from '@/components/Image';
 import { Link } from '@inertiajs/react';
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "motion/react";
+import { useSettings } from "@/lib/settings-context";
 import {
     Github,
     Linkedin,
@@ -334,10 +335,12 @@ export default function AboutPage() {
         },
     ];
 
+    const { reduceMotion } = useSettings();
+
     return (
         <div className="min-h-screen flex flex-col">
             <Navigation />
-            <SplashCursor />
+            {!reduceMotion && <SplashCursor />}
 
             <main className="flex-grow">
                 {/* Hero Section with 3D Parallax */}

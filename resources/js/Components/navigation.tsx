@@ -3,8 +3,9 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from "react"
 import { useAuth } from "@/lib/auth-context"
+import { useSettings } from "@/lib/settings-context"
 import { Button } from "@/components/ui/button"
-import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info, Settings, ChevronDown } from "lucide-react"
+import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info, Settings, ChevronDown, Zap } from "lucide-react"
 import { NotificationPopover } from "@/components/ui/notification-popover"
 import GooeyNav from "@/components/ui/gooey-nav"
 import {
@@ -16,6 +17,7 @@ import {
 
 export function Navigation() {
   const { user, logout, isAuthenticated } = useAuth()
+  const { reduceMotion, toggleReduceMotion } = useSettings()
   const { url } = usePage();
   const isDashboard = url === '/';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -172,16 +174,19 @@ export function Navigation() {
                 )}
               </div>
 
-              {/* Icon Buttons matching the mockup (User, Bell, Settings) */}
-              {isAuthenticated ? (
-                <div className="hidden sm:flex items-center gap-2">
-                  <div className="relative group flex items-center">
-                    <NotificationPopover />
-                    <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/90 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-[9999] pointer-events-none">
-                      Notifications
-                    </span>
-                  </div>
+              {/* Notification Bell - visible on sm+ (tablet and desktop) */}
+              {isAuthenticated && (
+                <div className="hidden sm:flex relative group items-center">
+                  <NotificationPopover />
+                  <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/90 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-[9999] pointer-events-none">
+                    Notifications
+                  </span>
+                </div>
+              )}
 
+              {/* Profile & Settings - Only visible on desktop (lg+) */}
+              {isAuthenticated ? (
+                <div className="hidden lg:flex items-center gap-2">
                   <div className="relative group flex items-center">
                     <Link href="/profile" className="flex items-center justify-center p-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-[#facc15] border-[3px] border-white text-white shadow-[0_4px_0_#ca8a04] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#ca8a04] active:translate-y-1 active:shadow-none transition-all duration-200 active:duration-75">
                       <User className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
@@ -198,10 +203,26 @@ export function Navigation() {
                       <Settings className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
                     </DropdownMenuTrigger>
                     
-                    <DropdownMenuContent className="w-48 bg-white border-2 border-slate-200 shadow-xl rounded-[14px] p-1.5 z-[100] mt-2 mr-2" align="end" sideOffset={8}>
+                    <DropdownMenuContent className="w-56 bg-white border-2 border-slate-200 shadow-xl rounded-[14px] p-1.5 z-[100] mt-2 mr-2" align="end" sideOffset={8}>
                       <div className="px-2 py-1.5 mb-1 border-b border-slate-100">
-                        <p className="text-sm font-semibold text-slate-800">My Account</p>
+                        <p className="text-sm font-semibold text-slate-800">Settings</p>
                       </div>
+
+                      {/* Reduce Animations Toggle */}
+                      <div
+                        onClick={(e) => { e.preventDefault(); toggleReduceMotion(); }}
+                        className="flex items-center justify-between rounded-lg cursor-pointer py-2 px-2.5 hover:bg-slate-50 transition-colors"
+                      >
+                        <span className="flex items-center gap-2 text-sm font-medium text-slate-700">
+                          <Zap className="h-4 w-4 text-amber-500" />
+                          Reduce Animations
+                        </span>
+                        <div className={`relative w-9 h-5 rounded-full transition-colors duration-200 ${reduceMotion ? 'bg-red-500' : 'bg-slate-300'}`}>
+                          <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ${reduceMotion ? 'translate-x-4' : 'translate-x-0'}`} />
+                        </div>
+                      </div>
+
+                      <div className="h-[1px] bg-slate-100 my-1" />
 
                       <DropdownMenuItem 
                         onClick={logout} 
@@ -216,7 +237,7 @@ export function Navigation() {
                   </DropdownMenu>
                 </div>
               ) : (
-                <div className="hidden sm:flex items-center gap-3">
+                <div className="hidden lg:flex items-center gap-3">
                   <div className="relative group flex items-center">
                     <Link href="/about" className="p-2 flex items-center justify-center rounded-full bg-[#e11d48] border-[3px] border-white text-white shadow-[0_4px_0_#9f1239] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#9f1239] active:translate-y-1 active:shadow-none transition-all duration-200 active:duration-75">
                       <Settings className="h-5 w-5" strokeWidth={2.5} />
@@ -231,6 +252,7 @@ export function Navigation() {
                 </div>
               )}
 
+              {/* Notification bell for small mobile only (below sm) */}
               {isAuthenticated && (
                 <div className="sm:hidden">
                   <NotificationPopover />
@@ -349,6 +371,21 @@ export function Navigation() {
               <p className="text-slate-200 text-[11px] leading-relaxed drop-shadow-sm font-medium">
                 {currentTime.split(' at ')[0] || 'Loading date...'} at <br/> {currentTime.split(' at ')[1] || '...'}
               </p>
+            </div>
+
+            {/* Reduce Animations Toggle (Mobile) */}
+            <div className="h-[1px] bg-slate-800/60 w-full my-2"></div>
+            <div
+              onClick={toggleReduceMotion}
+              className="flex items-center justify-between px-6 py-3 cursor-pointer hover:bg-white/5 transition-colors"
+            >
+              <span className="flex items-center gap-3 text-[15px] font-bold text-white">
+                <Zap className="h-5 w-5 text-amber-400 shrink-0" strokeWidth={2.5} />
+                Reduce Animations
+              </span>
+              <div className={`relative w-10 h-6 rounded-full transition-colors duration-200 ${reduceMotion ? 'bg-red-500' : 'bg-slate-600'}`}>
+                <div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ${reduceMotion ? 'translate-x-4' : 'translate-x-0'}`} />
+              </div>
             </div>
 
             {/* Mobile User Info */}
