@@ -238,14 +238,45 @@ export function Navigation() {
                 </div>
               ) : (
                 <div className="hidden lg:flex items-center gap-3">
-                  <div className="relative group flex items-center">
-                    <Link href="/about" className="p-2 flex items-center justify-center rounded-full bg-[#e11d48] border-[3px] border-white text-white shadow-[0_4px_0_#9f1239] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#9f1239] active:translate-y-1 active:shadow-none transition-all duration-200 active:duration-75">
+                  <DropdownMenu modal={false}>
+                    <DropdownMenuTrigger
+                      className="p-2 flex items-center justify-center rounded-full bg-[#e11d48] border-[3px] border-white text-white shadow-[0_4px_0_#9f1239] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#9f1239] active:translate-y-1 active:shadow-none data-[state=open]:translate-y-1 data-[state=open]:shadow-none transition-all duration-200 active:duration-75 outline-none cursor-pointer"
+                    >
                       <Settings className="h-5 w-5" strokeWidth={2.5} />
-                    </Link>
-                    <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/90 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-[9999] pointer-events-none">
-                      About
-                    </span>
-                  </div>
+                    </DropdownMenuTrigger>
+                    
+                    <DropdownMenuContent className="w-56 bg-white border-2 border-slate-200 shadow-xl rounded-[14px] p-1.5 z-[100] mt-2 mr-2" align="end" sideOffset={8}>
+                      <div className="px-2 py-1.5 mb-1 border-b border-slate-100">
+                        <p className="text-sm font-semibold text-slate-800">Settings</p>
+                      </div>
+
+                      {/* About Link */}
+                      <Link href="/about" className="block w-full outline-none">
+                        <DropdownMenuItem className="cursor-pointer font-bold rounded-lg py-2.5 px-3 flex items-center justify-between hover:bg-slate-50 focus:bg-slate-50 transition-colors group">
+                          <span className="flex items-center gap-2 text-sm text-slate-700">
+                            <Info className="h-4 w-4 text-blue-500 group-hover:text-blue-600 transition-colors" />
+                            About Platform
+                          </span>
+                        </DropdownMenuItem>
+                      </Link>
+
+                      <div className="h-[1px] bg-slate-100 my-1" />
+
+                      {/* Reduce Animations Toggle */}
+                      <div
+                        onClick={(e) => { e.preventDefault(); toggleReduceMotion(); }}
+                        className="flex items-center justify-between rounded-lg cursor-pointer py-2.5 px-3 hover:bg-slate-50 transition-colors"
+                      >
+                        <span className="flex items-center gap-2 text-sm font-medium text-slate-700">
+                          <Zap className="h-4 w-4 text-amber-500" />
+                          Reduce Animations
+                        </span>
+                        <div className={`relative w-9 h-5 rounded-full transition-colors duration-200 ${reduceMotion ? 'bg-red-500' : 'bg-slate-300'}`}>
+                          <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ${reduceMotion ? 'translate-x-4' : 'translate-x-0'}`} />
+                        </div>
+                      </div>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                   <Link href="/login" className="bg-yellow-400 border-[3px] border-white text-red-600 font-extrabold px-6 py-1.5 rounded-full shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-none transition-all duration-200 active:duration-75 text-sm tracking-wide">
                     Sign In
                   </Link>

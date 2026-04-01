@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { router, usePage } from '@inertiajs/react';
+import axios from 'axios';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -128,10 +129,9 @@ export function RegistrationWizard() {
     try {
       setLoading(true)
       const role = parseInt(data.age) < 18 ? "kid" : "adult"
-      const response = await fetch(`/api/assessment/questions?role=${role}&type=preTest`)
-      if (response.ok) {
-        const result = await response.json()
-        setQuestions(result.questions || [])
+      const response = await axios.get(`/api/assessment/questions?role=${role}&type=preTest`)
+      if (response.status === 200) {
+        setQuestions(response.data.questions || [])
       } else {
         setError("Failed to load assessment questions")
       }
@@ -227,8 +227,8 @@ export function RegistrationWizard() {
 
   const checkUsernameAvailability = async (username: string): Promise<boolean> => {
     try {
-      const response = await fetch(`/api/auth/check-username?username=${username}`)
-      const result = await response.json()
+      const response = await axios.get(`/api/auth/check-username?username=${username}`)
+      const result = response.data
 
       if (result.error) {
         return false
@@ -248,20 +248,13 @@ export function RegistrationWizard() {
         setLoading(true)
         setError("")
         try {
-          const response = await fetch('/api/auth/validate-credentials', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-            body: JSON.stringify({
+          const response = await axios.post('/api/auth/validate-credentials', {
               username: data.username,
               password: data.password,
               password_confirmation: data.confirmPassword,
               email: data.email,
-            }),
           })
-          const result = await response.json()
+          const result = response.data
 
           if (result.valid === false) {
             // Show server-side validation errors
@@ -313,13 +306,7 @@ export function RegistrationWizard() {
     setError("")
 
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await axios.post("/api/auth/register", {
           firstName: data.firstName,
           lastName: data.lastName,
           middleName: data.middleName || undefined,
@@ -337,10 +324,9 @@ export function RegistrationWizard() {
           password_confirmation: data.confirmPassword,
           dataPrivacyConsent: data.dataPrivacyConsent,
           preTestAnswers: data.preTestAnswers,
-        }),
       })
 
-      const result = await response.json()
+      const result = response.data
 
       if (result.success) {
         setRegistrationResult({
@@ -354,8 +340,8 @@ export function RegistrationWizard() {
       } else {
         setError(result.error || "Registration failed")
       }
-    } catch (err) {
-      setError("Registration failed. Please try again.")
+    } catch (err: any) {
+      setError(err.response?.data?.error || "Registration failed. Please try again.")
     } finally {
       setLoading(false)
     }
