@@ -14,6 +14,7 @@ import { toast } from "sonner"
 import Particles from "@/Components/ui/particles"
 import { useSettings } from "@/lib/settings-context"
 import { KidsWelcomeBannerSkeleton, ContentGridSkeleton } from "@/Components/dashboard-skeletons"
+import { MinecraftSMP } from "@/Components/MinecraftSMP"
 import { motion, AnimatePresence } from "framer-motion"
 import { BookOpen, Sparkles } from "lucide-react"
 import { playSound } from '@/lib/audio'
@@ -254,6 +255,8 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
               emptyMessage="No content available yet. Check back soon! 🎉"
             />
           </Deferred>
+          
+          <MinecraftSMP />
         </main>
       </div>
 
