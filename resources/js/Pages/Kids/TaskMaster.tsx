@@ -84,13 +84,19 @@ export default function TaskMaster() {
         />
 
         {/* Please Rotate Device Warning for Mobile */}
-        {isPortrait && (
+        {isPortrait && !dismissWarning && (
           <div className="absolute inset-0 z-[10001] bg-slate-900/95 flex flex-col items-center justify-center text-white p-6 text-center">
             <RotateCcw className="h-16 w-16 mb-6 text-blue-400 animate-pulse" />
             <h2 className="text-3xl font-black uppercase mb-4 tracking-wider">Rotate Your Device</h2>
-            <p className="text-lg font-medium text-slate-300 max-w-sm">
+            <p className="text-lg font-medium text-slate-300 max-w-sm mb-8">
               Task Master is best played in landscape mode. Please turn your phone sideways to play!
             </p>
+            <button
+              onClick={() => setDismissWarning(true)}
+              className="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-bold transition-colors"
+            >
+              Play Anyway
+            </button>
           </div>
         )}
 

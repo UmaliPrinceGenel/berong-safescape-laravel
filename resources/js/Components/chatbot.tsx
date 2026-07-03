@@ -12,7 +12,7 @@ import { Link } from '@inertiajs/react';
 import axios from 'axios';
 import ReactMarkdown from "react-markdown"
 import chatbotIntents from "@/lib/chatbot-intents.json"
-import { createAudio } from '@/lib/audio'
+import { createAudio, getVolume } from '@/lib/audio'
 
 interface Message {
   id: string
@@ -68,6 +68,9 @@ export function Chatbot() {
 
   const playPop = () => {
     try {
+      const volume = getVolume('general')
+      if (volume <= 0) return
+
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
       if (!AudioContextClass) return
       const ctx = new AudioContextClass()
@@ -76,7 +79,7 @@ export function Chatbot() {
       osc.type = "sine"
       osc.frequency.setValueAtTime(400, ctx.currentTime)
       osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1)
-      gain.gain.setValueAtTime(0.4, ctx.currentTime)
+      gain.gain.setValueAtTime(0.4 * volume, ctx.currentTime)
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1)
       osc.connect(gain)
       gain.connect(ctx.destination)
@@ -89,6 +92,9 @@ export function Chatbot() {
 
   const playChirp = () => {
     try {
+      const volume = getVolume('general')
+      if (volume <= 0) return
+
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
       if (!AudioContextClass) return
       const ctx = new AudioContextClass()
@@ -97,7 +103,7 @@ export function Chatbot() {
       const gain1 = ctx.createGain()
       osc1.type = "sine"
       osc1.frequency.setValueAtTime(600, now)
-      gain1.gain.setValueAtTime(0.3, now)
+      gain1.gain.setValueAtTime(0.3 * volume, now)
       gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.15)
       osc1.connect(gain1)
       gain1.connect(ctx.destination)
@@ -108,7 +114,7 @@ export function Chatbot() {
       const gain2 = ctx.createGain()
       osc2.type = "sine"
       osc2.frequency.setValueAtTime(800, now + 0.08)
-      gain2.gain.setValueAtTime(0.3, now + 0.08)
+      gain2.gain.setValueAtTime(0.3 * volume, now + 0.08)
       gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.25)
       osc2.connect(gain2)
       gain2.connect(ctx.destination)
@@ -121,6 +127,9 @@ export function Chatbot() {
 
   const playClose = () => {
     try {
+      const volume = getVolume('general')
+      if (volume <= 0) return
+
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
       if (!AudioContextClass) return
       const ctx = new AudioContextClass()
@@ -129,7 +138,7 @@ export function Chatbot() {
       osc.type = "sine"
       osc.frequency.setValueAtTime(800, ctx.currentTime)
       osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.15)
-      gain.gain.setValueAtTime(0.3, ctx.currentTime)
+      gain.gain.setValueAtTime(0.3 * volume, ctx.currentTime)
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15)
       osc.connect(gain)
       gain.connect(ctx.destination)

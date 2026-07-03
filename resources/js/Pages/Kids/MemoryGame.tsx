@@ -219,7 +219,7 @@ const MemoryGamePage = () => {
       <div className="relative z-10 w-full flex-1 flex flex-col py-4 pb-28 sm:pb-4">
 
         <div className="max-w-[calc(60vh)] sm:max-w-4xl mx-auto w-full px-4 sm:px-6 flex-1 flex items-start justify-center pt-12 sm:pt-4">
-          <div className="w-full bg-white dark:bg-slate-900 border border-white/60 dark:border-slate-800/60 rounded-[2.5rem] p-6 sm:p-8 shadow-[0_25px_60px_rgba(20,184,166,0.15)] overflow-hidden lg:max-h-[85vh] flex flex-col animate-in fade-in slide-in-from-bottom-8 duration-700 transition-colors">
+          <div className="w-full bg-white dark:bg-slate-900 border border-white/60 dark:border-slate-800/60 rounded-[2.5rem] p-6 sm:p-8 shadow-[0_25px_60px_rgba(20,184,166,0.15)] flex flex-col animate-in fade-in slide-in-from-bottom-8 duration-700 transition-colors">
             
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
               <h2 className="text-2xl sm:text-3xl font-black text-teal-600 dark:text-teal-400 tracking-tight">

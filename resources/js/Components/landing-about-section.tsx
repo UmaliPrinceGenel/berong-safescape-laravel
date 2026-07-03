@@ -21,6 +21,7 @@ import {
     Music
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FireExtinguishedText } from "./fire-extinguished-text";
 
 // Team member data
 const teamMembers = [
@@ -917,6 +918,81 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                 </div>
                             </PartnershipCard>
                         </div>
+                    </div>
+                </motion.section>
+            </div>
+
+            {/* Meet Your Firefighters Section */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
+                <motion.section
+                    className="py-10 sm:py-14 bg-gradient-to-br from-orange-600 to-red-700 dark:from-orange-900 dark:to-red-950 text-white relative overflow-hidden rounded-[2.5rem] shadow-xl dark:shadow-md border border-red-500/30 transition-colors duration-500"
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                >
+                    {/* Animated Background Decoration */}
+                    <motion.div
+                        className="absolute -top-20 -right-20 w-80 h-80 bg-yellow-500/20 rounded-full blur-3xl pointer-events-none"
+                        animate={reduceMotion ? undefined : {
+                            scale: [1, 1.2, 1],
+                            opacity: [0.5, 0.8, 0.5]
+                        }}
+                        transition={reduceMotion ? undefined : { duration: 5, repeat: Infinity }}
+                    />
+                    <motion.div
+                        className="absolute -bottom-20 -left-20 w-80 h-80 bg-orange-400/20 rounded-full blur-3xl pointer-events-none"
+                        animate={reduceMotion ? undefined : {
+                            scale: [1, 1.3, 1],
+                            opacity: [0.3, 0.6, 0.3]
+                        }}
+                        transition={reduceMotion ? undefined : { duration: 7, repeat: Infinity }}
+                    />
+
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center">
+                        <motion.div
+                            className="text-center mb-10"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                        >
+                            <div className="mb-6 flex justify-center">
+                                <span className="bg-yellow-500/20 text-yellow-300 font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full inline-block border border-yellow-500/30 shadow-sm backdrop-blur-sm">
+                                    Our Heroes
+                                </span>
+                            </div>
+                            <FireExtinguishedText 
+                                text="Meet Your Firefighters" 
+                                className="text-3xl sm:text-4xl lg:text-5xl font-black mb-4 drop-shadow-md" 
+                            />
+                            <p className="text-orange-100 font-medium max-w-2xl mx-auto text-sm sm:text-base leading-relaxed opacity-90">
+                                The brave men and women of BFP Santa Cruz dedicated to keeping our community safe.
+                            </p>
+                        </motion.div>
+
+                        <motion.div
+                            className="w-full max-w-5xl aspect-[4/5] sm:aspect-video bg-white/10 dark:bg-black/20 rounded-3xl border-2 border-white/20 overflow-hidden relative group backdrop-blur-sm shadow-2xl cursor-pointer"
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.7, delay: 0.4 }}
+                            whileHover={reduceMotion ? undefined : {
+                                scale: 1.02,
+                                border: "2px solid rgba(255, 255, 255, 0.4)",
+                                transition: { duration: 0.3 }
+                            }}
+                        >
+                            <div className="absolute inset-0 flex items-center justify-center flex-col gap-4 text-white/50 group-hover:text-white/80 transition-colors">
+                                <Flame className="w-16 h-16 sm:w-20 sm:h-20 opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" />
+                                <p className="font-semibold text-lg sm:text-xl tracking-wide uppercase text-center px-4">Insert Big Picture Here</p>
+                            </div>
+                            {/* NOTE: You can uncomment and update the src below when you have the image ready */}
+                            {/* <img src="/firefighters-group-picture.jpg" alt="BFP Firefighters" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" /> */}
+                            
+                            {/* Subtle overlay on hover */}
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 pointer-events-none" />
+                        </motion.div>
                     </div>
                 </motion.section>
             </div>

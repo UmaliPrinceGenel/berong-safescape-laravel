@@ -23,7 +23,7 @@ const VOLUME_KEYS: Record<AudioCategory, string> = {
  * Reads directly from localStorage so it always gets the latest value,
  * even outside of React components.
  */
-function getVolume(category: AudioCategory): number {
+export function getVolume(category: AudioCategory): number {
   const raw = localStorage.getItem(VOLUME_KEYS[category]);
   const percent = raw !== null ? parseInt(raw, 10) : 100;
   // Also apply general volume as a master multiplier
