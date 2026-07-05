@@ -160,6 +160,41 @@ const teamMembers = [
         color: "from-lime-500 to-green-500",
         roleIcons: [GraduationCap, Cpu],
     },
+    {
+        name: "Francis Neil M. Mistica",
+        roles: ["AI/ML Engineer"],
+        image: "/mistica_pr.png",
+        socials: [
+            { icon: Github, url: "https://github.com/Kiko915", label: "GitHub" },
+            { icon: Globe, url: "https://francismistica.me", label: "Portfolio" },
+            { icon: Linkedin, url: "https://www.linkedin.com/in/devkaiko/", label: "LinkedIn" },
+        ],
+        color: "from-orange-500 to-amber-500",
+        roleIcons: [Cpu],
+    },
+    {
+        name: "Ian Patrick Z. Mesias",
+        roles: ["Research & Communications"],
+        image: "/mesias_pr.jpg",
+        socials: [
+            { icon: Github, url: "https://github.com/imPickleRiick", label: "GitHub" },
+            { icon: Linkedin, url: "https://www.linkedin.com/in/ian-patrick-mesias-6a935421b/", label: "LinkedIn" },
+        ],
+        color: "from-pink-500 to-rose-500",
+        roleIcons: [Code],
+    },
+    {
+        name: "Dheyn Michael Orlanda",
+        roles: ["Software Engineer"],
+        image: "/orlanda_pr.jpg",
+        socials: [
+            { icon: Github, url: "https://github.com/Necookie", label: "GitHub" },
+            { icon: Globe, url: "https://necookie.dev", label: "Portfolio" },
+            { icon: Linkedin, url: "https://www.linkedin.com/in/dheyn-michael-orlanda-35b6b931b/", label: "LinkedIn" },
+        ],
+        color: "from-violet-500 to-indigo-500",
+        roleIcons: [Code],
+    },
 ];
 
 // Feature Data
@@ -985,7 +1020,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                         >
                             <div className="absolute inset-0 flex items-center justify-center flex-col gap-4 text-white/50 group-hover:text-white/80 transition-colors">
                                 <Flame className="w-16 h-16 sm:w-20 sm:h-20 opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" />
-                                <p className="font-semibold text-lg sm:text-xl tracking-wide uppercase text-center px-4">Insert Big Picture Here</p>
+                                <p className="font-semibold text-lg sm:text-xl tracking-wide uppercase text-center px-4"></p>
                             </div>
                             {/* NOTE: You can uncomment and update the src below when you have the image ready */}
                             {/* <img src="/firefighters-group-picture.jpg" alt="BFP Firefighters" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" /> */}

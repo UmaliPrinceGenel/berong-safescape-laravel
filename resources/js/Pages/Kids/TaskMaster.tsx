@@ -9,6 +9,7 @@ export default function TaskMaster() {
   const { user } = useAuth();
   const [isPortrait, setIsPortrait] = useState(false);
   const [showWinNotification, setShowWinNotification] = useState(false);
+  const [dismissWarning, setDismissWarning] = useState(false);
 
   useEffect(() => {
     // Check orientation for mobile devices

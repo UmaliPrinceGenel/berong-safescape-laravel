@@ -21,7 +21,7 @@ class ChatbotController extends Controller
         ]);
 
         $userMessage = $request->input('message');
-        $apiKey = env('GEMINI_API_KEY');
+        $apiKey = config('services.gemini.api_key');
 
         if (empty($apiKey)) {
             $fallbackContext = $this->searchDataset($userMessage, 1);
@@ -160,7 +160,7 @@ class ChatbotController extends Controller
             'voice' => 'sometimes|string'
         ]);
 
-        $apiKey = env('ELEVENLABS_API_KEY');
+        $apiKey = config('services.elevenlabs.api_key');
 
         if (empty($apiKey)) {
             return response()->json(['error' => 'ElevenLabs API key missing'], 500);

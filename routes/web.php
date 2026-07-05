@@ -258,25 +258,6 @@ Route::get('/game', function () {
     });
 });
 
-Route::get('/temp-clear-scores', function () {
-    try {
-        $affected = \Illuminate\Support\Facades\DB::table('users')->where('id', 10)->update([
-            'competency_scores' => null,
-            'preTestScore' => null,
-            'postTestScore' => null,
-        ]);
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Scores cleared successfully.',
-            'rows_affected' => $affected
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'error' => $e->getMessage()
-        ], 500);
-    }
-});
 
 require __DIR__.'/auth.php';
+
