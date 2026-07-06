@@ -103,7 +103,7 @@ const teamMembers = [
     },
     {
         name: "Aeron Jhed V. Lachano",
-        roles: ["Game Designer", "Game Developer"],
+        roles: ["Game Designer", "Game Developer", "Task Master"],
         image: "/lachano_pr.png",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
@@ -114,7 +114,7 @@ const teamMembers = [
     },
     {
         name: "Axcel Andrei V. Delos Reyes",
-        roles: ["Game Designer", "Game Developer"],
+        roles: ["Game Designer", "Game Developer", "Task Master"],
         image: "/delosreyes_pr.jpg",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
@@ -125,7 +125,7 @@ const teamMembers = [
     },
     {
         name: "Zyril G. Dela Paz",
-        roles: ["Game Designer", "Game Developer"],
+        roles: ["Game Designer", "Game Developer", "The Right Call"],
         image: "/delapaz_pr.jpg",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
@@ -136,7 +136,7 @@ const teamMembers = [
     },
     {
         name: "Allain A. Kumar",
-        roles: ["Simulation"],
+        roles: ["EDITH Simulation"],
         image: "/kumar_pr.jpg",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
@@ -147,7 +147,7 @@ const teamMembers = [
     },
     {
         name: "Aron Gabriel L. Ogayon",
-        roles: ["AI, Backend Developer, Simulation"],
+        roles: ["AI, Backend Developer, EDITH Simulation"],
         image: "/ogayon_pr.jpg",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
@@ -158,7 +158,7 @@ const teamMembers = [
     },
     {
         name: "Janhver Lucas J. Sarmiento",
-        roles: ["UI Designer, Simulation"],
+        roles: ["UI Designer, EDITH Simulation"],
         image: "/sarmiento_pr.jpg",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
