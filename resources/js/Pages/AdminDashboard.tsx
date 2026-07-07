@@ -6,13 +6,13 @@ import { useAdminFeedback } from "@/hooks/use-admin-feedback";
 import React, { useEffect, useState, lazy, Suspense } from "react"
 import { router, usePage } from '@inertiajs/react';
 import { useAuth } from "@/lib/auth-context"
-import { Navigation } from "@/components/navigation"
+import { Navigation } from "@/Components/navigation"
 import DashboardLayout from "@/Layouts/DashboardLayout";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs"
 import { Shield, BarChart3, ImageIcon, FileText, Video, Users, HelpCircle, BookOpen, Loader2, AlertCircle } from "lucide-react"
 import { motion } from "motion/react"
 import type { CarouselImage, BlogPost } from "@/types/admin"
-import { ConfirmationDialog } from "@/components/ui/confirmation-dialog"
+import { ConfirmationDialog } from "@/Components/ui/confirmation-dialog"
 import {
   AlertDialog,
   AlertDialogContent,
@@ -20,12 +20,12 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { LoadingOverlay } from "@/components/ui/loading-overlay"
-import { Card, CardTitle, CardHeader, CardDescription, CardContent } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+} from "@/Components/ui/alert-dialog"
+import { LoadingOverlay } from "@/Components/ui/loading-overlay"
+import { Card, CardTitle, CardHeader, CardDescription, CardContent } from "@/Components/ui/card"
+import { Label } from "@/Components/ui/label"
+import { Input } from "@/Components/ui/input"
+import { Button } from "@/Components/ui/button"
 
 // Lazy load admin tabs
 const AdminCarouselTab = lazy(() => import("./Admin/AdminCarouselTab").then(m => ({ default: m.AdminCarouselTab })))

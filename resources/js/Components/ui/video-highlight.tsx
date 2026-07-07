@@ -1,8 +1,8 @@
 "use client";
 
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { PermissionGuard } from '@/components/permission-guard';
+import { Card, CardContent } from '@/Components/ui/card';
+import { Button } from '@/Components/ui/button';
+import { PermissionGuard } from '@/Components/permission-guard';
 
 // Define the type for a video highlight item
 type VideoHighlightItem = {

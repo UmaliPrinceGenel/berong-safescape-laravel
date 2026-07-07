@@ -1,11 +1,11 @@
 "use client"
 
 import { useRef, useEffect, useState, useCallback } from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Slider } from "@/components/ui/slider"
-import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/Components/ui/card"
+import { Button } from "@/Components/ui/button"
+import { Badge } from "@/Components/ui/badge"
+import { Slider } from "@/Components/ui/slider"
+import { Input } from "@/Components/ui/input"
 import {
     Square,
     DoorOpen,

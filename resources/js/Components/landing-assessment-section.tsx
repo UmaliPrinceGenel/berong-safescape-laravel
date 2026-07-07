@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from "react"
 import { motion, useInView, useReducedMotion } from "motion/react"
 import { router } from '@inertiajs/react';
 import axios from 'axios';
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
+import { Button } from "@/Components/ui/button"
+import { Progress } from "@/Components/ui/progress"
 import {
     ArrowRight,
     Check,
@@ -15,7 +15,7 @@ import {
     Download,
     Shield
 } from "lucide-react"
-import { Dialog, DialogContent, DialogClose, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogClose, DialogTitle } from "@/Components/ui/dialog"
 import { useAuth } from "@/lib/auth-context"
 
 interface EligibilityData {

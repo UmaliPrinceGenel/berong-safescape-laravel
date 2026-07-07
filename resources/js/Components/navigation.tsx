@@ -4,18 +4,18 @@ import { Link, usePage } from '@inertiajs/react';
 import { useState, useEffect, useRef } from "react"
 import { useAuth } from "@/lib/auth-context"
 import { useSettings } from "@/lib/settings-context"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/Components/ui/button"
 import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info, Settings, ChevronDown, ArrowRight, Clock, Sliders, BookOpen, Eye, Focus, Type, Zap, Sun, Moon, ZoomIn, Volume2, Gamepad2, Music, BellRing } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { NotificationPopover } from "@/components/ui/notification-popover"
-import { SettingsPanel } from "@/components/settings-panel"
-import { Slider } from "@/components/ui/slider"
+import { NotificationPopover } from "@/Components/ui/notification-popover"
+import { SettingsPanel } from "@/Components/settings-panel"
+import { Slider } from "@/Components/ui/slider"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/Components/ui/dropdown-menu"
 import {
   Dialog,
   DialogContent,

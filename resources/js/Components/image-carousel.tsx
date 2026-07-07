@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/Components/ui/button"
 import Image from '@/Components/Image';
 import type { CarouselImage } from "@/lib/mock-data"
-import { ImageViewerModal } from "@/components/image-viewer-modal"
+import { ImageViewerModal } from "@/Components/image-viewer-modal"
 
 interface ImageCarouselProps {
   images: CarouselImage[]

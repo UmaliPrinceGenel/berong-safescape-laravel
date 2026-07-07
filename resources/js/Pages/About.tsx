@@ -1,9 +1,9 @@
 "use client";
 
-import { Navigation } from "@/components/navigation";
-import { Footer } from "@/components/footer";
-import SplashCursor from "@/components/SplashCursor";
-import Image from '@/components/Image';
+import { Navigation } from "@/Components/navigation";
+import { Footer } from "@/Components/footer";
+import SplashCursor from "@/Components/SplashCursor";
+import Image from '@/Components/Image';
 import { Link } from '@inertiajs/react';
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "motion/react";
@@ -27,7 +27,7 @@ import {
     Palette,
     Music
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import { FireExtinguishedText } from "../Components/fire-extinguished-text";
 
 // Team member data

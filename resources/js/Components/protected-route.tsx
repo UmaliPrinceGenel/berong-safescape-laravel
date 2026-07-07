@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/lib/auth-context';
-import { PermissionDialog } from '@/components/ui/permission-dialog';
+import { PermissionDialog } from '@/Components/ui/permission-dialog';
 import { useState, useEffect } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import { User } from '@/lib/auth-context';

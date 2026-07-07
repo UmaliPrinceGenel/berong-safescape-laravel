@@ -1,10 +1,10 @@
 import React from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card"
+import { Label } from "@/Components/ui/label"
+import { Input } from "@/Components/ui/input"
 import { Plus, CheckCircle, AlertCircle } from "lucide-react"
-import { ImageUpload } from "@/components/ui/image-upload"
-import { SortableCarouselList } from "@/components/sortable-carousel-list"
+import { ImageUpload } from "@/Components/ui/image-upload"
+import { SortableCarouselList } from "@/Components/sortable-carousel-list"
 import type { CarouselTabProps } from "@/types/admin"
 
 export const AdminCarouselTab: React.FC<CarouselTabProps> = ({

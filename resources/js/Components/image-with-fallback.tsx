@@ -1,6 +1,6 @@
 'use client';
 
-import Image from '@/components/Image';
+import Image from '@/Components/Image';
 import { useState } from 'react';
 
 interface ImageWithFallbackProps {

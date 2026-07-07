@@ -1,11 +1,11 @@
 import React from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card"
+import { Label } from "@/Components/ui/label"
+import { Input } from "@/Components/ui/input"
+import { Textarea } from "@/Components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select"
 import { Plus, CheckCircle, AlertCircle } from "lucide-react"
-import { SortableContentList } from "@/components/sortable-content-list"
+import { SortableContentList } from "@/Components/sortable-content-list"
 import type { VideosTabProps, Video } from "@/types/admin"
 
 export const AdminVideosTab: React.FC<VideosTabProps> = ({

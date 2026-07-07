@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/lib/auth-context';
-import { PermissionDialog } from '@/components/ui/permission-dialog';
+import { PermissionDialog } from '@/Components/ui/permission-dialog';
 import { useState, ReactNode, useEffect } from 'react';
 import { router } from '@inertiajs/react';
 import { Flame, ShieldAlert } from 'lucide-react';

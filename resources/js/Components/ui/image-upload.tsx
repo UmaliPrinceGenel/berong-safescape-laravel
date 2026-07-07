@@ -2,12 +2,12 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/Components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/ui/card';
 import { Upload, Check, ImageIcon, RotateCcw, AlertCircle, Move, Search } from 'lucide-react';
 import Cropper from 'react-easy-crop';
 import { getCroppedImg } from '@/lib/cropImage';
-import { Slider } from '@/components/ui/slider';
+import { Slider } from '@/Components/ui/slider';
 
 interface ImageUploadProps {
   onUploadComplete: (url: string) => void;

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useSettings } from "@/lib/settings-context"
 import { Moon, Sun, Zap, Type, BookOpen, Focus, Eye, ZoomIn, Volume2, Gamepad2, Music, BellRing } from "lucide-react"
-import { Slider } from "@/components/ui/slider"
+import { Slider } from "@/Components/ui/slider"
 
 /**
  * Reusable settings panel for the navigation component.

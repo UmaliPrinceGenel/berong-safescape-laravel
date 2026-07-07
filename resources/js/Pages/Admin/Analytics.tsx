@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { router, usePage } from '@inertiajs/react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent } from "@/components/ui/tabs"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Progress } from "@/components/ui/progress"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card"
+import { Button } from "@/Components/ui/button"
+import { Badge } from "@/Components/ui/badge"
+import { Tabs, TabsContent } from "@/Components/ui/tabs"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/Components/ui/dropdown-menu"
+import { Progress } from "@/Components/ui/progress"
+import { Alert, AlertDescription } from "@/Components/ui/alert"
 import { 
   Users, Award, TrendingUp, AlertTriangle, 
   MapPin, Clock, ArrowLeft, RefreshCw, BarChart3, Download, ClipboardCheck, ArrowRight, ShieldAlert, FileText, Target, Flame, Briefcase, GraduationCap, Loader2, AlertCircle, BookOpen, Gamepad2, Video, ChevronDown, School, Star, MessageSquare

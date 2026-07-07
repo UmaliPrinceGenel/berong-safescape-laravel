@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 import RootLayout from '@/Layouts/RootLayout';
-import { Navigation } from '@/components/navigation';
-import { HeroCarousel } from '@/components/ui/hero-carousel';
-import { FeaturedCards } from '@/components/ui/featured-cards';
-import { Footer } from '@/components/footer';
-import { LandingAboutSection } from '@/components/landing-about-section';
-import { LandingAssessmentSection } from '@/components/landing-assessment-section';
+import { Navigation } from '@/Components/navigation';
+import { HeroCarousel } from '@/Components/ui/hero-carousel';
+import { FeaturedCards } from '@/Components/ui/featured-cards';
+import { Footer } from '@/Components/footer';
+import { LandingAboutSection } from '@/Components/landing-about-section';
+import { LandingAssessmentSection } from '@/Components/landing-assessment-section';
 import { HeroSection } from '@/Components/hero-section';
 import Particles from '@/Components/ui/particles';
 

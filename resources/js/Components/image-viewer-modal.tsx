@@ -1,8 +1,8 @@
 "use client"
 
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTitle } from "@/Components/ui/dialog"
 import { X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/Components/ui/button"
 import Image from '@/Components/Image';
 
 interface ImageViewerModalProps {

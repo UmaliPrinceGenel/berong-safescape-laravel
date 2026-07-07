@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/Components/ui/dialog";
+import { Card, CardContent } from "@/Components/ui/card";
 import { FileText, Download, BookOpen, Eye, Loader2, Info } from "lucide-react";
 import { motion } from "framer-motion";
 

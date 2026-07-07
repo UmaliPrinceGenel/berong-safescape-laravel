@@ -6,11 +6,11 @@ import { Link, Deferred } from '@inertiajs/react'
 import { motion, AnimatePresence } from "framer-motion"
 import confetti from 'canvas-confetti'
 import { Navigation } from "@/Components/navigation"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card"
+import { Badge } from "@/Components/ui/badge"
+import { Button } from "@/Components/ui/button"
+import { Input } from "@/Components/ui/input"
+import { Alert, AlertDescription } from "@/Components/ui/alert"
 import { Trophy, Star, Shield, Zap, Medal, Video, Clock, Search, BookOpen, FileText, AlertCircle, Play, CheckCircle2, GraduationCap, ArrowRight, CircleHelp, Gamepad2 } from "lucide-react"
 import {
   Dialog,

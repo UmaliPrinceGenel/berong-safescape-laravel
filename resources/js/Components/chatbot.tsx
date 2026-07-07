@@ -1,11 +1,11 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/Components/ui/button"
+import { Card } from "@/Components/ui/card"
+import { Input } from "@/Components/ui/input"
 import { MessageCircle, X, Send, Sparkles, Minimize2, Maximize2, Volume2, VolumeX, Mic, Square, User } from "lucide-react"
-import Image from '@/components/Image';
+import Image from '@/Components/Image';
 import { motion, AnimatePresence, useMotionValue, animate } from "motion/react"
 import { useAuth } from "@/lib/auth-context"
 import { Link } from '@inertiajs/react';

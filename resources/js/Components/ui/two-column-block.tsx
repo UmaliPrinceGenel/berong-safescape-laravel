@@ -1,8 +1,8 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/Components/ui/card';
+import { Button } from '@/Components/ui/button';
 import { Link } from '@inertiajs/react';
-import Image from '@/components/Image';
-import { PermissionGuard } from '@/components/permission-guard';
+import Image from '@/Components/Image';
+import { PermissionGuard } from '@/Components/permission-guard';
 
 // Define the type for a two-column block item
 type TwoColumnBlockItem = {

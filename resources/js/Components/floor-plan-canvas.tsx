@@ -1,9 +1,9 @@
 "use client"
 
 import { useRef, useEffect, useState, useCallback } from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/Components/ui/card"
+import { Button } from "@/Components/ui/button"
+import { Badge } from "@/Components/ui/badge"
 import { MapPin, Trash2, Undo, Eye, EyeOff, Flag } from "lucide-react"
 
 // Fallback UUID generator for non-HTTPS environments

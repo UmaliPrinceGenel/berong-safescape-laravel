@@ -3,10 +3,10 @@
 import { useState, useEffect, useRef } from "react"
 import { Head, router } from '@inertiajs/react'
 import axios from 'axios'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Button } from "@/Components/ui/button"
+import { Card, CardContent } from "@/Components/ui/card"
+import { Label } from "@/Components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/Components/ui/radio-group"
 import { ArrowLeft, Check, ChevronLeft, ChevronRight, Loader2, Shield, Star } from "lucide-react"
 import { motion, AnimatePresence } from 'motion/react'
 import { getScoreRating } from "@/lib/constants"

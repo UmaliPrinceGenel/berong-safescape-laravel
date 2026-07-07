@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import { motion, AnimatePresence } from 'motion/react';
-import Image from '@/components/Image';
+import Image from '@/Components/Image';
 import { useAuth } from '@/lib/auth-context';
 
 export function PageLoader() {

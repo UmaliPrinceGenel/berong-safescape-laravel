@@ -1,10 +1,10 @@
 import React, { Suspense } from "react";
 import { AuthProvider } from "@/lib/auth-context";
-import { Chatbot } from "@/components/chatbot";
-import { PageLoader } from "@/components/page-loader";
-import { LogoutLoader } from "@/components/logout-loader";
-import { LoginLoader } from "@/components/login-loader";
-import { ProfileCheckWrapper } from "@/components/profile-check-wrapper";
+import { Chatbot } from "@/Components/chatbot";
+import { PageLoader } from "@/Components/page-loader";
+import { LogoutLoader } from "@/Components/logout-loader";
+import { LoginLoader } from "@/Components/login-loader";
+import { ProfileCheckWrapper } from "@/Components/profile-check-wrapper";
 import { FocusModeManager } from "@/Components/focus-mode-manager";
 import { usePage } from '@inertiajs/react';
 import { Toaster } from "@/Components/ui/sonner";

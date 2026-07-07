@@ -1,12 +1,12 @@
 'use client';
 import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
-import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/Components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover";
 import { router } from '@inertiajs/react';
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/Components/ui/badge";
 import { Bell, Check, MoreHorizontal, Trash2, ArrowRight, Trophy, X } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea } from "@/Components/ui/scroll-area";
 import { useAuth } from "@/lib/auth-context";
 import { motion, AnimatePresence } from 'motion/react';
 

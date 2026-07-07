@@ -5,18 +5,18 @@ import type React from "react"
 import { useState, Suspense } from "react"
 import { router, usePage } from '@inertiajs/react';
 import { useAuth } from "@/lib/auth-context"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Button } from "@/Components/ui/button"
+import { Input } from "@/Components/ui/input"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card"
+import { Label } from "@/Components/ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs"
+import { Alert, AlertDescription } from "@/Components/ui/alert"
 import { Shield, AlertCircle, Loader2, KeyRound, Eye, EyeOff, ArrowLeft, CheckCircle2, XCircle, Lock, User, MapPin, Mail, FileText } from "lucide-react"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/Components/ui/dialog"
 import { Link } from '@inertiajs/react';
-import Image from '@/components/Image';
-import { RegistrationWizard } from "@/components/registration-wizard"
-import { Chatbot } from "@/components/chatbot"
+import Image from '@/Components/Image';
+import { RegistrationWizard } from "@/Components/registration-wizard"
+import { Chatbot } from "@/Components/chatbot"
 import { motion } from "motion/react"
 
 function AuthContent() {

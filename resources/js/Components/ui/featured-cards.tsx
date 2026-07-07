@@ -3,10 +3,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useInView, useReducedMotion } from 'motion/react';
 import { Link } from '@inertiajs/react';
-import { PermissionGuard } from '@/components/permission-guard';
+import { PermissionGuard } from '@/Components/permission-guard';
 import { ArrowRight, Briefcase, Users, Baby, Flame } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
-import { FeaturedCardsSkeleton } from '@/components/dashboard-skeletons';
+import { FeaturedCardsSkeleton } from '@/Components/dashboard-skeletons';
 
 // Define the type for a featured card item
 type FeaturedCardItem = {

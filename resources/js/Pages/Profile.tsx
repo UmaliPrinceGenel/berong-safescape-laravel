@@ -5,19 +5,19 @@ import { router, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import { motion, AnimatePresence } from "framer-motion"
 import { useAuth } from "@/lib/auth-context"
-import { Navigation } from "@/components/navigation"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Navigation } from "@/Components/navigation"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card"
+import { Button } from "@/Components/ui/button"
+import { Input } from "@/Components/ui/input"
+import { Label } from "@/Components/ui/label"
+import { Alert, AlertDescription } from "@/Components/ui/alert"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/Components/ui/dialog"
 import {
   User, Key, CheckCircle, AlertCircle, Eye, EyeOff, Loader2,
   Trophy, BookOpen, ArrowUpRight, Minus, Lock, Check, Shield,
   Camera, Mail, Award, Calendar, Sparkles
 } from "lucide-react"
-import { ScoreGauge } from "@/components/score-gauge"
+import { ScoreGauge } from "@/Components/score-gauge"
 import { cn } from "@/lib/utils"
 
 interface UserScores {

@@ -1,12 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/Components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay"
 import { Maximize2, Shield } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/Components/ui/button"
 import { Link } from '@inertiajs/react';
-import { ImageViewerModal } from "@/components/image-viewer-modal"
+import { ImageViewerModal } from "@/Components/image-viewer-modal"
 import Image from '@/Components/Image';
 
 type CarouselImage = {

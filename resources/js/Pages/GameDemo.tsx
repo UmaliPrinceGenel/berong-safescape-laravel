@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { ArrowLeft, AlertTriangle, X } from 'lucide-react';
 import RootLayout from '@/Layouts/RootLayout';
-import { Navigation } from '@/components/navigation';
-import { Footer } from '@/components/footer';
+import { Navigation } from '@/Components/navigation';
+import { Footer } from '@/Components/footer';
 import GameContainer from '@/Components/Game/GameContainer';
 
 export default function GameDemo() {

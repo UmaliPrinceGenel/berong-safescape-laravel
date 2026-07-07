@@ -3,21 +3,21 @@
 import { useState, useEffect, useRef, useMemo } from "react"
 import { router, usePage } from '@inertiajs/react';
 import axios from 'axios';
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Checkbox } from "@/components/ui/checkbox"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Progress } from "@/components/ui/progress"
+import { Button } from "@/Components/ui/button"
+import { Input } from "@/Components/ui/input"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card"
+import { Label } from "@/Components/ui/label"
+import { Alert, AlertDescription } from "@/Components/ui/alert"
+import { Checkbox } from "@/Components/ui/checkbox"
+import { RadioGroup, RadioGroupItem } from "@/Components/ui/radio-group"
+import { Progress } from "@/Components/ui/progress"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/Components/ui/select"
 import {
   Shield,
   AlertCircle,

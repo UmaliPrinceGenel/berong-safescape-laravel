@@ -1,8 +1,8 @@
 "use client"
 
 import { useCallback, useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/Components/ui/card"
+import { Button } from "@/Components/ui/button"
 import { Upload, FileImage, Loader2, X } from "lucide-react"
 
 interface FloorPlanUploadProps {

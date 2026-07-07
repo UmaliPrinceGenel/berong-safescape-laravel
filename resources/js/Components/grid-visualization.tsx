@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useEffect, useState, RefObject } from "react"
-import { Card } from "@/components/ui/card"
+import { Card } from "@/Components/ui/card"
 
 interface GridVisualizationProps {
   grid: number[][]

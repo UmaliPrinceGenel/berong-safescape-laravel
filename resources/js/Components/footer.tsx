@@ -1,8 +1,8 @@
 "use client";
 
 import { Link, usePage } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
-import { FooterDialogContent } from '@/components/ui/footer-dialog';
+import { Button } from '@/Components/ui/button';
+import { FooterDialogContent } from '@/Components/ui/footer-dialog';
 import { useRef, useState, useEffect } from 'react';
 import { motion, useInView, useReducedMotion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';

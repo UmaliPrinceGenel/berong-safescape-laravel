@@ -20,7 +20,7 @@ import {
     Palette,
     Music
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import { FireExtinguishedText } from "./fire-extinguished-text";
 
 // Team member data

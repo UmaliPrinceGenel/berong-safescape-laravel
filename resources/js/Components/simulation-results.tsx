@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Slider } from "@/components/ui/slider"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/Components/ui/card"
+import { Button } from "@/Components/ui/button"
+import { Badge } from "@/Components/ui/badge"
+import { Slider } from "@/Components/ui/slider"
 import { CheckCircle2, XCircle, RotateCcw, Clock, Users, Flame, Play, Pause, SkipBack, SkipForward, Eye, EyeOff, Download } from "lucide-react"
-import { GridVisualization } from "@/components/grid-visualization"
+import { GridVisualization } from "@/Components/grid-visualization"
 
 interface SimulationResultsProps {
   results: {
