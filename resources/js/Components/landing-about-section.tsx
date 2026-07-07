@@ -1045,14 +1045,12 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                     </div>
                 </motion.section>
             </div>
-
-            {/* Research Team Section */}
-            {reduceMotion || isLaptopOrSmaller ? (
-                <div className="w-full" id="meet-the-developers">
+            {/* Research Team Section */}
+            <div ref={teamRef} id="meet-the-developers" className="w-full">
+                {reduceMotion || isLaptopOrSmaller ? (
                     <motion.section
-                        ref={teamRef}
                         className="pt-10 sm:pt-12 pb-20 sm:pb-24 bg-white dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden transition-colors duration-500"
-                        style={reduceMotion || isLaptopOrSmaller ? {} : { opacity: teamOpacity }}
+                        style={{}}
                     >
                         {/* Dynamic Dotted Pattern Background */}
                         <div className="absolute inset-0 pointer-events-none z-[0] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px]" />
@@ -1091,62 +1089,60 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                             </div>
                         </div>
                     </motion.section>
-                </div>
-            ) : (
-                <motion.section
-                    id="meet-the-developers"
-                    ref={teamRef}
-                    className="bg-transparent relative h-[400vh]"
-                    style={{ opacity: teamOpacity }}
-                >
-                    <div className="w-full relative z-10 sticky top-0 h-screen flex flex-col justify-start pt-[60px] sm:pt-[80px] overflow-hidden">
-                        {/* Dynamic Dotted Pattern Background using Tailwind classes */}
-                        <motion.div 
-                            className="absolute inset-0 pointer-events-none z-[-1] bg-white dark:bg-slate-950 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px]"
-                            style={{ opacity: patternOpacity }}
-                        />
-                        <motion.div
-                            className="text-center mb-10 sm:mb-16 shrink-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full"
-                            initial={{ opacity: 0, y: 40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.7 }}
-                        >
-                            <div className="mb-6 flex justify-center">
-                                <span className="bg-red-100 dark:bg-red-950/30 text-red-500 dark:text-red-400 font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full inline-block border border-red-200 dark:border-red-900/30 transition-colors">
-                                    The Research Team
-                                </span>
-                            </div>
-                            <h2 className="text-4xl sm:text-5xl font-black text-slate-800 dark:text-white mb-4 transition-colors">
-                                <BinaryScrambleText text="Meet the Developers" />
-                            </h2>
-                            <p className="text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto text-lg transition-colors">
-                                Computer Science researchers majoring in Intelligent Systems who designed and developed SafeScape and SafeScape 2.0.
-                            </p>
-                        </motion.div>
-
-                        <div className="flex w-full items-center relative py-10 -my-10">
+                ) : (
+                    <motion.section
+                        className="bg-transparent relative h-[400vh]"
+                        style={{ opacity: teamOpacity }}
+                    >
+                        <div className="w-full relative z-10 sticky top-0 h-screen flex flex-col justify-start pt-[60px] sm:pt-[80px] overflow-hidden">
+                            {/* Dynamic Dotted Pattern Background using Tailwind classes */}
                             <motion.div 
-                                ref={carouselRef}
-                                style={{ x: teamX }}
-                                className="flex gap-6 sm:gap-8 px-[calc(50vw_-_150px)] sm:px-[calc(50vw_-_190px)] py-10 w-max perspective-[1000px]"
+                                className="absolute inset-0 pointer-events-none z-[-1] bg-white dark:bg-slate-950 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px]"
+                                style={{ opacity: patternOpacity }}
+                            />
+                            <motion.div
+                                className="text-center mb-10 sm:mb-16 shrink-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full"
+                                initial={{ opacity: 0, y: 40 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.7 }}
                             >
-                                {teamMembers.map((member, index) => (
-                                    <div key={index} className="w-[300px] sm:w-[380px] shrink-0 h-[420px]">
-                                        <TeamCard 
-                                            member={member} 
-                                            index={index} 
-                                            reduceMotion={reduceMotion}
-                                            progress={carouselProgress}
-                                            totalCards={teamMembers.length}
-                                        />
-                                    </div>
-                                ))}
+                                <div className="mb-6 flex justify-center">
+                                    <span className="bg-red-100 dark:bg-red-950/30 text-red-500 dark:text-red-400 font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full inline-block border border-red-200 dark:border-red-900/30 transition-colors">
+                                        The Research Team
+                                    </span>
+                                </div>
+                                <h2 className="text-4xl sm:text-5xl font-black text-slate-800 dark:text-white mb-4 transition-colors">
+                                    <BinaryScrambleText text="Meet the Developers" />
+                                </h2>
+                                <p className="text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto text-lg transition-colors">
+                                    Computer Science researchers majoring in Intelligent Systems who designed and developed SafeScape and SafeScape 2.0.
+                                </p>
                             </motion.div>
+
+                            <div className="flex w-full items-center relative py-10 -my-10">
+                                <motion.div 
+                                    ref={carouselRef}
+                                    style={{ x: teamX }}
+                                    className="flex gap-6 sm:gap-8 px-[calc(50vw_-_150px)] sm:px-[calc(50vw_-_190px)] py-10 w-max perspective-[1000px]"
+                                >
+                                    {teamMembers.map((member, index) => (
+                                        <div key={index} className="w-[300px] sm:w-[380px] shrink-0 h-[420px]">
+                                            <TeamCard 
+                                                member={member} 
+                                                index={index} 
+                                                reduceMotion={reduceMotion}
+                                                progress={carouselProgress}
+                                                totalCards={teamMembers.length}
+                                            />
+                                        </div>
+                                    ))}
+                                </motion.div>
+                            </div>
                         </div>
-                    </div>
-                </motion.section>
-            )}
+                    </motion.section>
+                )}
+            </div>
         </div>
     );
 }
