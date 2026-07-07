@@ -35,11 +35,24 @@ class EngagementController extends Controller
                 return response()->json(['success' => false, 'message' => 'Unauthenticated'], 401);
             }
 
-            $points = \App\Http\Controllers\EngagementController::getPointsForActivity($request->activityType);
+            $activityType = $request->activityType;
+            $points = \App\Http\Controllers\EngagementController::getPointsForActivity($activityType);
+
+            // Only allow one DAILY_LOGIN points grant per day
+            if ($activityType === 'DAILY_LOGIN') {
+                $alreadyLoggedToday = \App\Models\EngagementLog::where('userId', $user->id)
+                    ->where('eventType', 'DAILY_LOGIN')
+                    ->whereDate('loggedAt', \Carbon\Carbon::today())
+                    ->exists();
+
+                if ($alreadyLoggedToday) {
+                    return response()->json(['success' => true, 'message' => 'Daily login already logged for today.']);
+                }
+            }
 
             \App\Models\EngagementLog::create([
                 'userId' => $user->id,
-                'eventType' => $request->activityType, // Map activityType from frontend to eventType in DB
+                'eventType' => $activityType, // Map activityType from frontend to eventType in DB
                 'eventData' => $request->metadata ?? [],
                 'points' => $points,
                 'loggedAt' => now(),
