@@ -220,6 +220,9 @@ class DatabaseSeeder extends Seeder
         }
         $this->command->info('✅ Seeded 30 assessment questions for BOTH preTest and postTest (60 rows total)');
 
+        // Call the separate seeder for adaptive quiz module questions
+        $this->call(AdaptiveQuizQuestionsSeeder::class);
+
         // Summary
         $this->command->info('');
         $this->command->info('🎉 Database seeding completed!');
