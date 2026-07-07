@@ -145,13 +145,6 @@
     @apply bg-background text-foreground;
   }
 
-  /* Automatically scale down the layout on laptop screens to prevent oversized UI */
-  @media (min-width: 1024px) and (max-width: 1536px) {
-    body {
-      zoom: 80%;
-    }
-  }
-
   /* Prevent Shadcn/Radix from injecting right padding grid gaps when modals open */
   body[data-scroll-locked] {
     padding-right: 0 !important;
