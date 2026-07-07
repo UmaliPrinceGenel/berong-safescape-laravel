@@ -531,22 +531,36 @@ function PartnershipCard({ children, delay = 0, reduceMotion = false }: { childr
 export function LandingAboutSection({ carouselNode }: { carouselNode?: React.ReactNode }) {
     const prefersReducedMotion = useReducedMotion();
     const [isMobileViewport, setIsMobileViewport] = useState(false);
+    const [isLaptopOrSmaller, setIsLaptopOrSmaller] = useState(false);
 
     useEffect(() => {
         if (typeof window === "undefined") return;
 
         const mediaQuery = window.matchMedia("(max-width: 768px)");
-        const updateViewport = () => setIsMobileViewport(mediaQuery.matches);
+        const laptopQuery = window.matchMedia("(max-width: 1440px)");
+        
+        const updateViewport = () => {
+            setIsMobileViewport(mediaQuery.matches);
+            setIsLaptopOrSmaller(laptopQuery.matches);
+        };
 
         updateViewport();
 
         if (mediaQuery.addEventListener) {
             mediaQuery.addEventListener("change", updateViewport);
-            return () => mediaQuery.removeEventListener("change", updateViewport);
+            laptopQuery.addEventListener("change", updateViewport);
+            return () => {
+                mediaQuery.removeEventListener("change", updateViewport);
+                laptopQuery.removeEventListener("change", updateViewport);
+            };
         }
 
         mediaQuery.addListener(updateViewport);
-        return () => mediaQuery.removeListener(updateViewport);
+        laptopQuery.addListener(updateViewport);
+        return () => {
+            mediaQuery.removeListener(updateViewport);
+            laptopQuery.removeListener(updateViewport);
+        };
     }, []);
 
     const reduceMotion = Boolean(prefersReducedMotion || isMobileViewport);
@@ -1033,7 +1047,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
             </div>
 
             {/* Research Team Section */}
-            {reduceMotion ? (
+            {reduceMotion || isLaptopOrSmaller ? (
                 <div className="w-full" id="meet-the-developers">
                     <motion.section
                         ref={teamRef}
