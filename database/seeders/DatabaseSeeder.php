@@ -72,7 +72,7 @@ class DatabaseSeeder extends Seeder
         $schools = [
             ['name' => 'Sta. Cruz Central Elementary School', 'address' => 'Poblacion, Sta. Cruz, Laguna', 'region' => 'Region IV-A (CALABARZON)', 'district' => 'Sta. Cruz District', 'type' => 'elementary'],
             ['name' => 'Sta. Cruz National High School', 'address' => 'Poblacion, Sta. Cruz, Laguna', 'region' => 'Region IV-A (CALABARZON)', 'district' => 'Sta. Cruz District', 'type' => 'highschool'],
-            ['name' => 'Laguna State Polytechnic University - Sta. Cruz', 'address' => 'Sta. Cruz, Laguna', 'region' => 'Region IV-A (CALABARZON)', 'district' => 'Sta. Cruz District', 'type' => 'college'],
+            ['name' => 'Laguna State Polytechnic University (LSPU) - Main Campus', 'address' => 'Sta. Cruz, Laguna', 'region' => 'Region IV-A (CALABARZON)', 'district' => 'Sta. Cruz District', 'type' => 'college'],
             ['name' => 'Pili Elementary School', 'address' => 'Pili, Sta. Cruz, Laguna', 'region' => 'Region IV-A (CALABARZON)', 'district' => 'Sta. Cruz District', 'type' => 'elementary'],
             ['name' => 'Barangay Pagsawitan Elementary School', 'address' => 'Pagsawitan, Sta. Cruz, Laguna', 'region' => 'Region IV-A (CALABARZON)', 'district' => 'Sta. Cruz District', 'type' => 'elementary'],
             ['name' => 'Bagumbayan Elementary School', 'address' => 'Bagumbayan, Sta. Cruz, Laguna', 'region' => 'Region IV-A (CALABARZON)', 'district' => 'Sta. Cruz District', 'type' => 'elementary'],

@@ -38,9 +38,12 @@ class SchoolAnalyticsController extends Controller
                 $school->recalculateAnalytics();
             }
 
-            // Reload after recalculation with fresh data
+            // Reload after recalculation with fresh data, showing only active schools
             $schools = School::where('isActive', true)
+                ->where('totalStudents', '>', 0)
                 ->orderByDesc('averagePostTestScore')
+                ->orderByDesc('averageCompletionRate')
+                ->orderByDesc('totalStudents')
                 ->get();
 
             return [
