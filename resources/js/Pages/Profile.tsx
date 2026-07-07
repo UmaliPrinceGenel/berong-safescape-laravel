@@ -33,6 +33,7 @@ interface UserScores {
 export default function ProfilePage() {
   
   const { user, isAuthenticated, isLoading, refreshUser } = useAuth()
+  const isKid = user?.role ? user.role.split(',').map(r => r.trim()).includes('kid') : false
   const [loading, setLoading] = useState(true)
   const [success, setSuccess] = useState("")
   const [error, setError] = useState("")
@@ -801,111 +802,150 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Post-Test Card */}
-                <div className={cn(
-                  "relative group overflow-hidden border-2 rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-8 transition-all duration-500",
-                  scores.postTestScore !== null 
-                    ? "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-500/50" 
-                    : "bg-slate-50/50 dark:bg-slate-900/30 border-dashed border-slate-300 dark:border-slate-700 opacity-80"
-                )}>
-                  {/* Decorative background circle */}
-                  <div className="absolute -top-12 -right-12 w-32 h-32 bg-orange-50 dark:bg-orange-900/20 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-700" />
-                  
-                  <div className="relative z-10 flex flex-col sm:flex-row items-center gap-5 sm:gap-8">
-                    <div className="shrink-0 scale-90 sm:scale-100">
-                      {scores.postTestScore !== null ? (
-                        <ScoreGauge 
-                          percentage={getScorePercentage(scores.postTestScore, 15)} 
-                          color="#f97316" 
-                          size={110}
-                          strokeWidth={10}
-                        />
-                      ) : (
-                        <div className="w-[110px] h-[110px] rounded-full border-4 border-dashed border-slate-200 dark:border-slate-700 flex items-center justify-center bg-white dark:bg-slate-800 shadow-inner transition-colors">
-                          <Trophy className="h-8 w-8 text-slate-200 dark:text-slate-700 transition-colors" />
-                        </div>
-                      )}
-                    </div>
+                {!isKid ? (
+                  <div className="relative group overflow-hidden border-2 border-slate-200 dark:border-slate-700 rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-8 bg-slate-50/50 dark:bg-slate-900/10 opacity-70 transition-all duration-300">
+                    {/* Decorative background circle */}
+                    <div className="absolute -top-12 -right-12 w-32 h-32 bg-slate-100 dark:bg-slate-800 rounded-full opacity-30" />
                     
-                    <div className="flex-1 text-center sm:text-left">
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
-                        <span className="w-fit mx-auto sm:mx-0 inline-block px-3 py-1 bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 font-black text-[10px] uppercase tracking-widest rounded-full border border-orange-200 dark:border-orange-800 transition-colors">
-                          Final Exam
-                        </span>
-                        <h3 className="text-2xl font-black text-slate-800 dark:text-white transition-colors">Post-Test</h3>
+                    <div className="relative z-10 flex flex-col sm:flex-row items-center gap-5 sm:gap-8">
+                      <div className="shrink-0 scale-90 sm:scale-100">
+                        <div className="w-[110px] h-[110px] rounded-full border-4 border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-center bg-white dark:bg-slate-800 shadow-inner">
+                          <Lock className="h-8 w-8 text-slate-300 dark:text-slate-600" />
+                        </div>
                       </div>
                       
-                      {scores.postTestScore !== null ? (
-                        <div className="space-y-4">
-                          <p className="text-slate-500 dark:text-slate-400 font-bold leading-relaxed transition-colors">
-                            Final assessment taken after completing all fire safety modules.
-                          </p>
-                          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4">
-                            <div className="flex flex-col">
-                              <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors">Final Score</span>
-                              <span className="text-xl font-black text-slate-800 dark:text-white transition-colors">{scores.postTestScore} / 15</span>
-                            </div>
-                            <div className="w-px h-8 bg-slate-200 dark:bg-slate-700 hidden sm:block transition-colors" />
-                            <div className="flex flex-col">
-                              <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors">Status</span>
-                              <span className={cn("text-lg font-black", getScoreColor(getScorePercentage(scores.postTestScore, 15)))}>
-                                {getScoreLabel(getScorePercentage(scores.postTestScore, 15))}
-                              </span>
-                            </div>
-                          </div>
-                          
-                          <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                            {scores.postTestCompletedAt && (
-                              <div className="flex items-center gap-2 text-slate-400 text-xs font-bold">
-                                <CheckCircle className="h-3.5 w-3.5 text-orange-400" />
-                                Completed {formatDate(scores.postTestCompletedAt)}
-                              </div>
-                            )}
-                            
-                            {/* Improvement Indicator */}
-                            {scores.preTestScore !== null && (
-                              <div className={cn(
-                                "inline-flex items-center gap-2 px-4 py-2 rounded-2xl font-black text-xs uppercase tracking-wider transition-all duration-500",
-                                scores.postTestScore > scores.preTestScore 
-                                  ? "bg-green-50 text-green-600 border-2 border-green-100 shadow-sm" 
-                                  : "bg-slate-50 text-slate-500 border-2 border-slate-100"
-                              )}>
-                                {scores.postTestScore > scores.preTestScore ? (
-                                  <>
-                                    <div className="bg-green-500 p-1 rounded-full">
-                                      <ArrowUpRight className="h-3 w-3 text-white" strokeWidth={4} />
-                                    </div>
-                                    +{scores.postTestScore - scores.preTestScore} Points Up!
-                                  </>
-                                ) : scores.postTestScore === scores.preTestScore ? (
-                                  "Consistent Result"
-                                ) : (
-                                  "Practice More"
-                                )}
-                              </div>
-                            )}
-                          </div>
+                      <div className="flex-1 text-center sm:text-left">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                          <span className="w-fit mx-auto sm:mx-0 inline-block px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-black text-[10px] uppercase tracking-widest rounded-full border border-slate-200 dark:border-slate-700">
+                            Final Exam
+                          </span>
+                          <h3 className="text-2xl font-black text-slate-400 dark:text-slate-500">Post-Test</h3>
                         </div>
-                      ) : (
+                        
                         <div className="space-y-4">
-                          <p className="text-slate-400 font-medium leading-relaxed">
-                            {scores.preTestScore !== null 
-                              ? "Complete all modules to unlock your final Post-Test exam." 
-                              : "Unlock after completing modules and Pre-Test."}
+                          <p className="text-slate-500 dark:text-slate-400 font-bold leading-relaxed">
+                            Only applicable for student accounts to measure learning progress.
                           </p>
-                          <div className="flex items-center gap-3 bg-red-50/50 dark:bg-red-950/25 px-5 py-4 rounded-2xl border-2 border-dashed border-red-200/50 dark:border-red-900/30 transition-colors w-fit">
-                            <div className="bg-red-100 dark:bg-red-900/40 p-2 rounded-xl">
-                              <Lock className="h-5 w-5 text-red-500 dark:text-red-400" strokeWidth={2.5} />
+                          <div className="flex items-center gap-3 bg-slate-100/80 dark:bg-slate-900/80 px-5 py-4 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700 w-fit mx-auto sm:mx-0">
+                            <div className="bg-slate-200 dark:bg-slate-800 p-2 rounded-xl">
+                              <Lock className="h-5 w-5 text-slate-400 dark:text-slate-500" strokeWidth={2.5} />
                             </div>
                             <div className="flex flex-col text-left">
-                              <span className="text-xs font-black text-red-600 dark:text-red-400 uppercase tracking-widest leading-none">Currently Locked</span>
-                              <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 mt-1 leading-none">Complete learning modules first</span>
+                              <span className="text-xs font-black text-slate-500 dark:text-slate-450 uppercase tracking-widest leading-none">Not Applicable</span>
+                              <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 mt-1 leading-none">For Educator/Adult profiles</span>
                             </div>
                           </div>
                         </div>
-                      )}
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <div className={cn(
+                    "relative group overflow-hidden border-2 rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-8 transition-all duration-500",
+                    scores.postTestScore !== null 
+                      ? "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-500/50" 
+                      : "bg-slate-50/50 dark:bg-slate-900/30 border-dashed border-slate-300 dark:border-slate-700 opacity-80"
+                  )}>
+                    {/* Decorative background circle */}
+                    <div className="absolute -top-12 -right-12 w-32 h-32 bg-orange-50 dark:bg-orange-900/20 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-700" />
+                    
+                    <div className="relative z-10 flex flex-col sm:flex-row items-center gap-5 sm:gap-8">
+                      <div className="shrink-0 scale-90 sm:scale-100">
+                        {scores.postTestScore !== null ? (
+                          <ScoreGauge 
+                            percentage={getScorePercentage(scores.postTestScore, 15)} 
+                            color="#f97316" 
+                            size={110}
+                            strokeWidth={10}
+                          />
+                        ) : (
+                          <div className="w-[110px] h-[110px] rounded-full border-4 border-dashed border-slate-200 dark:border-slate-700 flex items-center justify-center bg-white dark:bg-slate-800 shadow-inner transition-colors">
+                            <Trophy className="h-8 w-8 text-slate-200 dark:text-slate-700 transition-colors" />
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="flex-1 text-center sm:text-left">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                          <span className="w-fit mx-auto sm:mx-0 inline-block px-3 py-1 bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 font-black text-[10px] uppercase tracking-widest rounded-full border border-orange-200 dark:border-orange-800 transition-colors">
+                            Final Exam
+                          </span>
+                          <h3 className="text-2xl font-black text-slate-800 dark:text-white transition-colors">Post-Test</h3>
+                        </div>
+                        
+                        {scores.postTestScore !== null ? (
+                          <div className="space-y-4">
+                            <p className="text-slate-500 dark:text-slate-400 font-bold leading-relaxed transition-colors">
+                              Final assessment taken after completing all fire safety modules.
+                            </p>
+                            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4">
+                              <div className="flex flex-col">
+                                <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors">Final Score</span>
+                                <span className="text-xl font-black text-slate-800 dark:text-white transition-colors">{scores.postTestScore} / 15</span>
+                              </div>
+                              <div className="w-px h-8 bg-slate-200 dark:bg-slate-700 hidden sm:block transition-colors" />
+                              <div className="flex flex-col">
+                                <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors">Status</span>
+                                <span className={cn("text-lg font-black", getScoreColor(getScorePercentage(scores.postTestScore, 15)))}>
+                                  {getScoreLabel(getScorePercentage(scores.postTestScore, 15))}
+                                </span>
+                              </div>
+                            </div>
+                            
+                            <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                              {scores.postTestCompletedAt && (
+                                <div className="flex items-center gap-2 text-slate-400 text-xs font-bold">
+                                  <CheckCircle className="h-3.5 w-3.5 text-orange-400" />
+                                  Completed {formatDate(scores.postTestCompletedAt)}
+                                </div>
+                              )}
+                              
+                              {/* Improvement Indicator */}
+                              {scores.preTestScore !== null && (
+                                <div className={cn(
+                                  "inline-flex items-center gap-2 px-4 py-2 rounded-2xl font-black text-xs uppercase tracking-wider transition-all duration-500",
+                                  scores.postTestScore > scores.preTestScore 
+                                    ? "bg-green-50 text-green-600 border-2 border-green-100 shadow-sm" 
+                                    : "bg-slate-50 text-slate-500 border-2 border-slate-100"
+                                )}>
+                                  {scores.postTestScore > scores.preTestScore ? (
+                                    <>
+                                      <div className="bg-green-500 p-1 rounded-full">
+                                        <ArrowUpRight className="h-3 w-3 text-white" strokeWidth={4} />
+                                      </div>
+                                      +{scores.postTestScore - scores.preTestScore} Points Up!
+                                    </>
+                                  ) : scores.postTestScore === scores.preTestScore ? (
+                                    "Consistent Result"
+                                  ) : (
+                                    "Practice More"
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="space-y-4">
+                            <p className="text-slate-400 font-medium leading-relaxed">
+                              {scores.preTestScore !== null 
+                                ? "Complete all modules to unlock your final Post-Test exam." 
+                                : "Unlock after completing modules and Pre-Test."}
+                            </p>
+                            <div className="flex items-center gap-3 bg-red-50/50 dark:bg-red-950/25 px-5 py-4 rounded-2xl border-2 border-dashed border-red-200/50 dark:border-red-900/30 transition-colors w-fit">
+                              <div className="bg-red-100 dark:bg-red-900/40 p-2 rounded-xl">
+                                <Lock className="h-5 w-5 text-red-500 dark:text-red-400" strokeWidth={2.5} />
+                              </div>
+                              <div className="flex flex-col text-left">
+                                <span className="text-xs font-black text-red-600 dark:text-red-400 uppercase tracking-widest leading-none">Currently Locked</span>
+                                <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 mt-1 leading-none">Complete learning modules first</span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center py-16 text-center">

@@ -166,6 +166,7 @@ class AssessmentController extends Controller
         }
         
         $eligible = true;
+        if ($isAdult) $eligible = false;
         if (is_null($user->preTestScore)) $eligible = false;
         if (!$isAdult && $modulesCompleted < $minModules) $eligible = false;
         if ($engagementPoints < $minPoints) $eligible = false;
@@ -173,7 +174,7 @@ class AssessmentController extends Controller
         return response()->json([
             'eligible' => $eligible,
             'alreadyCompleted' => $alreadyCompleted,
-            'reason' => $eligible ? 'Eligible' : 'Requirements not met',
+            'reason' => $eligible ? 'Eligible' : ($isAdult ? 'Post-Test is not applicable for adult accounts' : 'Requirements not met'),
             'requirements' => [
                 'minEngagementPoints' => $minPoints,
                 'minModulesCompleted' => $minModules,
