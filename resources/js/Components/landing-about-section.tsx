@@ -1052,7 +1052,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                     <motion.section
                         ref={teamRef}
                         className="pt-10 sm:pt-12 pb-20 sm:pb-24 bg-white dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden transition-colors duration-500"
-                        style={reduceMotion ? {} : { opacity: teamOpacity }}
+                        style={reduceMotion || isLaptopOrSmaller ? {} : { opacity: teamOpacity }}
                     >
                         {/* Dynamic Dotted Pattern Background */}
                         <div className="absolute inset-0 pointer-events-none z-[0] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px]" />
