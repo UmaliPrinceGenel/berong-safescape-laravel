@@ -537,7 +537,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
         if (typeof window === "undefined") return;
 
         const mediaQuery = window.matchMedia("(max-width: 768px)");
-        const laptopQuery = window.matchMedia("(max-width: 1440px)");
+        const laptopQuery = window.matchMedia("(max-width: 1540px)");
         
         const updateViewport = () => {
             setIsMobileViewport(mediaQuery.matches);
