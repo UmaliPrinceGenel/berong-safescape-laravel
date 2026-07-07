@@ -246,7 +246,7 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
             </DialogDescription>
           </DialogHeader>
           
-          <div className="text-center p-6 bg-gray-50 rounded-lg">
+          <div className="text-center p-6 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-lg">
             <p className="text-sm text-muted-foreground mb-2">Your Pre-Test Score</p>
             <div className="text-4xl font-bold" style={{ color: rating.color }}>
               {result.score} / {result.maxScore}
@@ -492,11 +492,11 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
                   <Progress value={((currentQuestionIndex + 1) / questions.length) * 100} className="h-2" />
                 </div>
 
-                <div className="p-4 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-orange-600 mb-2">
+                <div className="p-4 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-lg">
+                  <p className="text-sm font-semibold text-orange-600 dark:text-orange-500 mb-2">
                     {questions[currentQuestionIndex].category}
                   </p>
-                  <h3 className="text-lg font-medium mb-4">
+                  <h3 className="text-lg font-medium mb-4 text-slate-900 dark:text-slate-50">
                     {questions[currentQuestionIndex].question}
                   </h3>
 
@@ -505,9 +505,9 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
                     onValueChange={(value) => handleAnswerQuestion(questions[currentQuestionIndex].id, parseInt(value))}
                   >
                     {questions[currentQuestionIndex].options.map((option, index) => (
-                      <div key={index} className="flex items-center space-x-2 p-3 rounded-lg hover:bg-gray-100">
+                      <div key={index} className="flex items-center space-x-2 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors">
                         <RadioGroupItem value={index.toString()} id={`modal-option-${index}`} />
-                        <Label htmlFor={`modal-option-${index}`} className="flex-1 cursor-pointer">
+                        <Label htmlFor={`modal-option-${index}`} className="flex-1 cursor-pointer text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100">
                           {option}
                         </Label>
                       </div>
@@ -564,8 +564,8 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
                         currentQuestionIndex === idx
                           ? "bg-orange-500 text-white"
                           : data.preTestAnswers[q.id] !== undefined
-                          ? "bg-green-100 text-green-700 border border-green-300"
-                          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                          ? "bg-green-100 dark:bg-green-950/40 text-green-700 dark:text-green-400 border border-green-300 dark:border-green-800"
+                          : "bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-700"
                       }`}
                     >
                       {idx + 1}
