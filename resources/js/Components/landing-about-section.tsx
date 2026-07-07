@@ -150,7 +150,7 @@ const teamMembers = [
         roleIcons: [Cpu, Code, Cpu],
     },
     {
-        name: "Janhver Lucas J. Sarmiento",
+        name: "Janvher Lucas J. Sarmiento",
         roles: ["UI Designer", "EDITH Simulation"],
         image: "/sarmiento_pr.jpg",
         socials: [
@@ -1045,7 +1045,8 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                     </div>
                 </motion.section>
             </div>
-            {/* Research Team Section */}
+
+            {/* Research Team Section */}
             <div ref={teamRef} id="meet-the-developers" className="w-full">
                 {reduceMotion || isLaptopOrSmaller ? (
                     <motion.section

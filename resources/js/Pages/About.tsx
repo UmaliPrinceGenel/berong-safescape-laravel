@@ -157,7 +157,7 @@ const teamMembers = [
         roleIcons: [Cpu, Code, Cpu],
     },
     {
-        name: "Janhver Lucas J. Sarmiento",
+        name: "Janvher Lucas J. Sarmiento",
         roles: ["UI Designer, EDITH Simulation"],
         image: "/sarmiento_pr.jpg",
         socials: [
