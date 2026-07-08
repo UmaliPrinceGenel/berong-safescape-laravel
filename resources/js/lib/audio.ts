@@ -37,9 +37,12 @@ export function getVolume(category: AudioCategory): number {
   return Math.max(0, Math.min(1, (percent / 100) * (generalPercent / 100)));
 }
 
+// Memory cache for preloaded audio elements to prevent network/decoding delay
+const audioCache: Record<string, HTMLAudioElement> = {};
+
 /**
  * Play a sound file with the appropriate volume for its category.
- * Drop-in replacement for: new Audio(src).play()
+ * Preloads the audio and plays it instantly with overlap support.
  * 
  * Usage:
  *   playSound('/sounds/click.mp3', 'general');
@@ -50,9 +53,24 @@ export function playSound(src: string, category: AudioCategory = 'general'): voi
     const volume = getVolume(category);
     if (volume <= 0) return; // Don't even create the Audio object if muted
     
-    const audio = new Audio(src);
-    audio.volume = volume;
-    audio.play().catch(() => {});
+    // Get or create the cached base audio element
+    let baseAudio = audioCache[src];
+    if (!baseAudio) {
+      baseAudio = new Audio(src);
+      baseAudio.preload = 'auto';
+      baseAudio.load(); // Request pre-buffering
+      audioCache[src] = baseAudio;
+    }
+
+    // Clone the node to allow overlapping sounds (e.g. fast clicks) and instant playback
+    const playInstance = baseAudio.cloneNode(true) as HTMLAudioElement;
+    playInstance.volume = volume;
+    playInstance.play().catch(() => {
+      // Fallback to playing the base audio if cloning fails/is restricted
+      baseAudio.volume = volume;
+      baseAudio.currentTime = 0;
+      baseAudio.play().catch(() => {});
+    });
   } catch {
     // Silently fail - audio is non-critical
   }

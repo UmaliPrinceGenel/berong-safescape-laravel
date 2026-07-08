@@ -565,7 +565,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                         <CardHeader className="p-0 w-[160px] xs:w-[180px] sm:w-full shrink-0 flex items-center justify-center relative">
                                             <div className="w-full aspect-video bg-slate-100 dark:bg-slate-900 overflow-hidden relative rounded-xl sm:rounded-none sm:rounded-t-[1.3rem] shadow-sm border border-slate-200/50 dark:border-slate-700/50 sm:border-none">
                                                 <img
-                                                    src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.webp`}
+                                                    src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.jpg`}
                                                     alt={video.title}
                                                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                                 />
