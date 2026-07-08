@@ -38,9 +38,16 @@ export default function TaskMaster() {
 
     window.addEventListener('message', handleMessage);
 
+    // Prevent default pinch-zoom gestures to allow multitouch inside the WebGL canvas
+    const preventGesture = (e: Event) => {
+      e.preventDefault();
+    };
+    document.addEventListener('gesturestart', preventGesture, { passive: false });
+
     return () => {
       window.removeEventListener('resize', checkOrientation);
       window.removeEventListener('message', handleMessage);
+      document.removeEventListener('gesturestart', preventGesture);
     };
   }, []);
 
@@ -48,16 +55,21 @@ export default function TaskMaster() {
     <>
       <Head title="Task Master Game" />
       
-      <div className="fixed inset-0 bg-black z-[9999] flex items-center justify-center overflow-hidden touch-auto">
+      <div className="fixed inset-0 bg-black z-[9999] flex items-center justify-center overflow-hidden touch-none select-none">
         
         <div className="absolute top-4 left-4 z-[10000] flex items-center gap-3">
-          <a 
+          <Link 
             href="/kids" 
+            onClick={() => {
+              if (document.fullscreenElement) {
+                document.exitFullscreen().catch(() => {});
+              }
+            }}
             className="bg-black/50 hover:bg-black/80 text-white p-3 rounded-full transition-all border border-white/20 shadow-xl flex items-center gap-2 group"
           >
             <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
             <span className="font-bold hidden sm:inline">Exit Game</span>
-          </a>
+          </Link>
 
           <button 
             onClick={() => {
@@ -79,7 +91,7 @@ export default function TaskMaster() {
         {/* The Game Iframe */}
         <iframe 
           src={`/games/task_master/index.html?user_id=${user?.id || 'guest'}`} 
-          className="w-full h-full border-none pointer-events-auto"
+          className="w-full h-full border-none pointer-events-auto touch-none select-none"
           allowFullScreen
           scrolling="no"
         />
