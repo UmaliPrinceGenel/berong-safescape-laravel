@@ -68,7 +68,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
       title: v.title,
       description: v.description || "Learn important fire safety rules in a fun way!",
       src: `https://www.youtube.com/embed/${cleanId}`,
-      thumbnail: `https://img.youtube.com/vi/${cleanId}/maxresdefault.webp`,
+      thumbnail: `https://img.youtube.com/vi/${cleanId}/maxresdefault.jpg`,
       color: index % 2 === 0 ? "bg-purple-200" : "bg-[#fbcfe8]",
       icon: index % 3 === 0 ? "🎬" : index % 3 === 1 ? "🔥" : "🚒",
       duration: v.duration || "3:00",
