@@ -48,7 +48,7 @@ export default function TaskMaster() {
     <>
       <Head title="Task Master Game" />
       
-      <div className="fixed inset-0 bg-black z-[9999] flex items-center justify-center overflow-hidden touch-none">
+      <div className="fixed inset-0 bg-black z-[9999] flex items-center justify-center overflow-hidden touch-auto">
         
         <div className="absolute top-4 left-4 z-[10000] flex items-center gap-3">
           <a 

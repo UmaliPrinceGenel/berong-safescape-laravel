@@ -412,12 +412,12 @@ function TeamCard({ member, index, reduceMotion, progress, totalCards = 9 }: { k
         >
             <motion.div
                 ref={ref}
-                initial={reduceMotion ? { opacity: 0, y: 30 } : { opacity: 0 }}
-                animate={isInView ? (reduceMotion ? { opacity: 1, y: 0 } : { opacity: 1 }) : {}}
+                initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0 }}
+                animate={reduceMotion ? { opacity: 1, y: 0 } : (isInView ? { opacity: 1 } : {})}
                 transition={{
                     duration: 0.5,
                     ease: "easeOut",
-                    delay: reduceMotion ? index * 0.1 : 0
+                    delay: reduceMotion ? index * 0.05 : 0
                 }}
                 className="group relative bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-3 border border-slate-200 dark:border-slate-700 h-full flex flex-col cursor-pointer transition-all duration-300"
             >
@@ -1059,8 +1059,8 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                         <div className="relative z-10 px-4 sm:px-8">
                             <motion.div
                                 className="text-center mb-10 sm:mb-16 shrink-0 w-full"
-                                initial={{ opacity: 0, y: 40 }}
-                                whileInView={{ opacity: 1, y: 0 }}
+                                initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+                                whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.7 }}
                             >
