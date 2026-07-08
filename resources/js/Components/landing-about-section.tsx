@@ -756,7 +756,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
                 <motion.section
                     ref={heroRef}
-                    className="relative min-h-[90vh] flex items-center justify-center py-20 overflow-hidden bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 transition-colors duration-500 transform-gpu will-change-transform"
+                    className="relative bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-[#0B1120] py-12 sm:py-20 overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] border border-slate-200 dark:border-slate-800/80 shadow-2xl mx-2 sm:mx-0 transition-colors duration-500 transform-gpu will-change-transform"
                     style={{ opacity: heroOpacity, scale: heroScale }}
                 >
                     {/* Modern Glow Effects */}
@@ -918,7 +918,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
                 <motion.section
                     ref={platformRef}
-                    className="py-20 sm:py-24 bg-white dark:bg-slate-900 relative overflow-hidden transition-colors duration-500 transform-gpu will-change-transform"
+                    className="py-10 sm:py-14 bg-red-600 dark:bg-[#0B1120] text-white relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-sm dark:shadow-2xl border border-transparent dark:border-slate-800/80 mx-2 sm:mx-0 transition-colors duration-500 transform-gpu will-change-transform"
                     style={{ opacity: platformOpacity, scale: platformScale }}
                 >
                     {/* Modern Glow Effects for Dark Mode */}
@@ -939,10 +939,10 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                             viewport={{ once: true }}
                             transition={{ duration: 0.7 }}
                         >
-                            <h2 className="text-3xl sm:text-5xl xl:text-6xl font-black text-slate-900 dark:text-white mb-4 sm:mb-6 drop-shadow-lg uppercase tracking-tight italic">
-                                What is <span className="text-red-600 dark:text-red-400 drop-shadow-[0_4px_0_#ef4444]">SafeScape 2.0</span>?
+                            <h2 className="text-3xl sm:text-5xl xl:text-6xl font-black text-white mb-4 sm:mb-6 drop-shadow-lg uppercase tracking-tight italic">
+                                What is <span className="text-yellow-400 drop-shadow-[0_4px_0_#b45309]">SafeScape 2.0</span>?
                             </h2>
-                            <p className="text-slate-600 dark:text-slate-300 font-bold max-w-2xl mx-auto text-sm sm:text-xl xl:text-2xl px-4 leading-relaxed opacity-95">
+                            <p className="text-white font-bold max-w-2xl mx-auto text-sm sm:text-xl xl:text-2xl px-4 leading-relaxed opacity-95">
                                 A comprehensive fire safety education platform designed to empower communities with knowledge and skills.
                             </p>
                         </motion.div>
@@ -967,7 +967,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
                 <motion.section
                     ref={partnershipRef}
-                    className="py-20 sm:py-24 bg-slate-50 dark:bg-slate-950 relative overflow-hidden transition-colors duration-500 transform-gpu will-change-transform"
+                    className="py-10 sm:py-14 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden rounded-[2.5rem] shadow-xl dark:shadow-md border border-slate-200 dark:border-transparent transition-colors duration-500 transform-gpu will-change-transform"
                     style={{ opacity: partnershipOpacity, scale: partnershipScale }}
                 >
                     {/* Animated Background decoration */}
