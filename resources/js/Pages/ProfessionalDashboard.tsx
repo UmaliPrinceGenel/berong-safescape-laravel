@@ -100,6 +100,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
     const [highlightManuals, setHighlightManuals] = useState(false)
     const playerRef = useRef<HTMLDivElement>(null)
     const ytPlayerRef = useRef<any>(null)
+    const [isYTReady, setIsYTReady] = useState(false)
 
     // Sync watchedIds when deferred prop arrives
     useEffect(() => {
@@ -110,15 +111,20 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
 
     // Load YouTube API
     useEffect(() => {
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+        if ((window as any).YT && (window as any).YT.Player) {
+            setIsYTReady(true)
+            return
+        }
 
-        (window as any).onYouTubeIframeAPIReady = () => {
-            // API ready
-        };
-    }, []);
+        const tag = document.createElement('script')
+        tag.src = "https://www.youtube.com/iframe_api"
+        const firstScriptTag = document.getElementsByTagName('script')[0]
+        firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag)
+
+        ;(window as any).onYouTubeIframeAPIReady = () => {
+            setIsYTReady(true)
+        }
+    }, [])
 
     // Handle Video Completion
     const handleVideoEnd = async (videoId: string) => {
@@ -127,33 +133,53 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                 await axios.post('/api/engagement/log', {
                     activityType: "VIDEO_WATCHED",
                     metadata: { videoId, videoTitle: selectedVideo?.title }
-                });
+                })
                 
-                setWatchedIds(prev => new Set([...prev, videoId]));
+                setWatchedIds(prev => new Set([...prev, videoId]))
             } catch (error) {
-                console.error("Failed to log video completion", error);
+                console.error("Failed to log video completion", error)
             }
         }
-    };
+    }
 
     // Initialize/Update Player
     useEffect(() => {
-        if (selectedVideo && (window as any).YT && (window as any).YT.Player) {
+        if (selectedVideo && isYTReady && (window as any).YT && (window as any).YT.Player) {
             if (ytPlayerRef.current) {
-                ytPlayerRef.current.destroy();
+                try {
+                    ytPlayerRef.current.destroy()
+                } catch (e) {
+                    console.error("Error destroying YT player", e)
+                }
+                ytPlayerRef.current = null
             }
 
-            ytPlayerRef.current = new (window as any).YT.Player(`youtube-player-${selectedVideo.id}`, {
-                events: {
-                    'onStateChange': (event: any) => {
-                        if (event.data === (window as any).YT.PlayerState.ENDED) {
-                            handleVideoEnd(selectedVideo.id.toString());
+            const containerWrapper = document.getElementById('youtube-player-container')
+            if (containerWrapper) {
+                containerWrapper.innerHTML = '<div id="youtube-player" class="w-full h-full"></div>'
+                
+                ytPlayerRef.current = new (window as any).YT.Player('youtube-player', {
+                    videoId: getYouTubeId(selectedVideo.youtubeId),
+                    width: '100%',
+                    height: '100%',
+                    playerVars: {
+                        autoplay: 0,
+                        rel: 0,
+                        modestbranding: 1,
+                        enablejsapi: 1,
+                        origin: window.location.origin
+                    },
+                    events: {
+                        'onStateChange': (event: any) => {
+                            if (event.data === (window as any).YT.PlayerState.ENDED) {
+                                handleVideoEnd(selectedVideo.id.toString())
+                            }
                         }
                     }
-                }
-            });
+                })
+            }
         }
-    }, [selectedVideo]);
+    }, [selectedVideo, isYTReady])
 
     useEffect(() => {
         if (selectedVideo) {
@@ -422,16 +448,9 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                         </CardHeader>
                         <CardContent className="px-0 pb-6">
                             <div className="aspect-video bg-black rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-100 dark:border-slate-800/80">
-                                <iframe
-                                    id={`youtube-player-${selectedVideo.id}`}
-                                    width="100%"
-                                    height="100%"
-                                    src={`https://www.youtube.com/embed/${getYouTubeId(selectedVideo.youtubeId)}?enablejsapi=1&origin=${window.location.origin}`}
-                                    title={selectedVideo.title}
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                    className="w-full h-full"
-                                />
+                                <div id="youtube-player-container" className="w-full h-full">
+                                    <div id="youtube-player" className="w-full h-full" />
+                                </div>
                             </div>
                             <div className="flex items-center gap-4 text-sm font-semibold">
                                 <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
