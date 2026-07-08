@@ -35,6 +35,18 @@ const SmokeCrawl = () => {
   const [countdown, setCountdown] = useState(3)
   const [message, setMessage] = useState<string | null>(null)
   const [doorStates, setDoorStates] = useState<{ [key: string]: 'closed' | 'open' }>({})
+  const [showTouchControls, setShowTouchControls] = useState(false)
+
+  useEffect(() => {
+    const checkControls = () => {
+      const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+      const isSmall = window.innerWidth < 1024
+      setShowTouchControls(isTouch || isSmall)
+    };
+    checkControls()
+    window.addEventListener('resize', checkControls)
+    return () => window.removeEventListener('resize', checkControls)
+  }, [])
 
   // Audio refs
   const musicRef = useRef<HTMLAudioElement | null>(null)
@@ -445,30 +457,32 @@ const SmokeCrawl = () => {
                   </div>
                   <h2 className="text-2xl sm:text-4xl font-black text-slate-800 dark:text-white mb-4 uppercase tracking-tighter">Mission Ready?</h2>
                   
-                  {/* Controls Preview for Mobile */}
-                  <div className="lg:hidden w-full bg-blue-50 dark:bg-slate-900 rounded-2xl p-4 mb-6 border border-blue-100 dark:border-slate-800 grid grid-cols-2 gap-4">
-                    <div className="flex flex-col items-center gap-1">
-                      <div className="flex gap-1">
-                        <div className="w-6 h-6 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronUp className="h-3 w-3 dark:text-slate-300" /></div>
+                  {/* Controls Preview for Mobile/Tablets */}
+                  {showTouchControls ? (
+                    <div className="w-full bg-blue-50 dark:bg-slate-900 rounded-2xl p-4 mb-6 border border-blue-100 dark:border-slate-800 grid grid-cols-2 gap-4">
+                      <div className="flex flex-col items-center gap-1">
+                        <div className="flex gap-1">
+                          <div className="w-6 h-6 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronUp className="h-3 w-3 dark:text-slate-300" /></div>
+                        </div>
+                        <div className="flex gap-1">
+                          <div className="w-6 h-6 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronLeft className="h-3 w-3 dark:text-slate-300" /></div>
+                          <div className="w-6 h-6 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronDown className="h-3 w-3 dark:text-slate-300" /></div>
+                          <div className="w-6 h-6 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronRight className="h-3 w-3 dark:text-slate-300" /></div>
+                        </div>
+                        <span className="text-[10px] font-black text-blue-600 dark:text-blue-400 mt-1 uppercase">Move</span>
                       </div>
-                      <div className="flex gap-1">
-                        <div className="w-6 h-6 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronLeft className="h-3 w-3 dark:text-slate-300" /></div>
-                        <div className="w-6 h-6 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronDown className="h-3 w-3 dark:text-slate-300" /></div>
-                        <div className="w-6 h-6 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronRight className="h-3 w-3 dark:text-slate-300" /></div>
+                      <div className="flex flex-col items-center justify-center gap-1 border-l border-blue-200 dark:border-slate-700">
+                        <div className="w-12 h-8 bg-orange-500 rounded flex items-center justify-center shadow-sm">
+                          <User className="h-4 w-4 text-white" />
+                        </div>
+                        <span className="text-[10px] font-black text-orange-600 dark:text-orange-400 mt-1 uppercase">Stay Low</span>
                       </div>
-                      <span className="text-[10px] font-black text-blue-600 dark:text-blue-400 mt-1 uppercase">Move</span>
                     </div>
-                    <div className="flex flex-col items-center justify-center gap-1 border-l border-blue-200 dark:border-slate-700">
-                      <div className="w-12 h-8 bg-orange-500 rounded flex items-center justify-center shadow-sm">
-                        <User className="h-4 w-4 text-white" />
-                      </div>
-                      <span className="text-[10px] font-black text-orange-600 dark:text-orange-400 mt-1 uppercase">Stay Low</span>
-                    </div>
-                  </div>
-
-                  <p className="hidden lg:block text-slate-500 dark:text-slate-400 text-lg mb-8 max-w-md font-bold">
-                    Learn the "Stay Low and Go" principle in this smoke-filled escape maze!
-                  </p>
+                  ) : (
+                    <p className="text-slate-500 dark:text-slate-400 text-lg mb-8 max-w-md font-bold">
+                      Learn the "Stay Low and Go" principle in this smoke-filled escape maze!
+                    </p>
+                  )}
                   <div className="flex flex-col gap-4 w-full max-w-xs">
                      <button 
                         onClick={() => {
@@ -551,9 +565,9 @@ const SmokeCrawl = () => {
               )}
             </div>
 
-            {/* Mobile Controls - Now literally below the game */}
-            {gameState !== 'start' && (
-              <div className="lg:hidden mt-6 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-[2.5rem] p-6 grid grid-cols-2 gap-6 shadow-xl transition-colors">
+            {/* Mobile/Tablet Controls - Now literally below the game */}
+            {gameState !== 'start' && showTouchControls && (
+              <div className="mt-6 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-[2.5rem] p-6 grid grid-cols-2 gap-6 shadow-xl transition-colors">
                 {/* Crouch Toggle */}
                 <button 
                   onClick={() => setIsCrouched(!isCrouched)}
@@ -626,8 +640,11 @@ const SmokeCrawl = () => {
                   <div className="flex gap-4">
                      <div className="w-10 h-10 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-center text-slate-700 dark:text-slate-300 font-bold shrink-0 border border-slate-100 dark:border-slate-700">2</div>
                      <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed font-bold">
-                        <span className="lg:hidden">Tap <span className="text-orange-600 dark:text-orange-400">Crouch</span></span>
-                        <span className="hidden lg:inline">Hold <span className="text-orange-600 dark:text-orange-400">Spacebar</span></span>
+                        {showTouchControls ? (
+                          <span>Tap <span className="text-orange-600 dark:text-orange-400">Crouch</span></span>
+                        ) : (
+                          <span>Hold <span className="text-orange-600 dark:text-orange-400">Spacebar</span></span>
+                        )}
                         {" "}to stay low and save oxygen!
                      </p>
                   </div>

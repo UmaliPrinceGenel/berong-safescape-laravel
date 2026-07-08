@@ -351,6 +351,84 @@ const getBorderGlowColor = (colorStr: string) => {
     return "rgb(239, 68, 68)";
 };
 
+// Static Team Card Component for Mobile / Tablet Viewports
+function StaticTeamCard({ member, index }: { member: typeof teamMembers[0]; index: number }) {
+    return (
+        <div className="h-full w-full">
+            <div className="group relative bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-3 border border-slate-200 dark:border-slate-700 h-full flex flex-col cursor-pointer transition-all duration-300">
+                {/* Gradient Header */}
+                <div className={`h-32 bg-gradient-to-r ${member.color} relative overflow-hidden`}>
+                    <div className="absolute inset-0 bg-black/20" />
+                    {/* Decorative circles */}
+                    <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded-full" />
+                    <div className="absolute top-4 left-4 w-12 h-12 bg-white/10 rounded-full" />
+                </div>
+
+                {/* Profile Image */}
+                <div className="relative -mt-16 flex justify-center">
+                    <div className="relative p-1.5 bg-white dark:bg-slate-800 rounded-full shadow-xl">
+                        <div className="absolute inset-0 bg-slate-400 rounded-full opacity-50 group-hover:opacity-75 transition-opacity" />
+                        <div className="relative w-32 h-32 rounded-full border-4 border-white dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900 shadow-xl">
+                            <img
+                                src={member.image}
+                                alt={member.name}
+                                loading="lazy"
+                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-6 pt-4 text-center flex flex-col flex-1">
+                    <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2 transition-colors">{member.name}</h3>
+
+                    {/* Roles */}
+                    <div className="flex flex-wrap justify-center gap-2 mb-4 flex-grow content-start min-h-[70px]">
+                        {member.roles.map((role, roleIndex) => (
+                            <span
+                                key={roleIndex}
+                                className="inline-flex items-center gap-1 px-3 py-1 bg-slate-100 dark:bg-slate-700 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300 h-fit transition-colors"
+                            >
+                                {member.roleIcons[roleIndex] && (
+                                    <span className="w-3 h-3">
+                                        {(() => {
+                                            const Icon = member.roleIcons[roleIndex];
+                                            return <Icon className="w-3 h-3" />;
+                                        })()}
+                                    </span>
+                                )}
+                                {role}
+                            </span>
+                        ))}
+                    </div>
+
+                    {/* Social Links */}
+                    <div className="flex justify-center gap-3 pt-4 border-t border-slate-100 dark:border-slate-700 mt-auto transition-colors">
+                        {member.socials.map((social, socialIndex) => (
+                            <a
+                                key={socialIndex}
+                                href={social.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group/social"
+                            >
+                                <Button
+                                    variant="outline"
+                                    size="icon"
+                                    className="h-10 w-10 rounded-full dark:bg-slate-700 dark:border-slate-600 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-300 group-hover/social:scale-110"
+                                >
+                                    <social.icon className="w-5 h-5" />
+                                </Button>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 // Animated Team Card Component
 function TeamCard({ member, index, reduceMotion, progress, totalCards = 9 }: { key?: React.Key; member: typeof teamMembers[0]; index: number; reduceMotion: boolean; progress: any; totalCards?: number }) {
     const ref = useRef(null);
@@ -1047,23 +1125,14 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
             </div>
 
             {/* Research Team Section */}
-            <div ref={teamRef} id="meet-the-developers" className="w-full">
-                {reduceMotion || isLaptopOrSmaller ? (
-                    <motion.section
-                        className="pt-10 sm:pt-12 pb-20 sm:pb-24 bg-white dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden transition-colors duration-500"
-                        style={{}}
-                    >
+            {reduceMotion || isLaptopOrSmaller ? (
+                <div id="meet-the-developers" className="w-full">
+                    <section className="pt-10 sm:pt-12 pb-20 sm:pb-24 bg-white dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden transition-colors duration-500">
                         {/* Dynamic Dotted Pattern Background */}
                         <div className="absolute inset-0 pointer-events-none z-[0] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px]" />
                         
                         <div className="relative z-10 px-4 sm:px-8">
-                            <motion.div
-                                className="text-center mb-10 sm:mb-16 shrink-0 w-full"
-                                initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-                                whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.7 }}
-                            >
+                            <div className="text-center mb-10 sm:mb-16 shrink-0 w-full">
                                 <div className="mb-6 flex justify-center">
                                     <span className="bg-red-100 dark:bg-red-950/30 text-red-500 dark:text-red-400 font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full inline-block border border-red-200 dark:border-red-900/30 transition-colors">
                                         The Research Team
@@ -1075,22 +1144,22 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                 <p className="text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto text-lg transition-colors">
                                     Computer Science researchers majoring in Intelligent Systems who designed and developed SafeScape and SafeScape 2.0.
                                 </p>
-                            </motion.div>
+                            </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 w-full">
                                 {teamMembers.map((member, index) => (
-                                    <TeamCard 
+                                    <StaticTeamCard 
                                         key={index} 
                                         member={member} 
                                         index={index} 
-                                        reduceMotion={true}
-                                        progress={horizontalScrollProgress}
                                     />
                                 ))}
                             </div>
                         </div>
-                    </motion.section>
-                ) : (
+                    </section>
+                </div>
+            ) : (
+                <div ref={teamRef} id="meet-the-developers" className="w-full">
                     <motion.section
                         className="bg-transparent relative h-[400vh]"
                         style={{ opacity: teamOpacity }}
@@ -1142,8 +1211,8 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                             </div>
                         </div>
                     </motion.section>
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 }
