@@ -355,7 +355,7 @@ function AuthContent() {
 
 
               {/* Login Tab */}
-              <TabsContent value="login" className="min-h-[280px] sm:min-h-[400px] flex flex-col justify-center mt-0 animate-in fade-in-0 slide-in-from-left-4 duration-300">
+              <TabsContent value="login" className="min-h-[240px] sm:min-h-[280px] flex flex-col justify-center mt-0 animate-in fade-in-0 slide-in-from-left-4 duration-300">
                 <form onSubmit={handleLogin} className="space-y-2 sm:space-y-4">
                   <div className="space-y-1 sm:space-y-1.5">
                     <Label htmlFor="login-username" className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 ml-1 transition-colors">Username</Label>
@@ -446,7 +446,7 @@ function AuthContent() {
                 </form>
               </TabsContent>
 
-              <TabsContent value="register" className="min-h-[280px] sm:min-h-[400px] flex flex-col justify-center mt-0 animate-in fade-in-0 slide-in-from-right-4 duration-300">
+              <TabsContent value="register" className="min-h-[240px] sm:min-h-[280px] flex flex-col justify-center mt-0 animate-in fade-in-0 slide-in-from-right-4 duration-300">
                 <div className="space-y-2 sm:space-y-4 py-1 sm:py-4">
                   <div className="text-center">
                     <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-white mb-1 sm:mb-2 mt-1 sm:mt-2 tracking-tight transition-colors">Create Your Account</h3>
