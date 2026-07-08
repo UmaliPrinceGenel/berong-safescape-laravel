@@ -61,7 +61,7 @@ export function LogoutLoader() {
                                 className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-[2rem] overflow-hidden border-[6px] border-white shadow-[0_0_40px_rgba(250,204,21,0.5)] bg-white p-2"
                             >
                                 <Image
-                                    src="/berong_logout.png"
+                                    src="/berong_logout.webp"
                                     alt="Berong Logging Out"
                                     className="w-full h-full object-contain drop-shadow-md"
                                     priority={true}

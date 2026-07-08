@@ -45,12 +45,12 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
             title: "Fire Safety Quiz",
             description: "Test your knowledge with fun questions and earn your Quiz Hero badge!",
             type: "activity",
-            imageUrl: "/fire_safety_quiz.jpg",
+            imageUrl: "/fire_safety_quiz.webp",
             href: "/kids/quiz",
             difficulty: "medium",
             category: "activities",
             isCompleted: earnedBadgeIds.includes('quiz_hero'),
-            badgeImageUrl: "/quiz_hall.png",
+            badgeImageUrl: "/quiz_hall.webp",
             badgeName: "Quiz Hero",
             badgeHint: "Score 100% on any Fire Safety Quiz."
           },
@@ -59,12 +59,12 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
               title: "Memory Game",
               description: "Match fire safety symbols and tools to sharpen your hero senses!",
               type: "activity",
-              imageUrl: "/memory_game.jpg",
+              imageUrl: "/memory_game.webp",
               href: "/kids/memory-game",
               difficulty: "easy",
               category: "activities",
               isCompleted: earnedBadgeIds.includes('memory_master'),
-              badgeImageUrl: "/memory_hall.png",
+              badgeImageUrl: "/memory_hall.webp",
               badgeName: "Memory Master",
               badgeHint: "Finish the Memory Match game with zero mistakes."
             },
@@ -73,12 +73,12 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
               title: "The Smoke Crawl",
               description: "Stay low and find your way out of the smoke-filled maze!",
               type: "activity",
-              imageUrl: "/smoke_crawl.png",
+              imageUrl: "/smoke_crawl.webp",
               href: "/kids/smoke-crawl",
               difficulty: "hard",
               category: "activities",
               isCompleted: earnedBadgeIds.includes('smoke_scout'),
-              badgeImageUrl: "/smoke_hall.png",
+              badgeImageUrl: "/smoke_hall.webp",
               badgeName: "Smoke Scout",
               badgeHint: "Stay low and find your way out of the smoke-filled maze!"
             },
@@ -87,12 +87,12 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
               title: "Hot or Not?",
               description: "Can you spot the difference between safe toys and dangerous tools?",
               type: "activity",
-              imageUrl: "/hotornot.jpg",
+              imageUrl: "/hotornot.webp",
               href: "/kids/hot-or-not",
               difficulty: "easy",
               category: "activities",
               isCompleted: earnedBadgeIds.includes('safety_scout'),
-              badgeImageUrl: "/safety_hall.png",
+              badgeImageUrl: "/safety_hall.webp",
               badgeName: "Safety Scout",
               badgeHint: "Correcty identify all hazards in the Hazard House."
             },
@@ -101,12 +101,12 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
               title: "Hazard Blitz",
               description: "Fast-paced action! Neutralize falling hazards before they hit the floor. Watch out for safety gear!",
               type: "activity",
-              imageUrl: "/hazard_blitz.jpg",
+              imageUrl: "/hazard_blitz.webp",
               href: "/kids/hazard-blitz",
               difficulty: "medium",
               category: "activities",
               isCompleted: earnedBadgeIds.includes('hazard_hero'),
-              badgeImageUrl: "/hazard_hall.png",
+              badgeImageUrl: "/hazard_hall.webp",
               badgeName: "Hazard Hero",
               badgeHint: "Neutralize hazards and reach 500 points in Hazard Blitz."
             },
@@ -115,7 +115,7 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
               title: "3D Hazard Hunt",
               description: "Explore a 3D room, identify dangerous fire hazards, and clear the area before time runs out!",
               type: "activity",
-              imageUrl: "/hazard_hunt_pr.jpg",
+              imageUrl: "/hazard_hunt_pr.webp",
               href: "/game",
               difficulty: "medium",
               category: "activities",
@@ -147,7 +147,7 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
       {/* Background Image with Overlay */}
       <div className="fixed top-0 left-0 w-full z-0 pointer-events-none" style={{ height: '100vh', minHeight: '100lvh' }}>
         <img 
-          src="/challenges-bg.png" 
+          src="/challenges-bg.webp" 
           alt="" 
           className="w-full h-full object-cover opacity-20 dark:opacity-10 mix-blend-multiply grayscale-[20%]" 
         />
@@ -175,7 +175,7 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
             <div className="relative bg-white dark:bg-slate-800 rounded-[2rem] p-5 sm:p-8 shadow-xl border-2 border-slate-50 dark:border-slate-700 overflow-hidden transition-colors duration-500">
                {/* Decorative floating elements */}
                 <div className="hidden sm:block absolute top-0 right-0 p-8 opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-700">
-                   <img src="/games.png" className="h-24 w-24 sm:h-36 sm:w-36 object-contain" alt="" />
+                   <img src="/games.webp" className="h-24 w-24 sm:h-36 sm:w-36 object-contain" alt="" />
                 </div>
                 <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-blue-50 dark:bg-blue-900/20 rounded-full opacity-60"></div>
                

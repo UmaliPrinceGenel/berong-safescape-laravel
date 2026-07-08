@@ -58,7 +58,7 @@ const AdultPageClient = ({ initialBlogs }: AdultPageClientProps) => {
                             <div className="relative overflow-hidden bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2rem] p-3 sm:p-4 flex items-center gap-3 sm:gap-6 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_6px_0_#1e293b] sm:shadow-[0_8px_0_#cbd5e1] sm:dark:shadow-[0_8px_0_#1e293b] border-[3px] border-white dark:border-slate-700 h-full hover:translate-y-[2px] active:translate-y-[6px] sm:hover:translate-y-[2px] sm:active:translate-y-[8px] hover:shadow-[0_4px_0_#cbd5e1] dark:hover:shadow-[0_4px_0_#1e293b] sm:hover:shadow-[0_6px_0_#cbd5e1] sm:dark:hover:shadow-[0_6px_0_#1e293b] active:shadow-none transition-all duration-200">
                                 {/* Subtle Background Image */}
                                 <div className="absolute inset-0 z-0 opacity-[0.05] dark:opacity-[0.1] group-hover:opacity-[0.08] dark:group-hover:opacity-[0.15] transition-opacity duration-500">
-                                    <img src="/Articles Modal.png" className="w-full h-full object-cover dark:brightness-50" alt="" />
+                                    <img src="/Articles Modal.webp" className="w-full h-full object-cover dark:brightness-50" alt="" />
                                 </div>
 
                                 {/* Icon Box */}
@@ -101,7 +101,7 @@ const AdultPageClient = ({ initialBlogs }: AdultPageClientProps) => {
                                 
                                 {/* Simulator Frame */}
                                 <div className="relative rounded-xl overflow-hidden aspect-[16/10] bg-slate-50/90 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 shadow-inner">
-                                    <img src="/EDITH Modal.png" className="w-full h-full object-cover opacity-80" alt="Simulator Preview" />
+                                    <img src="/EDITH Modal.webp" className="w-full h-full object-cover opacity-80" alt="Simulator Preview" />
                                     
                                     {/* Animated simulated overlays! */}
                                     {/* Fire Outbreak Source (Pulsing Fire Dot) */}
@@ -148,7 +148,7 @@ const AdultPageClient = ({ initialBlogs }: AdultPageClientProps) => {
                             <div className="relative overflow-hidden bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2rem] p-3 sm:p-4 flex items-center gap-3 sm:gap-6 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_6px_0_#1e293b] sm:shadow-[0_8px_0_#cbd5e1] sm:dark:shadow-[0_8px_0_#1e293b] border-[3px] border-white dark:border-slate-700 h-full hover:translate-y-[2px] active:translate-y-[6px] sm:hover:translate-y-[2px] sm:active:translate-y-[8px] hover:shadow-[0_4px_0_#cbd5e1] dark:hover:shadow-[0_4px_0_#1e293b] sm:hover:shadow-[0_6px_0_#cbd5e1] sm:dark:hover:shadow-[0_6px_0_#1e293b] active:shadow-none transition-all duration-200">
                                 {/* Subtle Background Image */}
                                 <div className="absolute inset-0 z-0 opacity-[0.05] dark:opacity-[0.1] group-hover:opacity-[0.08] dark:group-hover:opacity-[0.15] transition-opacity duration-500">
-                                    <img src="/EDITH Modal.png" className="w-full h-full object-cover dark:brightness-50" alt="" />
+                                    <img src="/EDITH Modal.webp" className="w-full h-full object-cover dark:brightness-50" alt="" />
                                 </div>
 
                                 {/* Icon Box */}

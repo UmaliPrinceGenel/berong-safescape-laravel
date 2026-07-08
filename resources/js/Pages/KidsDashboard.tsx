@@ -81,7 +81,7 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
       title: "SafeScape Fire Safety Course",
       description: "Complete 5 exciting modules to become a Fire Safety Hero! Learn about the Fire Triangle, escape plans, and more!",
       type: "module",
-      illustrationUrl: "/module.png",
+      illustrationUrl: "/module.webp",
       href: "/kids/safescape",
       category: "modules",
       isCompleted: completedIds.length >= 5,
@@ -92,7 +92,7 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
       title: "EDITH Simulation",
       description: "Practice your Home Fire Escape Plan! Save your family from the spreading fire in this realistic 3D simulation.",
       type: "game",
-      illustrationUrl: "/edith.png",
+      illustrationUrl: "/edith.webp",
       href: "/kids/simulation",
       isLocked: completedIds.length < 5,
       category: "games",
@@ -103,7 +103,7 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
       title: "Task Master",
       description: "Complete tasks and learn about fire safety.",
       type: "game",
-      imageUrl: "/task_master.png",
+      imageUrl: "/task_master.webp",
       videoPreviewUrl: "/task_master_preview.mp4",
       href: "/kids/task-master",
       isLocked: completedIds.length < 5,
@@ -115,7 +115,7 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
       title: "Fire Safety Videos",
       description: "Watch exciting videos and learn how to be a Fire Safety Hero! New videos added every week.",
       type: "video",
-      illustrationUrl: "/videos.png",
+      illustrationUrl: "/videos.webp",
       href: "/kids/videos",
       duration: "Full Library",
       category: "videos"
@@ -125,7 +125,7 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
       title: "The Right Call",
       description: "Answer emergency calls and dispatch the right team! Do you have what it takes to be a dispatching hero?",
       type: "game",
-      imageUrl: "/therightcall_kids.png",
+      imageUrl: "/therightcall_kids.webp",
       videoPreviewUrl: "/right_call_preview.mp4",
       href: "/kids/the-right-call",
       isLocked: !badges.some(b => b.badge_id === 'intel_analyst'),
@@ -137,7 +137,7 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
       title: "Mini Games",
       description: "Play fun quizzes and memory games! Earn extra points and show off your knowledge.",
       type: "activity",
-      illustrationUrl: "/games.png",
+      illustrationUrl: "/games.webp",
       videoPreviewUrl: "/mini_games_preview.mp4",
       href: "/kids/challenges",
       difficulty: "medium",
@@ -218,7 +218,7 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
       ) : (
         <div className="fixed top-0 left-0 w-full z-0 pointer-events-none" style={{ height: '100vh', minHeight: '100lvh' }}>
           <img 
-            src="/challenges-bg.png" 
+            src="/challenges-bg.webp" 
             alt="" 
             className="w-full h-full object-cover" 
           />
@@ -283,7 +283,7 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
                 {/* Mascot avatar with white background clipped nicely to a perfect circle */}
                 <div className="relative mx-auto w-24 h-24 sm:w-28 sm:h-28 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center mb-6 shadow-xl border-4 border-yellow-400 overflow-hidden transform hover:scale-105 transition-transform duration-300 shrink-0">
                   <img 
-                    src="/berong_pr.png" 
+                    src="/berong_pr.webp" 
                     alt="Berong Mascot" 
                     className="w-full h-full object-cover rounded-full"
                   />

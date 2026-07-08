@@ -16,7 +16,7 @@ interface ImageWithFallbackProps {
 export default function ImageWithFallback({
   src,
   alt,
-  fallbackSrc = '/placeholder.png',
+  fallbackSrc = '/placeholder.webp',
   width,
   height,
   className = '',

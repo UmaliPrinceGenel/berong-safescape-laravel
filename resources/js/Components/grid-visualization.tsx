@@ -66,7 +66,7 @@ export function GridVisualization({
     const img = new Image()
     img.onload = () => setFireIconImage(img)
     img.onerror = () => console.error('Failed to load fire icon')
-    img.src = '/fire-icon.png'
+    img.src = '/fire-icon.webp'
   }, [])
 
   // Animate fire cell ages for smooth transitions
@@ -118,8 +118,8 @@ export function GridVisualization({
           setAgentImages(images)
         }
       }
-      img.onerror = () => console.error(`Failed to load agent${i}.png`)
-      img.src = `/agent${i}.png`
+      img.onerror = () => console.error(`Failed to load agent${i}.webp`)
+      img.src = `/agent${i}.webp`
       images.push(img)
     }
   }, [])

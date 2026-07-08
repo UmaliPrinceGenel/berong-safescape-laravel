@@ -273,7 +273,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                         <div className="relative overflow-hidden bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2rem] p-3 sm:p-4 flex items-center gap-3 sm:gap-6 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_6px_0_#1e293b] sm:shadow-[0_8px_0_#cbd5e1] sm:dark:shadow-[0_8px_0_#1e293b] border-[3px] border-white dark:border-slate-700 h-full hover:translate-y-[2px] active:translate-y-[6px] sm:hover:translate-y-[2px] sm:active:translate-y-[8px] hover:shadow-[0_4px_0_#cbd5e1] dark:hover:shadow-[0_4px_0_#1e293b] sm:hover:shadow-[0_6px_0_#cbd5e1] sm:dark:hover:shadow-[0_6px_0_#1e293b] active:shadow-none transition-all duration-200">
                             {/* Subtle Background Image */}
                             <div className="absolute inset-0 z-0 opacity-[0.05] dark:opacity-[0.1] group-hover:opacity-[0.08] dark:group-hover:opacity-[0.15] transition-opacity duration-500">
-                                <img src="/therightcall_kids.png" className="w-full h-full object-cover dark:brightness-50" alt="" />
+                                <img src="/therightcall_kids.webp" className="w-full h-full object-cover dark:brightness-50" alt="" />
                             </div>
                             
                             {/* Icon Box */}
@@ -316,7 +316,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                             {/* Preview Frame */}
                             <div className="relative rounded-xl overflow-hidden h-[212px] bg-slate-50/90 dark:bg-slate-950/90 border border-slate-200 dark:border-slate-800 shadow-inner flex flex-col p-2.5 justify-between">
                                 {/* Blurred background cover */}
-                                <div className="absolute inset-0 bg-cover bg-center opacity-25 z-0" style={{ backgroundImage: "url('/BFP Manuals Modal.png')" }} />
+                                <div className="absolute inset-0 bg-cover bg-center opacity-25 z-0" style={{ backgroundImage: "url('/BFP Manuals Modal.webp')" }} />
                                 <div className="absolute inset-0 bg-gradient-to-b from-slate-50/50 via-slate-50/85 to-slate-50/95 dark:from-slate-950/70 dark:via-slate-950/90 dark:to-slate-950/95 z-0" />
                                 
                                 <div className="relative z-10 space-y-1.5">
@@ -374,7 +374,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                         <div className="relative overflow-hidden bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2rem] p-3 sm:p-4 flex items-center gap-3 sm:gap-6 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_6px_0_#1e293b] sm:shadow-[0_8px_0_#cbd5e1] sm:dark:shadow-[0_8px_0_#1e293b] border-[3px] border-white dark:border-slate-700 h-full hover:translate-y-[2px] active:translate-y-[6px] sm:hover:translate-y-[2px] sm:active:translate-y-[8px] hover:shadow-[0_4px_0_#cbd5e1] dark:hover:shadow-[0_4px_0_#1e293b] sm:hover:shadow-[0_6px_0_#cbd5e1] sm:dark:hover:shadow-[0_6px_0_#1e293b] active:shadow-none transition-all duration-200">
                             {/* Subtle Background Image */}
                             <div className="absolute inset-0 z-0 opacity-[0.05] dark:opacity-[0.1] group-hover:opacity-[0.08] dark:group-hover:opacity-[0.15] transition-opacity duration-500">
-                                <img src="/BFP Manuals Modal.png" className="w-full h-full object-cover dark:brightness-50" alt="" />
+                                <img src="/BFP Manuals Modal.webp" className="w-full h-full object-cover dark:brightness-50" alt="" />
                             </div>
                             
                             {/* Icon Box */}
@@ -565,7 +565,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                         <CardHeader className="p-0 w-[160px] xs:w-[180px] sm:w-full shrink-0 flex items-center justify-center relative">
                                             <div className="w-full aspect-video bg-slate-100 dark:bg-slate-900 overflow-hidden relative rounded-xl sm:rounded-none sm:rounded-t-[1.3rem] shadow-sm border border-slate-200/50 dark:border-slate-700/50 sm:border-none">
                                                 <img
-                                                    src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.jpg`}
+                                                    src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.webp`}
                                                     alt={video.title}
                                                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                                 />

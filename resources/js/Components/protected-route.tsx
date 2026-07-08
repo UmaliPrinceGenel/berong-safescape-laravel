@@ -51,7 +51,7 @@ export function ProtectedRoute({
             {/* Logo */}
             <div className="relative w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-yellow-400/50">
               <img
-                src="/berong-official-logo.jpg"
+                src="/berong-official-logo.webp"
                 alt="Loading"
                 className="w-full h-full object-cover"
               />

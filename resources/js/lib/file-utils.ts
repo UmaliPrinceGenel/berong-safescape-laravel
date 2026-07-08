@@ -9,7 +9,7 @@ import path from 'path';
  * 
  * For legacy file paths (/uploads/...), attempts to delete from filesystem.
  * 
- * @param fileUrl The URL of the file to delete (e.g., /uploads/image.jpg or data:image/...)
+ * @param fileUrl The URL of the file to delete (e.g., /uploads/image.webp or data:image/...)
  * @returns boolean indicating if deletion was attempted/needed
  */
 export async function deleteUploadedFile(fileUrl: string | null | undefined): Promise<boolean> {

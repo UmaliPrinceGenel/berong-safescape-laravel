@@ -68,7 +68,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
       title: v.title,
       description: v.description || "Learn important fire safety rules in a fun way!",
       src: `https://www.youtube.com/embed/${cleanId}`,
-      thumbnail: `https://img.youtube.com/vi/${cleanId}/maxresdefault.jpg`,
+      thumbnail: `https://img.youtube.com/vi/${cleanId}/maxresdefault.webp`,
       color: index % 2 === 0 ? "bg-purple-200" : "bg-[#fbcfe8]",
       icon: index % 3 === 0 ? "🎬" : index % 3 === 1 ? "🔥" : "🚒",
       duration: v.duration || "3:00",
@@ -223,7 +223,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
     axios.post('/api/badges/award', {
       badge_id: 'intel_analyst',
       badge_name: 'Intel Analyst',
-      badge_icon: '/intel_hall.png'
+      badge_icon: '/intel_hall.webp'
     }).catch(err => {
       setBadgeAwarded(false)
       console.error("Failed to award badge:", err.response?.data || err.message)
@@ -243,7 +243,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
       {/* Heroic Background */}
       <div className="fixed top-0 left-0 w-full z-0 pointer-events-none" style={{ height: '100vh', minHeight: '100lvh' }}>
         <img 
-          src="/challenges-bg.png" 
+          src="/challenges-bg.webp" 
           alt="" 
           className="w-full h-full object-cover opacity-30 dark:opacity-10 mix-blend-multiply" 
         />
@@ -273,7 +273,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
             <div className="relative bg-white dark:bg-slate-800 rounded-[2rem] p-5 sm:p-8 shadow-xl border-2 border-slate-50 dark:border-slate-700 overflow-hidden transition-colors duration-500">
                {/* Decorative floating elements */}
                <div className="hidden sm:block absolute top-0 right-0 p-8 opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-700">
-                  <img src="/intel_hall.png" className="h-24 w-24 sm:h-36 sm:w-36 object-contain" alt="" />
+                  <img src="/intel_hall.webp" className="h-24 w-24 sm:h-36 sm:w-36 object-contain" alt="" />
                </div>
                <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-red-50 dark:bg-red-900/10 rounded-full blur-2xl opacity-60"></div>
                
@@ -292,7 +292,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
                      <p className="text-slate-500 dark:text-slate-400 font-bold text-sm sm:text-base max-w-lg leading-relaxed flex items-center flex-wrap gap-1.5">
                         <span>Watch all fire safety videos to the end to earn your</span>
                         <span className="text-red-600 font-black">Intel Analyst Badge</span>!
-                        <img src="/intel_hall.png" className="h-5 w-5 object-contain inline-block align-middle" alt="Intel Analyst" />
+                        <img src="/intel_hall.webp" className="h-5 w-5 object-contain inline-block align-middle" alt="Intel Analyst" />
                      </p>
                   </div>
                </div>
@@ -484,7 +484,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
             <div className="relative mb-6">
               <div className="relative h-28 w-28 sm:h-32 sm:w-32 bg-gradient-to-br from-yellow-300 to-amber-500 rounded-[2rem] flex items-center justify-center shadow-2xl border-4 border-white dark:border-slate-800 p-4">
                 <img 
-                  src="/intel_hall.png" 
+                  src="/intel_hall.webp" 
                   className="h-full w-full object-contain drop-shadow-lg" 
                   alt="Intel Analyst Badge" 
                 />

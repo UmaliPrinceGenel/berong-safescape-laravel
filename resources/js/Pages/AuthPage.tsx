@@ -296,11 +296,11 @@ function AuthContent() {
         <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
           <div className="flex justify-center lg:justify-start gap-2 sm:gap-4 mb-2 sm:mb-6">
             <div className="h-12 w-12 sm:h-20 sm:w-20 bg-white dark:bg-slate-900 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-gray-100 dark:border-slate-800 flex items-center justify-center p-1.5 sm:p-2 flex-shrink-0 transition-colors">
-              <img src="/bfp-logo-red.jpg" alt="BFP Logo" width="72" height="72" className="object-contain w-full h-full" />
+              <img src="/bfp-logo-red.webp" alt="BFP Logo" width="72" height="72" className="object-contain w-full h-full" />
             </div>
             <div className="h-12 w-12 sm:h-20 sm:w-20 bg-white dark:bg-slate-900 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-gray-100 dark:border-slate-800 flex items-center justify-center p-1.5 sm:p-2 flex-shrink-0 transition-colors">
               <img
-                src="/philippine-flag-seal.jpg"
+                src="/philippine-flag-seal.webp"
                 alt="Philippine Seal"
                 width="72"
                 height="72"

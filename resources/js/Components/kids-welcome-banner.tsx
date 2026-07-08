@@ -66,17 +66,17 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
   
   // All possible badges for summary - Synchronized with BadgeHall.tsx
   const ALL_BADGES = [
-    { id: 'module_1', moduleNum: 1, image: "/fire_hall.png" },
-    { id: 'module_2', moduleNum: 2, image: "/shield_hall.png" },
-    { id: 'module_3', moduleNum: 3, image: "/plan_hall.png" },
-    { id: 'module_4', moduleNum: 4, image: "/low_hall.png" },
-    { id: 'module_5', moduleNum: 5, image: "/home_hall.png" },
-    { id: 'quiz_hero', image: "/quiz_hall.png" },
-    { id: 'memory_master', image: "/memory_hall.png" },
-    { id: 'smoke_scout', image: "/smoke_hall.png" },
-    { id: 'safety_scout', image: "/safety_hall.png" },
-    { id: 'hazard_hero', image: "/hazard_hall.png" },
-    { id: 'intel_analyst', image: "/intel_hall.png" }
+    { id: 'module_1', moduleNum: 1, image: "/fire_hall.webp" },
+    { id: 'module_2', moduleNum: 2, image: "/shield_hall.webp" },
+    { id: 'module_3', moduleNum: 3, image: "/plan_hall.webp" },
+    { id: 'module_4', moduleNum: 4, image: "/low_hall.webp" },
+    { id: 'module_5', moduleNum: 5, image: "/home_hall.webp" },
+    { id: 'quiz_hero', image: "/quiz_hall.webp" },
+    { id: 'memory_master', image: "/memory_hall.webp" },
+    { id: 'smoke_scout', image: "/smoke_hall.webp" },
+    { id: 'safety_scout', image: "/safety_hall.webp" },
+    { id: 'hazard_hero', image: "/hazard_hall.webp" },
+    { id: 'intel_analyst', image: "/intel_hall.webp" }
   ]
 
   const totalBadges = ALL_BADGES.length
@@ -92,9 +92,9 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
 
   // Avatars Mapping
   const AVATAR_MAP: Record<string, string> = {
-    cow: '/berong_pr.png', ff1: '/hero_jack.png', ff2: '/hero_sarah.png', kid1: '🧒', kid2: '👧', adult1: '👨', adult2: '👩',
+    cow: '/berong_pr.webp', ff1: '/hero_jack.webp', ff2: '/hero_sarah.webp', kid1: '🧒', kid2: '👧', adult1: '👨', adult2: '👩',
   }
-  const userAvatar = AVATAR_MAP[user?.avatar || 'cow'] || '/berong_pr.png'
+  const userAvatar = AVATAR_MAP[user?.avatar || 'cow'] || '/berong_pr.webp'
 
   // Ranking Logic
   const getHeroRank = (count: number) => {

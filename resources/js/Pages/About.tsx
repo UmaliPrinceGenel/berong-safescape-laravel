@@ -35,7 +35,7 @@ const teamMembers = [
     {
         name: "John Kervin D. Evangelista",
         roles: ["Project Head", "DevOps", "AI/ML Engineer", "Developer"],
-        image: "/evangelista_1x1.png",
+        image: "/evangelista_1x1.webp",
         socials: [
             { icon: Github, url: "https://github.com/Toneejake", label: "GitHub" },
             { icon: Globe, url: "https://toneejake.tech", label: "Portfolio" },
@@ -47,7 +47,7 @@ const teamMembers = [
     {
         name: "Aedran Gabriel R. Teaño",
         roles: ["Game Developer", "3D/2D Artist", "Sound Designer"],
-        image: "/teano_1x1.jpg",
+        image: "/teano_1x1.webp",
         socials: [
             { icon: Github, url: "https://github.com/Izect", label: "GitHub" },
             { icon: Instagram, url: "https://www.instagram.com/aedraaann/", label: "Instagram" },
@@ -59,7 +59,7 @@ const teamMembers = [
     {
         name: "Keinji C. Velina",
         roles: ["Developer", "Data Scientist", "AI Engineer"],
-        image: "/velina_1x1.png",
+        image: "/velina_1x1.webp",
         socials: [
             { icon: Github, url: "https://github.com/sitol2", label: "GitHub" },
             { icon: Linkedin, url: "https://www.linkedin.com/in/keinji-velina-423736326/", label: "LinkedIn" },
@@ -70,7 +70,7 @@ const teamMembers = [
     {
         name: "Kean Gabriel E. Salvahan",
         roles: ["Developer", "UI Designer", "UX Designer"],
-        image: "/salvahan_pr.jpg",
+        image: "/salvahan_pr.webp",
         socials: [
             { icon: Github, url: "https://github.com/kenji0011", label: "GitHub" },
             { icon: Globe, url: "https://kenji-v2-beta-green.vercel.app/#about", label: "Portfolio" },
@@ -82,7 +82,7 @@ const teamMembers = [
     {
         name: "Prince Genel R. Umali",
         roles: ["AI Engineer", "Developer", "Data Scientist"],
-        image: "/umali_pr.jpg",
+        image: "/umali_pr.webp",
         socials: [
             { icon: Github, url: "https://github.com/UmaliPrinceGenel", label: "GitHub" },
             { icon: Linkedin, url: "https://www.linkedin.com/in/umali-prince-genel-r-66a60637b/", label: "LinkedIn" },
@@ -93,7 +93,7 @@ const teamMembers = [
     {
         name: "Justin Angelo A. Luzande",
         roles: ["Developer", "UI Designer", "UX Designer"],
-        image: "/luzande_pr.jpg",
+        image: "/luzande_pr.webp",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
             { icon: Linkedin, url: "#", label: "LinkedIn" },
@@ -104,7 +104,7 @@ const teamMembers = [
     {
         name: "Aeron Jhed V. Lachano",
         roles: ["Game Designer", "Game Developer", "Task Master"],
-        image: "/lachano_pr.png",
+        image: "/lachano_pr.webp",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
             { icon: Linkedin, url: "#", label: "LinkedIn" },
@@ -115,7 +115,7 @@ const teamMembers = [
     {
         name: "Axcel Andrei V. Delos Reyes",
         roles: ["Game Designer", "Game Developer", "Task Master"],
-        image: "/delosreyes_pr.jpg",
+        image: "/delosreyes_pr.webp",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
             { icon: Linkedin, url: "#", label: "LinkedIn" },
@@ -126,7 +126,7 @@ const teamMembers = [
     {
         name: "Zyril G. Dela Paz",
         roles: ["Game Designer", "Game Developer", "The Right Call"],
-        image: "/delapaz_pr.jpg",
+        image: "/delapaz_pr.webp",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
             { icon: Linkedin, url: "#", label: "LinkedIn" },
@@ -137,7 +137,7 @@ const teamMembers = [
     {
         name: "Allain A. Kumar",
         roles: ["EDITH Simulation"],
-        image: "/kumar_pr.jpg",
+        image: "/kumar_pr.webp",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
             { icon: Linkedin, url: "#", label: "LinkedIn" },
@@ -148,7 +148,7 @@ const teamMembers = [
     {
         name: "Aron Gabriel L. Ogayon",
         roles: ["AI, Backend Developer, EDITH Simulation"],
-        image: "/ogayon_pr.jpg",
+        image: "/ogayon_pr.webp",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
             { icon: Linkedin, url: "#", label: "LinkedIn" },
@@ -159,7 +159,7 @@ const teamMembers = [
     {
         name: "Janvher Lucas J. Sarmiento",
         roles: ["UI Designer, EDITH Simulation"],
-        image: "/sarmiento_pr.jpg",
+        image: "/sarmiento_pr.webp",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
             { icon: Linkedin, url: "#", label: "LinkedIn" },
@@ -170,7 +170,7 @@ const teamMembers = [
     {
         name: "Francis Neil M. Mistica",
         roles: ["AI/ML Engineer"],
-        image: "/mistica_pr.png",
+        image: "/mistica_pr.webp",
         socials: [
             { icon: Github, url: "https://github.com/Kiko915", label: "GitHub" },
             { icon: Globe, url: "https://francismistica.me", label: "Portfolio" },
@@ -182,7 +182,7 @@ const teamMembers = [
     {
         name: "Ian Patrick Z. Mesias",
         roles: ["Research & Communications"],
-        image: "/mesias_pr.jpg",
+        image: "/mesias_pr.webp",
         socials: [
             { icon: Github, url: "https://github.com/imPickleRiick", label: "GitHub" },
             { icon: Linkedin, url: "https://www.linkedin.com/in/ian-patrick-mesias-6a935421b/", label: "LinkedIn" },
@@ -193,7 +193,7 @@ const teamMembers = [
     {
         name: "Dheyn Michael Orlanda",
         roles: ["Software Engineer"],
-        image: "/orlanda_pr.jpg",
+        image: "/orlanda_pr.webp",
         socials: [
             { icon: Github, url: "https://github.com/Necookie", label: "GitHub" },
             { icon: Globe, url: "https://necookie.dev", label: "Portfolio" },
@@ -556,7 +556,7 @@ export default function AboutPage() {
                                         }}
                                     >
                                         <Image
-                                            src="/berong-official-logo.jpg"
+                                            src="/berong-official-logo.webp"
                                             alt="Berong's E-Learning - Official Logo"
                                             fill
                                             className="object-contain drop-shadow-2xl relative z-10 rounded-full"
@@ -698,7 +698,7 @@ export default function AboutPage() {
                                 <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
                                     <div className="relative w-14 h-14 sm:w-20 sm:h-20 flex-shrink-0">
                                         <Image
-                                            src="/lspu logo.png"
+                                            src="/lspu logo.webp"
                                             alt="LSPU Logo"
                                             fill
                                             className="object-contain"
@@ -730,7 +730,7 @@ export default function AboutPage() {
                                 <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
                                     <div className="relative w-12 h-12 sm:w-20 sm:h-20 flex-shrink-0">
                                         <Image
-                                            src="/bfp logo.png"
+                                            src="/bfp logo.webp"
                                             alt="BFP Logo"
                                             fill
                                             className="object-contain"
@@ -824,7 +824,7 @@ export default function AboutPage() {
                                     <p className="font-semibold text-lg sm:text-xl tracking-wide uppercase text-center px-4"></p>
                                 </div>
                                 {/* NOTE: You can uncomment and update the src below when you have the image ready */}
-                                {/* <img src="/firefighters-group-picture.jpg" alt="BFP Firefighters" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" /> */}
+                                {/* <img src="/firefighters-group-picture.webp" alt="BFP Firefighters" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" /> */}
                                 
                                 {/* Subtle overlay on hover */}
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 pointer-events-none" />

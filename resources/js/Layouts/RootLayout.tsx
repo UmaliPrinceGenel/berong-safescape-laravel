@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           style={{ height: '100vh', minHeight: '100lvh' }}
         >
           <img 
-            src="/web-background-image.jpg"
+            src="/web-background-image.webp"
             alt=""
             className="w-full h-full object-cover"
             style={{ 

@@ -285,7 +285,7 @@ const SmokeCrawl = () => {
       axios.post('/api/badges/award', {
         badge_id: 'smoke_scout',
         badge_name: 'Smoke Scout',
-        badge_icon: '/smoke_hall.png'
+        badge_icon: '/smoke_hall.webp'
       }).catch(err => console.error("Failed to award badge:", err.response?.data || err.message))
       return
     }
@@ -399,7 +399,7 @@ const SmokeCrawl = () => {
       {/* Background decoration */}
       <div className="fixed top-0 left-0 w-full pointer-events-none z-0 overflow-hidden" style={{ height: '100vh', minHeight: '100lvh' }}>
         <img 
-          src="/challenges-bg.png" 
+          src="/challenges-bg.webp" 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover opacity-100 dark:opacity-50 transition-opacity duration-500" 
         />
@@ -540,7 +540,7 @@ const SmokeCrawl = () => {
                 {gameState === 'won' && (
                   <div className="absolute inset-0 bg-green-500/95 flex flex-col items-center justify-center p-6 text-center backdrop-blur-md">
                     <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mb-4 shadow-lg overflow-hidden">
-                      <img src="/smoke_hall.png" alt="Smoke Scout Badge" className="w-full h-full object-contain p-2" />
+                      <img src="/smoke_hall.webp" alt="Smoke Scout Badge" className="w-full h-full object-contain p-2" />
                     </div>
                     <h2 className="text-2xl font-black text-white mb-1">ESCAPED!</h2>
                     <p className="text-white/90 text-sm font-bold mb-6">You stayed low and found the way out! True Hero status earned.</p>

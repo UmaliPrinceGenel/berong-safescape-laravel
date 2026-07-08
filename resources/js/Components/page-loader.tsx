@@ -43,7 +43,7 @@ export function PageLoader() {
                     {/* Background Image and Red Overlay */}
                     <div
                         className="absolute inset-0 bg-cover bg-center"
-                        style={{ backgroundImage: "url('/web-background-image.jpg')" }}
+                        style={{ backgroundImage: "url('/web-background-image.webp')" }}
                     >
                         <div className="absolute inset-0 bg-[#d60000]/90 backdrop-blur-sm" />
                     </div>
@@ -72,7 +72,7 @@ export function PageLoader() {
                             {/* Berong Logo */}
                             <div className="relative w-24 h-24 rounded-full overflow-hidden shadow-2xl border-4 border-yellow-400/50">
                                 <img
-                                    src="/berong-official-logo.jpg"
+                                    src="/berong-official-logo.webp"
                                     alt="Berong - Loading"
                                     className="w-full h-full object-cover"
                                 />

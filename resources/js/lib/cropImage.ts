@@ -48,7 +48,7 @@ export const getCroppedImg = async (
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {
       if (blob) {
-        const myFile = new File([blob], 'cropped-carousel.png', {
+        const myFile = new File([blob], 'cropped-carousel.webp', {
           type: 'image/png',
           lastModified: Date.now(),
         });

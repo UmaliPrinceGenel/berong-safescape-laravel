@@ -235,7 +235,7 @@ export function FocusModeManager() {
               >
                 <div>
                   <div className="mb-2 sm:mb-3 flex items-center justify-between flex-wrap gap-2">
-                    <img src="/standard.png" alt="Standard Mode" className="h-8 w-8 sm:h-10 sm:w-10 object-contain rounded-xl" />
+                    <img src="/standard.webp" alt="Standard Mode" className="h-8 w-8 sm:h-10 sm:w-10 object-contain rounded-xl" />
                     <span className="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700/50 rounded-full px-2 py-0.5 text-[8px] sm:text-[9px] font-black tracking-widest uppercase">
                       Classic Layout
                     </span>
@@ -264,7 +264,7 @@ export function FocusModeManager() {
               >
                 <div>
                   <div className="mb-2 sm:mb-3 flex items-center justify-between flex-wrap gap-2">
-                    <img src="/focus.png" alt="Focus Mode" className="h-8 w-8 sm:h-10 sm:w-10 object-contain rounded-xl" />
+                    <img src="/focus.webp" alt="Focus Mode" className="h-8 w-8 sm:h-10 sm:w-10 object-contain rounded-xl" />
                     <span className="bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900 rounded-full px-2 py-0.5 text-[8px] sm:text-[9px] font-black tracking-widest uppercase">
                       Highly Recommended
                     </span>
@@ -361,7 +361,7 @@ export function FocusModeManager() {
           >
             <div className="flex items-center gap-3.5">
               <div className="h-10 w-10 sm:h-12 sm:w-12 bg-white rounded-xl border border-emerald-200 dark:border-slate-800 flex items-center justify-center shrink-0">
-                <img src="/berong_pr.png" alt="Berong" className="w-8 h-8 sm:w-10 sm:h-10 object-contain drop-shadow" />
+                <img src="/berong_pr.webp" alt="Berong" className="w-8 h-8 sm:w-10 sm:h-10 object-contain drop-shadow" />
               </div>
               <div className="flex-1">
                 <h4 className="text-xs sm:text-sm font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400 leading-tight">Focus Protocol Active</h4>

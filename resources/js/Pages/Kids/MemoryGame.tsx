@@ -88,7 +88,7 @@ const MemoryGamePage = () => {
               axios.post('/api/badges/award', {
                 badge_id: 'memory_master',
                 badge_name: 'Memory Master',
-                badge_icon: '/memory_hall.png'
+                badge_icon: '/memory_hall.webp'
               }).catch(err => console.error("Failed to award badge:", err.response?.data || err.message))
             }
             else playSound('match')
@@ -117,7 +117,7 @@ const MemoryGamePage = () => {
         {/* Heroic Background */}
         <div className="fixed top-0 left-0 w-full z-0 overflow-hidden pointer-events-none" style={{ height: '100vh', minHeight: '100lvh' }}>
           <img 
-            src="/challenges-bg.png" 
+            src="/challenges-bg.webp" 
             alt="" 
             className="w-full h-full object-cover opacity-100 dark:opacity-50 transition-opacity duration-500" 
           />
@@ -128,7 +128,7 @@ const MemoryGamePage = () => {
           <div className="max-w-xl mx-auto w-full px-4 sm:px-6">
             <div className="w-full bg-white dark:bg-slate-900 border border-white/60 dark:border-slate-800/60 rounded-[3rem] p-10 sm:p-14 shadow-[0_20px_60px_rgba(20,184,166,0.15)] flex flex-col items-center text-center transform transition-all duration-700 animate-in fade-in zoom-in">
               <div className="w-32 h-32 md:w-48 md:h-48 mb-6 animate-bounce-slow drop-shadow-2xl mx-auto">
-                <img src="/memory_hall.png" alt="Memory Master Badge" className="w-full h-full object-contain" />
+                <img src="/memory_hall.webp" alt="Memory Master Badge" className="w-full h-full object-contain" />
               </div>
               <h2 className="text-4xl sm:text-5xl font-black text-teal-600 dark:text-teal-400 tracking-tight mb-4 drop-shadow-sm">You Won!</h2>
               <p className="text-lg sm:text-xl font-bold text-slate-600 dark:text-slate-300 mb-2">All matches found!</p>
@@ -160,7 +160,7 @@ const MemoryGamePage = () => {
     return (
       <div className="-mt-[104px] sm:-mt-[120px] pt-[104px] sm:pt-[120px] min-h-screen relative flex flex-col font-sans bg-blue-50 dark:bg-slate-950 selection:bg-teal-300 selection:text-teal-900 transition-colors duration-500">
         <div className="fixed top-0 left-0 w-full z-0 pointer-events-none" style={{ height: '100vh', minHeight: '100lvh' }}>
-          <img src="/challenges-bg.png" alt="" className="w-full h-full object-cover opacity-100 dark:opacity-50 transition-opacity duration-500" />
+          <img src="/challenges-bg.webp" alt="" className="w-full h-full object-cover opacity-100 dark:opacity-50 transition-opacity duration-500" />
           <div className="absolute inset-0 bg-white/40 dark:bg-slate-950/60 transition-colors duration-500"></div>
         </div>
         
@@ -175,7 +175,7 @@ const MemoryGamePage = () => {
           
           <div className="max-w-md w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-[3rem] shadow-2xl text-center animate-in zoom-in duration-500 transition-colors">
             <div className="w-24 h-24 bg-teal-100 dark:bg-teal-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
-               <img src="/memory_hall.png" alt="Memory Game" className="w-16 h-16 object-contain drop-shadow-md" />
+               <img src="/memory_hall.webp" alt="Memory Game" className="w-16 h-16 object-contain drop-shadow-md" />
             </div>
             <h1 className="text-4xl font-black mb-2 italic text-slate-900 dark:text-white tracking-tight uppercase">MEMORY MATCH</h1>
             <p className="text-slate-500 dark:text-slate-400 font-medium mb-8 leading-relaxed">
@@ -199,7 +199,7 @@ const MemoryGamePage = () => {
       {/* Heroic Background */}
       <div className="fixed top-0 left-0 w-full z-0 pointer-events-none" style={{ height: '100vh', minHeight: '100lvh' }}>
         <img 
-          src="/challenges-bg.png" 
+          src="/challenges-bg.webp" 
           alt="" 
           className="w-full h-full object-cover opacity-100 dark:opacity-50 transition-opacity duration-500" 
         />

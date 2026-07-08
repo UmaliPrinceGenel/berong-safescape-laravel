@@ -702,7 +702,7 @@ export function Chatbot() {
                 >
                   <div className="relative h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-white border-[3px] border-orange-500 shadow-lg cursor-pointer flex items-center justify-center overflow-hidden group">
                     <Image
-                      src="/berong_pr.png"
+                      src="/berong_pr.webp"
                       alt="Berong - BFP Assistant"
                       width={56}
                       height={56}
@@ -745,7 +745,7 @@ export function Chatbot() {
                   </AnimatePresence>
 
                   <Image
-                    src="/RD Logo.png"
+                    src="/RD Logo.webp"
                     alt="Berong - BFP Assistant"
                     width={180}
                     height={180}
@@ -778,7 +778,7 @@ export function Chatbot() {
                 <div className="flex items-center justify-between px-4 py-3 bg-orange-600 text-white rounded-t-xl shrink-0">
                   <div className="flex items-center gap-3">
                     <Image
-                      src="/berong_pr.png"
+                      src="/berong_pr.webp"
                       alt="BFP Assistant"
                       width={32}
                       height={32}
@@ -873,7 +873,7 @@ export function Chatbot() {
                       {message.sender === "bot" && (
                         <div className="shrink-0 mt-auto">
                           <Image
-                            src="/berong_pr.png"
+                            src="/berong_pr.webp"
                             alt="Berong"
                             width={28}
                             height={28}
@@ -925,9 +925,9 @@ export function Chatbot() {
                       {message.sender === "user" && (() => {
                         const avatarId = user?.avatar || 'cow';
                         const avatarOpt = [
-                          { id: 'cow', icon: '/berong_pr.png' },
-                          { id: 'ff1', icon: '/hero_jack.png' },
-                          { id: 'ff2', icon: '/hero_sarah.png' },
+                          { id: 'cow', icon: '/berong_pr.webp' },
+                          { id: 'ff1', icon: '/hero_jack.webp' },
+                          { id: 'ff2', icon: '/hero_sarah.webp' },
                           { id: 'kid1', icon: '🧒' },
                           { id: 'kid2', icon: '👧' },
                           { id: 'adult1', icon: '👨' },

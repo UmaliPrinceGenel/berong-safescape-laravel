@@ -303,7 +303,7 @@ export function SimulationWizard() {
         const response = await fetch(`/api/simulation/status/${jobId}`)
 
         if (response.status === 429) {
-          // Rate limited — back off significantly but DON'T count as fatal
+          // Rate limited ï¿½ back off significantly but DON'T count as fatal
           const retryAfter = response.headers.get('Retry-After')
           const backoffMs = retryAfter ? parseInt(retryAfter) * 1000 : Math.min(pollInterval * 3, 15000)
           console.warn(`Rate limited (429), backing off ${backoffMs}ms`)
@@ -328,7 +328,7 @@ export function SimulationWizard() {
           continue
         }
 
-        // Successful response — reset fatal error count but keep backoff building
+        // Successful response ï¿½ reset fatal error count but keep backoff building
         fatalErrors = 0
 
         const status = await response.json()
@@ -357,7 +357,7 @@ export function SimulationWizard() {
           }
         }
 
-        // Gradual backoff — interval grows with each poll, never resets
+        // Gradual backoff ï¿½ interval grows with each poll, never resets
         await new Promise(resolve => setTimeout(resolve, pollInterval))
         pollInterval = Math.min(pollInterval * backoffFactor, maxPollInterval)
       } catch (err) {
@@ -465,9 +465,9 @@ export function SimulationWizard() {
                   <CardContent>
                     <div className="grid grid-cols-3 gap-4">
                       {[
-                        { src: "/Floor Plan 1.png", name: "Floor Plan 1" },
-                        { src: "/Floor Plan 2.png", name: "Floor Plan 2" },
-                        { src: "/Floor Plan 3.png", name: "Floor Plan 3" },
+                        { src: "/Floor Plan 1.webp", name: "Floor Plan 1" },
+                        { src: "/Floor Plan 2.webp", name: "Floor Plan 2" },
+                        { src: "/Floor Plan 3.webp", name: "Floor Plan 3" },
                       ].map((sample) => (
                         <button
                           key={sample.src}
@@ -477,7 +477,7 @@ export function SimulationWizard() {
                             try {
                               const response = await fetch(sample.src)
                               const blob = await response.blob()
-                              const file = new File([blob], sample.name + ".jpg", { type: "image/jpeg" })
+                              const file = new File([blob], sample.name + ".webp", { type: "image/jpeg" })
                               handleImageUpload(file)
                             } catch (err) {
                               console.error("Failed to load sample:", err)
@@ -507,7 +507,7 @@ export function SimulationWizard() {
               <TabsContent value="draw" className="mt-0">
                 <FabricFloorPlanBuilder
                   onExport={(blob, grid) => {
-                    const file = new File([blob], 'drawn-floorplan.png', { type: 'image/png' })
+                    const file = new File([blob], 'drawn-floorplan.webp', { type: 'image/png' })
                     handleImageUpload(file, grid)
                   }}
                   processing={processing}

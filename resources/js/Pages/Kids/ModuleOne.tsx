@@ -18,10 +18,10 @@ import { AdaptiveQuiz } from "@/Components/AdaptiveQuiz"
 type LabItem = { id: string; label: string; role: string; bg: string; icon: string; image?: string; correct: boolean }
 
 const LAB_ITEMS: LabItem[] = [
-  { id: "wood",  label: "Wood",  role: "Fuel",    bg: "bg-amber-800 border-amber-600 hover:bg-amber-700", icon: "🪵", image: "/wood.png", correct: true  },
-  { id: "spark", label: "Spark", role: "Heat",    bg: "bg-red-800   border-red-600   hover:bg-red-700",   icon: "✨", image: "/spark.png", correct: true  },
-  { id: "fan",   label: "Fan",   role: "Oxygen",  bg: "bg-blue-800  border-blue-600  hover:bg-blue-700",  icon: "💨", image: "/fan.png", correct: true  },
-  { id: "water", label: "Water", role: "Remover", bg: "bg-cyan-800  border-cyan-600  hover:bg-cyan-700",  icon: "🪣", image: "/water.png", correct: false },
+  { id: "wood",  label: "Wood",  role: "Fuel",    bg: "bg-amber-800 border-amber-600 hover:bg-amber-700", icon: "🪵", image: "/wood.webp", correct: true  },
+  { id: "spark", label: "Spark", role: "Heat",    bg: "bg-red-800   border-red-600   hover:bg-red-700",   icon: "✨", image: "/spark.webp", correct: true  },
+  { id: "fan",   label: "Fan",   role: "Oxygen",  bg: "bg-blue-800  border-blue-600  hover:bg-blue-700",  icon: "💨", image: "/fan.webp", correct: true  },
+  { id: "water", label: "Water", role: "Remover", bg: "bg-cyan-800  border-cyan-600  hover:bg-cyan-700",  icon: "🪣", image: "/water.webp", correct: false },
 ]
 
 const CORRECT_IDS = ["wood", "spark", "fan"]
@@ -251,7 +251,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
       await axios.post('/api/badges/award', {
         badge_id: 'module_1',
         badge_name: 'Fire Scout',
-        badge_icon: '/fire_hall.png'
+        badge_icon: '/fire_hall.webp'
       });
 
       await axios.post("/api/kids/safescape", { 
@@ -449,7 +449,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
               <div className="order-1 md:order-2">
                 <div className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border-[3px] sm:border-[4px] border-orange-200 dark:border-orange-900/30 shadow-sm transform hover:rotate-0 rotate-1 transition-all duration-500 flex items-center justify-center p-3 sm:p-4">
                   <img
-                    src="/modules/assets/images/m1.png"
+                    src="/modules/assets/images/m1.webp"
                     alt="The Fire Triangle — Heat, Fuel, Oxygen"
                     className="w-full h-auto max-h-48 sm:max-h-60 md:max-h-72 object-contain dark:brightness-90"
                   />
@@ -557,7 +557,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
               {/* Centered, Larger Diagram Card at the Top */}
               <div className="bg-slate-50 dark:bg-slate-950 rounded-[1.5rem] overflow-hidden border-[3px] border-rose-200 dark:border-rose-900/30 shadow-sm flex items-center justify-center p-3 sm:p-4 max-w-[760px] mx-auto w-full transition-all">
                 <img
-                  src="/module_1.3.png"
+                  src="/module_1.3.webp"
                   alt="How a Fire Grows and Travels Diagram"
                   className="w-full h-auto object-contain rounded-lg dark:brightness-95"
                 />
@@ -743,7 +743,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                       <div className="absolute -top-1 sm:-top-2 left-1/3 w-1 h-1 bg-orange-400 rounded-full" style={{ animation: 'fireSpark 1.5s ease-out infinite 0.3s', opacity: 0.6 }} />
                       <div className="absolute -top-1 sm:-top-2 right-1/3 w-1 h-1 bg-red-400 rounded-full" style={{ animation: 'fireSpark 1.8s ease-out infinite 0.6s', opacity: 0.7 }} />
                       {/* Fire image */}
-                      <img src="/fire_hall.png" alt="Fire" className="w-10 h-10 sm:w-16 sm:h-16 object-contain relative z-10 drop-shadow-[0_0_12px_rgba(255,100,0,0.8)]" style={{ animation: 'fireWobble 0.6s ease-in-out infinite alternate' }} />
+                      <img src="/fire_hall.webp" alt="Fire" className="w-10 h-10 sm:w-16 sm:h-16 object-contain relative z-10 drop-shadow-[0_0_12px_rgba(255,100,0,0.8)]" style={{ animation: 'fireWobble 0.6s ease-in-out infinite alternate' }} />
                     </div>
                   )}
 
@@ -752,7 +752,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                     <div className="z-10 relative flex items-center justify-center animate-bounce">
                       {/* Water ripple glow */}
                       <div className="absolute w-16 h-16 sm:w-24 sm:h-24 rounded-full animate-ping opacity-20" style={{ background: 'radial-gradient(circle, rgba(34,211,238,0.6) 0%, transparent 70%)' }} />
-                      <img src="/water_drop.png" alt="Water splash" className="w-10 h-10 sm:w-16 sm:h-16 object-contain relative z-10 drop-shadow-[0_0_10px_rgba(34,211,238,0.6)]" />
+                      <img src="/water_drop.webp" alt="Water splash" className="w-10 h-10 sm:w-16 sm:h-16 object-contain relative z-10 drop-shadow-[0_0_10px_rgba(34,211,238,0.6)]" />
                     </div>
                   )}
 
@@ -842,7 +842,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
           <div className="bg-white dark:bg-slate-900 rounded-[2rem] max-w-sm w-full p-8 flex flex-col items-center text-center shadow-2xl border-[4px] border-amber-200 dark:border-amber-900/50 animate-in zoom-in-95 duration-500">
             <div className="h-24 w-24 bg-amber-50 dark:bg-amber-900/20 rounded-full border-[4px] border-amber-100 dark:border-amber-800 flex items-center justify-center mb-6 shadow-inner relative overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,theme(colors.amber.300/20)_0%,transparent_70%)] animate-pulse"></div>
-              <img src="/fire_hall.png" alt="Fire Scout Badge" className="h-16 w-16 object-contain relative z-10 drop-shadow-md" />
+              <img src="/fire_hall.webp" alt="Fire Scout Badge" className="h-16 w-16 object-contain relative z-10 drop-shadow-md" />
             </div>
             <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-2">Badge Unlocked!</h2>
             <p className="text-amber-600 dark:text-amber-400 font-bold uppercase tracking-widest text-sm mb-4">Fire Scout</p>

@@ -223,14 +223,14 @@ export function Navigation() {
                 {/* Logos */}
                 <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
                   <img
-                    src="/bfp logo.png"
+                    src="/bfp logo.webp"
                     alt="Bureau of Fire Protection Logo"
                     width={48}
                     height={48}
                     className="rounded-full bg-white p-0.5 object-contain shadow-md w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12"
                   />
                   <img
-                    src="/berong-official-logo.jpg"
+                    src="/berong-official-logo.webp"
                     alt="Berong E-Learning Logo"
                     width={48}
                     height={48}
@@ -641,7 +641,7 @@ export function Navigation() {
         <DialogContent aria-describedby={undefined} className="max-w-[90vw] sm:max-w-md bg-white dark:bg-slate-900 border-none rounded-[2rem] p-0 overflow-hidden shadow-2xl transition-colors duration-500">
           <div className="bg-primary p-6 text-center border-b-[6px] border-white/20">
             <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl transform rotate-3 overflow-hidden p-1">
-              <img src="/berong_logout.png" alt="Logout" className="w-full h-full object-contain" />
+              <img src="/berong_logout.webp" alt="Logout" className="w-full h-full object-contain" />
             </div>
             <DialogTitle className="text-2xl font-black text-white uppercase tracking-tight italic drop-shadow-md">Logging out?</DialogTitle>
           </div>

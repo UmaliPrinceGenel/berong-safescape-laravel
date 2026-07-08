@@ -45,21 +45,21 @@ const SAMPLE_FLOOR_PLANS: SavedFloorPlan[] = [
         data: "", // No canvas data - these are image-based
         createdAt: "2024-01-01T00:00:00.000Z",
         isSample: true,
-        imageUrl: "/Floor Plan 1.png"
+        imageUrl: "/Floor Plan 1.webp"
     },
     {
         name: "Floor Plan 2",
         data: "",
         createdAt: "2024-01-01T00:00:00.000Z",
         isSample: true,
-        imageUrl: "/Floor Plan 2.png"
+        imageUrl: "/Floor Plan 2.webp"
     },
     {
         name: "Floor Plan 3",
         data: "",
         createdAt: "2024-01-01T00:00:00.000Z",
         isSample: true,
-        imageUrl: "/Floor Plan 3.png"
+        imageUrl: "/Floor Plan 3.webp"
     }
 ]
 
@@ -412,7 +412,7 @@ export function FabricFloorPlanBuilder({ onExport, processing = false }: FabricF
             try {
                 const response = await fetch(plan.imageUrl)
                 const blob = await response.blob()
-                const file = new File([blob], plan.name + ".jpg", { type: "image/jpeg" })
+                const file = new File([blob], plan.name + ".webp", { type: "image/jpeg" })
 
                 // Clear canvas and notify user
                 const objects = canvas.getObjects().filter(obj => (obj as any).objectType)

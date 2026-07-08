@@ -12,19 +12,19 @@ interface BadgeHallProps {
 }
 
 const ALL_BADGES = [
-  { id: 'module_1', moduleNum: 1, name: "Fire Triangle", alias: "Fire Scout", source: "Module 1", image: "/fire_hall.png", hint: "Complete Module 1: Fire is a Tool, Not a Toy and pass the quiz.", target: "/kids/safescape/1" },
-  { id: 'module_2', moduleNum: 2, name: "Safety Leader", alias: "Fire Marshal", source: "Module 2", image: "/shield_hall.png", hint: "Master the Fire Drill in Module 2 to earn this badge.", target: "/kids/safescape/2" },
-  { id: 'module_3', moduleNum: 3, name: "Plan Master", alias: "Escape Planner", source: "Module 3", image: "/plan_hall.png", hint: "Create your Family Escape Plan in Module 3.", target: "/kids/safescape/3" },
-  { id: 'module_4', moduleNum: 4, name: "Low & Go!", alias: "Smoke Crawler", source: "Module 4", image: "/low_hall.png", hint: "Learn the Smoke Crawling technique in Module 4.", target: "/kids/safescape/4" },
-  { id: 'module_5', moduleNum: 5, name: "Home Guard", alias: "Fire Prevention", source: "Module 5", image: "/home_hall.png", hint: "Complete the final Module 5 training session.", target: "/kids/safescape/5" },
-  { id: 'quiz_hero', name: "Quiz Hero", source: "Fire Quiz", image: "/quiz_hall.png", hint: "Score 100% on any Fire Safety Quiz.", target: "/kids/quiz" },
-  { id: 'memory_master', name: "Memory Master", source: "Memory Game", image: "/memory_hall.png", hint: "Finish the Memory Match game with zero mistakes.", target: "/kids/memory-game" },
-  { id: 'smoke_scout', name: "Smoke Scout", source: "Smoke Crawl", image: "/smoke_hall.png", hint: "Stay low and find your way out of the smoke-filled maze!", target: "/kids/smoke-crawl" },
-  { id: 'safety_scout', name: "Safety Scout", source: "Hot or Not", image: "/safety_hall.png", hint: "Correcty identify all hazards in the Hazard House.", target: "/kids/hot-or-not" },
-  { id: 'hazard_hero', name: "Hazard Hero", source: "Hazard Blitz", image: "/hazard_hall.png", hint: "Neutralize hazards and reach 500 points in Hazard Blitz.", target: "/kids/hazard-blitz" },
-  { id: 'intel_analyst', name: "Intel Analyst", source: "Videos", image: "/intel_hall.png", hint: "Watch all fire safety training videos.", target: "/kids/videos" },
-  { id: 'task_master', name: "Task Master", source: "Inspector Game", image: "/task_master_badge.png", hint: "Complete all 5 Modules first to unlock the Inspector Game.", target: "/kids/task-master", requiresAllModules: true },
-  { id: 'dispatch_hero', name: "Dispatch Hero", source: "The Right Call", image: "/dispatch_hall.png", hint: "Watch all Fire Safety Videos first to unlock The Right Call.", target: "/kids/the-right-call", requiresBadge: 'intel_analyst' },
+  { id: 'module_1', moduleNum: 1, name: "Fire Triangle", alias: "Fire Scout", source: "Module 1", image: "/fire_hall.webp", hint: "Complete Module 1: Fire is a Tool, Not a Toy and pass the quiz.", target: "/kids/safescape/1" },
+  { id: 'module_2', moduleNum: 2, name: "Safety Leader", alias: "Fire Marshal", source: "Module 2", image: "/shield_hall.webp", hint: "Master the Fire Drill in Module 2 to earn this badge.", target: "/kids/safescape/2" },
+  { id: 'module_3', moduleNum: 3, name: "Plan Master", alias: "Escape Planner", source: "Module 3", image: "/plan_hall.webp", hint: "Create your Family Escape Plan in Module 3.", target: "/kids/safescape/3" },
+  { id: 'module_4', moduleNum: 4, name: "Low & Go!", alias: "Smoke Crawler", source: "Module 4", image: "/low_hall.webp", hint: "Learn the Smoke Crawling technique in Module 4.", target: "/kids/safescape/4" },
+  { id: 'module_5', moduleNum: 5, name: "Home Guard", alias: "Fire Prevention", source: "Module 5", image: "/home_hall.webp", hint: "Complete the final Module 5 training session.", target: "/kids/safescape/5" },
+  { id: 'quiz_hero', name: "Quiz Hero", source: "Fire Quiz", image: "/quiz_hall.webp", hint: "Score 100% on any Fire Safety Quiz.", target: "/kids/quiz" },
+  { id: 'memory_master', name: "Memory Master", source: "Memory Game", image: "/memory_hall.webp", hint: "Finish the Memory Match game with zero mistakes.", target: "/kids/memory-game" },
+  { id: 'smoke_scout', name: "Smoke Scout", source: "Smoke Crawl", image: "/smoke_hall.webp", hint: "Stay low and find your way out of the smoke-filled maze!", target: "/kids/smoke-crawl" },
+  { id: 'safety_scout', name: "Safety Scout", source: "Hot or Not", image: "/safety_hall.webp", hint: "Correcty identify all hazards in the Hazard House.", target: "/kids/hot-or-not" },
+  { id: 'hazard_hero', name: "Hazard Hero", source: "Hazard Blitz", image: "/hazard_hall.webp", hint: "Neutralize hazards and reach 500 points in Hazard Blitz.", target: "/kids/hazard-blitz" },
+  { id: 'intel_analyst', name: "Intel Analyst", source: "Videos", image: "/intel_hall.webp", hint: "Watch all fire safety training videos.", target: "/kids/videos" },
+  { id: 'task_master', name: "Task Master", source: "Inspector Game", image: "/task_master_badge.webp", hint: "Complete all 5 Modules first to unlock the Inspector Game.", target: "/kids/task-master", requiresAllModules: true },
+  { id: 'dispatch_hero', name: "Dispatch Hero", source: "The Right Call", image: "/dispatch_hall.webp", hint: "Watch all Fire Safety Videos first to unlock The Right Call.", target: "/kids/the-right-call", requiresBadge: 'intel_analyst' },
 ] as const
 
 const BadgeHallPage = ({ completedModules = [], earnedBadges = [] }: BadgeHallProps) => {
@@ -92,7 +92,7 @@ const BadgeHallPage = ({ completedModules = [], earnedBadges = [] }: BadgeHallPr
 
           <div className="flex flex-row items-center gap-6 sm:gap-12">
             <div className="h-24 w-24 sm:h-44 sm:w-44 bg-white/20 rounded-[2rem] sm:rounded-[3rem] flex items-center justify-center shadow-2xl border-2 sm:border-4 border-white/30 shrink-0 transform -rotate-3 overflow-hidden">
-               <img src="/badge_hall.png" className="h-full w-full object-contain p-2 sm:p-4" alt="Badge Hall" />
+               <img src="/badge_hall.webp" className="h-full w-full object-contain p-2 sm:p-4" alt="Badge Hall" />
             </div>
             
             <div className="text-left flex-1">

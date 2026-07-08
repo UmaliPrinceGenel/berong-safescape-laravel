@@ -181,7 +181,7 @@ export default function AnalyticsDashboard({
   return (
     <div 
       className="min-h-screen pb-12 font-sans selection:bg-red-500 selection:text-white relative bg-fixed bg-cover bg-center"
-      style={{ backgroundImage: "url('/web-background-image.jpg')", backgroundPosition: 'center 80%' }}
+      style={{ backgroundImage: "url('/web-background-image.webp')", backgroundPosition: 'center 80%' }}
     >
       {/* Heavy semi-transparent overlay so the image is 'a little bit seen' */}
       <div className="absolute inset-0 bg-slate-50/90 dark:bg-slate-950/90 sm:bg-slate-50/85 sm:dark:bg-slate-950/85 z-0 pointer-events-none transition-colors duration-500"></div>
