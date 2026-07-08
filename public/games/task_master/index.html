@@ -20,6 +20,10 @@ body {
 
 #canvas {
 	display: block;
+	touch-action: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	user-select: none;
 }
 
 #canvas:focus {
@@ -214,6 +218,28 @@ const engine = new Engine(GODOT_CONFIG);
 		}, displayFailureNotice);
 	}
 }());
+		</script>
+		<script>
+			// Prevent default zoom and scroll gestures for multitouch controls
+			(function() {
+				const canvas = document.getElementById('canvas');
+				if (canvas) {
+					const preventDefaultTouch = function(e) {
+						if (e.touches.length > 1) {
+							e.preventDefault();
+						}
+					};
+					canvas.addEventListener('touchstart', preventDefaultTouch, { passive: false });
+					canvas.addEventListener('touchmove', preventDefaultTouch, { passive: false });
+					
+					document.addEventListener('gesturestart', function(e) {
+						e.preventDefault();
+					}, { passive: false });
+					document.addEventListener('gesturechange', function(e) {
+						e.preventDefault();
+					}, { passive: false });
+				}
+			})();
 		</script>
 	</body>
 </html>
