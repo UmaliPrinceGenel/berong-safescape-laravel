@@ -19,9 +19,18 @@ export default function Image({
     fetchPriority,
     ...props
 }: ImageProps) {
+    const getObjectFit = (): React.CSSProperties['objectFit'] => {
+        if (!className) return 'cover';
+        if (className.includes('object-contain')) return 'contain';
+        if (className.includes('object-fill')) return 'fill';
+        if (className.includes('object-none')) return 'none';
+        if (className.includes('object-scale-down')) return 'scale-down';
+        return 'cover';
+    };
+
     const style: React.CSSProperties = {
-        ...(fill ? { width: '100%', height: '100%', objectFit: 'cover' } : {}),
-        imageRendering: 'high-quality',
+        ...(fill ? { width: '100%', height: '100%', objectFit: getObjectFit() } : {}),
+        imageRendering: 'high-quality' as any,
         WebkitFontSmoothing: 'antialiased',
     };
     const resolvedLoading = loading || (priority ? 'eager' : 'lazy');
