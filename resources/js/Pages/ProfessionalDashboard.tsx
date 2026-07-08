@@ -559,7 +559,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                 {filteredVideos.map((video) => (
                                     <Card
                                         key={video.id}
-                                        className="flex flex-row sm:flex-col cursor-pointer group bg-white/85 dark:bg-slate-800/85 backdrop-blur-md sm:bg-white dark:sm:bg-slate-800 rounded-[1.2rem] sm:rounded-[1.5rem] border border-white/50 dark:border-slate-700/50 sm:border-[3px] sm:border-b-[6px] sm:border-slate-200 dark:sm:border-slate-700 shadow-md sm:shadow-sm sm:hover:translate-y-[-4px] sm:active:translate-y-[2px] transition-all duration-200 h-[110px] xs:h-[120px] sm:h-auto items-stretch p-2 sm:p-0 hover:shadow-lg dark:hover:shadow-[0_10px_25px_-5px_rgba(239,68,68,0.15)] mb-2 sm:mb-0"
+                                        className="flex flex-row sm:flex-col cursor-pointer group bg-white/85 dark:bg-slate-800/85 backdrop-blur-md sm:bg-white dark:sm:bg-slate-800 rounded-[1.2rem] sm:rounded-[1.5rem] border border-white/50 dark:border-slate-700/50 sm:border-[3px] sm:border-b-[6px] sm:border-slate-200 dark:sm:border-slate-700 shadow-md sm:shadow-sm sm:hover:translate-y-[-4px] sm:active:translate-y-[2px] transition-all duration-200 h-[110px] xs:h-[120px] sm:h-[420px] items-stretch p-2 sm:p-0 hover:shadow-lg dark:hover:shadow-[0_10px_25px_-5px_rgba(239,68,68,0.15)] mb-2 sm:mb-0"
                                         onClick={() => handleVideoSelect(video)}
                                     >
                                         <CardHeader className="p-0 w-[160px] xs:w-[180px] sm:w-full shrink-0 flex items-center justify-center relative">
@@ -597,7 +597,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                 </CardTitle>
                                             </div>
                                             
-                                            <p className="block text-[11px] sm:text-sm text-slate-500 sm:text-slate-600 dark:text-slate-400 font-medium line-clamp-2 mb-1 sm:mb-4 leading-relaxed mt-1 sm:mt-0">{video.description}</p>
+                                            <p className="text-[11px] sm:text-sm text-slate-500 sm:text-slate-600 dark:text-slate-400 font-medium line-clamp-3 mb-1 sm:mb-4 leading-relaxed mt-1 sm:mt-0">{video.description}</p>
                                             
                                             <div className="hidden sm:flex flex-row items-center justify-between mt-auto gap-1">
                                                 <div className="flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 font-medium">
