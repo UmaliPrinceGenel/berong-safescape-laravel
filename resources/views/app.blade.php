@@ -6,9 +6,13 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
+        <!-- Favicon -->
+        <link rel="icon" type="image/webp" href="/berong-official-logo.webp">
+        <link rel="apple-touch-icon" href="/berong-official-logo.webp">
+
         <!-- Prefetch loader images for later display (avoids console warnings) -->
-        <link rel="prefetch" href="/berong_pr.png" as="image">
-        <link rel="prefetch" href="/berong_logout.png" as="image">
+        <link rel="prefetch" href="/berong_pr.webp" as="image">
+        <link rel="prefetch" href="/berong_logout.webp" as="image">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

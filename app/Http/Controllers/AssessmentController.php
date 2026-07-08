@@ -153,7 +153,7 @@ class AssessmentController extends Controller
         $engagementPoints = $user->engagementPoints ?? 0;
         
         $minModules = 5;
-        $minPoints = 50; 
+        $minPoints = 0; 
         
         $alreadyCompleted = !is_null($user->postTestScore);
         
@@ -169,7 +169,6 @@ class AssessmentController extends Controller
         if ($isAdult) $eligible = false;
         if (is_null($user->preTestScore)) $eligible = false;
         if (!$isAdult && $modulesCompleted < $minModules) $eligible = false;
-        if ($engagementPoints < $minPoints) $eligible = false;
         
         return response()->json([
             'eligible' => $eligible,

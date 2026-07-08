@@ -347,26 +347,6 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
                                                             </div>
                                                         </div>
                                                     )}
-
-                                                    {/* Engagement Points Requirement */}
-                                                    {eligibility?.requirements && (
-                                                        <div className="flex items-start gap-3">
-                                                            <div className={`mt-0.5 rounded-full p-0.5 ${(eligibility.current?.engagementPoints || 0) >= (eligibility.requirements.minEngagementPoints || 0) ? 'bg-green-100 dark:bg-emerald-950 text-green-600 dark:text-emerald-400' : 'bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-600'}`}>
-                                                                <Check className="h-3 w-3" />
-                                                            </div>
-                                                            <div className="flex-1">
-                                                                <p className={`font-medium ${(eligibility.current?.engagementPoints || 0) >= (eligibility.requirements.minEngagementPoints || 0) ? 'text-slate-700 dark:text-slate-200' : 'text-slate-500 dark:text-slate-500'}`}>
-                                                                    Earn Engagement Points
-                                                                </p>
-                                                                <div className="flex items-center gap-2 mt-1">
-                                                                    <Progress value={eligibility.progress?.engagementPoints || 0} className="h-1.5 w-24 bg-slate-200 dark:bg-slate-700" />
-                                                                    <span className="text-xs text-slate-400 dark:text-slate-500">
-                                                                        {eligibility.current?.engagementPoints}/{eligibility.requirements.minEngagementPoints}
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    )}
                                                 </div>
                                             </div>
 
