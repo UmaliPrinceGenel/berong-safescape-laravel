@@ -242,44 +242,68 @@ export function Chatbot() {
     }
   }
 
+  const recognitionRef = useRef<any>(null)
+
   const startListening = () => {
-    // Check support
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      alert("Your browser does not support Speech Recognition. Please try Chrome or Edge.")
+    if (isListening) {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop()
+      }
+      setIsListening(false)
       return
     }
 
-    // type cast to any to bypass TS window type issues
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-    const recognition = new SpeechRecognition()
-    recognition.continuous = false
-    recognition.interimResults = false
-    recognition.lang = 'en-US' // Can also be tl-PH for tagalog
-
-    recognition.onstart = () => {
-      setIsListening(true)
+    if (!SpeechRecognition) {
+      alert("Speech recognition is not supported in this browser. Please try Chrome, Edge, or Safari.")
+      return
     }
 
-    recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript
-      setInputValue(prev => prev + (prev.length > 0 ? ' ' : '') + transcript)
-    }
+    try {
+      const recognition = new SpeechRecognition()
+      recognitionRef.current = recognition
+      
+      recognition.continuous = false
+      recognition.interimResults = false
+      
+      // Auto-detect browser language or fall back to local settings
+      recognition.lang = navigator.language || 'en-US'
 
-    recognition.onerror = (event: any) => {
-      console.error("Speech recognition error", event.error)
-      if (event.error === 'not-allowed') {
-        alert("Microphone access was denied. Please check your browser settings to allow microphone input.")
-      } else {
-        alert(`Microphone error: ${event.error}`)
+      const initialText = inputValue
+
+      recognition.onstart = () => {
+        setIsListening(true)
       }
+
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript
+        if (transcript) {
+          setInputValue(initialText + (initialText.length > 0 ? ' ' : '') + transcript)
+        }
+      }
+
+      recognition.onerror = (event: any) => {
+        console.error("Speech recognition error:", event.error)
+        
+        if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+          alert("Microphone access was denied. Please check your browser settings to enable microphone input.")
+        } else if (event.error === 'network') {
+          alert("Network error: Speech recognition requires an active internet connection.")
+        }
+        // Silence other harmless errors like 'no-speech' or 'aborted'
+        setIsListening(false)
+      }
+
+      recognition.onend = () => {
+        setIsListening(false)
+        recognitionRef.current = null
+      }
+
+      recognition.start()
+    } catch (err) {
+      console.error("Failed to start speech recognition:", err)
       setIsListening(false)
     }
-
-    recognition.onend = () => {
-      setIsListening(false)
-    }
-
-    recognition.start()
   }
 
   // Compact mode — small circle button instead of full mascot
