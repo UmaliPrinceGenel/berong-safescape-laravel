@@ -422,10 +422,17 @@ const SmokeCrawl = () => {
       <div className="relative z-10 pt-16 sm:pt-6 p-2 sm:p-6 max-w-5xl mx-auto w-full">
 
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
+        <div className={cn(
+          "grid grid-cols-1 gap-4 sm:gap-8",
+          showTouchControls ? "w-full" : "lg:grid-cols-3"
+        )}>
           {/* Main Game Area */}
-          <div className="lg:col-span-2">
-            <div className="mb-2 sm:mb-4 flex items-center justify-between bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl p-2.5 sm:p-4 shadow-sm border-2 border-slate-100 dark:border-slate-800 transition-colors">
+          <div className={cn(
+            "flex flex-col items-center justify-center w-full",
+            showTouchControls ? "" : "lg:col-span-2"
+          )}>
+            {/* O2 Status Bar */}
+            <div className="w-full max-w-[500px] mb-2 sm:mb-4 flex items-center justify-between bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl p-2.5 sm:p-4 shadow-sm border-2 border-slate-100 dark:border-slate-800 transition-colors">
                <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                   <Wind className={cn("h-4 w-4 sm:h-6 sm:w-6", oxygen < 30 ? "text-red-500 animate-bounce" : "text-blue-500 dark:text-blue-400")} />
                   <span className="font-black text-slate-800 dark:text-white text-[10px] sm:text-sm uppercase tracking-wider">O₂</span>
@@ -441,188 +448,197 @@ const SmokeCrawl = () => {
                </div>
             </div>
 
-            <div className="relative bg-white dark:bg-slate-900 rounded-2xl sm:rounded-[2rem] p-1.5 sm:p-4 shadow-xl border-2 sm:border-4 border-slate-100 dark:border-slate-800 overflow-hidden aspect-square flex items-center justify-center w-full max-w-[calc(60vh)] sm:max-w-none mx-auto transition-colors">
-              <canvas 
-                ref={canvasRef} 
-                width={15 * TILE_SIZE} 
-                height={15 * TILE_SIZE}
-                className="max-w-full h-auto rounded-xl shadow-inner border border-slate-200 dark:border-slate-700"
-              />
+            {/* Game Board & Touch Controls Container */}
+            <div className="w-full flex flex-col md:flex-row items-center justify-center gap-6 mt-2">
+              
+              {/* Crouch Button (Left side on tablets/wide touch, stacked below map on mobile portrait) */}
+              {gameState !== 'start' && showTouchControls && (
+                <div className="w-full md:w-44 shrink-0 md:order-1 order-2">
+                  <button 
+                    onClick={() => setIsCrouched(!isCrouched)}
+                    style={{ touchAction: 'none' }}
+                    className={cn(
+                      "w-full rounded-3xl font-black text-sm shadow-lg flex flex-col items-center justify-center gap-3 py-6 md:py-10 transition-all border-2 border-slate-200 dark:border-slate-700 active:scale-95",
+                      isCrouched 
+                        ? "bg-orange-500 text-white shadow-[0_6px_0_#c2410c] border-orange-600 scale-[1.02]" 
+                        : "bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400"
+                    )}
+                  >
+                    <User className={cn("h-8 w-8 md:h-10 md:w-10", isCrouched ? "animate-pulse" : "")} />
+                    {isCrouched ? "STAYING LOW" : "TAP TO CROUCH"}
+                  </button>
+                </div>
+              )}
 
-              {/* Overlays */}
-              {gameState === 'start' && (
-                <div className="absolute inset-0 bg-white/95 dark:bg-slate-950/95 flex flex-col items-center justify-center p-8 text-center backdrop-blur-sm">
-                  <div className="w-24 h-24 bg-orange-500 rounded-3xl flex items-center justify-center mb-6 shadow-lg shadow-orange-500/20">
-                    <Wind className="h-12 w-12 text-white" />
-                  </div>
-                  <h2 className="text-2xl sm:text-4xl font-black text-slate-800 dark:text-white mb-4 uppercase tracking-tighter">Mission Ready?</h2>
-                  
-                  {/* Controls Preview for Mobile/Tablets */}
-                  {showTouchControls ? (
-                    <div className="w-full bg-blue-50 dark:bg-slate-900 rounded-2xl p-4 mb-6 border border-blue-100 dark:border-slate-800 grid grid-cols-2 gap-4">
-                      <div className="flex flex-col items-center gap-1">
-                        <div className="flex gap-1">
-                          <div className="w-6 h-6 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronUp className="h-3 w-3 dark:text-slate-300" /></div>
-                        </div>
-                        <div className="flex gap-1">
-                          <div className="w-6 h-6 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronLeft className="h-3 w-3 dark:text-slate-300" /></div>
-                          <div className="w-6 h-6 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronDown className="h-3 w-3 dark:text-slate-300" /></div>
-                          <div className="w-6 h-6 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronRight className="h-3 w-3 dark:text-slate-300" /></div>
-                        </div>
-                        <span className="text-[10px] font-black text-blue-600 dark:text-blue-400 mt-1 uppercase">Move</span>
-                      </div>
-                      <div className="flex flex-col items-center justify-center gap-1 border-l border-blue-200 dark:border-slate-700">
-                        <div className="w-12 h-8 bg-orange-500 rounded flex items-center justify-center shadow-sm">
-                          <User className="h-4 w-4 text-white" />
-                        </div>
-                        <span className="text-[10px] font-black text-orange-600 dark:text-orange-400 mt-1 uppercase">Stay Low</span>
-                      </div>
+              {/* Map Canvas (Center Column - Reduced and centered) */}
+              <div className="relative bg-white dark:bg-slate-900 rounded-2xl sm:rounded-[2rem] p-1.5 sm:p-4 shadow-xl border-2 sm:border-4 border-slate-100 dark:border-slate-800 overflow-hidden aspect-square flex items-center justify-center w-full max-w-[320px] sm:max-w-[360px] md:max-w-[400px] mx-auto md:order-2 order-1 transition-colors">
+                <canvas 
+                  ref={canvasRef} 
+                  width={15 * TILE_SIZE} 
+                  height={15 * TILE_SIZE}
+                  className="max-w-full h-auto rounded-xl shadow-inner border border-slate-200 dark:border-slate-700"
+                />
+
+                {/* Overlays */}
+                {gameState === 'start' && (
+                  <div className="absolute inset-0 bg-white/95 dark:bg-slate-950/95 flex flex-col items-center justify-center p-8 text-center backdrop-blur-sm">
+                    <div className="w-20 h-20 bg-orange-500 rounded-3xl flex items-center justify-center mb-4 shadow-lg shadow-orange-500/20">
+                      <Wind className="h-10 w-10 text-white" />
                     </div>
-                  ) : (
-                    <p className="text-slate-500 dark:text-slate-400 text-lg mb-8 max-w-md font-bold">
-                      Learn the "Stay Low and Go" principle in this smoke-filled escape maze!
-                    </p>
-                  )}
-                  <div className="flex flex-col gap-4 w-full max-w-xs">
-                     <button 
-                        onClick={() => {
-                          setGameState('countdown')
-                          setCountdown(3)
-                          musicRef.current?.play().catch(() => {})
-                        }}
-                        className="bg-orange-500 hover:bg-orange-400 text-white font-black py-4 sm:py-5 px-8 sm:px-10 rounded-2xl shadow-[0_4px_0_#c2410c] sm:shadow-[0_6px_0_#c2410c] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all uppercase tracking-widest text-xl sm:text-2xl"
-                     >
-                        START GAME
-                     </button>
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-800 dark:text-white mb-3 uppercase tracking-tighter">Mission Ready?</h2>
+                    
+                    {/* Controls Preview for Mobile/Tablets */}
+                    {showTouchControls ? (
+                      <div className="w-full bg-blue-50 dark:bg-slate-900 rounded-2xl p-3 mb-4 border border-blue-100 dark:border-slate-800 grid grid-cols-2 gap-3 text-left">
+                        <div className="flex flex-col items-center gap-1">
+                          <div className="flex gap-1">
+                            <div className="w-5 h-5 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronUp className="h-3 w-3 dark:text-slate-300" /></div>
+                          </div>
+                          <div className="flex gap-1">
+                            <div className="w-5 h-5 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronLeft className="h-3 w-3 dark:text-slate-300" /></div>
+                            <div className="w-5 h-5 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronDown className="h-3 w-3 dark:text-slate-300" /></div>
+                            <div className="w-5 h-5 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded flex items-center justify-center"><ChevronRight className="h-3 w-3 dark:text-slate-300" /></div>
+                          </div>
+                          <span className="text-[9px] font-black text-blue-600 dark:text-blue-400 mt-0.5 uppercase">Move</span>
+                        </div>
+                        <div className="flex flex-col items-center justify-center gap-1 border-l border-blue-200 dark:border-slate-700">
+                          <div className="w-10 h-6 bg-orange-500 rounded flex items-center justify-center shadow-sm">
+                            <User className="h-3 w-3 text-white" />
+                          </div>
+                          <span className="text-[9px] font-black text-orange-600 dark:text-orange-400 mt-0.5 uppercase">Stay Low</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-slate-500 dark:text-slate-400 text-sm mb-4 max-w-xs font-bold">
+                        Learn the "Stay Low and Go" principle in this smoke-filled escape maze!
+                      </p>
+                    )}
+                    <div className="flex flex-col gap-4 w-full max-w-xs">
+                       <button 
+                          onClick={() => {
+                            setGameState('countdown')
+                            setCountdown(3)
+                            musicRef.current?.play().catch(() => {})
+                          }}
+                          className="bg-orange-500 hover:bg-orange-400 text-white font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_#c2410c] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all uppercase tracking-widest text-base"
+                       >
+                          START GAME
+                       </button>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {gameState === 'countdown' && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-full w-40 h-40 flex items-center justify-center border-8 border-orange-500 shadow-2xl animate-in zoom-in fade-in duration-300">
-                    <span className="text-8xl font-black text-orange-500 animate-pulse">{countdown}</span>
+                {gameState === 'countdown' && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                    <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-full w-28 h-28 flex items-center justify-center border-4 border-orange-500 shadow-2xl animate-in zoom-in fade-in duration-300">
+                      <span className="text-6xl font-black text-orange-500 animate-pulse">{countdown}</span>
+                    </div>
+                    <p className="mt-4 bg-orange-500 text-white px-4 py-1.5 rounded-full font-black text-xs uppercase tracking-widest shadow-lg">Preview the Maze!</p>
                   </div>
-                  <p className="mt-8 bg-orange-500 text-white px-6 py-2 rounded-full font-black uppercase tracking-widest shadow-lg">Preview the Maze!</p>
-                </div>
-              )}
+                )}
 
-              {gameState === 'won' && (
-                <div className="absolute inset-0 bg-green-500/95 flex flex-col items-center justify-center p-8 text-center backdrop-blur-md">
-                  <div className="w-24 h-24 bg-white rounded-3xl flex items-center justify-center mb-6 shadow-lg overflow-hidden">
-                    <img src="/smoke_hall.png" alt="Smoke Scout Badge" className="w-full h-full object-contain p-2" />
+                {gameState === 'won' && (
+                  <div className="absolute inset-0 bg-green-500/95 flex flex-col items-center justify-center p-6 text-center backdrop-blur-md">
+                    <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mb-4 shadow-lg overflow-hidden">
+                      <img src="/smoke_hall.png" alt="Smoke Scout Badge" className="w-full h-full object-contain p-2" />
+                    </div>
+                    <h2 className="text-2xl font-black text-white mb-1">ESCAPED!</h2>
+                    <p className="text-white/90 text-sm font-bold mb-6">You stayed low and found the way out! True Hero status earned.</p>
+                    <div className="flex flex-col gap-3 w-full max-w-xs">
+                       <button 
+                          onClick={() => {
+                            restartGame()
+                            setGameState('countdown')
+                            musicRef.current?.play().catch(() => {})
+                          }}
+                          className="bg-white text-green-600 hover:bg-green-50 font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_#15803d] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all uppercase tracking-widest text-sm"
+                       >
+                          Play Again
+                       </button>
+                       <Link 
+                          href="/kids/challenges"
+                          className="text-white font-black text-xs uppercase tracking-widest underline decoration-2 underline-offset-4 mt-2"
+                       >
+                          Back to Challenges
+                       </Link>
+                    </div>
                   </div>
-                  <h2 className="text-4xl font-black text-white mb-2">ESCAPED!</h2>
-                  <p className="text-white/90 text-xl font-bold mb-8">You stayed low and found the way out! True Hero status earned.</p>
-                  <div className="flex flex-col gap-4 w-full max-w-xs">
-                     <button 
-                        onClick={() => {
-                          restartGame()
-                          setGameState('countdown')
-                          musicRef.current?.play().catch(() => {})
-                        }}
-                        className="bg-white text-green-600 hover:bg-green-50 font-black py-4 px-8 rounded-2xl shadow-[0_4px_0_#15803d] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all uppercase tracking-widest"
-                     >
-                        Play Again
-                     </button>
-                     <Link 
-                        href="/kids/challenges"
-                        className="text-white font-black uppercase tracking-widest underline decoration-2 underline-offset-8 mt-4"
-                     >
-                        Back to Challenges
-                     </Link>
+                )}
+
+                {gameState === 'lost' && (
+                  <div className="absolute inset-0 bg-red-600/95 flex flex-col items-center justify-center p-6 text-center backdrop-blur-md">
+                    <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center mb-4 shadow-lg">
+                      <ShieldAlert className="h-8 w-8 text-red-600" />
+                    </div>
+                    <h2 className="text-2xl font-black text-white mb-1">MISSION FAILED</h2>
+                    <p className="text-white/90 text-sm font-bold mb-6">{message}</p>
+                    <button 
+                      onClick={() => {
+                        restartGame()
+                        setGameState('countdown')
+                        musicRef.current?.play().catch(() => {})
+                      }}
+                      className="bg-white text-red-600 hover:bg-red-50 font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_#991b1b] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all uppercase tracking-widest text-sm w-full max-w-xs"
+                    >
+                      Try Again
+                      <RotateCcw className="inline-block ml-2 h-4 w-4" />
+                    </button>
                   </div>
-                </div>
-              )}
+                )}
 
-              {gameState === 'lost' && (
-                <div className="absolute inset-0 bg-red-600/95 flex flex-col items-center justify-center p-8 text-center backdrop-blur-md">
-                  <div className="w-24 h-24 bg-white rounded-3xl flex items-center justify-center mb-6 shadow-lg">
-                    <ShieldAlert className="h-12 w-12 text-red-600" />
+                {/* HUD Messages */}
+                {message && gameState === 'playing' && (
+                  <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 text-slate-800 dark:text-white px-4 py-2 rounded-2xl border-2 border-orange-500 shadow-2xl font-black text-xs flex items-center gap-2 animate-in fade-in zoom-in slide-in-from-top-4 max-w-[90%]">
+                    {message.includes('HOT') ? <Flame className="text-red-500 h-4 w-4 shrink-0" /> : <Info className="text-blue-500 h-4 w-4 shrink-0" />}
+                    <span>{message}</span>
                   </div>
-                  <h2 className="text-4xl font-black text-white mb-2">MISSION FAILED</h2>
-                  <p className="text-white/90 text-lg font-bold mb-8">{message}</p>
-                  <button 
-                    onClick={() => {
-                      restartGame()
-                      setGameState('countdown')
-                      musicRef.current?.play().catch(() => {})
-                    }}
-                    className="bg-white text-red-600 hover:bg-red-50 font-black py-4 px-8 rounded-2xl shadow-[0_4px_0_#991b1b] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all uppercase tracking-widest w-full max-w-xs"
-                  >
-                    Try Again
-                    <RotateCcw className="inline-block ml-2 h-5 w-5" />
-                  </button>
-                </div>
-              )}
-
-              {/* HUD Messages */}
-              {message && gameState === 'playing' && (
-                <div className="absolute top-8 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 text-slate-800 dark:text-white px-6 py-3 rounded-2xl border-2 border-orange-500 shadow-2xl font-black text-sm flex items-center gap-3 animate-in fade-in zoom-in slide-in-from-top-4">
-                  {message.includes('HOT') ? <Flame className="text-red-500 h-5 w-5" /> : <Info className="text-blue-500 h-5 w-5" />}
-                  {message}
-                </div>
-              )}
-            </div>
-
-            {/* Mobile/Tablet Controls - Now literally below the game */}
-            {gameState !== 'start' && showTouchControls && (
-              <div className="mt-6 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-[2.5rem] p-6 grid grid-cols-2 gap-6 shadow-xl transition-colors">
-                {/* Crouch Toggle */}
-                <button 
-                  onClick={() => setIsCrouched(!isCrouched)}
-                  style={{ touchAction: 'none' }}
-                  className={cn(
-                    "rounded-3xl font-black text-base shadow-lg flex flex-col items-center justify-center gap-3 py-10 transition-all",
-                    isCrouched 
-                      ? "bg-orange-500 text-white shadow-[0_6px_0_#c2410c] scale-[1.02]" 
-                      : "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 active:scale-95"
-                  )}
-                >
-                  <User className={cn("h-10 w-10 mb-1", isCrouched ? "animate-pulse" : "")} />
-                  {isCrouched ? "STAYING LOW" : "TAP TO CROUCH"}
-                </button>
-
-                {/* D-Pad */}
-                <div className="grid grid-cols-3 gap-3 max-w-[240px] mx-auto">
-                  <div />
-                  <button 
-                    onClick={() => movePlayer(player.x, player.y - 1)} 
-                    style={{ touchAction: 'none' }}
-                    className="aspect-square bg-slate-100 dark:bg-slate-800 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
-                  >
-                    <ChevronUp className="h-10 w-10" />
-                  </button>
-                  <div />
-                  <button 
-                    onClick={() => movePlayer(player.x - 1, player.y)}
-                    style={{ touchAction: 'none' }}
-                    className="aspect-square bg-slate-100 dark:bg-slate-800 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
-                  >
-                    <ChevronLeft className="h-10 w-10" />
-                  </button>
-                  <div className="flex items-center justify-center text-slate-300 dark:text-slate-600">
-                    <div className="w-3 h-3 rounded-full bg-current" />
-                  </div>
-                  <button 
-                    onClick={() => movePlayer(player.x + 1, player.y)}
-                    style={{ touchAction: 'none' }}
-                    className="aspect-square bg-slate-100 dark:bg-slate-800 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
-                  >
-                    <ChevronRight className="h-10 w-10" />
-                  </button>
-                  <div />
-                  <button 
-                    onClick={() => movePlayer(player.x, player.y + 1)}
-                    style={{ touchAction: 'none' }}
-                    className="aspect-square bg-slate-100 dark:bg-slate-800 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
-                  >
-                    <ChevronDown className="h-10 w-10" />
-                  </button>
-                  <div />
-                </div>
+                )}
               </div>
-            )}
+
+              {/* D-Pad (Right side on tablets/wide touch, stacked below crouch button on mobile portrait) */}
+              {gameState !== 'start' && showTouchControls && (
+                <div className="w-full md:w-44 shrink-0 md:order-3 order-3 flex items-center justify-center">
+                  <div className="grid grid-cols-3 gap-3 max-w-[200px] mx-auto">
+                    <div />
+                    <button 
+                      onClick={() => movePlayer(player.x, player.y - 1)} 
+                      style={{ touchAction: 'none' }}
+                      className="w-12 h-12 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
+                    >
+                      <ChevronUp className="h-6 w-6" />
+                    </button>
+                    <div />
+                    <button 
+                      onClick={() => movePlayer(player.x - 1, player.y)}
+                      style={{ touchAction: 'none' }}
+                      className="w-12 h-12 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
+                    >
+                      <ChevronLeft className="h-6 w-6" />
+                    </button>
+                    <div className="flex items-center justify-center text-slate-300 dark:text-slate-600">
+                      <div className="w-2.5 h-2.5 rounded-full bg-current" />
+                    </div>
+                    <button 
+                      onClick={() => movePlayer(player.x + 1, player.y)}
+                      style={{ touchAction: 'none' }}
+                      className="w-12 h-12 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
+                    >
+                      <ChevronRight className="h-6 w-6" />
+                    </button>
+                    <div />
+                    <button 
+                      onClick={() => movePlayer(player.x, player.y + 1)}
+                      style={{ touchAction: 'none' }}
+                      className="w-12 h-12 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
+                    >
+                      <ChevronDown className="h-6 w-6" />
+                    </button>
+                    <div />
+                  </div>
+                </div>
+              )}
+
+            </div>
           </div>
 
           {/* Instructions Sidebar - Moved to bottom on mobile, side on desktop */}
