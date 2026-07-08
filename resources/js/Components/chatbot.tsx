@@ -254,8 +254,21 @@ export function Chatbot() {
     }
 
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-    if (!SpeechRecognition) {
-      alert("Speech recognition is not supported in this browser. Please try Chrome, Edge, or Safari.")
+    const isOpera = typeof navigator !== 'undefined' && /OPR|Opera|GX/i.test(navigator.userAgent)
+
+    if (!SpeechRecognition || isOpera) {
+      setMessages(prev => [
+        ...prev,
+        {
+          id: String(Date.now()),
+          sender: 'bot',
+          text: "🎙️ **Voice Input Support:** Speech recognition is not fully supported by Opera GX or your current browser. For the best voice experience, please try using **Google Chrome** or **Microsoft Edge**!",
+          timestamp: new Date()
+        }
+      ])
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
       return
     }
 
