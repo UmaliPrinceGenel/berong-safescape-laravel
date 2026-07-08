@@ -597,41 +597,41 @@ const SmokeCrawl = () => {
 
               {/* D-Pad (Right side on tablets/wide touch, stacked below crouch button on mobile portrait) */}
               {gameState !== 'start' && showTouchControls && (
-                <div className="w-full md:w-44 shrink-0 md:order-3 order-3 flex items-center justify-center">
-                  <div className="grid grid-cols-3 gap-3 max-w-[200px] mx-auto">
+                <div className="w-full md:w-64 shrink-0 md:order-3 order-3 flex items-center justify-center">
+                  <div className="grid grid-cols-3 gap-3 md:gap-4 max-w-[220px] md:max-w-[280px] mx-auto">
                     <div />
                     <button 
                       onClick={() => movePlayer(player.x, player.y - 1)} 
                       style={{ touchAction: 'none' }}
-                      className="w-12 h-12 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
+                      className="w-14 h-14 md:w-20 md:h-20 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
                     >
-                      <ChevronUp className="h-6 w-6" />
+                      <ChevronUp className="h-7 w-7 md:h-10 md:w-10" />
                     </button>
                     <div />
                     <button 
                       onClick={() => movePlayer(player.x - 1, player.y)}
                       style={{ touchAction: 'none' }}
-                      className="w-12 h-12 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
+                      className="w-14 h-14 md:w-20 md:h-20 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
                     >
-                      <ChevronLeft className="h-6 w-6" />
+                      <ChevronLeft className="h-7 w-7 md:h-10 md:w-10" />
                     </button>
                     <div className="flex items-center justify-center text-slate-300 dark:text-slate-600">
-                      <div className="w-2.5 h-2.5 rounded-full bg-current" />
+                      <div className="w-2.5 h-2.5 md:w-3.5 md:h-3.5 rounded-full bg-current" />
                     </div>
                     <button 
                       onClick={() => movePlayer(player.x + 1, player.y)}
                       style={{ touchAction: 'none' }}
-                      className="w-12 h-12 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
+                      className="w-14 h-14 md:w-20 md:h-20 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
                     >
-                      <ChevronRight className="h-6 w-6" />
+                      <ChevronRight className="h-7 w-7 md:h-10 md:w-10" />
                     </button>
                     <div />
                     <button 
                       onClick={() => movePlayer(player.x, player.y + 1)}
                       style={{ touchAction: 'none' }}
-                      className="w-12 h-12 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
+                      className="w-14 h-14 md:w-20 md:h-20 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-md"
                     >
-                      <ChevronDown className="h-6 w-6" />
+                      <ChevronDown className="h-7 w-7 md:h-10 md:w-10" />
                     </button>
                     <div />
                   </div>
