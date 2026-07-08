@@ -5,7 +5,7 @@ import { Footer } from "@/Components/footer";
 import SplashCursor from "@/Components/SplashCursor";
 import Image from '@/Components/Image';
 import { Link } from '@inertiajs/react';
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "motion/react";
 import { useSettings } from "@/lib/settings-context";
 import {
