@@ -451,27 +451,27 @@ const SmokeCrawl = () => {
             {/* Game Board & Touch Controls Container */}
             <div className="w-full flex flex-col md:flex-row items-center justify-center gap-6 mt-2">
               
-              {/* Crouch Button (Left side on tablets/wide touch, stacked below map on mobile portrait) */}
+              {/* TABLET ONLY: Crouch Button (Left side on tablets) */}
               {gameState !== 'start' && showTouchControls && (
-                <div className="w-full md:w-44 shrink-0 md:order-1 order-2">
+                <div className="hidden md:flex md:w-44 shrink-0 md:order-1 justify-center">
                   <button 
                     onClick={() => setIsCrouched(!isCrouched)}
                     style={{ touchAction: 'none' }}
                     className={cn(
-                      "w-full rounded-3xl font-black text-sm shadow-lg flex flex-col items-center justify-center gap-3 py-6 md:py-10 transition-all border-2 border-slate-200 dark:border-slate-700 active:scale-95",
+                      "w-full rounded-3xl font-black text-sm shadow-lg flex flex-col items-center justify-center gap-3 py-10 transition-all border-2 border-slate-200 dark:border-slate-700 active:scale-95",
                       isCrouched 
                         ? "bg-orange-500 text-white shadow-[0_6px_0_#c2410c] border-orange-600 scale-[1.02]" 
                         : "bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400"
                     )}
                   >
-                    <User className={cn("h-8 w-8 md:h-10 md:w-10", isCrouched ? "animate-pulse" : "")} />
-                    {isCrouched ? "STAYING LOW" : "TAP TO CROUCH"}
+                    <User className={cn("h-10 w-10", isCrouched ? "animate-pulse" : "")} />
+                    <span>{isCrouched ? "STAYING LOW" : "TAP TO CROUCH"}</span>
                   </button>
                 </div>
               )}
 
               {/* Map Canvas (Center Column - Reduced and centered) */}
-              <div className="relative bg-white dark:bg-slate-900 rounded-2xl sm:rounded-[2rem] p-1.5 sm:p-4 shadow-xl border-2 sm:border-4 border-slate-100 dark:border-slate-800 overflow-hidden aspect-square flex items-center justify-center w-full max-w-[320px] sm:max-w-[360px] md:max-w-[400px] mx-auto md:order-2 order-1 transition-colors">
+              <div className="relative bg-white dark:bg-slate-900 rounded-2xl sm:rounded-[2rem] p-1.5 sm:p-4 shadow-xl border-2 sm:border-4 border-slate-100 dark:border-slate-800 overflow-hidden aspect-square flex items-center justify-center w-full max-w-[280px] sm:max-w-[320px] md:max-w-[400px] mx-auto md:order-2 order-1 transition-colors">
                 <canvas 
                   ref={canvasRef} 
                   width={15 * TILE_SIZE} 
@@ -595,9 +595,9 @@ const SmokeCrawl = () => {
                 )}
               </div>
 
-              {/* D-Pad (Right side on tablets/wide touch, stacked below crouch button on mobile portrait) */}
+              {/* TABLET ONLY: D-Pad (Right side on tablets) */}
               {gameState !== 'start' && showTouchControls && (
-                <div className="w-full md:w-64 shrink-0 md:order-3 order-3 flex items-center justify-center">
+                <div className="hidden md:flex md:w-64 shrink-0 md:order-3 justify-center">
                   <div className="grid grid-cols-3 gap-3 md:gap-4 max-w-[220px] md:max-w-[280px] mx-auto">
                     <div />
                     <button 
@@ -639,6 +639,66 @@ const SmokeCrawl = () => {
               )}
 
             </div>
+
+            {/* MOBILE ONLY: Side-by-Side Controls (Below the map, compact layout) */}
+            {gameState !== 'start' && showTouchControls && (
+              <div className="flex md:hidden flex-row items-center justify-between gap-4 w-full max-w-[280px] sm:max-w-[320px] mt-4 bg-white/60 dark:bg-slate-900/60 p-3 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-lg">
+                
+                {/* Crouch Toggle */}
+                <button 
+                  onClick={() => setIsCrouched(!isCrouched)}
+                  style={{ touchAction: 'none' }}
+                  className={cn(
+                    "flex-1 max-w-[110px] h-[96px] rounded-2xl font-black text-[9px] uppercase shadow-md flex flex-col items-center justify-center gap-1.5 transition-all border border-slate-200 dark:border-slate-700 active:scale-95",
+                    isCrouched 
+                      ? "bg-orange-500 text-white border-orange-600 shadow-[0_4px_0_#c2410c] scale-[1.02]" 
+                      : "bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400"
+                  )}
+                >
+                  <User className={cn("h-6 w-6", isCrouched ? "animate-pulse" : "")} />
+                  <span>{isCrouched ? "STAYING LOW" : "TAP TO CROUCH"}</span>
+                </button>
+
+                {/* D-Pad (Compact layout) */}
+                <div className="grid grid-cols-3 gap-1.5 w-[116px] shrink-0">
+                  <div />
+                  <button 
+                    onClick={() => movePlayer(player.x, player.y - 1)} 
+                    style={{ touchAction: 'none' }}
+                    className="w-9 h-9 bg-white dark:bg-slate-900 rounded-xl flex items-center justify-center border border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-sm"
+                  >
+                    <ChevronUp className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+                  </button>
+                  <div />
+                  <button 
+                    onClick={() => movePlayer(player.x - 1, player.y)}
+                    style={{ touchAction: 'none' }}
+                    className="w-9 h-9 bg-white dark:bg-slate-900 rounded-xl flex items-center justify-center border border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-sm"
+                  >
+                    <ChevronLeft className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+                  </button>
+                  <div className="flex items-center justify-center text-slate-300 dark:text-slate-600">
+                    <div className="w-1.5 h-1.5 rounded-full bg-current" />
+                  </div>
+                  <button 
+                    onClick={() => movePlayer(player.x + 1, player.y)}
+                    style={{ touchAction: 'none' }}
+                    className="w-9 h-9 bg-white dark:bg-slate-900 rounded-xl flex items-center justify-center border border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-sm"
+                  >
+                    <ChevronRight className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+                  </button>
+                  <div />
+                  <button 
+                    onClick={() => movePlayer(player.x, player.y + 1)}
+                    style={{ touchAction: 'none' }}
+                    className="w-9 h-9 bg-white dark:bg-slate-900 rounded-xl flex items-center justify-center border border-slate-200 dark:border-slate-700 active:bg-orange-500 active:text-white active:scale-90 transition-all shadow-sm"
+                  >
+                    <ChevronDown className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+                  </button>
+                  <div />
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Instructions Sidebar - Moved to bottom on mobile, side on desktop */}
