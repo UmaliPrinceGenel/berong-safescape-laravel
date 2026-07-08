@@ -27,7 +27,8 @@ import {
     Palette,
     Music,
     ChevronLeft,
-    ChevronRight
+    ChevronRight,
+    X
 } from "lucide-react";
 import { Button } from "@/Components/ui/button";
 import { FireExtinguishedText } from "../Components/fire-extinguished-text";
@@ -149,7 +150,7 @@ const teamMembers = [
     },
     {
         name: "Aron Gabriel L. Ogayon",
-        roles: ["AI, Backend Developer, EDITH Simulation"],
+        roles: ["AI", "Backend Developer", "EDITH Simulation"],
         image: "/ogayon_pr.webp",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
@@ -160,7 +161,7 @@ const teamMembers = [
     },
     {
         name: "Janvher Lucas J. Sarmiento",
-        roles: ["UI Designer, EDITH Simulation"],
+        roles: ["UI Designer", "EDITH Simulation"],
         image: "/sarmiento_pr.webp",
         socials: [
             { icon: Github, url: "#", label: "GitHub" },
@@ -484,6 +485,7 @@ export default function AboutPage() {
     ];
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
     useEffect(() => {
         if (isHovered) return;
@@ -838,7 +840,8 @@ export default function AboutPage() {
                             </motion.div>
 
                             <motion.div
-                                className="w-full max-w-5xl aspect-[4/5] sm:aspect-video bg-white/10 dark:bg-black/20 rounded-3xl border-2 border-white/20 overflow-hidden relative group backdrop-blur-sm shadow-2xl cursor-pointer"
+                                className="w-full max-w-5xl aspect-[4/3] xs:aspect-[16/10] sm:aspect-video bg-white/10 dark:bg-black/20 rounded-3xl border-2 border-white/20 overflow-hidden relative group backdrop-blur-sm shadow-2xl cursor-pointer"
+                                onClick={() => setIsLightboxOpen(true)}
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
@@ -910,6 +913,61 @@ export default function AboutPage() {
                                 </div>
                             </motion.div>
                         </div>
+
+                        {/* Lightbox / Click-to-Expand Modal */}
+                        <AnimatePresence>
+                            {isLightboxOpen && (
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-10 select-none"
+                                    onClick={() => setIsLightboxOpen(false)}
+                                >
+                                    {/* Close Button */}
+                                    <button
+                                        className="absolute top-6 right-6 z-[110] w-12 h-12 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full flex items-center justify-center text-white transition-all active:scale-95 hover:scale-105"
+                                        onClick={() => setIsLightboxOpen(false)}
+                                    >
+                                        <X className="w-6 h-6" />
+                                    </button>
+
+                                    {/* Lightbox Image & Controls */}
+                                    <div className="relative max-w-7xl max-h-[85vh] w-full h-full flex items-center justify-center">
+                                        <motion.img
+                                            key={currentSlide}
+                                            src={firefighterImages[currentSlide]}
+                                            alt={`BFP Firefighters ${currentSlide + 1}`}
+                                            className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl border border-white/10"
+                                            initial={{ scale: 0.95, opacity: 0 }}
+                                            animate={{ scale: 1, opacity: 1 }}
+                                            exit={{ scale: 0.95, opacity: 0 }}
+                                            transition={{ duration: 0.3 }}
+                                            onClick={(e) => e.stopPropagation()}
+                                        />
+
+                                        {/* Slider Controls */}
+                                        <button
+                                            onClick={prevSlide}
+                                            className="absolute left-2 sm:left-4 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all active:scale-90 hover:scale-105 z-20"
+                                        >
+                                            <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+                                        </button>
+                                        <button
+                                            onClick={nextSlide}
+                                            className="absolute right-2 sm:right-4 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all active:scale-90 hover:scale-105 z-20"
+                                        >
+                                            <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
+                                        </button>
+
+                                        {/* Caption / Navigation Indicator */}
+                                        <div className="absolute bottom-[-40px] inset-x-0 text-center text-slate-300 font-semibold text-sm">
+                                            {currentSlide + 1} / {firefighterImages.length} — BFP Santa Cruz Team
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                 </motion.section>
 
                 {/* Research Team Section - Staggered 3D Cards */}
