@@ -6,7 +6,7 @@ import SplashCursor from "@/Components/SplashCursor";
 import Image from '@/Components/Image';
 import { Link } from '@inertiajs/react';
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useInView } from "motion/react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "motion/react";
 import { useSettings } from "@/lib/settings-context";
 import {
     Github,
@@ -25,7 +25,9 @@ import {
     Database,
     Brain,
     Palette,
-    Music
+    Music,
+    ChevronLeft,
+    ChevronRight
 } from "lucide-react";
 import { Button } from "@/Components/ui/button";
 import { FireExtinguishedText } from "../Components/fire-extinguished-text";
@@ -473,6 +475,34 @@ export default function AboutPage() {
     const berongRotate = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], [0, -10, 10, -5, 0]);
     const berongScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.9]);
 
+    // Firefighter Carousel State
+    const firefighterImages = [
+        "/firefighters_1.webp",
+        "/firefighters_2.webp",
+        "/firefighters_3.webp",
+        "/firefighters_4.webp"
+    ];
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [isHovered, setIsHovered] = useState(false);
+
+    useEffect(() => {
+        if (isHovered) return;
+        const interval = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % firefighterImages.length);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [isHovered]);
+
+    const nextSlide = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setCurrentSlide((prev) => (prev + 1) % firefighterImages.length);
+    };
+
+    const prevSlide = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setCurrentSlide((prev) => (prev - 1 + firefighterImages.length) % firefighterImages.length);
+    };
+
     const features = [
         {
             icon: BookOpen,
@@ -814,20 +844,70 @@ export default function AboutPage() {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.7, delay: 0.4 }}
                                 whileHover={reduceMotion ? undefined : {
-                                    scale: 1.02,
+                                    scale: 1.01,
                                     border: "2px solid rgba(255, 255, 255, 0.4)",
                                     transition: { duration: 0.3 }
                                 }}
+                                onMouseEnter={() => setIsHovered(true)}
+                                onMouseLeave={() => setIsHovered(false)}
                             >
-                                <div className="absolute inset-0 flex items-center justify-center flex-col gap-4 text-white/50 group-hover:text-white/80 transition-colors">
-                                    <Flame className="w-16 h-16 sm:w-20 sm:h-20 opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" />
-                                    <p className="font-semibold text-lg sm:text-xl tracking-wide uppercase text-center px-4"></p>
+                                {/* Slide Display using framer-motion */}
+                                <div className="absolute inset-0 w-full h-full overflow-hidden bg-black/40">
+                                    <AnimatePresence mode="wait">
+                                        <motion.img
+                                            key={currentSlide}
+                                            src={firefighterImages[currentSlide]}
+                                            alt={`BFP Firefighters ${currentSlide + 1}`}
+                                            className="w-full h-full object-cover select-none"
+                                            initial={{ opacity: 0, scale: 1.05 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            exit={{ opacity: 0, scale: 0.95 }}
+                                            transition={{ duration: 0.6 }}
+                                        />
+                                    </AnimatePresence>
                                 </div>
-                                {/* NOTE: You can uncomment and update the src below when you have the image ready */}
-                                {/* <img src="/firefighters-group-picture.webp" alt="BFP Firefighters" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" /> */}
-                                
-                                {/* Subtle overlay on hover */}
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 pointer-events-none" />
+
+                                {/* Navigation Arrows */}
+                                <button
+                                    onClick={prevSlide}
+                                    className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-black/40 hover:bg-black/60 border border-white/10 text-white transition-all active:scale-90 hover:scale-105 z-20"
+                                >
+                                    <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+                                </button>
+                                <button
+                                    onClick={nextSlide}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-black/40 hover:bg-black/60 border border-white/10 text-white transition-all active:scale-90 hover:scale-105 z-20"
+                                >
+                                    <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                                </button>
+
+                                {/* Caption Overlay */}
+                                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/45 to-transparent pt-12 pb-6 px-6 text-white flex flex-col justify-end z-10 pointer-events-none select-none">
+                                    <p className="font-black text-lg sm:text-2xl uppercase tracking-wider drop-shadow-md text-yellow-400">
+                                        BFP Santa Cruz Team
+                                    </p>
+                                    <p className="text-xs sm:text-sm text-slate-200 mt-1 drop-shadow font-semibold opacity-90">
+                                        Protecting and serving our community with honor and bravery.
+                                    </p>
+                                </div>
+
+                                {/* Slide Indicator Dots */}
+                                <div className="absolute bottom-4 right-6 flex items-center gap-1.5 z-20">
+                                    {firefighterImages.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setCurrentSlide(index);
+                                            }}
+                                            className={`h-1.5 rounded-full transition-all duration-300 ${
+                                                currentSlide === index 
+                                                    ? "w-6 bg-yellow-400" 
+                                                    : "w-1.5 bg-white/40 hover:bg-white/70"
+                                            }`}
+                                        />
+                                    ))}
+                                </div>
                             </motion.div>
                         </div>
                 </motion.section>
