@@ -176,7 +176,7 @@ export function ImageUpload({
               </div>
               <div className="text-center space-y-1">
                 <p className="text-sm font-bold text-slate-800 dark:text-white">Click or drag image to upload</p>
-                <p className="text-[10px] text-slate-400 font-medium tracking-normal">Max size: 15MB</p>
+                <p className="text-[10px] text-slate-400 font-medium tracking-normal">Max size: 50MB</p>
               </div>
             </div>
           ) : (

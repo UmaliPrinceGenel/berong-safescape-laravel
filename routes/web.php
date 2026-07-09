@@ -123,8 +123,9 @@ Route::get('/game', function () {
         return Inertia::render('Kids/Videos', [
             'initialVideos' => \App\Models\Video::where('isActive', true)
                 ->where('category', 'kids')
-                ->select('id', 'title', 'description', 'youtubeId', 'duration', 'category')
+                ->select('id', 'title', 'description', 'youtubeId', 'duration', 'category', 'order')
                 ->orderBy('order', 'asc')
+                ->orderBy('created_at', 'desc')
                 ->get(),
             'watchedVideoIds' => \App\Models\EngagementLog::where('userId', Auth::id())
                 ->where('eventType', 'VIDEO_WATCHED')
@@ -216,6 +217,7 @@ Route::get('/game', function () {
                     ->get()),
                 'initialVideos' => Inertia::defer(fn () => \App\Models\Video::where('isActive', true)
                     ->where('category', 'adult')
+                    ->select('id', 'title', 'description', 'youtubeId', 'duration', 'category', 'order')
                     ->orderBy('order', 'asc')
                     ->orderBy('created_at', 'desc')
                     ->get()),
@@ -235,7 +237,8 @@ Route::get('/game', function () {
         return Inertia::render('ProfessionalDashboard', [
             'initialVideos' => Inertia::defer(fn () => \App\Models\Video::where('isActive', true)
                 ->where('category', 'professional')
-                ->select('id', 'title', 'description', 'youtubeId', 'duration', 'category')
+                ->select('id', 'title', 'description', 'youtubeId', 'duration', 'category', 'order')
+                ->orderBy('order', 'asc')
                 ->orderBy('created_at', 'desc')
                 ->take(12)
                 ->get()),
