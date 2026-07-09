@@ -114,7 +114,11 @@ export function ImageUpload({
       setUploadUrl(response.data.url);
       onUploadComplete(response.data.url);
     } catch (err: any) {
-      setError(err.message || 'Upload failed');
+      if (err?.response?.status === 413) {
+        setError('File is too large for the server. Try a smaller image or lower resolution.');
+      } else {
+        setError(err?.response?.data?.message || err.message || 'Upload failed');
+      }
     } finally {
       setIsUploading(false);
     }

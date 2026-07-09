@@ -24,27 +24,31 @@ interface AdultPageClientProps {
     initialVideos?: any[]
 }
 
-const getYouTubeId = (id: string) => {
-    if (!id) return '';
-    if (id.includes('youtube.com') || id.includes('youtu.be')) {
-      const regex = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/|live\/))([^&?\n]+)/;
-      const match = id.match(regex);
-      if (match && match[1]) {
-        id = match[match.length - 1];
-      } else {
-        try {
-          const url = new URL(id);
-          if (url.hostname.includes('youtube.com')) {
-            id = url.searchParams.get('v') || id.split('/').pop() || id;
-          } else if (url.hostname.includes('youtu.be')) {
-            id = url.pathname.slice(1);
-          }
-        } catch (e) {}
-      }
+const getYouTubeId = (url: string) => {
+    if (!url) return '';
+    url = url.trim();
+    if (/^[a-zA-Z0-9_-]{11}$/.test(url)) {
+        return url;
     }
-    if (id.includes('?')) id = id.split('?')[0];
-    if (id.includes('&')) id = id.split('&')[0];
-    return id;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/|live\/)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    if (match && match[2] && match[2].length === 11) {
+        return match[2];
+    }
+    try {
+        const parsed = new URL(url);
+        if (parsed.hostname.includes('youtube.com') || parsed.hostname.includes('youtube-nocookie.com')) {
+            const v = parsed.searchParams.get('v');
+            if (v && v.length === 11) return v;
+            const paths = parsed.pathname.split('/');
+            const lastPath = paths[paths.length - 1];
+            if (lastPath && lastPath.length === 11) return lastPath;
+        } else if (parsed.hostname.includes('youtu.be')) {
+            const path = parsed.pathname.substring(1);
+            if (path && path.length === 11) return path;
+        }
+    } catch (e) {}
+    return url;
 };
 
 const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) => {
@@ -98,7 +102,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                     width: '100%',
                     height: '100%',
                     playerVars: {
-                        autoplay: 0,
+                        autoplay: 1,
                         rel: 0,
                         modestbranding: 1,
                         enablejsapi: 1,
@@ -475,37 +479,41 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                 <p className="text-slate-500 dark:text-slate-400 text-sm max-w-sm">Please check back later! Videos are added regularly by the administrator.</p>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
                                 {videos.map((video: any) => (
                                     <Card
                                         key={video.id}
-                                        className="flex flex-col cursor-pointer group bg-white dark:bg-slate-800/90 rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-md hover:translate-y-[-4px] active:translate-y-[2px] transition-all duration-200 overflow-hidden"
+                                        className="flex flex-row sm:flex-col cursor-pointer group bg-white/85 dark:bg-slate-800/85 backdrop-blur-md sm:bg-white dark:sm:bg-slate-800 rounded-[1.2rem] sm:rounded-[1.5rem] border border-white/50 dark:border-slate-700/50 sm:border-[3px] sm:border-b-[6px] sm:border-slate-200 dark:sm:border-slate-700 shadow-md sm:shadow-sm sm:hover:translate-y-[-4px] sm:active:translate-y-[2px] transition-all duration-200 h-[110px] xs:h-[120px] sm:h-[420px] items-stretch p-2 sm:p-0 hover:shadow-lg dark:hover:shadow-[0_10px_25px_-5px_rgba(249,115,22,0.15)] mb-2 sm:mb-0"
                                         onClick={() => setSelectedVideo(video)}
                                     >
-                                        {/* Thumbnail Container */}
-                                        <div className="aspect-video w-full bg-slate-900 relative overflow-hidden shrink-0">
-                                            <img
-                                                src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.jpg`}
-                                                alt={video.title}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                            />
-                                            {/* Hover Play Button Overlay */}
-                                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                <div className="h-14 w-14 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-lg transform scale-90 group-hover:scale-100 transition-all duration-300">
-                                                    <Play className="h-6 w-6 fill-current ml-0.5" />
+                                        <CardHeader className="p-0 w-[160px] xs:w-[180px] sm:w-full shrink-0 flex items-center justify-center relative">
+                                            <div className="w-full aspect-video bg-slate-100 dark:bg-slate-900 overflow-hidden relative rounded-xl sm:rounded-none sm:rounded-t-[1.3rem] shadow-sm border border-slate-200/50 dark:border-slate-700/50 sm:border-none">
+                                                <img
+                                                    src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.jpg`}
+                                                    alt={video.title}
+                                                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                />
+                                                {/* Premium Play Button Overlay */}
+                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-[1.5px] z-10">
+                                                    <div className="w-12 h-12 bg-orange-500/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.6)] border-2 border-white/30 transform scale-50 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 ease-out delay-75">
+                                                        <Play className="h-5 w-5 text-white ml-1 drop-shadow-md" fill="currentColor" />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </CardHeader>
                                         
-                                        {/* Video Details */}
-                                        <CardContent className="p-5 flex flex-col flex-grow">
-                                            <h3 className="font-extrabold text-base text-slate-800 dark:text-white group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors line-clamp-2 leading-tight">
-                                                {video.title}
-                                            </h3>
-                                            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mt-2 line-clamp-3 leading-relaxed flex-grow">
+                                        <CardContent className="flex flex-col flex-1 py-1 px-3 sm:px-5 sm:pb-5 sm:pt-0 justify-start overflow-hidden">
+                                            <div className="flex justify-between items-start mb-1">
+                                                <CardTitle className="text-[14px] sm:text-[17px] font-extrabold text-slate-900 dark:text-white line-clamp-2 leading-tight group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors pr-2 sm:pr-4">
+                                                    {video.title}
+                                                </CardTitle>
+                                            </div>
+                                            
+                                            <p className="text-[11px] sm:text-sm text-slate-500 sm:text-slate-600 dark:text-slate-400 font-medium line-clamp-3 mb-1 sm:mb-4 leading-relaxed mt-1 sm:mt-0">
                                                 {video.description}
                                             </p>
-                                            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                                            
+                                            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 mt-auto pt-2 border-t border-slate-100 dark:border-slate-800">
                                                 <Clock className="h-3.5 w-3.5" />
                                                 <span>{video.duration || 'Watch Video'}</span>
                                             </div>

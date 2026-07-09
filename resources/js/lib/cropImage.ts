@@ -1,7 +1,7 @@
 /**
  * Crop utility for react-easy-crop.
  * Outputs at the FULL native pixel resolution of the source image.
- * Uses PNG for lossless quality.
+ * Uses WebP for high-quality compression with dramatically smaller file sizes.
  * 
  * react-easy-crop reports croppedAreaPixels relative to the natural image size,
  * so we use naturalWidth/naturalHeight for the source canvas, then extract
@@ -44,19 +44,27 @@ export const getCroppedImg = async (
     pixelCrop.height      // destination height (same = no scaling)
   );
 
-  // Output as PNG for lossless quality
+  // Output as WebP for high-quality compression (typically 5-10x smaller than PNG)
+  // Falls back to JPEG if browser doesn't support WebP
   return new Promise((resolve, reject) => {
-    canvas.toBlob((blob) => {
-      if (blob) {
-        const myFile = new File([blob], 'cropped-carousel.webp', {
-          type: 'image/png',
-          lastModified: Date.now(),
-        });
-        resolve(myFile);
-      } else {
-        reject(new Error('Canvas is empty'));
-      }
-    }, 'image/png');
+    const tryFormat = (format: string, quality: number) => {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const ext = format === 'image/webp' ? 'webp' : 'jpg';
+          const myFile = new File([blob], `cropped-carousel.${ext}`, {
+            type: format,
+            lastModified: Date.now(),
+          });
+          resolve(myFile);
+        } else if (format === 'image/webp') {
+          // Fallback to JPEG if WebP isn't supported
+          tryFormat('image/jpeg', 0.92);
+        } else {
+          reject(new Error('Canvas is empty'));
+        }
+      }, format, quality);
+    };
+    tryFormat('image/webp', 0.92);
   });
 };
 
