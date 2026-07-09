@@ -355,7 +355,7 @@ function AuthContent() {
 
 
               {/* Login Tab */}
-              <TabsContent value="login" className="min-h-[240px] sm:min-h-[280px] flex flex-col justify-center mt-0 animate-in fade-in-0 slide-in-from-left-4 duration-300">
+              <TabsContent value="login" className="min-h-[300px] sm:min-h-[340px] flex flex-col justify-center mt-0 animate-in fade-in-0 slide-in-from-left-4 duration-300">
                 <form onSubmit={handleLogin} className="space-y-2 sm:space-y-4">
                   <div className="space-y-1 sm:space-y-1.5">
                     <Label htmlFor="login-username" className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 ml-1 transition-colors">Username</Label>
@@ -398,6 +398,25 @@ function AuthContent() {
                     {validationErrors.password && (
                       <p className="mt-1 text-[11px] sm:text-sm text-red-600">{validationErrors.password}</p>
                     )}
+                    <div className="flex justify-end pt-1">
+                      <button
+                        type="button"
+                        className="text-[11px] sm:text-xs font-semibold text-slate-500 hover:text-orange-500 dark:text-slate-400 dark:hover:text-orange-400 transition-colors"
+                        onClick={() => {
+                          setShowResetDialog(true)
+                          setResetMessage(null)
+                          setResetUsername("")
+                          setResetCode("")
+                          setResetStep(1)
+                          setResetToken("")
+                          setNewPassword("")
+                          setConfirmNewPassword("")
+                          setShowNewPassword(false)
+                        }}
+                      >
+                        Forgot Password?
+                      </button>
+                    </div>
                   </div>
 
                   {error && (
@@ -416,26 +435,6 @@ function AuthContent() {
                   </button>
 
                   <div className="flex flex-col items-center gap-0 sm:gap-2 pt-2 sm:pt-6 pb-0 sm:pb-2">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      className="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md sm:rounded-lg h-7 sm:h-8 px-2 sm:px-3 transition-colors"
-                      onClick={() => {
-                        setShowResetDialog(true)
-                        setResetMessage(null)
-                        setResetUsername("")
-                        setResetCode("")
-                        setResetStep(1)
-                        setResetToken("")
-                        setNewPassword("")
-                        setConfirmNewPassword("")
-                        setShowNewPassword(false)
-                      }}
-                    >
-                      <KeyRound className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1.5 text-slate-400 dark:text-slate-500" />
-                      Forgot Password?
-                    </Button>
-                    
                     <Link href="/">
                       <Button variant="ghost" className="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md sm:rounded-lg h-7 sm:h-8 px-2 sm:px-3 transition-colors">
                         <ArrowLeft className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1.5 text-slate-400 dark:text-slate-500" />
@@ -446,7 +445,7 @@ function AuthContent() {
                 </form>
               </TabsContent>
 
-              <TabsContent value="register" className="min-h-[240px] sm:min-h-[280px] flex flex-col justify-center mt-0 animate-in fade-in-0 slide-in-from-right-4 duration-300">
+              <TabsContent value="register" className="min-h-[300px] sm:min-h-[340px] flex flex-col justify-center mt-0 animate-in fade-in-0 slide-in-from-right-4 duration-300">
                 <div className="space-y-2 sm:space-y-4 py-1 sm:py-4">
                   <div className="text-center">
                     <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-white mb-1 sm:mb-2 mt-1 sm:mt-2 tracking-tight transition-colors">Create Your Account</h3>
