@@ -22,7 +22,7 @@ class AdminController extends Controller
     {
         return \Inertia\Inertia::render('AdminDashboard', [
             'initialCarouselImages' => \App\Models\CarouselImage::where('isActive', true)->orderBy('order', 'asc')->get(),
-            'initialBlogPosts' => \App\Models\BlogPost::with('author:id,name')->orderBy('created_at', 'desc')->take(100)->get(),
+            'initialBlogPosts' => \App\Models\BlogPost::with('author:id,name')->orderBy('order', 'asc')->orderBy('created_at', 'desc')->take(100)->get(),
             'initialVideos' => \App\Models\Video::orderBy('order', 'asc')->orderBy('created_at', 'desc')->take(100)->get(),
             'initialUsers' => \App\Models\User::latest()->paginate(20),
             'initialQuickQuestions' => \App\Models\QuickQuestion::where('isActive', true)->orderBy('created_at', 'desc')->get(),
@@ -490,9 +490,8 @@ class AdminController extends Controller
     public function uploadImage(Request $request)
     {
         $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 15MB max, block SVG and scripts
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:51200', // 50MB max
         ]);
-
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             
@@ -560,7 +559,13 @@ class AdminController extends Controller
     public function reorderBlogs(Request $request)
     {
         $request->validate(['blogIds' => 'required|array']);
-        return response()->json(['success' => true]);
+        
+        foreach ($request->blogIds as $index => $id) {
+            BlogPost::where('id', $id)->update(['order' => $index]);
+        }
+        
+        $allBlogs = BlogPost::with('author:id,name')->orderBy('order', 'asc')->orderBy('created_at', 'desc')->get();
+        return response()->json($allBlogs);
     }
 
     public function reorderVideos(Request $request)
@@ -571,7 +576,8 @@ class AdminController extends Controller
             Video::where('id', $id)->update(['order' => $index]);
         }
         
-        return response()->json(['success' => true]);
+        $allVideos = Video::orderBy('order', 'asc')->orderBy('created_at', 'desc')->get();
+        return response()->json($allVideos);
     }
 
     /**

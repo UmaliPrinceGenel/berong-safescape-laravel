@@ -16,6 +16,7 @@ class ContentController extends Controller
     public function blogs(Request $request)
     {
         $query = BlogPost::with('author:id,name')
+            ->orderBy('order', 'asc')
             ->orderBy('created_at', 'desc');
 
         if ($request->has('category')) {
@@ -44,7 +45,7 @@ class ContentController extends Controller
      */
     public function videos(Request $request)
     {
-        $query = Video::orderBy('created_at', 'desc');
+        $query = Video::orderBy('order', 'asc')->orderBy('created_at', 'desc');
 
         if ($request->has('category')) {
             $query->where('category', $request->query('category'));
