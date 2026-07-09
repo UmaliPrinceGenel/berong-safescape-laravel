@@ -14,6 +14,11 @@
         <link rel="prefetch" href="/berong_pr.webp" as="image">
         <link rel="prefetch" href="/berong_logout.webp" as="image">
 
+        <!-- Preload critical above-the-fold assets -->
+        <link rel="preload" href="/berong-official-logo.webp" as="image">
+        <link rel="preload" href="/web-background-image.webp" as="image">
+        <link rel="preload" href="/stacruz.webp" as="image">
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

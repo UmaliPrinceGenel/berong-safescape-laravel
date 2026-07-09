@@ -34,7 +34,14 @@ export default defineConfig({
                         if (id.includes('jspdf') || id.includes('html-to-image') || id.includes('fabric')) {
                             return 'canvas-pdf-vendor';
                         }
-                        // Let Vite handle React and other core vendors to prevent circular dependencies
+                        // Extract animation libraries
+                        if (id.includes('motion') || id.includes('framer-motion')) {
+                            return 'animations-vendor';
+                        }
+                        // Extract icon library
+                        if (id.includes('lucide-react')) {
+                            return 'icons-vendor';
+                        }
                     }
                 }
             }
