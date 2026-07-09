@@ -206,15 +206,21 @@ Route::get('/game', function () {
 
     Route::middleware('role:adult,professional')->group(function () {
         Route::get('/adult', function () {
-        return Inertia::render('AdultDashboard', [
-            'initialBlogs' => Inertia::defer(fn () => BlogPost::with('author:id,name')
-                ->where('isPublished', true)
-                ->select('id', 'title', 'excerpt', 'imageUrl', 'category', 'authorId', 'created_at')
-                ->orderBy('created_at', 'desc')
-                ->take(12)
-                ->get()),
-        ]);
-    })->name('adult');
+            return Inertia::render('AdultDashboard', [
+                'initialBlogs' => Inertia::defer(fn () => BlogPost::with('author:id,name')
+                    ->where('isPublished', true)
+                    ->select('id', 'title', 'excerpt', 'imageUrl', 'category', 'authorId', 'created_at', 'order')
+                    ->orderBy('order', 'asc')
+                    ->orderBy('created_at', 'desc')
+                    ->take(12)
+                    ->get()),
+                'initialVideos' => Inertia::defer(fn () => \App\Models\Video::where('isActive', true)
+                    ->where('category', 'adult')
+                    ->orderBy('order', 'asc')
+                    ->orderBy('created_at', 'desc')
+                    ->get()),
+            ]);
+        })->name('adult');
 
     Route::get('/adult/blog/{id}', function ($id) {
         $blog = BlogPost::with('author:id,name')->findOrFail($id);
