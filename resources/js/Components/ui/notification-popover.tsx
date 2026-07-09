@@ -137,6 +137,8 @@ export function NotificationPopover() {
         router.get('/assessment/pre-test');
       } else if (notification.type === 'video' && notification.category === 'kids') {
         router.get('/kids/videos');
+      } else if (notification.type === 'video' && notification.category === 'adult') {
+        router.get('/adult#videos-section');
       } else if (notification.type === 'blog' || notification.category === 'adult') {
         router.get('/adult');
       } else if (notification.category === 'kids/rank') {
