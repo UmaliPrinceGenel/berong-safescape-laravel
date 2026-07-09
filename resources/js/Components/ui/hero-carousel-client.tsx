@@ -69,7 +69,7 @@ export function HeroCarouselClient({ images }: HeroCarouselClientProps) {
                                             {image.title}
                                         </h1>
                                         {image.altText && (
-                                            <p className="text-sm sm:text-lg md:text-xl font-medium text-gray-200 drop-shadow-md max-w-3xl">
+                                            <p className="text-sm sm:text-lg md:text-xl font-medium text-gray-200 drop-shadow-md max-w-3xl hidden sm:block">
                                                 {image.altText}
                                             </p>
                                         )}
@@ -105,6 +105,7 @@ export function HeroCarouselClient({ images }: HeroCarouselClientProps) {
                     imageUrl={selectedImage.imageUrl}
                     imageTitle={selectedImage.title}
                     imageAlt={selectedImage.altText ?? selectedImage.title}
+                    description={selectedImage.altText}
                 />
             )}
         </div>

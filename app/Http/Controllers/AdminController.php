@@ -235,12 +235,21 @@ class AdminController extends Controller
             'youtubeId' => $youtubeId,
         ]);
 
+        $targetRoles = ['admin'];
+        if ($video->category === 'professional') {
+            $targetRoles[] = 'professional';
+        } elseif ($video->category === 'adult') {
+            $targetRoles[] = 'adult';
+        } else {
+            $targetRoles[] = 'kid';
+        }
+
         \App\Models\Notification::broadcast(
             'New Video Added',
             'A new video "' . $video->title . '" has been added.',
             'video',
-            $video->category === 'professional' ? 'professional' : 'kids',
-            $video->category === 'professional' ? ['professional', 'admin'] : ['kid', 'admin']
+            $video->category,
+            $targetRoles
         );
 
         return response()->json(['success' => true, 'video' => $video], 201);
