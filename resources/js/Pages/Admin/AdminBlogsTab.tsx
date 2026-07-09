@@ -65,9 +65,6 @@ export const AdminBlogsTab: React.FC<BlogsTabProps> = ({
                       <SelectItem value="adult" className="rounded-lg font-bold text-slate-700 dark:text-slate-300 focus:bg-slate-50 dark:focus:bg-slate-700 focus:text-red-600 dark:focus:text-red-400 transition-colors cursor-pointer py-2.5">
                         Adult
                       </SelectItem>
-                      <SelectItem value="professional" className="rounded-lg font-bold text-slate-700 dark:text-slate-300 focus:bg-slate-50 dark:focus:bg-slate-700 focus:text-red-600 dark:focus:text-red-400 transition-colors cursor-pointer py-2.5">
-                        Professional
-                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

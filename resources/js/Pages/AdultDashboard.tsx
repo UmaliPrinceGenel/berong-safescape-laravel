@@ -139,12 +139,12 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                     <AdultWelcomeBanner />
 
                     {/* Feature Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-10 sm:mb-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-10 sm:mb-12">
                         {/* Fire Safety Articles Feature */}
                         <Link 
                             href="#articles-section" 
                             onClick={(e) => { e.preventDefault(); document.getElementById('articles-section')?.scrollIntoView({ behavior: 'smooth' }) }} 
-                            className="block group h-full outline-none"
+                            className="block group h-full outline-none md:hidden"
                         >
                             <div className="relative overflow-hidden bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2rem] p-3 sm:p-4 flex items-center gap-3 sm:gap-6 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_6px_0_#1e293b] sm:shadow-[0_8px_0_#cbd5e1] sm:dark:shadow-[0_8px_0_#1e293b] border-[3px] border-white dark:border-slate-700 h-full hover:translate-y-[2px] active:translate-y-[6px] sm:hover:translate-y-[2px] sm:active:translate-y-[8px] hover:shadow-[0_4px_0_#cbd5e1] dark:hover:shadow-[0_4px_0_#1e293b] sm:hover:shadow-[0_6px_0_#cbd5e1] sm:dark:hover:shadow-[0_6px_0_#1e293b] active:shadow-none transition-all duration-200">
                                 {/* Subtle Background Image */}
@@ -313,7 +313,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
 
                 {/* Blog Grid */}
                 <div id="articles-section">
-                    <h2 className="text-2xl font-bold mb-6 text-foreground">Fire Safety Articles</h2>
+                    <h2 className="text-2xl sm:text-3xl font-black mb-6 text-slate-800 dark:text-white tracking-tight">Fire Safety Articles</h2>
                     <Deferred data="initialBlogs" fallback={<AdultDashboardSkeleton />}>
                         {filteredBlogs.length === 0 ? (
                             <div className="relative overflow-hidden bg-white dark:bg-slate-800 border-[4px] border-dashed border-slate-300 dark:border-slate-700 rounded-[2rem] p-12 flex flex-col items-center justify-center text-center shadow-sm transition-all duration-300">
@@ -494,7 +494,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                                 />
                                                 {/* Premium Play Button Overlay */}
-                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-[1.5px] z-10">
+                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
                                                     <div className="w-12 h-12 bg-orange-500/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.6)] border-2 border-white/30 transform scale-50 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 ease-out delay-75">
                                                         <Play className="h-5 w-5 text-white ml-1 drop-shadow-md" fill="currentColor" />
                                                     </div>
