@@ -159,7 +159,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
 
                                 {/* Content */}
                                 <div className="flex-1 z-10 min-w-0">
-                                    <h3 className="text-base sm:text-2xl font-black text-slate-800 dark:text-white leading-tight group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors truncate">
+                                    <h3 className="text-sm sm:text-lg md:text-base lg:text-lg xl:text-2xl font-black text-slate-800 dark:text-white leading-tight group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
                                         Fire Safety Articles
                                     </h3>
                                     <p className="text-slate-500 dark:text-slate-400 font-bold text-[10px] sm:text-sm mt-0.5 sm:mt-1.5 line-clamp-1 transition-colors">
@@ -249,7 +249,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
 
                                 {/* Content */}
                                 <div className="flex-1 z-10 min-w-0">
-                                    <h3 className="text-base sm:text-2xl font-black text-slate-800 dark:text-white leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors truncate">
+                                    <h3 className="text-sm sm:text-lg md:text-base lg:text-lg xl:text-2xl font-black text-slate-800 dark:text-white leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                                         Exit Drill (EDITH)
                                     </h3>
                                     <p className="text-slate-500 dark:text-slate-400 font-bold text-[10px] sm:text-sm mt-0.5 sm:mt-1.5 line-clamp-1 transition-colors">
@@ -283,7 +283,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
 
                                 {/* Content */}
                                 <div className="flex-1 z-10 min-w-0">
-                                    <h3 className="text-base sm:text-2xl font-black text-slate-800 dark:text-white leading-tight group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors truncate">
+                                    <h3 className="text-sm sm:text-lg md:text-base lg:text-lg xl:text-2xl font-black text-slate-800 dark:text-white leading-tight group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
                                         Safety Videos
                                     </h3>
                                     <p className="text-slate-500 dark:text-slate-400 font-bold text-[10px] sm:text-sm mt-0.5 sm:mt-1.5 line-clamp-1 transition-colors">
