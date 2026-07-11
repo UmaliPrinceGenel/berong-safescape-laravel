@@ -963,8 +963,8 @@ export function Chatbot() {
                         const avatarId = user?.avatar || 'cow';
                         const avatarOpt = [
                           { id: 'cow', icon: '/berong_pr.webp' },
-                          { id: 'ff1', icon: '/hero_jack.webp' },
-                          { id: 'ff2', icon: '/hero_sarah.webp' },
+                          { id: 'ff1', icon: '/hero_jack.webp?v=2' },
+                          { id: 'ff2', icon: '/hero_sarah.webp?v=2' },
                           { id: 'kid1', icon: '/hero_boy.webp' },
                           { id: 'kid2', icon: '/hero_girl.webp' },
                           { id: 'adult1', icon: '/hero_male.webp' },

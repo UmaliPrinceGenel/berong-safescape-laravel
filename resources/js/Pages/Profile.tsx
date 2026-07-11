@@ -50,8 +50,8 @@ export default function ProfilePage() {
   // Avatars Configuration
   const AVATAR_OPTIONS = [
     { id: 'cow', icon: '/berong_pr.webp', label: 'Berong', category: 'Special' },
-    { id: 'ff1', icon: '/hero_jack.webp', label: 'Hero Jack', category: 'Firefighter' },
-    { id: 'ff2', icon: '/hero_sarah.webp', label: 'Hero Sarah', category: 'Firefighter' },
+    { id: 'ff1', icon: '/hero_jack.webp?v=2', label: 'Hero Jack', category: 'Firefighter' },
+    { id: 'ff2', icon: '/hero_sarah.webp?v=2', label: 'Hero Sarah', category: 'Firefighter' },
     { id: 'kid1', icon: '/hero_boy.webp', label: 'Safety Scout', category: 'Kid' },
     { id: 'kid2', icon: '/hero_girl.webp', label: 'Explorer', category: 'Kid' },
     { id: 'adult1', icon: '/hero_male.webp', label: 'Guardian', category: 'Adult' },
