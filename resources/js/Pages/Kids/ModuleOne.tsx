@@ -737,7 +737,9 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                               <circle cx="42" cy="20" r="12" fill="none" stroke="#fbbf24" strokeWidth="4"/>
                               <line x1="10" y1="20" x2="32" y2="20" stroke="#fbbf24" strokeWidth="5" strokeLinecap="round"/>
                             </svg>
-                            <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] text-amber-400 font-black uppercase tracking-wider whitespace-nowrap animate-bounce">← Pull me!</span>
+                            <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 text-[10px] text-amber-400 font-black uppercase tracking-wider whitespace-nowrap">
+                              ← Pull Pin
+                            </span>
                           </button>
                         </div>
                         <p className="text-amber-400 font-black text-xs sm:text-sm uppercase tracking-wider">
@@ -802,8 +804,8 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                             <rect x="52" y="40" width="36" height="22" rx="4" fill="#475569"/>
                             {/* Top lever - the squeezable part */}
                             <rect x="50" y="32" width="30" height="10" rx="3" fill="#fbbf24" className="animate-pulse" stroke="#f59e0b" strokeWidth="2"/>
-                            {/* Arrow pointing to handle */}
-                            <text x="95" y="40" fontSize="16" fill="#fbbf24" className="animate-bounce">←</text>
+                            {/* Arrow/Text pointing directly down to handle */}
+                            <text x="65" y="24" textAnchor="middle" fontSize="10" fontWeight="black" fill="#fbbf24">↓ Squeeze</text>
                             {/* Hose */}
                             <path d="M 88 50 Q 110 40 125 55" fill="none" stroke="#334155" strokeWidth="5" strokeLinecap="round"/>
                             <circle cx="127" cy="57" r="5" fill="#1e293b"/>
@@ -885,7 +887,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                             <button
                               onClick={() => {
                                 if (lastSweepDir !== 'left') {
-                                  try { playSound('/sounds/water.mp3', 'general') } catch(e){}
+                                  try { playSound('/sounds/fire_extinguish.mp3', 'general') } catch(e){}
                                   setSprayActive(true);
                                   setLastSweepDir('left');
                                   setSweepCount(prev => {
@@ -914,7 +916,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                             <button
                               onClick={() => {
                                 if (lastSweepDir !== 'right') {
-                                  try { playSound('/sounds/water.mp3', 'general') } catch(e){}
+                                  try { playSound('/sounds/fire_extinguish.mp3', 'general') } catch(e){}
                                   setSprayActive(true);
                                   setLastSweepDir('right');
                                   setSweepCount(prev => {
