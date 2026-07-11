@@ -651,9 +651,9 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
               </p>
 
               {/* Interactive Simulator Grid */}
-              <div className="bg-slate-900 border-[4px] border-slate-950 text-white rounded-3xl overflow-hidden shadow-2xl relative p-4 sm:p-6 flex flex-col md:flex-row gap-4 sm:gap-6 items-stretch min-h-[420px]">
+              <div className="bg-slate-50 dark:bg-slate-900 border-[4px] border-slate-200 dark:border-slate-950 text-slate-800 dark:text-white rounded-3xl overflow-hidden shadow-2xl relative p-4 sm:p-6 flex flex-col md:flex-row gap-4 sm:gap-6 items-stretch min-h-[420px] transition-colors duration-500">
                 {/* Left Side: Step Guide */}
-                <div className="flex flex-col gap-2 sm:gap-3 justify-center md:w-[220px] shrink-0 border-b md:border-b-0 md:border-r border-slate-800 pb-4 md:pb-0 md:pr-4 sm:md:pr-6">
+                <div className="flex flex-col gap-2 sm:gap-3 justify-center md:w-[220px] shrink-0 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-800 pb-4 md:pb-0 md:pr-4 sm:md:pr-6 transition-colors">
                   {[
                     { step: 0, letter: "P", name: "PULL", desc: "Pull the safety pin out." },
                     { step: 1, letter: "A", name: "AIM", desc: "Aim at the base of the fire." },
@@ -667,13 +667,17 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                         passStep === s.step
                           ? "bg-amber-500 border-amber-400 text-slate-950 font-black shadow-lg scale-[1.02]"
                           : passStep > s.step
-                            ? "bg-slate-800/80 border-emerald-500 text-emerald-400 font-bold"
-                            : "bg-slate-950/20 border-slate-800 text-slate-600"
+                            ? "bg-emerald-50/50 dark:bg-slate-800/80 border-emerald-200 dark:border-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold"
+                            : "bg-white dark:bg-slate-950/20 border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-600"
                       )}
                     >
                       <div className={cn(
-                        "h-7 w-7 sm:h-8 sm:w-8 rounded-full flex items-center justify-center font-black text-xs sm:text-sm border-2 shrink-0",
-                        passStep === s.step ? "bg-slate-950 border-slate-950 text-amber-400" : passStep > s.step ? "border-emerald-500 text-emerald-400" : "border-current"
+                        "h-7 w-7 sm:h-8 sm:w-8 rounded-full flex items-center justify-center font-black text-xs sm:text-sm border-2 shrink-0 transition-colors",
+                        passStep === s.step 
+                          ? "bg-slate-950 border-slate-950 text-amber-400" 
+                          : passStep > s.step 
+                            ? "border-emerald-400 dark:border-emerald-500 text-emerald-600 dark:text-emerald-400" 
+                            : "bg-slate-100 dark:bg-slate-950 border-slate-200 dark:border-slate-950 text-slate-400 dark:text-slate-600"
                       )}>
                         {passStep > s.step ? "✓" : s.letter}
                       </div>
@@ -686,13 +690,13 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                 </div>
 
                 {/* Right Side: Virtual Simulator Window */}
-                <div className="flex-1 min-h-[280px] sm:min-h-[300px] relative bg-slate-950 rounded-2xl border-[3px] border-slate-800/60 overflow-hidden flex flex-col">
+                <div className="flex-1 min-h-[280px] sm:min-h-[300px] relative bg-white dark:bg-slate-950 rounded-2xl border-[3px] border-slate-200 dark:border-slate-800/60 overflow-hidden flex flex-col transition-colors">
                   {/* Status Banner */}
-                  <div className="bg-slate-900/90 border-b border-slate-800 py-1.5 px-3 flex items-center justify-between text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-wider shrink-0">
+                  <div className="bg-slate-50 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800 py-1.5 px-3 flex items-center justify-between text-[10px] sm:text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider shrink-0 transition-colors">
                     <span>Simulator</span>
                     <span className={cn(
                       "flex items-center gap-1.5",
-                      passStep === 4 ? "text-emerald-400" : "text-amber-400 animate-pulse"
+                      passStep === 4 ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400 animate-pulse"
                     )}>
                       <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-current"></span>
                       {passStep === 4 ? "Complete ✓" : `Step ${passStep + 1}/4`}
@@ -737,12 +741,12 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                               <circle cx="42" cy="20" r="12" fill="none" stroke="#fbbf24" strokeWidth="4"/>
                               <line x1="10" y1="20" x2="32" y2="20" stroke="#fbbf24" strokeWidth="5" strokeLinecap="round"/>
                             </svg>
-                            <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 text-[10px] text-amber-400 font-black uppercase tracking-wider whitespace-nowrap">
+                            <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 text-[10px] text-amber-600 dark:text-amber-400 font-black uppercase tracking-wider whitespace-nowrap">
                               ← Pull Pin
                             </span>
                           </button>
                         </div>
-                        <p className="text-amber-400 font-black text-xs sm:text-sm uppercase tracking-wider">
+                        <p className="text-amber-600 dark:text-amber-400 font-black text-xs sm:text-sm uppercase tracking-wider">
                           Click the gold ring pin to pull it out!
                         </p>
                       </div>
@@ -782,10 +786,10 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                               setAimed(true);
                               setTimeout(() => setPassStep(2), 600);
                             }}
-                            className="relative -mt-1 w-24 sm:w-32 h-8 sm:h-10 bg-slate-800 border-[3px] border-dashed border-yellow-400 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer hover:bg-slate-700 hover:scale-105 active:scale-95 transition-all group"
+                            className="relative -mt-1 w-24 sm:w-32 h-8 sm:h-10 bg-slate-100 dark:bg-slate-800 border-[3px] border-dashed border-amber-500 dark:border-yellow-400 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 hover:scale-105 active:scale-95 transition-all group"
                           >
-                            <span className="text-yellow-400 text-[10px] sm:text-xs font-black uppercase tracking-wider group-hover:text-yellow-300">AIM HERE</span>
-                            <span className="absolute -top-6 text-[9px] text-yellow-400/80 font-bold animate-bounce">↓ base</span>
+                            <span className="text-amber-600 dark:text-yellow-400 text-[10px] sm:text-xs font-black uppercase tracking-wider group-hover:text-amber-700 dark:group-hover:text-yellow-300">AIM HERE</span>
+                            <span className="absolute -top-6 text-[9px] text-amber-600/80 dark:text-yellow-400/80 font-bold animate-bounce">↓ base</span>
                           </button>
                         </div>
                       </div>
@@ -843,10 +847,10 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                           {/* Spray stream */}
                           {sprayActive && (
                             <div className="absolute left-16 sm:left-20 bottom-6 sm:bottom-8 right-8 sm:right-12 h-6 sm:h-8 flex items-center pointer-events-none z-10">
-                              <div className="w-full h-full bg-gradient-to-r from-white/80 via-white/50 to-white/20 rounded-full animate-[pulse_0.2s_ease-in-out_infinite] blur-[2px]"></div>
+                              <div className="w-full h-full bg-gradient-to-r from-slate-200/80 dark:from-white/80 via-slate-200/50 dark:via-white/50 to-slate-200/20 dark:to-white/20 rounded-full animate-[pulse_0.2s_ease-in-out_infinite] blur-[2px]"></div>
                               <div className="absolute inset-0 flex items-center justify-around">
                                 {[...Array(6)].map((_, i) => (
-                                  <div key={i} className="w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full opacity-70 animate-ping" style={{ animationDelay: `${i * 80}ms`, animationDuration: '0.6s' }}></div>
+                                  <div key={i} className="w-2 h-2 sm:w-3 sm:h-3 bg-slate-100 dark:bg-white rounded-full opacity-70 animate-ping" style={{ animationDelay: `${i * 80}ms`, animationDuration: '0.6s' }}></div>
                                 ))}
                               </div>
                             </div>
@@ -876,12 +880,12 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                         {/* Sweep controls */}
                         <div className="flex flex-col items-center gap-2 w-full max-w-xs">
                           {/* Progress bar */}
-                          <div className="w-full bg-slate-800 rounded-full h-2.5 border border-slate-700">
+                          <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2.5 border border-slate-200 dark:border-slate-700">
                             <div className="bg-gradient-to-r from-amber-500 to-emerald-500 h-full rounded-full transition-all duration-500" style={{ width: `${(sweepCount / 4) * 100}%` }}></div>
                           </div>
-                          <div className="flex justify-between w-full text-[9px] sm:text-[10px] text-slate-400 font-extrabold uppercase px-1">
+                          <div className="flex justify-between w-full text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 font-extrabold uppercase px-1">
                             <span>Sweep to extinguish</span>
-                            <span className="text-amber-400">{sweepCount} / 4</span>
+                            <span className="text-amber-600 dark:text-amber-400">{sweepCount} / 4</span>
                           </div>
                           <div className="flex items-center gap-2 sm:gap-3 w-full">
                             <button
@@ -907,8 +911,8 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                                 }
                               }}
                               className={cn(
-                                "flex-1 bg-slate-800 hover:bg-slate-700 text-white font-extrabold py-2.5 sm:py-3 px-3 rounded-xl border-2 border-slate-700 active:scale-95 transition-all text-[11px] sm:text-xs",
-                                lastSweepDir === 'left' ? "opacity-30 cursor-not-allowed border-slate-800" : "hover:border-amber-500"
+                                "flex-1 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-white font-extrabold py-2.5 sm:py-3 px-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 active:scale-95 transition-all text-[11px] sm:text-xs",
+                                lastSweepDir === 'left' ? "opacity-30 cursor-not-allowed border-slate-200 dark:border-slate-800" : "hover:border-amber-500"
                               )}
                             >
                               ◀ LEFT
@@ -936,8 +940,8 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                                 }
                               }}
                               className={cn(
-                                "flex-1 bg-slate-800 hover:bg-slate-700 text-white font-extrabold py-2.5 sm:py-3 px-3 rounded-xl border-2 border-slate-700 active:scale-95 transition-all text-[11px] sm:text-xs",
-                                lastSweepDir === 'right' ? "opacity-30 cursor-not-allowed border-slate-800" : "hover:border-amber-500"
+                                "flex-1 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-white font-extrabold py-2.5 sm:py-3 px-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 active:scale-95 transition-all text-[11px] sm:text-xs",
+                                lastSweepDir === 'right' ? "opacity-30 cursor-not-allowed border-slate-200 dark:border-slate-800" : "hover:border-amber-500"
                               )}
                             >
                               RIGHT ▶
@@ -950,14 +954,14 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                     {/* ===== STEP 4: FIRE EXTINGUISHED ===== */}
                     {passStep === 4 && (
                       <div className="flex flex-col items-center justify-center text-center gap-4 animate-in zoom-in-95 fade-in duration-500">
-                        <div className="h-16 w-16 sm:h-20 sm:w-20 bg-emerald-500 rounded-full flex items-center justify-center border-[4px] border-white shadow-xl shadow-emerald-500/30 animate-[bounce_1.5s_infinite]">
+                        <div className="h-16 w-16 sm:h-20 sm:w-20 bg-emerald-500 rounded-full flex items-center justify-center border-[4px] border-slate-200 dark:border-white shadow-xl shadow-emerald-500/30 animate-[bounce_1.5s_infinite]">
                           <CheckCircle className="h-8 w-8 sm:h-10 sm:w-10 text-white" strokeWidth={3} />
                         </div>
                         <div>
-                          <h4 className="text-lg sm:text-2xl font-black text-emerald-400 mb-1">FIRE EXTINGUISHED!</h4>
-                          <p className="text-[11px] sm:text-xs text-slate-300 font-bold max-w-xs leading-relaxed">
+                          <h4 className="text-lg sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 mb-1">FIRE EXTINGUISHED!</h4>
+                          <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 font-bold max-w-xs leading-relaxed">
                             Awesome job! You successfully used the PASS method.<br/>
-                            <strong className="text-amber-400">P</strong>ull · <strong className="text-amber-400">A</strong>im · <strong className="text-amber-400">S</strong>queeze · <strong className="text-amber-400">S</strong>weep
+                            <strong className="text-amber-600 dark:text-amber-400">P</strong>ull · <strong className="text-amber-600 dark:text-amber-400">A</strong>im · <strong className="text-amber-600 dark:text-amber-400">S</strong>queeze · <strong className="text-amber-600 dark:text-amber-400">S</strong>weep
                           </p>
                         </div>
                         <button
@@ -971,7 +975,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                             setFireHealth(100);
                             setSprayActive(false);
                           }}
-                          className="text-amber-400 hover:text-amber-300 font-extrabold text-[10px] sm:text-xs uppercase tracking-wider underline cursor-pointer mt-1"
+                          className="text-amber-600 dark:text-amber-400 hover:text-amber-500 dark:hover:text-amber-300 font-extrabold text-[10px] sm:text-xs uppercase tracking-wider underline cursor-pointer mt-1"
                         >
                           Try Again
                         </button>
