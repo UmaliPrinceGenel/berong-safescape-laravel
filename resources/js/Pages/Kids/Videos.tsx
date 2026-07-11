@@ -223,7 +223,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
     axios.post('/api/badges/award', {
       badge_id: 'intel_analyst',
       badge_name: 'Intel Analyst',
-      badge_icon: '/intel_hall.webp'
+      badge_icon: '/badges/intel_hall.webp'
     }).catch(err => {
       setBadgeAwarded(false)
       console.error("Failed to award badge:", err.response?.data || err.message)
@@ -273,7 +273,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
             <div className="relative bg-white dark:bg-slate-800 rounded-[2rem] p-5 sm:p-8 shadow-xl border-2 border-slate-50 dark:border-slate-700 overflow-hidden transition-colors duration-500">
                {/* Decorative floating elements */}
                <div className="hidden sm:block absolute top-0 right-0 p-8 opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-700">
-                  <img src="/intel_hall.webp" className="h-24 w-24 sm:h-36 sm:w-36 object-contain" alt="" />
+                  <img src="/badges/intel_hall.webp" className="h-24 w-24 sm:h-36 sm:w-36 object-contain" alt="" />
                </div>
                <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-red-50 dark:bg-red-900/10 rounded-full blur-2xl opacity-60"></div>
                
@@ -292,7 +292,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
                      <p className="text-slate-500 dark:text-slate-400 font-bold text-sm sm:text-base max-w-lg leading-relaxed flex items-center flex-wrap gap-1.5">
                         <span>Watch all fire safety videos to the end to earn your</span>
                         <span className="text-red-600 font-black">Intel Analyst Badge</span>!
-                        <img src="/intel_hall.webp" className="h-5 w-5 object-contain inline-block align-middle" alt="Intel Analyst" />
+                        <img src="/badges/intel_hall.webp" className="h-5 w-5 object-contain inline-block align-middle" alt="Intel Analyst" />
                      </p>
                   </div>
                </div>
@@ -484,7 +484,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
             <div className="relative mb-6">
               <div className="relative h-28 w-28 sm:h-32 sm:w-32 bg-gradient-to-br from-yellow-300 to-amber-500 rounded-[2rem] flex items-center justify-center shadow-2xl border-4 border-white dark:border-slate-800 p-4">
                 <img 
-                  src="/intel_hall.webp" 
+                  src="/badges/intel_hall.webp" 
                   className="h-full w-full object-contain drop-shadow-lg" 
                   alt="Intel Analyst Badge" 
                 />

@@ -148,7 +148,7 @@ const HazardBlitz = () => {
     axios.post('/api/badges/award', {
       badge_id: 'hazard_hero',
       badge_name: 'Hazard Hero',
-      badge_icon: '/hazard_hall.webp'
+      badge_icon: '/badges/hazard_hall.webp'
     }).catch(err => console.error("Failed to award badge:", err.response?.data || err.message));
   }, [score, highScore, playSound]);
 
@@ -519,7 +519,7 @@ const HazardBlitz = () => {
                       className="bg-emerald-500/10 border-2 border-emerald-500/20 p-2 rounded-xl mb-3 flex items-center gap-3 text-left"
                     >
                       <div className="h-10 w-10 bg-emerald-500 rounded-lg flex items-center justify-center shadow-lg shrink-0 overflow-hidden">
-                        <img src="/hazard_hall.webp" alt="Hazard Hero Badge" className="w-full h-full object-contain p-1" />
+                        <img src="/badges/hazard_hall.webp" alt="Hazard Hero Badge" className="w-full h-full object-contain p-1" />
                       </div>
                       <div>
                         <div className="flex items-center gap-1 text-emerald-400 font-black text-[9px] uppercase tracking-widest">
@@ -791,7 +791,7 @@ const HazardBlitz = () => {
                    className="bg-emerald-500/10 border-2 border-emerald-500/20 p-3 sm:p-4 rounded-2xl mb-6 sm:mb-8 flex items-center gap-4 text-left"
                  >
                     <div className="h-12 w-12 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden">
-                      <img src="/hazard_hall.webp" alt="Hazard Hero Badge" className="w-full h-full object-contain p-1" />
+                      <img src="/badges/hazard_hall.webp" alt="Hazard Hero Badge" className="w-full h-full object-contain p-1" />
                     </div>
                     <div>
                        <div className="flex items-center gap-1.5 text-emerald-400 font-black text-xs uppercase tracking-widest">

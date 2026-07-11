@@ -34,7 +34,7 @@ const MODULE_META: Record<number, { title: string; gameIcon: string; gameLabel: 
     gameLabel: "Element Mixer Lab", 
     bgImage: "/images/kids/module1.webp", 
     description: "Learn what fire needs to burn with the Fire Triangle. Understand why matches and lighters are tools for grown-ups only.",
-    badge: { name: "Fire Triangle", image: "/fire_hall.webp" } 
+    badge: { name: "Fire Triangle", image: "/badges/fire_hall.webp" } 
   },
   2: { 
     title: "The School Drill",
@@ -42,7 +42,7 @@ const MODULE_META: Record<number, { title: string; gameIcon: string; gameLabel: 
     gameLabel: "Rhythm Marshal Game", 
     bgImage: "/images/kids/module2.webp", 
     description: "Master the fire drill! Learn to recognize alarms, find the Red Box, and lead your classmates to safety.",
-    badge: { name: "Safety Leader", image: "/shield_hall.webp" } 
+    badge: { name: "Safety Leader", image: "/badges/shield_hall.webp" } 
   },
   3: { 
     title: "The Escape Plan",
@@ -50,7 +50,7 @@ const MODULE_META: Record<number, { title: string; gameIcon: string; gameLabel: 
     gameLabel: "Smoke Labyrinth Game", 
     bgImage: "/images/kids/module3.webp", 
     description: "Create your family escape plan with two ways out. Learn to check doors and find your meeting spot.",
-    badge: { name: "Plan Master", image: "/plan_hall.webp" } 
+    badge: { name: "Plan Master", image: "/badges/plan_hall.webp" } 
   },
   4: { 
     title: "Get Low and Go!",
@@ -58,7 +58,7 @@ const MODULE_META: Record<number, { title: string; gameIcon: string; gameLabel: 
     gameLabel: "Smoke Physics", 
     bgImage: "/images/kids/module4.webp", 
     description: "Discover why smoke is dangerous and learn the life-saving crawling technique to escape safely.",
-    badge: { name: "Low & Go!", image: "/low_hall.webp" } 
+    badge: { name: "Low & Go!", image: "/badges/low_hall.webp" } 
   },
   5: { 
     title: "The Ultimate Defense",
@@ -66,7 +66,7 @@ const MODULE_META: Record<number, { title: string; gameIcon: string; gameLabel: 
     gameLabel: "Hero Certificate", 
     bgImage: "/images/kids/module5.webp", 
     description: "Master Stop, Drop & Roll! Take the final exam and earn your official Fire Safety Hero Certificate!",
-    badge: { name: "Home Guard", image: "/home_hall.webp" } 
+    badge: { name: "Home Guard", image: "/badges/home_hall.webp" } 
   },
 }
 

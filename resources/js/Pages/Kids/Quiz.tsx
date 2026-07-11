@@ -153,7 +153,7 @@ const QuizPage = () => {
         axios.post('/api/badges/award', {
           badge_id: 'quiz_hero',
           badge_name: 'Quiz Hero',
-          badge_icon: '/quiz_hall.webp'
+          badge_icon: '/badges/quiz_hall.webp'
         }).catch(err => console.error("Failed to award badge:", err.response?.data || err.message))
       } else {
         playSound('failed')
@@ -185,7 +185,7 @@ const QuizPage = () => {
           
           <div className="max-w-md w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-[3rem] shadow-2xl text-center animate-in zoom-in duration-500 transition-colors">
             <div className="w-24 h-24 bg-yellow-100 dark:bg-yellow-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
-               <img src="/quiz_hall.webp" alt="Quiz Hero" className="w-16 h-16 object-contain drop-shadow-md" />
+               <img src="/badges/quiz_hall.webp" alt="Quiz Hero" className="w-16 h-16 object-contain drop-shadow-md" />
             </div>
             <h1 className="text-4xl font-black mb-2 italic text-slate-900 dark:text-white tracking-tight uppercase">FIRE SAFETY QUIZ</h1>
             <p className="text-slate-500 dark:text-slate-400 font-medium mb-8 leading-relaxed">
@@ -219,7 +219,7 @@ const QuizPage = () => {
           {isPerfect ? (
             <div className="animate-in zoom-in duration-700">
               <div className="h-24 w-24 sm:h-32 sm:w-32 bg-yellow-400 rounded-[1.5rem] sm:rounded-[2.5rem] flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-xl border-4 border-white dark:border-slate-800 transform -rotate-6 overflow-hidden">
-                <img src="/quiz_hall.webp" alt="Quiz Hero Badge" className="w-full h-full object-contain p-2" />
+                <img src="/badges/quiz_hall.webp" alt="Quiz Hero Badge" className="w-full h-full object-contain p-2" />
               </div>
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mb-1 sm:mb-2 tracking-tighter">MASTERPIECE!</h2>
               <p className="text-slate-500 dark:text-slate-400 font-bold mb-6 sm:mb-8 text-sm sm:text-base">You've earned the <span className="text-yellow-600 dark:text-yellow-400">Quiz Hero</span> badge!</p>

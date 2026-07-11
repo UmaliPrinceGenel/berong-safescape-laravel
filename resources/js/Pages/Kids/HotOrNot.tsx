@@ -65,7 +65,7 @@ export default function HotOrNot() {
          axios.post('/api/badges/award', {
             badge_id: 'safety_scout',
             badge_name: 'Safety Scout',
-            badge_icon: '/safety_hall.webp'
+            badge_icon: '/badges/safety_hall.webp'
          }).catch(err => console.error("Failed to award badge:", err.response?.data || err.message))
 
          setTimeout(() => {
@@ -142,7 +142,7 @@ export default function HotOrNot() {
         ) : gameState === 'start' && (
           <div className="max-w-md w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-[3rem] shadow-2xl text-center animate-in zoom-in duration-500 transition-colors">
              <div className="w-24 h-24 bg-emerald-100 dark:bg-emerald-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                <img src="/safety_hall.webp" alt="Safety Scout" className="w-16 h-16 object-contain drop-shadow-md" />
+                <img src="/badges/safety_hall.webp" alt="Safety Scout" className="w-16 h-16 object-contain drop-shadow-md" />
              </div>
              <h1 className="text-4xl font-black mb-2 italic text-slate-900 dark:text-white tracking-tight uppercase">HOT OR NOT?</h1>
              <p className="text-slate-500 dark:text-slate-400 font-medium mb-8 leading-relaxed">
@@ -181,7 +181,7 @@ export default function HotOrNot() {
               <div className="flex flex-col items-center gap-6 w-full max-w-sm px-4">
                  <div className="hidden md:flex items-center gap-3 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 px-6 py-4 rounded-[2rem] shadow-xl w-full transition-colors">
                     <div className="shrink-0">
-                       <img src="/safety_hall.webp" alt="Robot" className="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-sm" />
+                       <img src="/badges/safety_hall.webp" alt="Robot" className="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-sm" />
                     </div>
                     <div className="text-[10px] md:text-xs font-black text-slate-600 dark:text-slate-300 uppercase tracking-[0.15em] leading-relaxed">
                        "Swipe right for toys, <br className="md:hidden" /> left for hot things!"
@@ -228,7 +228,7 @@ export default function HotOrNot() {
              <p className="text-slate-500 dark:text-slate-400 mb-8 font-medium leading-relaxed">You're an expert at spotting danger! You found all 10 items and kept everyone safe.</p>
              <div className="bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/20 p-6 rounded-3xl mb-8 flex items-center gap-4 text-left">
                 <div className="shrink-0">
-                   <img src="/safety_hall.webp" alt="Safety Scout Badge" className="w-14 h-14 object-contain drop-shadow-md" />
+                   <img src="/badges/safety_hall.webp" alt="Safety Scout Badge" className="w-14 h-14 object-contain drop-shadow-md" />
                 </div>
                 <div>
                    <div className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.2em] mb-1">Badge Unlocked</div>
@@ -252,7 +252,7 @@ export default function HotOrNot() {
             className="fixed bottom-10 inset-x-6 z-50 bg-white dark:bg-slate-900 border-4 border-rose-100 dark:border-rose-900/20 p-6 rounded-[2.5rem] shadow-2xl flex items-center gap-4 max-w-lg mx-auto"
           >
              <div className="animate-bounce shrink-0">
-                <img src="/safety_hall.webp" alt="Safety Tip" className="w-12 h-12 object-contain drop-shadow-md" />
+                <img src="/badges/safety_hall.webp" alt="Safety Tip" className="w-12 h-12 object-contain drop-shadow-md" />
              </div>
              <div className="flex-1">
                 <div className="text-rose-600 font-black text-[10px] uppercase tracking-widest mb-1">Safety Tip!</div>
