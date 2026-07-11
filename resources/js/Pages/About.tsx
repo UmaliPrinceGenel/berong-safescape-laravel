@@ -855,13 +855,13 @@ export default function AboutPage() {
                                 onMouseLeave={() => setIsHovered(false)}
                             >
                                 {/* Slide Display using framer-motion */}
-                                <div className="absolute inset-0 w-full h-full overflow-hidden bg-black/40">
+                                <div className="absolute inset-0 w-full h-full overflow-hidden bg-black/40 rounded-3xl">
                                     <AnimatePresence mode="wait">
                                         <motion.img
                                             key={currentSlide}
                                             src={firefighterImages[currentSlide]}
                                             alt={`BFP Firefighters ${currentSlide + 1}`}
-                                            className="w-full h-full object-cover select-none"
+                                            className="w-full h-full object-cover select-none rounded-3xl"
                                             initial={{ opacity: 0, scale: 1.05 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             exit={{ opacity: 0, scale: 0.95 }}
