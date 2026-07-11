@@ -100,8 +100,11 @@ export const ContentCard = React.memo(({ content, onClick }: ContentCardProps) =
         {/* Top-Left Indicator: Module or Difficulty */}
         <div className="absolute top-3 left-3 z-20">
            {content.type === "module" ? (
-             <div className="bg-white/20 backdrop-blur-md text-white font-black text-[9px] sm:text-[11px] tracking-[0.2em] uppercase px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border border-white/40 shadow-[0_4px_12px_rgba(0,0,0,0.15)] flex items-center justify-center">
-               MODULE
+             <div className="relative flex items-center justify-center">
+               <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full blur-[6px] opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+               <div className="relative bg-gradient-to-b from-yellow-300 to-amber-500 text-amber-950 font-black text-[9px] sm:text-[11px] tracking-[0.2em] uppercase px-3.5 py-1 sm:px-5 sm:py-1.5 rounded-full border-[2px] sm:border-[3px] border-white/90 shadow-[0_4px_12px_rgba(245,158,11,0.4)] flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                 <span className="relative z-10 drop-shadow-sm">MODULE</span>
+               </div>
              </div>
            ) : (content.difficulty && content.id !== "activity-portal") ? (
              <div className={cn(
