@@ -441,6 +441,11 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
                         : `${theme.borderClass} ${theme.shadowClass} hover:-translate-y-1.5`
                     )}
                   >
+                    {/* Background Shadow Number */}
+                    <div className="absolute -bottom-8 -right-4 text-[180px] font-black opacity-[0.03] dark:opacity-[0.05] pointer-events-none select-none z-0 leading-none tracking-tighter transition-transform duration-500 group-hover:scale-110">
+                      {module.dayNumber}
+                    </div>
+
                     {/* Content Container */}
                     <div className="relative z-10 p-6 sm:p-7 flex flex-col flex-1 h-full">
                       {/* Top Row: Module # and Status */}
