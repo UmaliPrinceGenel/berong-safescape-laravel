@@ -413,7 +413,7 @@ const ModuleFourPage = ({ moduleNum, initialProgress }: { moduleNum: number; ini
             {/* Progress */}
             <div className="text-sm font-bold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 whitespace-nowrap hidden lg:block transition-colors">
               {progressPercent === 100 ? (
-                <>Status: <span className="text-green-500 font-black ml-1">Completed ✓</span></>
+                <>Status: <span className="text-green-500 font-black ml-1">Completed </span></>
               ) : (
                 <>Progress: <span className="text-[#ff4b3e] font-black ml-1">{progressPercent}%</span></>
               )}

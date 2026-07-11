@@ -237,13 +237,9 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
                                 <div className="absolute bottom-0 left-0 w-40 h-40 bg-rose-900/30 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4"></div>
                                 
-                                <motion.div 
-                                    animate={{ y: [0, -8, 0] }} 
-                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                    className="w-14 h-14 sm:w-20 sm:h-20 bg-white/20 backdrop-blur-md rounded-2xl sm:rounded-[2rem] flex items-center justify-center mb-4 sm:mb-6 border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.15)] relative z-10"
-                                >
+                                <div className="w-14 h-14 sm:w-20 sm:h-20 bg-white/20 backdrop-blur-md rounded-2xl sm:rounded-[2rem] flex items-center justify-center mb-4 sm:mb-6 border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.15)] relative z-10">
                                     <Trophy className="w-7 h-7 sm:w-10 sm:h-10 text-white drop-shadow-md" strokeWidth={2.5} />
-                                </motion.div>
+                                </div>
                                 <h3 className="text-2xl sm:text-3xl font-black mb-1 sm:mb-2 tracking-tight drop-shadow-sm relative z-10">Final Assessment</h3>
                                 <div className="bg-white/20 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-white/20 backdrop-blur-sm relative z-10 mt-1 sm:mt-2">
                                     <p className="text-white text-[9px] sm:text-[10px] font-black tracking-widest uppercase drop-shadow-sm">Official Certification</p>

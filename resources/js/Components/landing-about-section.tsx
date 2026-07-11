@@ -1082,9 +1082,9 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
             </div>
 
             {/* Meet Your Firefighters Section */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
+            <div className="w-full scroll-mt-24">
                 <motion.section
-                    className="py-10 sm:py-14 bg-gradient-to-br from-orange-600 to-red-700 dark:from-orange-900 dark:to-red-950 text-white relative overflow-hidden rounded-[2.5rem] shadow-xl dark:shadow-md border border-red-500/30 transition-colors duration-500"
+                    className="py-16 sm:py-20 bg-gradient-to-br from-orange-600 to-red-700 dark:from-orange-900 dark:to-red-950 text-white relative overflow-hidden shadow-xl dark:shadow-md transition-colors duration-500"
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
