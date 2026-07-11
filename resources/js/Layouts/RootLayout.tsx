@@ -147,9 +147,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* Global Pre-Maintenance Alert Banner */}
         {(localAlert && !localAlert.is_active) && (
-          <div className="fixed bottom-0 left-0 w-full z-[10001] bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 text-slate-950 text-xs sm:text-sm font-black py-3 px-4 text-center flex items-center justify-center gap-2 shadow-[0_-4px_20px_rgba(245,158,11,0.25)] select-none animate-slide-up">
-            <AlertTriangle className="h-4 w-4 shrink-0 text-slate-950 animate-bounce" style={{ animationDuration: '2s' }} />
-            <span className="tracking-wide flex items-center flex-wrap justify-center gap-2">
+          <div className="fixed bottom-0 left-0 w-full z-[10001] bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 text-slate-950 text-xs sm:text-sm font-black py-3 px-4 text-left sm:text-center flex items-start sm:items-center justify-start sm:justify-center gap-2 shadow-[0_-4px_20px_rgba(245,158,11,0.25)] select-none animate-slide-up">
+            <AlertTriangle className="h-4 w-4 shrink-0 text-slate-950 mt-0.5 sm:mt-0" />
+            <span className="tracking-wide flex items-center flex-wrap justify-start sm:justify-center gap-2">
               <span>{localAlert.warning_message}</span>
               {timeLeftStr && (
                 <span className="px-2 py-0.5 bg-slate-950 text-amber-400 rounded-lg text-[10px] sm:text-xs font-mono tracking-tight shadow-sm border border-amber-400/20 whitespace-nowrap">

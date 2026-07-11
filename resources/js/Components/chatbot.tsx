@@ -912,9 +912,9 @@ export function Chatbot() {
                           <Image
                             src="/berong_pr.webp"
                             alt="Berong"
-                            width={28}
-                            height={28}
-                            className="h-7 w-7 object-contain rounded-full bg-white p-0.5 border border-slate-200 shadow-sm"
+                            width={40}
+                            height={40}
+                            className="h-10 w-10 object-contain rounded-full bg-white p-0.5 border border-slate-200 shadow-sm"
                           />
                         </div>
                       )}
@@ -972,14 +972,14 @@ export function Chatbot() {
                         ].find(opt => opt.id === avatarId);
                         
                         return (
-                          <div className="shrink-0 mt-auto flex items-center justify-center h-7 w-7 rounded-full bg-slate-200 border border-slate-300 shadow-sm overflow-hidden">
+                          <div className="shrink-0 mt-auto flex items-center justify-center h-10 w-10 rounded-full bg-slate-200 border border-slate-300 shadow-sm overflow-hidden">
                             {avatarOpt ? (
                               avatarOpt.icon.startsWith('/') ? (
                                 <Image
                                   src={avatarOpt.icon}
                                   alt="User Avatar"
-                                  width={28}
-                                  height={28}
+                                  width={40}
+                                  height={40}
                                   className="h-full w-full object-cover"
                                 />
                               ) : (
@@ -989,12 +989,12 @@ export function Chatbot() {
                                 <Image
                                   src={avatarId.startsWith('http') ? avatarId : `/storage/${avatarId}`}
                                   alt="User Avatar"
-                                  width={28}
-                                  height={28}
+                                  width={40}
+                                  height={40}
                                   className="h-full w-full object-cover"
                                 />
                             ) : (
-                              <User className="h-4 w-4 text-slate-500" />
+                              <User className="h-6 w-6 text-slate-500" />
                             )}
                           </div>
                         );
