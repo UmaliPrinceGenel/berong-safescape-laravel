@@ -41,6 +41,21 @@ export function getVolume(category: AudioCategory): number {
 const audioCache: Record<string, HTMLAudioElement> = {};
 
 /**
+ * Preload multiple audio files into the cache to prevent delay on first play.
+ */
+export function preloadAudioFiles(srcs: string[]): void {
+  if (typeof window === 'undefined') return;
+  srcs.forEach(src => {
+    if (!audioCache[src]) {
+      const audio = new Audio(src);
+      audio.preload = 'auto';
+      audio.load();
+      audioCache[src] = audio;
+    }
+  });
+}
+
+/**
  * Play a sound file with the appropriate volume for its category.
  * Preloads the audio and plays it instantly with overlap support.
  * 

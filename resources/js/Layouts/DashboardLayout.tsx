@@ -5,11 +5,25 @@ import { FeedbackWidget } from "@/Components/FeedbackWidget";
 import RootLayout from "./RootLayout";
 import { motion } from "motion/react";
 import { Smartphone, RotateCw } from "lucide-react";
+import { preloadAudioFiles } from "@/lib/audio";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [isMobileLandscape, setIsMobileLandscape] = useState(false);
 
     useEffect(() => {
+        // Preload common game sounds so they play instantly without network delay
+        preloadAudioFiles([
+            '/sounds/click.mp3',
+            '/sounds/tap.mp3',
+            '/sounds/combo.mp3',
+            '/sounds/win.mp3',
+            '/sounds/wrong.mp3',
+            '/sounds/match.mp3',
+            '/sounds/spark.mp3',
+            '/sounds/fire_extinguish.mp3',
+            '/sounds/wood.mp3'
+        ]);
+
         const handleResize = () => {
             const isTouch = window.matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0;
             const isLandscape = window.innerWidth > window.innerHeight;
