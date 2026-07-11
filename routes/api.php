@@ -42,6 +42,34 @@ Route::get('/quick-questions', [ContentController::class, 'questions']);
 // Public schools list (for registration dropdowns)
 Route::get('/schools', [SchoolAnalyticsController::class, 'index']);
 
+// Public maintenance status endpoint for real-time polling
+Route::get('/maintenance-status', function () {
+    try {
+        if (!\Illuminate\Support\Facades\Schema::hasTable('system_settings')) {
+            return response()->json([
+                'is_active' => false,
+                'message' => '',
+                'warning_active' => false,
+                'warning_message' => ''
+            ]);
+        }
+        $config = \App\Models\SystemSetting::getVal('maintenance_mode', [
+            'is_active' => false,
+            'message' => '',
+            'warning_active' => false,
+            'warning_message' => ''
+        ]);
+    } catch (\Throwable $e) {
+        $config = [
+            'is_active' => false,
+            'message' => '',
+            'warning_active' => false,
+            'warning_message' => ''
+        ];
+    }
+    return response()->json($config);
+});
+
 Route::middleware(['auth:sanctum', 'throttle:api'])->get('/user', function (Request $request) {
     return $request->user();
 });
