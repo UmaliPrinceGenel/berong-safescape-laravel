@@ -71,11 +71,8 @@ export default function Maintenance({ message, until }: MaintenanceProps) {
       <div className="relative z-10 max-w-lg w-full bg-slate-800/80 backdrop-blur-xl border border-slate-700/50 p-8 sm:p-12 rounded-[2.5rem] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] text-center transition-all animate-in zoom-in-95 duration-500">
         
         {/* Pulse Hammer / Warning Icon */}
-        <div className="relative w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(245,158,11,0.3)] animate-bounce-slow">
-          <Hammer className="h-12 w-12 text-slate-900 animate-pulse" />
-          <div className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full p-1 border-2 border-slate-800 shadow-md">
-            <AlertTriangle className="h-4 w-4" />
-          </div>
+        <div className="relative w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(245,158,11,0.3)]">
+          <Hammer className="h-12 w-12 text-slate-900" />
         </div>
 
         {/* Headline */}
@@ -110,7 +107,7 @@ export default function Maintenance({ message, until }: MaintenanceProps) {
 
         {/* Footer logo / notice */}
         <div className="mt-12 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-          SafeScape Rescue & Prevention Platform
+          Berong E-Learning Platform
         </div>
       </div>
 
