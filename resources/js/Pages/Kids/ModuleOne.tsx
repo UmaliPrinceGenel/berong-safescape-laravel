@@ -42,6 +42,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
   const [section1Done,    setSection1Done]    = useState(initialProgress?.sectionData?.module1?.section1Read || false)
   const [section2Done,    setSection2Done]    = useState(initialProgress?.sectionData?.module1?.section2Read || false)
   const [section3Done,    setSection3Done]    = useState(initialProgress?.sectionData?.module1?.section3Read || false)
+  const [section4Done,    setSection4Done]    = useState(initialProgress?.sectionData?.module1?.section4Read || false)
   const [labCompleted,    setLabCompleted]    = useState(initialProgress?.sectionData?.module1?.elementMixerCompleted || false)
   const [mixerEverCompleted, setMixerEverCompleted] = useState(initialProgress?.sectionData?.module1?.elementMixerCompleted || false)
   const [moduleCompleted, setModuleCompleted] = useState(initialProgress?.completedModules?.includes(1) || false)
@@ -59,6 +60,16 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
   const [quizAnswers,     setQuizAnswers]     = useState<(number | null)[]>(initialProgress?.sectionData?.module1?.quizAnswers || [])
   const [pitItems,        setPitItems]        = useState<string[]>(initialProgress?.sectionData?.module1?.elementMixerCompleted ? CORRECT_IDS : [])
   const [showBadgeModal,  setShowBadgeModal]  = useState(false)
+
+  // PASS Method Interactive Simulator State
+  const [passStep,        setPassStep]        = useState(0) // 0 = Pull, 1 = Aim, 2 = Squeeze, 3 = Sweep, 4 = Extinguished
+  const [pinPulled,       setPinPulled]       = useState(false)
+  const [aimed,           setAimed]           = useState(false)
+  const [squeezed,        setSqueezed]        = useState(false)
+  const [sweepCount,      setSweepCount]      = useState(0)
+  const [lastSweepDir,    setLastSweepDir]    = useState<'left' | 'right' | null>(null)
+  const [sprayActive,     setSprayActive]     = useState(false)
+  const [fireHealth,      setFireHealth]      = useState(100) // 100 to 0
 
   useEffect(() => {
     if (showBadgeModal) {
@@ -89,6 +100,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
         if (m1.section1Read)           setSection1Done(true)
         if (m1.section2Read)           setSection2Done(true)
         if (m1.section3Read)           setSection3Done(true)
+        if (m1.section4Read)           setSection4Done(true)
         if (m1.elementMixerCompleted)  { setLabCompleted(true); setMixerEverCompleted(true); setPitItems(CORRECT_IDS) }
         if (m1.quizPassed)             { setQuizPassed(true) }
         if (m1.quizAnswers)            { setQuizAnswers(m1.quizAnswers) }
@@ -105,10 +117,10 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
   // ── Progress bar ──
   const progress = useMemo(() => {
     if (moduleCompleted) return 100;
-    const states = [videoStarted, section1Done, section2Done, section3Done, labCompleted, quizPassed];
+    const states = [videoStarted, section1Done, section2Done, section3Done, section4Done, labCompleted, quizPassed];
     const completedCount = states.filter(Boolean).length;
-    return Math.round((completedCount / 6) * 100);
-  }, [videoStarted, section1Done, section2Done, section3Done, labCompleted, quizPassed, moduleCompleted])
+    return Math.round((completedCount / 7) * 100);
+  }, [videoStarted, section1Done, section2Done, section3Done, section4Done, labCompleted, quizPassed, moduleCompleted])
 
   // ── Helper: save to backend ──
   const saveSection = async (sectionData: Record<string, any>, completed: boolean) => {
@@ -137,7 +149,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
   const handleVideoPlay = () => {
     if (!videoStarted) {
       setVideoStarted(true)
-      saveSection({ videoWatched: true, section1Read: section1Done, section2Read: section2Done, section3Read: section3Done, elementMixerCompleted: labCompleted }, false)
+      saveSection({ videoWatched: true, section1Read: section1Done, section2Read: section2Done, section3Read: section3Done, section4Read: section4Done, elementMixerCompleted: labCompleted }, false)
       showToast("Video started! Keep watching.", "info")
     }
   }
@@ -145,22 +157,29 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
   const handleSection1 = () => {
     if (section1Done) return
     setSection1Done(true)
-    saveSection({ videoWatched: videoStarted, section1Read: true, section2Read: section2Done, section3Read: section3Done, elementMixerCompleted: labCompleted }, false)
+    saveSection({ videoWatched: videoStarted, section1Read: true, section2Read: section2Done, section3Read: section3Done, section4Read: section4Done, elementMixerCompleted: labCompleted }, false)
     showToast("Great! Fire Triangle mastered!")
   }
 
   const handleSection2 = () => {
     if (section2Done) return
     setSection2Done(true)
-    saveSection({ videoWatched: videoStarted, section1Read: section1Done, section2Read: true, section3Read: section3Done, elementMixerCompleted: labCompleted }, false)
+    saveSection({ videoWatched: videoStarted, section1Read: section1Done, section2Read: true, section3Read: section3Done, section4Read: section4Done, elementMixerCompleted: labCompleted }, false)
     showToast("You know the rules! Stay safe!")
   }
 
   const handleSection3 = () => {
     if (section3Done) return
     setSection3Done(true)
-    saveSection({ videoWatched: videoStarted, section1Read: section1Done, section2Read: section2Done, section3Read: true, elementMixerCompleted: labCompleted }, false)
+    saveSection({ videoWatched: videoStarted, section1Read: section1Done, section2Read: section2Done, section3Read: true, section4Read: section4Done, elementMixerCompleted: labCompleted }, false)
     showToast("You understand how fire travels!")
+  }
+
+  const handleSection4 = () => {
+    if (section4Done) return
+    setSection4Done(true)
+    saveSection({ videoWatched: videoStarted, section1Read: section1Done, section2Read: section2Done, section3Read: section3Done, section4Read: true, elementMixerCompleted: labCompleted }, false)
+    showToast("Excellent! You've mastered the PASS method!")
   }
 
   // ── Drag-and-drop handlers ──
@@ -230,7 +249,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
       setLabCompleted(true)
       setMixerEverCompleted(true)
       setPitMessage("🔥 FIRE STARTED! The Triangle is complete!")
-      const sectionData = { videoWatched: videoStarted, section1Read: section1Done, section2Read: section2Done, section3Read: section3Done, elementMixerCompleted: true }
+      const sectionData = { videoWatched: videoStarted, section1Read: section1Done, section2Read: section2Done, section3Read: section3Done, section4Read: section4Done, elementMixerCompleted: true }
       saveSection(sectionData, false)
     } else {
       const missingLabels = missing.map(id => LAB_ITEMS.find(i => i.id === id)?.role ?? id)
@@ -256,7 +275,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
 
       await axios.post("/api/kids/safescape", { 
         moduleNum: 1, 
-        sectionData: { videoWatched: true, section1Read: true, section2Read: true, section3Read: true, elementMixerCompleted: true, quizPassed: true }, 
+        sectionData: { videoWatched: true, section1Read: true, section2Read: true, section3Read: true, section4Read: true, elementMixerCompleted: true, quizPassed: true }, 
         completed: true 
       });
 
@@ -602,12 +621,12 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
             </div>
           </section>
 
-          {/* ── Element Mixer Lab (unlocked after section3) ── */}
+          {/* ── Section 1.4 — Extinguisher Safety & The PASS Method ── */}
           <section className={cn(
-            "relative bg-purple-50 dark:bg-purple-950/20 rounded-[2rem] border-[4px] border-purple-200 dark:border-purple-900/30 p-5 sm:p-8 md:p-12 shadow-sm transition-all duration-500 overflow-hidden",
+            "relative bg-white dark:bg-slate-900 rounded-[2rem] border-[4px] border-amber-200 dark:border-amber-900/30 p-5 sm:p-8 md:p-12 overflow-hidden shadow-sm transition-all duration-500",
             !section3Done && "pointer-events-none select-none"
           )}>
-            {mixerEverCompleted && (
+            {section4Done && (
               <div className="absolute top-4 right-4 h-10 w-10 rounded-full bg-green-500 border-[3px] border-white shadow-sm flex items-center justify-center">
                 <CheckCircle className="h-5 w-5 text-white" />
               </div>
@@ -620,7 +639,355 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
               </div>
             )}
 
-            <div className={cn("transition-all duration-500", !section3Done && "opacity-20 blur-[1px]")}>
+            <div className={cn("space-y-6 transition-all duration-500", !section3Done && "opacity-20 blur-[1px]")}>
+              {/* Header */}
+              <div className="flex items-center gap-2 sm:gap-3">
+                <span className="bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 border-2 border-amber-200 dark:border-amber-800 shadow-sm px-2 py-0.5 sm:px-3 sm:py-1 rounded-xl text-xs sm:text-sm font-black transition-colors">1.4</span>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-800 dark:text-white transition-colors">The PASS Method</h2>
+              </div>
+              
+              <p className="text-slate-600 dark:text-slate-400 font-bold text-sm sm:text-base leading-relaxed transition-colors">
+                Fire extinguishers are special tools. Kids should <strong className="text-red-500">always get to safety first</strong> and let adults handle fires. However, learning how they work is a super hero skill! Remember the word <strong className="text-amber-500">P-A-S-S</strong> to master the fire extinguisher!
+              </p>
+
+              {/* Interactive Simulator Grid */}
+              <div className="bg-slate-900 border-[4px] border-slate-950 text-white rounded-3xl overflow-hidden shadow-2xl relative p-4 sm:p-6 flex flex-col md:flex-row gap-6 items-stretch min-h-[400px]">
+                {/* Left Side: Step Guide */}
+                <div className="flex flex-col gap-3 justify-center md:w-[240px] shrink-0 border-b md:border-b-0 md:border-r border-slate-800 pb-4 md:pb-0 md:pr-6">
+                  {[
+                    { step: 0, letter: "P", name: "PULL", desc: "Pull the safety pin out." },
+                    { step: 1, letter: "A", name: "AIM", desc: "Aim at the base of the fire." },
+                    { step: 2, letter: "S", name: "SQUEEZE", desc: "Squeeze the handle lever." },
+                    { step: 3, letter: "S", name: "SWEEP", desc: "Sweep side-to-side." },
+                  ].map((s) => (
+                    <button
+                      key={s.step}
+                      disabled={passStep < s.step}
+                      onClick={() => setPassStep(s.step)}
+                      className={cn(
+                        "flex items-center gap-3 p-3 rounded-xl border-2 text-left transition-all",
+                        passStep === s.step
+                          ? "bg-amber-500 border-amber-400 text-slate-950 font-black shadow-lg scale-[1.02]"
+                          : passStep > s.step
+                            ? "bg-slate-800/80 border-emerald-500 text-emerald-400 font-bold"
+                            : "bg-slate-950/20 border-slate-800 text-slate-600"
+                      )}
+                    >
+                      <div className={cn(
+                        "h-8 w-8 rounded-full flex items-center justify-center font-black text-sm border-2",
+                        passStep === s.step ? "bg-slate-950 border-slate-950 text-amber-400" : "border-current"
+                      )}>
+                        {s.letter}
+                      </div>
+                      <div>
+                        <div className="text-xs uppercase tracking-widest leading-none font-extrabold">{s.name}</div>
+                        <div className="text-[10px] opacity-80 font-medium mt-0.5 leading-tight">{s.desc}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Right Side: Virtual Simulator Window */}
+                <div className="flex-1 min-h-[250px] relative bg-slate-950 rounded-2xl border-[3px] border-slate-800/60 overflow-hidden flex flex-col justify-between p-4">
+                  {/* Status Banner */}
+                  <div className="absolute top-2 left-2 right-2 bg-slate-900/90 border border-slate-800 rounded-lg py-1.5 px-3 flex items-center justify-between text-[11px] font-black text-slate-400 uppercase tracking-wider z-20">
+                    <span>Simulator Active</span>
+                    <span className={cn(
+                      "flex items-center gap-1.5",
+                      passStep === 4 ? "text-emerald-400" : "text-amber-400 animate-pulse"
+                    )}>
+                      <span className="h-2 w-2 rounded-full bg-current"></span>
+                      {passStep === 4 ? "Extinguished" : `Step ${passStep + 1}: ${["PULL", "AIM", "SQUEEZE", "SWEEP"][passStep]}`}
+                    </span>
+                  </div>
+
+                  {/* Simulator Screen Rendering */}
+                  <div className="flex-1 flex items-center justify-center relative overflow-hidden select-none">
+                    
+                    {/* Simulated Flames */}
+                    {passStep !== 4 && (
+                      <div 
+                        className="absolute right-8 bottom-4 flex flex-col items-center transition-all duration-500"
+                        style={{ transform: `scale(${fireHealth / 100})`, opacity: fireHealth > 0 ? 1 : 0 }}
+                      >
+                        <div className="relative w-20 h-24 sm:w-28 sm:h-32">
+                          {/* Inner flame */}
+                          <div className="absolute inset-0 bg-amber-500 rounded-full blur-[1px] animate-[pulse_0.8s_infinite] origin-bottom scale-90"></div>
+                          {/* Main flame */}
+                          <div className="absolute inset-0 bg-red-600 rounded-full mix-blend-screen animate-[bounce_1.2s_infinite] origin-bottom scale-75"></div>
+                          {/* Core flame */}
+                          <div className="absolute inset-x-4 top-6 bottom-0 bg-yellow-400 rounded-full mix-blend-screen animate-[pulse_0.5s_infinite] origin-bottom scale-50"></div>
+                        </div>
+                        {/* Target Reticle (Aim step) */}
+                        {passStep === 1 && !aimed && (
+                          <button
+                            onClick={() => {
+                              try { playSound('/sounds/wood.mp3', 'general') } catch(e){}
+                              setAimed(true);
+                              setTimeout(() => setPassStep(2), 1000);
+                            }}
+                            className="absolute -top-4 w-12 h-12 rounded-full border-4 border-dashed border-yellow-400 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-transform animate-spin"
+                            style={{ animationDuration: '3s' }}
+                          >
+                            <span className="text-yellow-400 text-xs font-black animate-none">BASE</span>
+                          </button>
+                        )}
+                        <span className="text-[10px] text-slate-500 font-extrabold uppercase mt-1">Base of Fire</span>
+                      </div>
+                    )}
+
+                    {/* Extinguisher and Spray Graphics */}
+                    <div className="absolute left-6 bottom-4 flex items-end gap-2">
+                      <div className="relative">
+                        {/* Extinguisher handle lever */}
+                        <svg 
+                          viewBox="0 0 100 100" 
+                          className={cn(
+                            "w-20 h-28 transition-transform origin-bottom duration-300",
+                            aimed && "rotate-[10deg]"
+                          )}
+                        >
+                          {/* Tank */}
+                          <rect x="35" y="40" width="30" height="50" rx="10" fill="#dc2626" stroke="#991b1b" strokeWidth="3" />
+                          <rect x="40" y="45" width="20" height="10" rx="2" fill="#ffffff" opacity="0.3" />
+                          <circle cx="50" cy="50" r="5" fill="#facc15" />
+                          
+                          {/* Top Valves / Handle levers */}
+                          <path d="M 45 25 L 55 25 L 50 40 Z" fill="#94a3b8" />
+                          {/* Bottom handle arm */}
+                          <rect x="30" y="32" width="20" height="6" rx="2" fill="#64748b" transform="rotate(-15 30 32)" />
+                          {/* Top squeezable handle arm */}
+                          <rect 
+                            x="30" 
+                            y="25" 
+                            width="20" 
+                            height="6" 
+                            rx="2" 
+                            fill="#64748b" 
+                            className="transition-transform origin-left duration-200"
+                            style={{ transform: squeezed ? "rotate(10deg)" : "rotate(-10deg)" }}
+                          />
+
+                          {/* Safety Pin */}
+                          {!pinPulled && (
+                            <g 
+                              className="cursor-pointer hover:scale-105 transition-transform"
+                              onClick={() => {
+                                try { playSound('/sounds/spark.mp3', 'general') } catch(e){}
+                                setPinPulled(true);
+                                setTimeout(() => setPassStep(1), 1000);
+                              }}
+                            >
+                              <circle cx="55" cy="30" r="8" fill="none" stroke="#fbbf24" strokeWidth="3" />
+                              <line x1="45" y1="30" x2="52" y2="30" stroke="#fbbf24" strokeWidth="4" />
+                            </g>
+                          )}
+                        </svg>
+
+                        {/* Hose/Nozzle */}
+                        <svg 
+                          viewBox="0 0 100 100" 
+                          className={cn(
+                            "absolute top-6 left-12 w-24 h-24 origin-left transition-all duration-500 pointer-events-none",
+                            aimed ? "rotate-[15deg] translate-y-2 scale-y-95" : "rotate-[-30deg]"
+                          )}
+                        >
+                          <path d="M 0 40 Q 40 10 80 40" fill="none" stroke="#1e293b" strokeWidth="5" strokeLinecap="round" />
+                          <rect x="75" y="35" width="15" height="10" rx="3" fill="#0f172a" />
+                        </svg>
+                      </div>
+
+                      {/* Foam Spray Particles */}
+                      {sprayActive && (
+                        <div className="absolute left-28 bottom-12 w-48 h-12 pointer-events-none overflow-visible flex items-center justify-start z-10">
+                          <svg className="w-full h-full overflow-visible">
+                            <defs>
+                              <filter id="foam-blur">
+                                <feGaussianBlur stdDeviation="3" />
+                              </filter>
+                            </defs>
+                            <g filter="url(#foam-blur)">
+                              <circle cx="20" cy="20" r="10" fill="#ffffff" opacity="0.9" className="animate-[ping_0.5s_infinite]" />
+                              <circle cx="50" cy="18" r="12" fill="#ffffff" opacity="0.8" className="animate-[ping_0.6s_infinite] delay-75" />
+                              <circle cx="90" cy="24" r="14" fill="#ffffff" opacity="0.8" className="animate-[ping_0.4s_infinite] delay-150" />
+                              <circle cx="130" cy="26" r="16" fill="#ffffff" opacity="0.7" className="animate-[ping_0.5s_infinite] delay-100" />
+                            </g>
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Extinguished Banner */}
+                    {passStep === 4 && (
+                      <div className="absolute inset-0 bg-slate-900/90 flex flex-col items-center justify-center p-6 text-center animate-[popIn_0.5s_ease-out]">
+                        <div className="h-16 w-16 bg-emerald-500 rounded-full flex items-center justify-center mb-4 border-[4px] border-white shadow-xl animate-[bounce_1s_infinite]">
+                          <CheckCircle className="h-8 w-8 text-white" strokeWidth={3} />
+                        </div>
+                        <h4 className="text-xl font-black text-emerald-400 mb-1">FIRE EXTINGUISHED!</h4>
+                        <p className="text-xs text-slate-300 font-bold max-w-sm">
+                          Awesome job! You successfully used the PASS method. Remember: Pull, Aim, Squeeze, Sweep!
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Step Action Prompts / Controls */}
+                  <div className="h-14 border-t border-slate-800/80 pt-3 flex items-center justify-center text-center">
+                    {passStep === 0 && (
+                      <button 
+                        onClick={() => {
+                          try { playSound('/sounds/spark.mp3', 'general') } catch(e){}
+                          setPinPulled(true);
+                          setTimeout(() => setPassStep(1), 1000);
+                        }}
+                        className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-2 rounded-full text-xs uppercase tracking-wider shadow-md hover:-translate-y-0.5 active:translate-y-0.5 transition-transform"
+                      >
+                        Click to Pull the Ring Pin 🔑
+                      </button>
+                    )}
+                    {passStep === 1 && (
+                      <p className="text-xs text-amber-400 font-black uppercase tracking-wider animate-pulse">
+                        🎯 Click the "BASE" target reticle on the fire!
+                      </p>
+                    )}
+                    {passStep === 2 && (
+                      <button 
+                        onClick={() => {
+                          try { playSound('/sounds/fan.mp3', 'general') } catch(e){}
+                          setSqueezed(true);
+                          setTimeout(() => setPassStep(3), 1000);
+                        }}
+                        className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-2 rounded-full text-xs uppercase tracking-wider shadow-md hover:-translate-y-0.5 active:translate-y-0.5 transition-transform"
+                      >
+                        Squeeze the Extinguisher Handle! 🤝
+                      </button>
+                    )}
+                    {passStep === 3 && (
+                      <div className="flex flex-col items-center gap-1.5 w-full max-w-xs">
+                        <div className="flex justify-between w-full text-[10px] text-slate-400 font-extrabold uppercase px-1">
+                          <span>Sweep Nozzle</span>
+                          <span>{sweepCount} / 4 Sweeps</span>
+                        </div>
+                        <div className="flex items-center gap-3 w-full">
+                          <button
+                            onClick={() => {
+                              if (lastSweepDir !== 'left') {
+                                try { playSound('/sounds/water.mp3', 'general') } catch(e){}
+                                setSprayActive(true);
+                                setLastSweepDir('left');
+                                setSweepCount(prev => {
+                                  const next = prev + 1;
+                                  setFireHealth(100 - (next * 25));
+                                  if (next >= 4) {
+                                    setTimeout(() => {
+                                      setPassStep(4);
+                                      setSprayActive(false);
+                                      handleSection4();
+                                    }, 800);
+                                  } else {
+                                    setTimeout(() => setSprayActive(false), 500);
+                                  }
+                                  return next;
+                                });
+                              }
+                            }}
+                            className={cn(
+                              "flex-1 bg-slate-800 hover:bg-slate-700 text-white font-extrabold py-2 px-3 rounded-xl border border-slate-700 active:scale-95 transition-all text-[11px]",
+                              lastSweepDir === 'left' && "opacity-40 cursor-not-allowed"
+                            )}
+                          >
+                            ◀ SWEEP LEFT
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (lastSweepDir !== 'right') {
+                                try { playSound('/sounds/water.mp3', 'general') } catch(e){}
+                                setSprayActive(true);
+                                setLastSweepDir('right');
+                                setSweepCount(prev => {
+                                  const next = prev + 1;
+                                  setFireHealth(100 - (next * 25));
+                                  if (next >= 4) {
+                                    setTimeout(() => {
+                                      setPassStep(4);
+                                      setSprayActive(false);
+                                      handleSection4();
+                                    }, 800);
+                                  } else {
+                                    setTimeout(() => setSprayActive(false), 500);
+                                  }
+                                  return next;
+                                });
+                              }
+                            }}
+                            className={cn(
+                              "flex-1 bg-slate-800 hover:bg-slate-700 text-white font-extrabold py-2 px-3 rounded-xl border border-slate-700 active:scale-95 transition-all text-[11px]",
+                              lastSweepDir === 'right' && "opacity-40 cursor-not-allowed"
+                            )}
+                          >
+                            SWEEP RIGHT ▶
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    {passStep === 4 && (
+                      <button
+                        onClick={() => {
+                          setPassStep(0);
+                          setPinPulled(false);
+                          setAimed(false);
+                          setSqueezed(false);
+                          setSweepCount(0);
+                          setLastSweepDir(null);
+                          setFireHealth(100);
+                        }}
+                        className="text-amber-400 hover:text-amber-300 font-extrabold text-xs uppercase tracking-wider underline cursor-pointer"
+                      >
+                        Reset Training Simulator 🔄
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Completion Button */}
+              <div className="pt-4 flex justify-center">
+                <button
+                  onClick={handleSection4}
+                  disabled={!section4Done}
+                  className={cn(
+                    "inline-flex items-center gap-2 text-sm transition-all uppercase tracking-wide",
+                    section4Done
+                      ? "bg-green-500 text-white px-6 py-3 rounded-full border-[3px] border-green-600 shadow-[0_4px_0_#15803d] cursor-default font-black"
+                      : "bg-slate-300 dark:bg-slate-800 text-slate-500 dark:text-slate-600 px-6 py-3 rounded-full cursor-not-allowed font-black"
+                  )}
+                >
+                  {section4Done && <CheckCircle className="h-4 w-4" />}
+                  {section4Done ? "Completed" : "Complete Simulator to Finish Section"}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Element Mixer Lab (unlocked after section4) ── */}
+          <section className={cn(
+            "relative bg-purple-50 dark:bg-purple-950/20 rounded-[2rem] border-[4px] border-purple-200 dark:border-purple-900/30 p-5 sm:p-8 md:p-12 shadow-sm transition-all duration-500 overflow-hidden",
+            !section4Done && "pointer-events-none select-none"
+          )}>
+            {mixerEverCompleted && (
+              <div className="absolute top-4 right-4 h-10 w-10 rounded-full bg-green-500 border-[3px] border-white shadow-sm flex items-center justify-center">
+                <CheckCircle className="h-5 w-5 text-white" />
+              </div>
+            )}
+            {!section4Done && (
+              <div className="absolute inset-0 rounded-[2rem] bg-slate-950/40 dark:bg-slate-950/60 backdrop-blur-[3px] flex items-center justify-center z-20 transition-all duration-300 p-4">
+                <p className="text-amber-600 dark:text-amber-400 font-black text-sm sm:text-base md:text-lg bg-white dark:bg-slate-800 px-6 py-3.5 sm:px-8 sm:py-4 rounded-full sm:rounded-3xl border-[3px] border-amber-500 shadow-2xl text-center max-w-[95%] transition-all">
+                  Complete Section 1.4 first
+                </p>
+              </div>
+            )}
+
+            <div className={cn("transition-all duration-500", !section4Done && "opacity-20 blur-[1px]")}>
               <div className="text-center mb-6 sm:mb-8 md:mb-10">
               <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                 <FlaskConical className="h-5 w-5 sm:h-7 sm:w-7 text-purple-500 dark:text-purple-400 transition-colors" />
@@ -811,7 +1178,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
 
           <AdaptiveQuiz 
             moduleNumber={1}
-            isLocked={!section3Done || !mixerEverCompleted}
+            isLocked={!section4Done || !mixerEverCompleted}
             lockMessage="Complete Section 1.4 first"
             initialQuizPassed={quizPassed}
             initialQuizScore={quizScore ?? undefined}
