@@ -28,6 +28,22 @@ Route::get('/game', function () {
     return Inertia::render('GameDemo');
 });
 
+Route::get('/maintenance', function () {
+    try {
+        $config = \App\Models\SystemSetting::getVal('maintenance_mode');
+        if (!$config || empty($config['is_active'])) {
+            return redirect('/');
+        }
+        $message = $config['message'] ?? 'SafeScape is currently undergoing scheduled updates. We\'ll be back online shortly!';
+    } catch (\Throwable $e) {
+        $message = 'SafeScape is currently undergoing scheduled updates. We\'ll be back online shortly!';
+    }
+
+    return Inertia::render('Maintenance', [
+        'message' => $message
+    ]);
+})->name('maintenance');
+
     // Primary User Flow Routes
     Route::middleware(['auth'])->group(function () {
         Route::get('/assessment/{type}', function ($type) {

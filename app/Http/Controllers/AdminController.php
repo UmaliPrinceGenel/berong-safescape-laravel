@@ -1149,4 +1149,61 @@ class AdminController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
+    public function getMaintenanceSettings()
+    {
+        $settings = \App\Models\SystemSetting::getVal('maintenance_mode', [
+            'is_active' => false,
+            'message' => "SafeScape is currently undergoing scheduled updates. We'll be back online shortly!",
+            'warning_active' => false,
+            'warning_message' => "Notice: The platform will be offline for scheduled maintenance in 15 minutes. Please save your progress."
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'settings' => $settings
+        ]);
+    }
+
+    public function updateMaintenanceSettings(Request $request)
+    {
+        $rules = [
+            'is_active' => 'required|boolean',
+            'message' => 'required|string|max:500',
+            'warning_active' => 'required|boolean',
+            'warning_message' => 'required|string|max:500',
+        ];
+
+        if ($request->is_active) {
+            $rules['password'] = 'required|string';
+        }
+
+        $request->validate($rules);
+
+        if ($request->is_active) {
+            if (!\Illuminate\Support\Facades\Hash::check($request->password, $request->user()->password)) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => [
+                        'password' => ['Incorrect password confirmation.']
+                    ]
+                ], 422);
+            }
+        }
+
+        $settings = [
+            'is_active' => $request->is_active,
+            'message' => $request->message,
+            'warning_active' => $request->warning_active,
+            'warning_message' => $request->warning_message,
+        ];
+
+        \App\Models\SystemSetting::setVal('maintenance_mode', $settings, 'System maintenance mode settings');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Maintenance configurations updated successfully.',
+            'settings' => $settings
+        ]);
+    }
 }

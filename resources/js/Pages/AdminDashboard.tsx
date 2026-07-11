@@ -9,7 +9,7 @@ import { useAuth } from "@/lib/auth-context"
 import { Navigation } from "@/Components/navigation"
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs"
-import { Shield, BarChart3, ImageIcon, FileText, Video, Users, HelpCircle, BookOpen, Loader2, AlertCircle } from "lucide-react"
+import { Shield, BarChart3, ImageIcon, FileText, Video, Users, HelpCircle, BookOpen, Loader2, AlertCircle, Settings } from "lucide-react"
 import { motion } from "motion/react"
 import type { CarouselImage, BlogPost } from "@/types/admin"
 import { ConfirmationDialog } from "@/Components/ui/confirmation-dialog"
@@ -34,6 +34,7 @@ const AdminVideosTab = lazy(() => import("./Admin/AdminVideosTab").then(m => ({ 
 const AdminUsersTab = lazy(() => import("./Admin/AdminUsersTab").then(m => ({ default: m.AdminUsersTab })))
 const AdminQuestionsTab = lazy(() => import("./Admin/AdminQuestionsTab").then(m => ({ default: m.AdminQuestionsTab })))
 const AdminFireCodesTab = lazy(() => import("./Admin/AdminFireCodesTab").then(m => ({ default: m.AdminFireCodesTab })))
+const AdminSettingsTab = lazy(() => import("./Admin/AdminSettingsTab").then(m => ({ default: m.AdminSettingsTab })))
 
 const TabLoading = () => (
   <div className="flex flex-col items-center justify-center py-24 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-[2rem] border-2 border-dashed border-slate-200 dark:border-slate-700 animate-pulse">
@@ -751,14 +752,15 @@ function AdminDashboard({
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="flex w-full sm:grid sm:grid-cols-6 bg-slate-200/70 dark:bg-slate-800/50 backdrop-blur-md p-2 rounded-[1.5rem] gap-2 shadow-inner h-auto border-2 border-slate-200 dark:border-slate-700 transition-colors">
+          <TabsList className="flex w-full sm:grid sm:grid-cols-7 bg-slate-200/70 dark:bg-slate-800/50 backdrop-blur-md p-2 rounded-[1.5rem] gap-2 shadow-inner h-auto border-2 border-slate-200 dark:border-slate-700 transition-colors">
             {[
               { id: "carousel", icon: ImageIcon, label: "Carousel" },
               { id: "blogs", icon: FileText, label: "Blogs" },
               { id: "videos", icon: Video, label: "Videos" },
               { id: "users", icon: Users, label: "Users" },
               { id: "quick-questions", icon: HelpCircle, label: "Q&A" },
-              { id: "fire-codes", icon: BookOpen, label: "Manuals" }
+              { id: "fire-codes", icon: BookOpen, label: "Manuals" },
+              { id: "settings", icon: Settings, label: "Settings" }
             ].map((tab) => (
               <TabsTrigger 
                 key={tab.id}
@@ -906,6 +908,10 @@ function AdminDashboard({
                 handleAddFireCode={handleAddFireCode}
                 handleDeleteFireCode={handleDeleteFireCode}
               />
+            </TabsContent>
+
+            <TabsContent value="settings">
+              <AdminSettingsTab />
             </TabsContent>
           </Suspense>
         </Tabs>

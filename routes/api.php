@@ -128,6 +128,8 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
     Route::middleware(['admin'])->prefix('admin')->group(function () {
         Route::get('/stats', [AdminController::class, 'stats']);
         Route::get('/users', [AdminController::class, 'users']);
+        Route::get('/settings/maintenance', [AdminController::class, 'getMaintenanceSettings']);
+        Route::post('/settings/maintenance', [AdminController::class, 'updateMaintenanceSettings']);
         Route::put('/users/{id}/role', [AdminController::class, 'updateUserRole']);
         Route::patch('/users/{id}/permissions', [AdminController::class, 'updateUserPermissions']);
         Route::get('/analytics', [AdminController::class, 'analytics']);
