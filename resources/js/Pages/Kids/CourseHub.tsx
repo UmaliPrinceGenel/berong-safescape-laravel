@@ -442,7 +442,7 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
                     )}
                   >
                     {/* Background Shadow Number */}
-                    <div className="absolute top-1/2 -translate-y-1/2 -left-4 text-[320px] font-black opacity-[0.03] dark:opacity-[0.05] pointer-events-none select-none z-0 leading-none tracking-tighter transition-transform duration-500 group-hover:scale-105">
+                    <div className="absolute top-1/2 -translate-y-1/2 -left-4 text-[320px] font-black text-slate-900 dark:text-white opacity-[0.08] dark:opacity-[0.10] pointer-events-none select-none z-0 leading-none tracking-tighter transition-transform duration-500 group-hover:scale-105">
                       {module.dayNumber}
                     </div>
 
