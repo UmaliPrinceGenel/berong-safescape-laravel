@@ -201,7 +201,7 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
                         Mini <span className="text-blue-600 dark:text-blue-400">Games</span>
                      </h1>
                      <p className="text-slate-500 dark:text-slate-400 font-bold text-sm sm:text-base max-w-lg leading-relaxed">
-                        Ready to play? Pick a game below and prove you're a Fire Safety Master! 🌟
+                        Ready to play? Pick a game below and prove you're a Fire Safety Master! 
                      </p>
                   </div>
                </div>

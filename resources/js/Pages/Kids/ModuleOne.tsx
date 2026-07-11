@@ -699,7 +699,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                       passStep === 4 ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400 animate-pulse"
                     )}>
                       <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-current"></span>
-                      {passStep === 4 ? "Complete ✓" : `Step ${passStep + 1}/4`}
+                      {passStep === 4 ? "Complete" : `Step ${passStep + 1}/4`}
                     </span>
                   </div>
 
@@ -954,7 +954,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                     {/* ===== STEP 4: FIRE EXTINGUISHED ===== */}
                     {passStep === 4 && (
                       <div className="flex flex-col items-center justify-center text-center gap-4 animate-in zoom-in-95 fade-in duration-500">
-                        <div className="h-16 w-16 sm:h-20 sm:w-20 bg-emerald-500 rounded-full flex items-center justify-center border-[4px] border-slate-200 dark:border-white shadow-xl shadow-emerald-500/30 animate-[bounce_1.5s_infinite]">
+                        <div className="h-16 w-16 sm:h-20 sm:w-20 bg-emerald-500 rounded-full flex items-center justify-center border-[4px] border-slate-200 dark:border-white shadow-xl shadow-emerald-500/30">
                           <CheckCircle className="h-8 w-8 sm:h-10 sm:w-10 text-white" strokeWidth={3} />
                         </div>
                         <div>
@@ -1045,7 +1045,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
               <div className="bg-purple-100/50 dark:bg-purple-950/40 p-4 sm:p-6 rounded-2xl border-2 border-purple-200 dark:border-purple-900/40 text-left max-w-xl mx-auto space-y-2 mt-4 text-xs sm:text-sm">
                 <p className="font-extrabold text-purple-900 dark:text-purple-300 flex items-center gap-2">
                   <Info className="h-4 w-4 text-purple-500" />
-                  🔬 How to Play:
+                   How to Play:
                 </p>
                 <ul className="list-disc list-inside space-y-1 text-slate-700 dark:text-slate-300 font-bold">
                   <li><strong>Tap</strong> or <strong>Drag & Drop</strong> the items into the Fire Pit.</li>

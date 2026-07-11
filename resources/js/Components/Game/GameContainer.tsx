@@ -1952,7 +1952,7 @@ export default function GameContainer() {
           <div className="bg-slate-900/95 backdrop-blur-xl rounded-2xl p-6 sm:p-8 landscape:p-4 md:landscape:p-8 border border-slate-600/50 shadow-2xl max-w-md landscape:max-w-2xl md:landscape:max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto pointer-events-auto animate-in fade-in zoom-in-95 duration-300">
             <div className="flex items-center justify-between mb-5 landscape:mb-3 md:landscape:mb-6">
               <h3 className="text-white font-extrabold text-lg sm:text-xl md:text-2xl landscape:text-base md:landscape:text-2xl uppercase tracking-wider flex items-center gap-2">
-                <span>🎮</span> How to Play
+                <span></span> How to Play
               </h3>
               <button
                 type="button"
