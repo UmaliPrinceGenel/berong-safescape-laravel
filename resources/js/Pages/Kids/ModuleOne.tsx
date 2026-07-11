@@ -651,21 +651,19 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
               </p>
 
               {/* Interactive Simulator Grid */}
-              <div className="bg-slate-900 border-[4px] border-slate-950 text-white rounded-3xl overflow-hidden shadow-2xl relative p-4 sm:p-6 flex flex-col md:flex-row gap-6 items-stretch min-h-[400px]">
+              <div className="bg-slate-900 border-[4px] border-slate-950 text-white rounded-3xl overflow-hidden shadow-2xl relative p-4 sm:p-6 flex flex-col md:flex-row gap-4 sm:gap-6 items-stretch min-h-[420px]">
                 {/* Left Side: Step Guide */}
-                <div className="flex flex-col gap-3 justify-center md:w-[240px] shrink-0 border-b md:border-b-0 md:border-r border-slate-800 pb-4 md:pb-0 md:pr-6">
+                <div className="flex flex-col gap-2 sm:gap-3 justify-center md:w-[220px] shrink-0 border-b md:border-b-0 md:border-r border-slate-800 pb-4 md:pb-0 md:pr-4 sm:md:pr-6">
                   {[
                     { step: 0, letter: "P", name: "PULL", desc: "Pull the safety pin out." },
                     { step: 1, letter: "A", name: "AIM", desc: "Aim at the base of the fire." },
                     { step: 2, letter: "S", name: "SQUEEZE", desc: "Squeeze the handle lever." },
                     { step: 3, letter: "S", name: "SWEEP", desc: "Sweep side-to-side." },
                   ].map((s) => (
-                    <button
+                    <div
                       key={s.step}
-                      disabled={passStep < s.step}
-                      onClick={() => setPassStep(s.step)}
                       className={cn(
-                        "flex items-center gap-3 p-3 rounded-xl border-2 text-left transition-all",
+                        "flex items-center gap-3 p-2.5 sm:p-3 rounded-xl border-2 text-left transition-all",
                         passStep === s.step
                           ? "bg-amber-500 border-amber-400 text-slate-950 font-black shadow-lg scale-[1.02]"
                           : passStep > s.step
@@ -674,279 +672,319 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                       )}
                     >
                       <div className={cn(
-                        "h-8 w-8 rounded-full flex items-center justify-center font-black text-sm border-2",
-                        passStep === s.step ? "bg-slate-950 border-slate-950 text-amber-400" : "border-current"
+                        "h-7 w-7 sm:h-8 sm:w-8 rounded-full flex items-center justify-center font-black text-xs sm:text-sm border-2 shrink-0",
+                        passStep === s.step ? "bg-slate-950 border-slate-950 text-amber-400" : passStep > s.step ? "border-emerald-500 text-emerald-400" : "border-current"
                       )}>
-                        {s.letter}
+                        {passStep > s.step ? "✓" : s.letter}
                       </div>
-                      <div>
-                        <div className="text-xs uppercase tracking-widest leading-none font-extrabold">{s.name}</div>
-                        <div className="text-[10px] opacity-80 font-medium mt-0.5 leading-tight">{s.desc}</div>
+                      <div className="min-w-0">
+                        <div className="text-[10px] sm:text-xs uppercase tracking-widest leading-none font-extrabold">{s.name}</div>
+                        <div className="text-[9px] sm:text-[10px] opacity-80 font-medium mt-0.5 leading-tight">{s.desc}</div>
                       </div>
-                    </button>
+                    </div>
                   ))}
                 </div>
 
                 {/* Right Side: Virtual Simulator Window */}
-                <div className="flex-1 min-h-[250px] relative bg-slate-950 rounded-2xl border-[3px] border-slate-800/60 overflow-hidden flex flex-col justify-between p-4">
+                <div className="flex-1 min-h-[280px] sm:min-h-[300px] relative bg-slate-950 rounded-2xl border-[3px] border-slate-800/60 overflow-hidden flex flex-col">
                   {/* Status Banner */}
-                  <div className="absolute top-2 left-2 right-2 bg-slate-900/90 border border-slate-800 rounded-lg py-1.5 px-3 flex items-center justify-between text-[11px] font-black text-slate-400 uppercase tracking-wider z-20">
-                    <span>Simulator Active</span>
+                  <div className="bg-slate-900/90 border-b border-slate-800 py-1.5 px-3 flex items-center justify-between text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-wider shrink-0">
+                    <span>Simulator</span>
                     <span className={cn(
                       "flex items-center gap-1.5",
                       passStep === 4 ? "text-emerald-400" : "text-amber-400 animate-pulse"
                     )}>
-                      <span className="h-2 w-2 rounded-full bg-current"></span>
-                      {passStep === 4 ? "Extinguished" : `Step ${passStep + 1}: ${["PULL", "AIM", "SQUEEZE", "SWEEP"][passStep]}`}
+                      <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-current"></span>
+                      {passStep === 4 ? "Complete ✓" : `Step ${passStep + 1}/4`}
                     </span>
                   </div>
 
-                  {/* Simulator Screen Rendering */}
-                  <div className="flex-1 flex items-center justify-center relative overflow-hidden select-none">
-                    
-                    {/* Simulated Flames */}
-                    {passStep !== 4 && (
-                      <div 
-                        className="absolute right-8 bottom-4 flex flex-col items-center transition-all duration-500"
-                        style={{ transform: `scale(${fireHealth / 100})`, opacity: fireHealth > 0 ? 1 : 0 }}
-                      >
-                        <div className="relative w-20 h-24 sm:w-28 sm:h-32">
-                          {/* Inner flame */}
-                          <div className="absolute inset-0 bg-amber-500 rounded-full blur-[1px] animate-[pulse_0.8s_infinite] origin-bottom scale-90"></div>
-                          {/* Main flame */}
-                          <div className="absolute inset-0 bg-red-600 rounded-full mix-blend-screen animate-[bounce_1.2s_infinite] origin-bottom scale-75"></div>
-                          {/* Core flame */}
-                          <div className="absolute inset-x-4 top-6 bottom-0 bg-yellow-400 rounded-full mix-blend-screen animate-[pulse_0.5s_infinite] origin-bottom scale-50"></div>
+                  {/* Main Simulator Area */}
+                  <div className="flex-1 relative flex items-center justify-center p-4 sm:p-6">
+
+                    {/* ===== STEP 0: PULL THE PIN ===== */}
+                    {passStep === 0 && (
+                      <div className="flex flex-col items-center gap-4 sm:gap-6 text-center animate-in fade-in duration-500">
+                        {/* Large extinguisher with pin */}
+                        <div className="relative">
+                          <svg viewBox="0 0 120 200" className="w-24 h-40 sm:w-32 sm:h-52">
+                            {/* Tank body */}
+                            <rect x="30" y="60" width="60" height="110" rx="15" fill="#dc2626" stroke="#991b1b" strokeWidth="3"/>
+                            {/* Label area */}
+                            <rect x="38" y="90" width="44" height="30" rx="4" fill="#fef2f2" opacity="0.9"/>
+                            <text x="60" y="108" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#dc2626">FIRE</text>
+                            <text x="60" y="118" textAnchor="middle" fontSize="6" fill="#991b1b">EXTINGUISHER</text>
+                            {/* Gauge */}
+                            <circle cx="60" cy="80" r="8" fill="#fef2f2" stroke="#991b1b" strokeWidth="1.5"/>
+                            <path d="M 60 76 L 60 72" stroke="#16a34a" strokeWidth="2" strokeLinecap="round"/>
+                            {/* Handle top */}
+                            <rect x="42" y="40" width="36" height="22" rx="4" fill="#475569"/>
+                            <rect x="48" y="32" width="24" height="12" rx="3" fill="#64748b"/>
+                            {/* Nozzle */}
+                            <path d="M 78 50 Q 95 45 105 55" fill="none" stroke="#334155" strokeWidth="4" strokeLinecap="round"/>
+                            <circle cx="107" cy="56" r="4" fill="#1e293b"/>
+                          </svg>
+                          {/* Safety Pin - clickable */}
+                          <button
+                            onClick={() => {
+                              try { playSound('/sounds/spark.mp3', 'general') } catch(e){}
+                              setPinPulled(true);
+                              setTimeout(() => setPassStep(1), 600);
+                            }}
+                            className="absolute top-4 sm:top-5 right-0 sm:-right-2 group cursor-pointer"
+                          >
+                            <svg viewBox="0 0 60 40" className="w-14 h-10 sm:w-16 sm:h-12 group-hover:scale-110 group-active:scale-90 transition-transform drop-shadow-lg">
+                              <circle cx="42" cy="20" r="12" fill="none" stroke="#fbbf24" strokeWidth="4"/>
+                              <line x1="10" y1="20" x2="32" y2="20" stroke="#fbbf24" strokeWidth="5" strokeLinecap="round"/>
+                            </svg>
+                            <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] text-amber-400 font-black uppercase tracking-wider whitespace-nowrap animate-bounce">← Pull me!</span>
+                          </button>
                         </div>
-                        {/* Target Reticle (Aim step) */}
-                        {passStep === 1 && !aimed && (
+                        <p className="text-amber-400 font-black text-xs sm:text-sm uppercase tracking-wider">
+                          Click the gold ring pin to pull it out!
+                        </p>
+                      </div>
+                    )}
+
+                    {/* ===== STEP 1: AIM AT THE BASE ===== */}
+                    {passStep === 1 && (
+                      <div className="flex items-end justify-between w-full max-w-sm gap-4 sm:gap-6 animate-in fade-in duration-500">
+                        {/* Extinguisher (no pin, nozzle highlighted) */}
+                        <div className="shrink-0">
+                          <svg viewBox="0 0 120 180" className="w-16 h-28 sm:w-24 sm:h-40">
+                            <rect x="30" y="50" width="60" height="110" rx="15" fill="#dc2626" stroke="#991b1b" strokeWidth="3"/>
+                            <rect x="38" y="80" width="44" height="25" rx="4" fill="#fef2f2" opacity="0.9"/>
+                            <text x="60" y="96" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#dc2626">FIRE</text>
+                            <rect x="42" y="30" width="36" height="22" rx="4" fill="#475569"/>
+                            <rect x="48" y="22" width="24" height="12" rx="3" fill="#64748b"/>
+                            {/* Hose pointing right */}
+                            <path d="M 78 40 Q 100 30 115 50 Q 120 58 115 65" fill="none" stroke="#334155" strokeWidth="5" strokeLinecap="round"/>
+                            <circle cx="115" cy="67" r="5" fill="#1e293b" stroke="#fbbf24" strokeWidth="2" className="animate-pulse"/>
+                          </svg>
+                        </div>
+
+                        {/* Fire with clickable base target */}
+                        <div className="flex flex-col items-center relative">
+                          {/* CSS Flames */}
+                          <div className="relative w-20 h-28 sm:w-28 sm:h-36">
+                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-24 sm:w-24 sm:h-32">
+                              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-20 sm:w-16 sm:h-28 bg-gradient-to-t from-red-600 via-orange-500 to-yellow-400 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] animate-[pulse_0.6s_ease-in-out_infinite] opacity-90"></div>
+                              <div className="absolute bottom-0 left-1/2 -translate-x-[40%] w-8 h-16 sm:w-12 sm:h-24 bg-gradient-to-t from-orange-600 via-yellow-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] animate-[pulse_0.4s_ease-in-out_infinite] opacity-80"></div>
+                              <div className="absolute bottom-0 left-1/2 -translate-x-[60%] w-10 h-18 sm:w-14 sm:h-26 bg-gradient-to-t from-red-700 via-red-500 to-orange-400 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] animate-[pulse_0.8s_ease-in-out_infinite] opacity-70"></div>
+                            </div>
+                          </div>
+                          {/* Clickable base target */}
                           <button
                             onClick={() => {
                               try { playSound('/sounds/wood.mp3', 'general') } catch(e){}
                               setAimed(true);
-                              setTimeout(() => setPassStep(2), 1000);
+                              setTimeout(() => setPassStep(2), 600);
                             }}
-                            className="absolute -top-4 w-12 h-12 rounded-full border-4 border-dashed border-yellow-400 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-transform animate-spin"
-                            style={{ animationDuration: '3s' }}
+                            className="relative -mt-1 w-24 sm:w-32 h-8 sm:h-10 bg-slate-800 border-[3px] border-dashed border-yellow-400 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer hover:bg-slate-700 hover:scale-105 active:scale-95 transition-all group"
                           >
-                            <span className="text-yellow-400 text-xs font-black animate-none">BASE</span>
+                            <span className="text-yellow-400 text-[10px] sm:text-xs font-black uppercase tracking-wider group-hover:text-yellow-300">AIM HERE</span>
+                            <span className="absolute -top-6 text-[9px] text-yellow-400/80 font-bold animate-bounce">↓ base</span>
                           </button>
-                        )}
-                        <span className="text-[10px] text-slate-500 font-extrabold uppercase mt-1">Base of Fire</span>
+                        </div>
                       </div>
                     )}
 
-                    {/* Extinguisher and Spray Graphics */}
-                    <div className="absolute left-6 bottom-4 flex items-end gap-2">
-                      <div className="relative">
-                        {/* Extinguisher handle lever */}
-                        <svg 
-                          viewBox="0 0 100 100" 
-                          className={cn(
-                            "w-20 h-28 transition-transform origin-bottom duration-300",
-                            aimed && "rotate-[10deg]"
-                          )}
-                        >
-                          {/* Tank */}
-                          <rect x="35" y="40" width="30" height="50" rx="10" fill="#dc2626" stroke="#991b1b" strokeWidth="3" />
-                          <rect x="40" y="45" width="20" height="10" rx="2" fill="#ffffff" opacity="0.3" />
-                          <circle cx="50" cy="50" r="5" fill="#facc15" />
-                          
-                          {/* Top Valves / Handle levers */}
-                          <path d="M 45 25 L 55 25 L 50 40 Z" fill="#94a3b8" />
-                          {/* Bottom handle arm */}
-                          <rect x="30" y="32" width="20" height="6" rx="2" fill="#64748b" transform="rotate(-15 30 32)" />
-                          {/* Top squeezable handle arm */}
-                          <rect 
-                            x="30" 
-                            y="25" 
-                            width="20" 
-                            height="6" 
-                            rx="2" 
-                            fill="#64748b" 
-                            className="transition-transform origin-left duration-200"
-                            style={{ transform: squeezed ? "rotate(10deg)" : "rotate(-10deg)" }}
-                          />
-
-                          {/* Safety Pin */}
-                          {!pinPulled && (
-                            <g 
-                              className="cursor-pointer hover:scale-105 transition-transform"
-                              onClick={() => {
-                                try { playSound('/sounds/spark.mp3', 'general') } catch(e){}
-                                setPinPulled(true);
-                                setTimeout(() => setPassStep(1), 1000);
-                              }}
-                            >
-                              <circle cx="55" cy="30" r="8" fill="none" stroke="#fbbf24" strokeWidth="3" />
-                              <line x1="45" y1="30" x2="52" y2="30" stroke="#fbbf24" strokeWidth="4" />
-                            </g>
-                          )}
-                        </svg>
-
-                        {/* Hose/Nozzle */}
-                        <svg 
-                          viewBox="0 0 100 100" 
-                          className={cn(
-                            "absolute top-6 left-12 w-24 h-24 origin-left transition-all duration-500 pointer-events-none",
-                            aimed ? "rotate-[15deg] translate-y-2 scale-y-95" : "rotate-[-30deg]"
-                          )}
-                        >
-                          <path d="M 0 40 Q 40 10 80 40" fill="none" stroke="#1e293b" strokeWidth="5" strokeLinecap="round" />
-                          <rect x="75" y="35" width="15" height="10" rx="3" fill="#0f172a" />
-                        </svg>
-                      </div>
-
-                      {/* Foam Spray Particles */}
-                      {sprayActive && (
-                        <div className="absolute left-28 bottom-12 w-48 h-12 pointer-events-none overflow-visible flex items-center justify-start z-10">
-                          <svg className="w-full h-full overflow-visible">
-                            <defs>
-                              <filter id="foam-blur">
-                                <feGaussianBlur stdDeviation="3" />
-                              </filter>
-                            </defs>
-                            <g filter="url(#foam-blur)">
-                              <circle cx="20" cy="20" r="10" fill="#ffffff" opacity="0.9" className="animate-[ping_0.5s_infinite]" />
-                              <circle cx="50" cy="18" r="12" fill="#ffffff" opacity="0.8" className="animate-[ping_0.6s_infinite] delay-75" />
-                              <circle cx="90" cy="24" r="14" fill="#ffffff" opacity="0.8" className="animate-[ping_0.4s_infinite] delay-150" />
-                              <circle cx="130" cy="26" r="16" fill="#ffffff" opacity="0.7" className="animate-[ping_0.5s_infinite] delay-100" />
-                            </g>
+                    {/* ===== STEP 2: SQUEEZE ===== */}
+                    {passStep === 2 && (
+                      <div className="flex flex-col items-center gap-4 sm:gap-6 text-center animate-in fade-in duration-500">
+                        <div className="relative">
+                          <svg viewBox="0 0 140 200" className="w-28 h-40 sm:w-36 sm:h-52">
+                            {/* Tank */}
+                            <rect x="40" y="60" width="60" height="110" rx="15" fill="#dc2626" stroke="#991b1b" strokeWidth="3"/>
+                            <rect x="48" y="90" width="44" height="25" rx="4" fill="#fef2f2" opacity="0.9"/>
+                            <text x="70" y="106" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#dc2626">FIRE</text>
+                            {/* Handle area - highlighted */}
+                            <rect x="52" y="40" width="36" height="22" rx="4" fill="#475569"/>
+                            {/* Top lever - the squeezable part */}
+                            <rect x="50" y="32" width="30" height="10" rx="3" fill="#fbbf24" className="animate-pulse" stroke="#f59e0b" strokeWidth="2"/>
+                            {/* Arrow pointing to handle */}
+                            <text x="95" y="40" fontSize="16" fill="#fbbf24" className="animate-bounce">←</text>
+                            {/* Hose */}
+                            <path d="M 88 50 Q 110 40 125 55" fill="none" stroke="#334155" strokeWidth="5" strokeLinecap="round"/>
+                            <circle cx="127" cy="57" r="5" fill="#1e293b"/>
                           </svg>
                         </div>
-                      )}
-                    </div>
-
-                    {/* Extinguished Banner */}
-                    {passStep === 4 && (
-                      <div className="absolute inset-0 bg-slate-900/90 flex flex-col items-center justify-center p-6 text-center animate-[popIn_0.5s_ease-out]">
-                        <div className="h-16 w-16 bg-emerald-500 rounded-full flex items-center justify-center mb-4 border-[4px] border-white shadow-xl animate-[bounce_1s_infinite]">
-                          <CheckCircle className="h-8 w-8 text-white" strokeWidth={3} />
-                        </div>
-                        <h4 className="text-xl font-black text-emerald-400 mb-1">FIRE EXTINGUISHED!</h4>
-                        <p className="text-xs text-slate-300 font-bold max-w-sm">
-                          Awesome job! You successfully used the PASS method. Remember: Pull, Aim, Squeeze, Sweep!
-                        </p>
+                        <button
+                          onClick={() => {
+                            try { playSound('/sounds/fan.mp3', 'general') } catch(e){}
+                            setSqueezed(true);
+                            setTimeout(() => setPassStep(3), 600);
+                          }}
+                          className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-5 sm:px-8 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm uppercase tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-all border-b-[4px] border-amber-700 active:border-b-0"
+                        >
+                          Squeeze the Handle!
+                        </button>
                       </div>
                     )}
-                  </div>
 
-                  {/* Step Action Prompts / Controls */}
-                  <div className="h-14 border-t border-slate-800/80 pt-3 flex items-center justify-center text-center">
-                    {passStep === 0 && (
-                      <button 
-                        onClick={() => {
-                          try { playSound('/sounds/spark.mp3', 'general') } catch(e){}
-                          setPinPulled(true);
-                          setTimeout(() => setPassStep(1), 1000);
-                        }}
-                        className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-2 rounded-full text-xs uppercase tracking-wider shadow-md hover:-translate-y-0.5 active:translate-y-0.5 transition-transform"
-                      >
-                        Click to Pull the Ring Pin 🔑
-                      </button>
-                    )}
-                    {passStep === 1 && (
-                      <p className="text-xs text-amber-400 font-black uppercase tracking-wider animate-pulse">
-                        🎯 Click the "BASE" target reticle on the fire!
-                      </p>
-                    )}
-                    {passStep === 2 && (
-                      <button 
-                        onClick={() => {
-                          try { playSound('/sounds/fan.mp3', 'general') } catch(e){}
-                          setSqueezed(true);
-                          setTimeout(() => setPassStep(3), 1000);
-                        }}
-                        className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-2 rounded-full text-xs uppercase tracking-wider shadow-md hover:-translate-y-0.5 active:translate-y-0.5 transition-transform"
-                      >
-                        Squeeze the Extinguisher Handle! 🤝
-                      </button>
-                    )}
+                    {/* ===== STEP 3: SWEEP ===== */}
                     {passStep === 3 && (
-                      <div className="flex flex-col items-center gap-1.5 w-full max-w-xs">
-                        <div className="flex justify-between w-full text-[10px] text-slate-400 font-extrabold uppercase px-1">
-                          <span>Sweep Nozzle</span>
-                          <span>{sweepCount} / 4 Sweeps</span>
+                      <div className="flex flex-col items-center gap-3 sm:gap-5 w-full animate-in fade-in duration-500">
+                        {/* Fire scene with spray */}
+                        <div className="relative w-full max-w-xs h-32 sm:h-44 flex items-end justify-center">
+                          {/* Extinguisher spraying */}
+                          <div className="absolute left-2 sm:left-4 bottom-0">
+                            <svg viewBox="0 0 100 140" className="w-12 h-20 sm:w-16 sm:h-24">
+                              <rect x="25" y="40" width="40" height="75" rx="10" fill="#dc2626" stroke="#991b1b" strokeWidth="2"/>
+                              <rect x="35" y="25" width="24" height="16" rx="3" fill="#475569"/>
+                              <rect x="37" y="19" width="18" height="8" rx="2" fill="#64748b"/>
+                              <path d="M 55 30 Q 75 20 90 35" fill="none" stroke="#334155" strokeWidth="4" strokeLinecap="round"/>
+                              <circle cx="92" cy="37" r="4" fill="#1e293b"/>
+                            </svg>
+                          </div>
+
+                          {/* Spray stream */}
+                          {sprayActive && (
+                            <div className="absolute left-16 sm:left-20 bottom-6 sm:bottom-8 right-8 sm:right-12 h-6 sm:h-8 flex items-center pointer-events-none z-10">
+                              <div className="w-full h-full bg-gradient-to-r from-white/80 via-white/50 to-white/20 rounded-full animate-[pulse_0.2s_ease-in-out_infinite] blur-[2px]"></div>
+                              <div className="absolute inset-0 flex items-center justify-around">
+                                {[...Array(6)].map((_, i) => (
+                                  <div key={i} className="w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full opacity-70 animate-ping" style={{ animationDelay: `${i * 80}ms`, animationDuration: '0.6s' }}></div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Fire - shrinks based on fireHealth */}
+                          <div
+                            className="absolute right-4 sm:right-8 bottom-0 flex flex-col items-center transition-all duration-700"
+                            style={{ transform: `scale(${Math.max(fireHealth / 100, 0.1)})`, opacity: fireHealth > 0 ? 1 : 0.2 }}
+                          >
+                            <div className="relative w-16 h-20 sm:w-24 sm:h-28">
+                              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 h-18 sm:w-20 sm:h-24 bg-gradient-to-t from-red-600 via-orange-500 to-yellow-400 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] animate-[pulse_0.6s_ease-in-out_infinite]"></div>
+                              <div className="absolute bottom-0 left-1/2 -translate-x-[40%] w-8 h-14 sm:w-12 sm:h-20 bg-gradient-to-t from-orange-600 via-yellow-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] animate-[pulse_0.4s_ease-in-out_infinite] opacity-80"></div>
+                            </div>
+                          </div>
+
+                          {/* Smoke when fire is small */}
+                          {fireHealth <= 50 && fireHealth > 0 && (
+                            <div className="absolute right-6 sm:right-10 top-0 flex gap-2 pointer-events-none">
+                              {[...Array(3)].map((_, i) => (
+                                <div key={i} className="w-4 h-4 sm:w-6 sm:h-6 bg-slate-400/30 rounded-full animate-[float_2s_ease-in-out_infinite] blur-sm" style={{ animationDelay: `${i * 400}ms` }}></div>
+                              ))}
+                            </div>
+                          )}
                         </div>
-                        <div className="flex items-center gap-3 w-full">
-                          <button
-                            onClick={() => {
-                              if (lastSweepDir !== 'left') {
-                                try { playSound('/sounds/water.mp3', 'general') } catch(e){}
-                                setSprayActive(true);
-                                setLastSweepDir('left');
-                                setSweepCount(prev => {
-                                  const next = prev + 1;
-                                  setFireHealth(100 - (next * 25));
-                                  if (next >= 4) {
-                                    setTimeout(() => {
-                                      setPassStep(4);
-                                      setSprayActive(false);
-                                      handleSection4();
-                                    }, 800);
-                                  } else {
-                                    setTimeout(() => setSprayActive(false), 500);
-                                  }
-                                  return next;
-                                });
-                              }
-                            }}
-                            className={cn(
-                              "flex-1 bg-slate-800 hover:bg-slate-700 text-white font-extrabold py-2 px-3 rounded-xl border border-slate-700 active:scale-95 transition-all text-[11px]",
-                              lastSweepDir === 'left' && "opacity-40 cursor-not-allowed"
-                            )}
-                          >
-                            ◀ SWEEP LEFT
-                          </button>
-                          <button
-                            onClick={() => {
-                              if (lastSweepDir !== 'right') {
-                                try { playSound('/sounds/water.mp3', 'general') } catch(e){}
-                                setSprayActive(true);
-                                setLastSweepDir('right');
-                                setSweepCount(prev => {
-                                  const next = prev + 1;
-                                  setFireHealth(100 - (next * 25));
-                                  if (next >= 4) {
-                                    setTimeout(() => {
-                                      setPassStep(4);
-                                      setSprayActive(false);
-                                      handleSection4();
-                                    }, 800);
-                                  } else {
-                                    setTimeout(() => setSprayActive(false), 500);
-                                  }
-                                  return next;
-                                });
-                              }
-                            }}
-                            className={cn(
-                              "flex-1 bg-slate-800 hover:bg-slate-700 text-white font-extrabold py-2 px-3 rounded-xl border border-slate-700 active:scale-95 transition-all text-[11px]",
-                              lastSweepDir === 'right' && "opacity-40 cursor-not-allowed"
-                            )}
-                          >
-                            SWEEP RIGHT ▶
-                          </button>
+
+                        {/* Sweep controls */}
+                        <div className="flex flex-col items-center gap-2 w-full max-w-xs">
+                          {/* Progress bar */}
+                          <div className="w-full bg-slate-800 rounded-full h-2.5 border border-slate-700">
+                            <div className="bg-gradient-to-r from-amber-500 to-emerald-500 h-full rounded-full transition-all duration-500" style={{ width: `${(sweepCount / 4) * 100}%` }}></div>
+                          </div>
+                          <div className="flex justify-between w-full text-[9px] sm:text-[10px] text-slate-400 font-extrabold uppercase px-1">
+                            <span>Sweep to extinguish</span>
+                            <span className="text-amber-400">{sweepCount} / 4</span>
+                          </div>
+                          <div className="flex items-center gap-2 sm:gap-3 w-full">
+                            <button
+                              onClick={() => {
+                                if (lastSweepDir !== 'left') {
+                                  try { playSound('/sounds/water.mp3', 'general') } catch(e){}
+                                  setSprayActive(true);
+                                  setLastSweepDir('left');
+                                  setSweepCount(prev => {
+                                    const next = prev + 1;
+                                    setFireHealth(100 - (next * 25));
+                                    if (next >= 4) {
+                                      setTimeout(() => {
+                                        setPassStep(4);
+                                        setSprayActive(false);
+                                        handleSection4();
+                                      }, 800);
+                                    } else {
+                                      setTimeout(() => setSprayActive(false), 500);
+                                    }
+                                    return next;
+                                  });
+                                }
+                              }}
+                              className={cn(
+                                "flex-1 bg-slate-800 hover:bg-slate-700 text-white font-extrabold py-2.5 sm:py-3 px-3 rounded-xl border-2 border-slate-700 active:scale-95 transition-all text-[11px] sm:text-xs",
+                                lastSweepDir === 'left' ? "opacity-30 cursor-not-allowed border-slate-800" : "hover:border-amber-500"
+                              )}
+                            >
+                              ◀ LEFT
+                            </button>
+                            <button
+                              onClick={() => {
+                                if (lastSweepDir !== 'right') {
+                                  try { playSound('/sounds/water.mp3', 'general') } catch(e){}
+                                  setSprayActive(true);
+                                  setLastSweepDir('right');
+                                  setSweepCount(prev => {
+                                    const next = prev + 1;
+                                    setFireHealth(100 - (next * 25));
+                                    if (next >= 4) {
+                                      setTimeout(() => {
+                                        setPassStep(4);
+                                        setSprayActive(false);
+                                        handleSection4();
+                                      }, 800);
+                                    } else {
+                                      setTimeout(() => setSprayActive(false), 500);
+                                    }
+                                    return next;
+                                  });
+                                }
+                              }}
+                              className={cn(
+                                "flex-1 bg-slate-800 hover:bg-slate-700 text-white font-extrabold py-2.5 sm:py-3 px-3 rounded-xl border-2 border-slate-700 active:scale-95 transition-all text-[11px] sm:text-xs",
+                                lastSweepDir === 'right' ? "opacity-30 cursor-not-allowed border-slate-800" : "hover:border-amber-500"
+                              )}
+                            >
+                              RIGHT ▶
+                            </button>
+                          </div>
                         </div>
                       </div>
                     )}
+
+                    {/* ===== STEP 4: FIRE EXTINGUISHED ===== */}
                     {passStep === 4 && (
-                      <button
-                        onClick={() => {
-                          setPassStep(0);
-                          setPinPulled(false);
-                          setAimed(false);
-                          setSqueezed(false);
-                          setSweepCount(0);
-                          setLastSweepDir(null);
-                          setFireHealth(100);
-                        }}
-                        className="text-amber-400 hover:text-amber-300 font-extrabold text-xs uppercase tracking-wider underline cursor-pointer"
-                      >
-                        Reset Training Simulator 🔄
-                      </button>
+                      <div className="flex flex-col items-center justify-center text-center gap-4 animate-in zoom-in-95 fade-in duration-500">
+                        <div className="h-16 w-16 sm:h-20 sm:w-20 bg-emerald-500 rounded-full flex items-center justify-center border-[4px] border-white shadow-xl shadow-emerald-500/30 animate-[bounce_1.5s_infinite]">
+                          <CheckCircle className="h-8 w-8 sm:h-10 sm:w-10 text-white" strokeWidth={3} />
+                        </div>
+                        <div>
+                          <h4 className="text-lg sm:text-2xl font-black text-emerald-400 mb-1">FIRE EXTINGUISHED!</h4>
+                          <p className="text-[11px] sm:text-xs text-slate-300 font-bold max-w-xs leading-relaxed">
+                            Awesome job! You successfully used the PASS method.<br/>
+                            <strong className="text-amber-400">P</strong>ull · <strong className="text-amber-400">A</strong>im · <strong className="text-amber-400">S</strong>queeze · <strong className="text-amber-400">S</strong>weep
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setPassStep(0);
+                            setPinPulled(false);
+                            setAimed(false);
+                            setSqueezed(false);
+                            setSweepCount(0);
+                            setLastSweepDir(null);
+                            setFireHealth(100);
+                            setSprayActive(false);
+                          }}
+                          className="text-amber-400 hover:text-amber-300 font-extrabold text-[10px] sm:text-xs uppercase tracking-wider underline cursor-pointer mt-1"
+                        >
+                          Try Again
+                        </button>
+                      </div>
                     )}
+
                   </div>
+
+                  {/* Float animation keyframes */}
+                  <style>{`
+                    @keyframes float {
+                      0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+                      50% { transform: translateY(-16px) scale(1.3); opacity: 0.1; }
+                    }
+                  `}</style>
                 </div>
               </div>
 
