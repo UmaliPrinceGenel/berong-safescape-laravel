@@ -965,10 +965,10 @@ export function Chatbot() {
                           { id: 'cow', icon: '/berong_pr.webp' },
                           { id: 'ff1', icon: '/hero_jack.webp' },
                           { id: 'ff2', icon: '/hero_sarah.webp' },
-                          { id: 'kid1', icon: '🧒' },
-                          { id: 'kid2', icon: '👧' },
-                          { id: 'adult1', icon: '👨' },
-                          { id: 'adult2', icon: '👩' },
+                          { id: 'kid1', icon: '/hero_boy.webp' },
+                          { id: 'kid2', icon: '/hero_girl.webp' },
+                          { id: 'adult1', icon: '/hero_male.webp' },
+                          { id: 'adult2', icon: '/hero_female.webp' },
                         ].find(opt => opt.id === avatarId);
                         
                         return (

@@ -90,9 +90,8 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
   const badgesFound = ALL_BADGES.filter(b => isBadgeEarned(b.id, b.moduleNum)).length
   const progressPercent = (badgesFound / totalBadges) * 100
 
-  // Avatars Mapping
   const AVATAR_MAP: Record<string, string> = {
-    cow: '/berong_pr.webp', ff1: '/hero_jack.webp', ff2: '/hero_sarah.webp', kid1: '🧒', kid2: '👧', adult1: '👨', adult2: '👩',
+    cow: '/berong_pr.webp', ff1: '/hero_jack.webp', ff2: '/hero_sarah.webp', kid1: '/hero_boy.webp', kid2: '/hero_girl.webp', adult1: '/hero_male.webp', adult2: '/hero_female.webp',
   }
   const userAvatar = AVATAR_MAP[user?.avatar || 'cow'] || '/berong_pr.webp'
 

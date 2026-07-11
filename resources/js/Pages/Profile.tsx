@@ -52,10 +52,10 @@ export default function ProfilePage() {
     { id: 'cow', icon: '/berong_pr.webp', label: 'Berong', category: 'Special' },
     { id: 'ff1', icon: '/hero_jack.webp', label: 'Hero Jack', category: 'Firefighter' },
     { id: 'ff2', icon: '/hero_sarah.webp', label: 'Hero Sarah', category: 'Firefighter' },
-    { id: 'kid1', icon: '🧒', label: 'Safety Scout', category: 'Kid' },
-    { id: 'kid2', icon: '👧', label: 'Explorer', category: 'Kid' },
-    { id: 'adult1', icon: '👨', label: 'Guardian', category: 'Adult' },
-    { id: 'adult2', icon: '👩', label: 'Mentor', category: 'Adult' },
+    { id: 'kid1', icon: '/hero_boy.webp', label: 'Safety Scout', category: 'Kid' },
+    { id: 'kid2', icon: '/hero_girl.webp', label: 'Explorer', category: 'Kid' },
+    { id: 'adult1', icon: '/hero_male.webp', label: 'Guardian', category: 'Adult' },
+    { id: 'adult2', icon: '/hero_female.webp', label: 'Mentor', category: 'Adult' },
   ]
 
   // Password Management
