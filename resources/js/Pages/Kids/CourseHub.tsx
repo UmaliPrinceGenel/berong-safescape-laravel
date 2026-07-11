@@ -589,12 +589,17 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
               {/* ── Certificate Card ── */}
               <div
                 className={cn(
-                  "relative rounded-[2rem] flex flex-col transition-all duration-500 overflow-hidden bg-white dark:bg-slate-900 h-full border-[3px]",
+                  "relative rounded-[2rem] flex flex-col transition-all duration-500 overflow-hidden bg-white dark:bg-slate-900 h-full border-[3px] group",
                   completedCount === 5
                     ? "border-yellow-400 shadow-xl shadow-yellow-100/40 dark:shadow-yellow-950/20 hover:-translate-y-1.5"
                     : "border-slate-200 dark:border-slate-800 opacity-80"
                 )}
               >
+                {/* Background Shadow Trophy */}
+                <div className="absolute top-1/2 -translate-y-1/2 -left-12 pointer-events-none select-none z-0 transition-transform duration-500 group-hover:scale-105">
+                  <Trophy className="w-[320px] h-[320px] text-slate-900 dark:text-white opacity-[0.08] dark:opacity-[0.10]" strokeWidth={1} />
+                </div>
+
                 {/* Header Graphic Area - Solid Accent */}
                 <div className={cn(
                   "h-32 sm:h-36 p-6 flex flex-col justify-end border-b-[3px] relative overflow-hidden",
