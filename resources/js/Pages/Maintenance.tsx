@@ -1,15 +1,55 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Head } from '@inertiajs/react'
 import { Hammer, RefreshCw, AlertTriangle } from 'lucide-react'
 
 interface MaintenanceProps {
   message: string
+  until?: string | null
 }
 
-export default function Maintenance({ message }: MaintenanceProps) {
+export default function Maintenance({ message, until }: MaintenanceProps) {
+  const [timeLeft, setTimeLeft] = useState<string>("")
+
   const handleRefresh = () => {
     window.location.href = '/'
   }
+
+  useEffect(() => {
+    if (!until) {
+      setTimeLeft("")
+      return
+    }
+
+    const updateTimer = () => {
+      const targetTime = new Date(until).getTime()
+      const now = Date.now()
+      const diff = targetTime - now
+
+      if (diff <= 0) {
+        setTimeLeft("Finishing updates...")
+        // Automatically check/refresh shortly after countdown finishes
+        const refreshTimeout = setTimeout(() => {
+          window.location.href = '/'
+        }, 5000)
+        return () => clearTimeout(refreshTimeout)
+      } else {
+        const hours = Math.floor(diff / 3600000)
+        const minutes = Math.floor((diff % 3600000) / 60000)
+        const seconds = Math.floor((diff % 60000) / 1000)
+        
+        let formatted = ""
+        if (hours > 0) {
+          formatted += `${hours}h `
+        }
+        formatted += `${minutes}m ${seconds}s`
+        setTimeLeft(formatted)
+      }
+    }
+
+    updateTimer()
+    const interval = setInterval(updateTimer, 1000)
+    return () => clearInterval(interval)
+  }, [until])
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans select-none">
@@ -50,6 +90,14 @@ export default function Maintenance({ message }: MaintenanceProps) {
         <p className="text-slate-300 dark:text-slate-300 font-bold leading-relaxed text-sm sm:text-base mb-8 max-w-sm mx-auto">
           {message}
         </p>
+
+        {/* Live Maintenance Countdown Clock */}
+        {timeLeft && (
+          <div className="mb-8 p-4 bg-slate-900/60 border border-slate-700/30 rounded-2xl max-w-xs mx-auto text-center shadow-inner">
+            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">Estimated Completion</span>
+            <span className="text-xl sm:text-2xl font-bold font-mono text-amber-400 tracking-tight">{timeLeft}</span>
+          </div>
+        )}
 
         {/* Interactive Refresh Button */}
         <button

@@ -35,12 +35,15 @@ Route::get('/maintenance', function () {
             return redirect('/');
         }
         $message = $config['message'] ?? 'SafeScape is currently undergoing scheduled updates. We\'ll be back online shortly!';
+        $until = $config['maintenance_until'] ?? null;
     } catch (\Throwable $e) {
         $message = 'SafeScape is currently undergoing scheduled updates. We\'ll be back online shortly!';
+        $until = null;
     }
 
     return Inertia::render('Maintenance', [
-        'message' => $message
+        'message' => $message,
+        'until' => $until
     ]);
 })->name('maintenance');
 

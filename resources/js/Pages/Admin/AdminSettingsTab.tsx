@@ -22,7 +22,9 @@ export const AdminSettingsTab: React.FC = () => {
     warning_active: false,
     warning_message: "",
     scheduled_at: null as string | null,
-    duration_minutes: 15
+    duration_minutes: 15,
+    maintenance_duration_minutes: 30,
+    maintenance_until: null as string | null
   })
   
   const [loading, setLoading] = useState(true)
@@ -49,7 +51,9 @@ export const AdminSettingsTab: React.FC = () => {
             warning_active: !!data.settings.warning_active,
             warning_message: data.settings.warning_message || "",
             scheduled_at: data.settings.scheduled_at || null,
-            duration_minutes: data.settings.duration_minutes || 15
+            duration_minutes: data.settings.duration_minutes || 15,
+            maintenance_duration_minutes: data.settings.maintenance_duration_minutes || 30,
+            maintenance_until: data.settings.maintenance_until || null
           })
         }
       } else {
@@ -74,8 +78,9 @@ export const AdminSettingsTab: React.FC = () => {
     setTabSuccess("")
 
     const nextWarningActive = !maintenance.warning_active;
+    const duration = parseInt(maintenance.duration_minutes as any, 10) || 15;
     const scheduledAt = nextWarningActive 
-      ? new Date(Date.now() + (maintenance.duration_minutes || 15) * 60 * 1000).toISOString()
+      ? new Date(Date.now() + duration * 60 * 1000).toISOString()
       : null;
 
     try {
@@ -88,7 +93,9 @@ export const AdminSettingsTab: React.FC = () => {
           warning_active: nextWarningActive,
           warning_message: maintenance.warning_message,
           scheduled_at: scheduledAt,
-          duration_minutes: maintenance.duration_minutes
+          duration_minutes: duration,
+          maintenance_duration_minutes: maintenance.maintenance_duration_minutes,
+          maintenance_until: maintenance.maintenance_until
         })
       })
 
@@ -100,7 +107,9 @@ export const AdminSettingsTab: React.FC = () => {
           warning_active: !!data.settings.warning_active,
           warning_message: data.settings.warning_message || "",
           scheduled_at: data.settings.scheduled_at || null,
-          duration_minutes: data.settings.duration_minutes || 15
+          duration_minutes: data.settings.duration_minutes || 15,
+          maintenance_duration_minutes: data.settings.maintenance_duration_minutes || 30,
+          maintenance_until: data.settings.maintenance_until || null
         })
         setTabSuccess(data.settings.warning_active ? "Warning banner enabled successfully." : "Warning banner disabled successfully.")
       } else {
@@ -129,7 +138,9 @@ export const AdminSettingsTab: React.FC = () => {
           warning_active: maintenance.warning_active,
           warning_message: maintenance.warning_message,
           scheduled_at: maintenance.scheduled_at,
-          duration_minutes: maintenance.duration_minutes
+          duration_minutes: parseInt(maintenance.duration_minutes as any, 10) || 15,
+          maintenance_duration_minutes: maintenance.maintenance_duration_minutes,
+          maintenance_until: maintenance.maintenance_until
         })
       })
 
@@ -141,7 +152,9 @@ export const AdminSettingsTab: React.FC = () => {
           warning_active: !!data.settings.warning_active,
           warning_message: data.settings.warning_message || "",
           scheduled_at: data.settings.scheduled_at || null,
-          duration_minutes: data.settings.duration_minutes || 15
+          duration_minutes: data.settings.duration_minutes || 15,
+          maintenance_duration_minutes: data.settings.maintenance_duration_minutes || 30,
+          maintenance_until: data.settings.maintenance_until || null
         })
         setTabSuccess("Warning message content saved successfully.")
       } else {
@@ -184,13 +197,20 @@ export const AdminSettingsTab: React.FC = () => {
     setSaving(true)
     
     try {
+      const nextMaintenanceUntil = isActive 
+        ? new Date(Date.now() + (parseInt(maintenance.maintenance_duration_minutes as any, 10) || 30) * 60 * 1000).toISOString()
+        : null;
+
       const payload: any = {
         is_active: isActive,
         message: maintenance.message,
-        warning_active: maintenance.warning_active,
+        // Make the warning banner automatically disappear when the system lockout is activated
+        warning_active: isActive ? false : maintenance.warning_active,
         warning_message: maintenance.warning_message,
-        scheduled_at: maintenance.scheduled_at,
-        duration_minutes: maintenance.duration_minutes
+        scheduled_at: isActive ? null : maintenance.scheduled_at,
+        duration_minutes: parseInt(maintenance.duration_minutes as any, 10) || 15,
+        maintenance_duration_minutes: parseInt(maintenance.maintenance_duration_minutes as any, 10) || 30,
+        maintenance_until: nextMaintenanceUntil
       }
 
       if (isActive) {
@@ -211,7 +231,9 @@ export const AdminSettingsTab: React.FC = () => {
           warning_active: !!data.settings.warning_active,
           warning_message: data.settings.warning_message || "",
           scheduled_at: data.settings.scheduled_at || null,
-          duration_minutes: data.settings.duration_minutes || 15
+          duration_minutes: data.settings.duration_minutes || 15,
+          maintenance_duration_minutes: data.settings.maintenance_duration_minutes || 30,
+          maintenance_until: data.settings.maintenance_until || null
         })
         setTabSuccess(isActive ? "System is now in MAINTENANCE MODE." : "System is now ONLINE.")
         setShowPasswordDialog(false)
@@ -303,8 +325,14 @@ export const AdminSettingsTab: React.FC = () => {
                 type="number"
                 min={1}
                 max={1440}
-                value={maintenance.duration_minutes || 15}
-                onChange={(e) => setMaintenance({ ...maintenance, duration_minutes: parseInt(e.target.value, 10) || 15 })}
+                value={(maintenance.duration_minutes as any) === "" ? "" : (maintenance.duration_minutes || 15)}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setMaintenance({ 
+                    ...maintenance, 
+                    duration_minutes: val === "" ? "" as any : parseInt(val, 10) 
+                  });
+                }}
                 placeholder="15"
                 className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-amber-500 text-xs sm:text-sm"
               />
@@ -377,6 +405,29 @@ export const AdminSettingsTab: React.FC = () => {
               </div>
               <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 leading-relaxed">
                 When active, all non-admin users will immediately be blocked and redirected to the Maintenance message.
+              </p>
+            </div>
+
+            <div className="space-y-1.5 pt-2">
+              <Label htmlFor="maintenance-duration" className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300">Estimated Duration (Minutes)</Label>
+              <Input
+                id="maintenance-duration"
+                type="number"
+                min={1}
+                max={1440}
+                value={(maintenance.maintenance_duration_minutes as any) === "" ? "" : (maintenance.maintenance_duration_minutes || 30)}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setMaintenance({ 
+                    ...maintenance, 
+                    maintenance_duration_minutes: val === "" ? "" as any : parseInt(val, 10) 
+                  });
+                }}
+                placeholder="30"
+                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-red-500 text-xs sm:text-sm"
+              />
+              <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 leading-tight">
+                Sets the countdown timer displayed on the live Maintenance screen for locked out users.
               </p>
             </div>
 

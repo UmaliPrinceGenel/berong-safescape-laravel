@@ -134,7 +134,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Content Layer - Full opacity */}
         <div className="relative z-10 w-full min-h-screen flex flex-col">
           <ProfileCheckWrapper>
-            <div className={localAlert ? "pb-12" : ""}>
+            <div className={(localAlert && !localAlert.is_active) ? "pb-12" : ""}>
               {children}
             </div>
           </ProfileCheckWrapper>
@@ -146,7 +146,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Toaster position="top-right" richColors duration={3000} />
 
         {/* Global Pre-Maintenance Alert Banner */}
-        {localAlert && (
+        {(localAlert && !localAlert.is_active) && (
           <div className="fixed bottom-0 left-0 w-full z-[10001] bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 text-slate-950 text-xs sm:text-sm font-black py-3 px-4 text-center flex items-center justify-center gap-2 shadow-[0_-4px_20px_rgba(245,158,11,0.25)] select-none animate-slide-up">
             <AlertTriangle className="h-4 w-4 shrink-0 text-slate-950 animate-bounce" style={{ animationDuration: '2s' }} />
             <span className="tracking-wide flex items-center flex-wrap justify-center gap-2">
