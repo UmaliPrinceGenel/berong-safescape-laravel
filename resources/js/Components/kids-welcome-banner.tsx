@@ -66,17 +66,17 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
   
   // All possible badges for summary - Synchronized with BadgeHall.tsx
   const ALL_BADGES = [
-    { id: 'module_1', moduleNum: 1, image: "/fire_hall.webp" },
-    { id: 'module_2', moduleNum: 2, image: "/shield_hall.webp" },
-    { id: 'module_3', moduleNum: 3, image: "/plan_hall.webp" },
-    { id: 'module_4', moduleNum: 4, image: "/low_hall.webp" },
-    { id: 'module_5', moduleNum: 5, image: "/home_hall.webp" },
-    { id: 'quiz_hero', image: "/quiz_hall.webp" },
-    { id: 'memory_master', image: "/memory_hall.webp" },
-    { id: 'smoke_scout', image: "/smoke_hall.webp" },
-    { id: 'safety_scout', image: "/safety_hall.webp" },
-    { id: 'hazard_hero', image: "/hazard_hall.webp" },
-    { id: 'intel_analyst', image: "/intel_hall.webp" }
+    { id: 'module_1', moduleNum: 1, image: "/badges/fire_hall.webp" },
+    { id: 'module_2', moduleNum: 2, image: "/badges/shield_hall.webp" },
+    { id: 'module_3', moduleNum: 3, image: "/badges/plan_hall.webp" },
+    { id: 'module_4', moduleNum: 4, image: "/badges/low_hall.webp" },
+    { id: 'module_5', moduleNum: 5, image: "/badges/home_hall.webp" },
+    { id: 'quiz_hero', image: "/badges/quiz_hall.webp" },
+    { id: 'memory_master', image: "/badges/memory_hall.webp" },
+    { id: 'smoke_scout', image: "/badges/smoke_hall.webp" },
+    { id: 'safety_scout', image: "/badges/safety_hall.webp" },
+    { id: 'hazard_hero', image: "/badges/hazard_hall.webp" },
+    { id: 'intel_analyst', image: "/badges/intel_hall.webp" }
   ]
 
   const totalBadges = ALL_BADGES.length
