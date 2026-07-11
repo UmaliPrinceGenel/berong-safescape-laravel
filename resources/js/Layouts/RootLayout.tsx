@@ -26,12 +26,39 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   const typedProps = props as any;
   const initialAlert = typedProps.maintenanceAlert;
-  const [localAlert, setLocalAlert] = useState<{ warning_message: string; is_active: boolean } | null>(initialAlert);
+  const [localAlert, setLocalAlert] = useState<{ warning_message: string; is_active: boolean; scheduled_at?: string | null } | null>(initialAlert);
+  const [timeLeftStr, setTimeLeftStr] = useState<string>("");
 
   // Sync prop changes
   useEffect(() => {
     setLocalAlert(initialAlert);
   }, [initialAlert]);
+
+  // Client-side real-time countdown timer
+  useEffect(() => {
+    if (!localAlert || !localAlert.scheduled_at) {
+      setTimeLeftStr("");
+      return;
+    }
+
+    const updateTimer = () => {
+      const scheduledTime = new Date(localAlert.scheduled_at!).getTime();
+      const now = Date.now();
+      const diff = scheduledTime - now;
+
+      if (diff <= 0) {
+        setTimeLeftStr("System offline shortly");
+      } else {
+        const minutes = Math.floor(diff / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+        setTimeLeftStr(`${minutes}m ${seconds}s`);
+      }
+    };
+
+    updateTimer();
+    const timer = setInterval(updateTimer, 1000);
+    return () => clearInterval(timer);
+  }, [localAlert]);
 
   // Real-time polling
   useEffect(() => {
@@ -60,7 +87,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           if (data.warning_active) {
             setLocalAlert({
               warning_message: data.warning_message,
-              is_active: data.is_active
+              is_active: data.is_active,
+              scheduled_at: data.scheduled_at || null
             });
           } else {
             setLocalAlert(null);
@@ -119,9 +147,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* Global Pre-Maintenance Alert Banner */}
         {localAlert && (
-          <div className="fixed bottom-0 left-0 w-full z-[10001] bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 text-slate-950 text-xs sm:text-sm font-black py-3 px-4 text-center flex items-center justify-center gap-2 shadow-[0_-4px_20px_rgba(245,158,11,0.25)] select-none">
+          <div className="fixed bottom-0 left-0 w-full z-[10001] bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 text-slate-950 text-xs sm:text-sm font-black py-3 px-4 text-center flex items-center justify-center gap-2 shadow-[0_-4px_20px_rgba(245,158,11,0.25)] select-none animate-slide-up">
             <AlertTriangle className="h-4 w-4 shrink-0 text-slate-950 animate-bounce" style={{ animationDuration: '2s' }} />
-            <span className="tracking-wide">{localAlert.warning_message}</span>
+            <span className="tracking-wide flex items-center flex-wrap justify-center gap-2">
+              <span>{localAlert.warning_message}</span>
+              {timeLeftStr && (
+                <span className="px-2 py-0.5 bg-slate-950 text-amber-400 rounded-lg text-[10px] sm:text-xs font-mono tracking-tight shadow-sm border border-amber-400/20 whitespace-nowrap">
+                  {timeLeftStr}
+                </span>
+              )}
+            </span>
           </div>
         )}
       </div>

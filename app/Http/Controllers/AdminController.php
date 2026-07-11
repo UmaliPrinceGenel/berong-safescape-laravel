@@ -1172,6 +1172,8 @@ class AdminController extends Controller
             'message' => 'required|string|max:500',
             'warning_active' => 'required|boolean',
             'warning_message' => 'required|string|max:500',
+            'scheduled_at' => 'nullable|string',
+            'duration_minutes' => 'nullable|integer|min:1|max:1440',
         ];
 
         if ($request->is_active) {
@@ -1196,6 +1198,8 @@ class AdminController extends Controller
             'message' => $request->message,
             'warning_active' => $request->warning_active,
             'warning_message' => $request->warning_message,
+            'scheduled_at' => $request->scheduled_at,
+            'duration_minutes' => $request->duration_minutes ?? 15,
         ];
 
         \App\Models\SystemSetting::setVal('maintenance_mode', $settings, 'System maintenance mode settings');

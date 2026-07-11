@@ -20,7 +20,9 @@ export const AdminSettingsTab: React.FC = () => {
     is_active: false,
     message: "",
     warning_active: false,
-    warning_message: ""
+    warning_message: "",
+    scheduled_at: null as string | null,
+    duration_minutes: 15
   })
   
   const [loading, setLoading] = useState(true)
@@ -41,7 +43,14 @@ export const AdminSettingsTab: React.FC = () => {
       if (response.ok) {
         const data = await response.json()
         if (data.success && data.settings) {
-          setMaintenance(data.settings)
+          setMaintenance({
+            is_active: !!data.settings.is_active,
+            message: data.settings.message || "",
+            warning_active: !!data.settings.warning_active,
+            warning_message: data.settings.warning_message || "",
+            scheduled_at: data.settings.scheduled_at || null,
+            duration_minutes: data.settings.duration_minutes || 15
+          })
         }
       } else {
         setTabError("Failed to load maintenance configurations.")
@@ -64,21 +73,35 @@ export const AdminSettingsTab: React.FC = () => {
     setTabError("")
     setTabSuccess("")
 
+    const nextWarningActive = !maintenance.warning_active;
+    const scheduledAt = nextWarningActive 
+      ? new Date(Date.now() + (maintenance.duration_minutes || 15) * 60 * 1000).toISOString()
+      : null;
+
     try {
       const response = await apiFetch("/api/admin/settings/maintenance", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          is_active: maintenance.is_active, // Keep existing maintenance mode status
+          is_active: maintenance.is_active,
           message: maintenance.message,
-          warning_active: !maintenance.warning_active, // Toggle warning status
-          warning_message: maintenance.warning_message
+          warning_active: nextWarningActive,
+          warning_message: maintenance.warning_message,
+          scheduled_at: scheduledAt,
+          duration_minutes: maintenance.duration_minutes
         })
       })
 
       const data = await response.json()
       if (response.ok && data.success) {
-        setMaintenance(data.settings)
+        setMaintenance({
+          is_active: !!data.settings.is_active,
+          message: data.settings.message || "",
+          warning_active: !!data.settings.warning_active,
+          warning_message: data.settings.warning_message || "",
+          scheduled_at: data.settings.scheduled_at || null,
+          duration_minutes: data.settings.duration_minutes || 15
+        })
         setTabSuccess(data.settings.warning_active ? "Warning banner enabled successfully." : "Warning banner disabled successfully.")
       } else {
         setTabError(data.errors?.warning_message?.[0] || data.message || "Failed to update alert configurations.")
@@ -104,13 +127,22 @@ export const AdminSettingsTab: React.FC = () => {
           is_active: maintenance.is_active,
           message: maintenance.message,
           warning_active: maintenance.warning_active,
-          warning_message: maintenance.warning_message
+          warning_message: maintenance.warning_message,
+          scheduled_at: maintenance.scheduled_at,
+          duration_minutes: maintenance.duration_minutes
         })
       })
 
       const data = await response.json()
       if (response.ok && data.success) {
-        setMaintenance(data.settings)
+        setMaintenance({
+          is_active: !!data.settings.is_active,
+          message: data.settings.message || "",
+          warning_active: !!data.settings.warning_active,
+          warning_message: data.settings.warning_message || "",
+          scheduled_at: data.settings.scheduled_at || null,
+          duration_minutes: data.settings.duration_minutes || 15
+        })
         setTabSuccess("Warning message content saved successfully.")
       } else {
         setTabError(data.errors?.warning_message?.[0] || data.message || "Failed to save alert content.")
@@ -156,7 +188,9 @@ export const AdminSettingsTab: React.FC = () => {
         is_active: isActive,
         message: maintenance.message,
         warning_active: maintenance.warning_active,
-        warning_message: maintenance.warning_message
+        warning_message: maintenance.warning_message,
+        scheduled_at: maintenance.scheduled_at,
+        duration_minutes: maintenance.duration_minutes
       }
 
       if (isActive) {
@@ -171,7 +205,14 @@ export const AdminSettingsTab: React.FC = () => {
 
       const data = await response.json()
       if (response.ok && data.success) {
-        setMaintenance(data.settings)
+        setMaintenance({
+          is_active: !!data.settings.is_active,
+          message: data.settings.message || "",
+          warning_active: !!data.settings.warning_active,
+          warning_message: data.settings.warning_message || "",
+          scheduled_at: data.settings.scheduled_at || null,
+          duration_minutes: data.settings.duration_minutes || 15
+        })
         setTabSuccess(isActive ? "System is now in MAINTENANCE MODE." : "System is now ONLINE.")
         setShowPasswordDialog(false)
       } else {
@@ -252,6 +293,23 @@ export const AdminSettingsTab: React.FC = () => {
               </div>
               <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 leading-relaxed">
                 When enabled, all users browsing SafeScape will see a warnings header at the bottom of the page in real-time.
+              </p>
+            </div>
+
+            <div className="space-y-1.5 pt-2">
+              <Label htmlFor="warning-duration" className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300">Countdown Duration (Minutes)</Label>
+              <Input
+                id="warning-duration"
+                type="number"
+                min={1}
+                max={1440}
+                value={maintenance.duration_minutes || 15}
+                onChange={(e) => setMaintenance({ ...maintenance, duration_minutes: parseInt(e.target.value, 10) || 15 })}
+                placeholder="15"
+                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-amber-500 text-xs sm:text-sm"
+              />
+              <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 leading-tight">
+                Sets the countdown timer displayed in the live warning banner before the lockout undergoes.
               </p>
             </div>
 
