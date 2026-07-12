@@ -408,11 +408,11 @@ export function Chatbot() {
         ? (useMiniButton ? 24 : 0)
         : (useMiniButton ? 32 : 0)
       const targetX = -(screenWidth - chatheadWidth) + leftOffset  // adjust berong sides
-      animate(dragX, targetX, { type: "spring", stiffness: 400, damping: 30 })
+      animate(dragX, targetX, { type: "spring", stiffness: 600, damping: 25 })
       setIsOnLeft(true)
     } else {
       // Snap back to right edge (original position)
-      animate(dragX, 0, { type: "spring", stiffness: 400, damping: 30 })
+      animate(dragX, 0, { type: "spring", stiffness: 600, damping: 25 })
       setIsOnLeft(false)
     }
   }
@@ -699,7 +699,7 @@ export function Chatbot() {
           {!isOpen ? (
             <motion.div
               key="chatbot-toggle"
-              className={`pointer-events-auto fixed ss-chatbot-toggle ${!isDragging ? 'transition-all duration-500' : ''} ${useMiniButton ? (hasBanner ? 'right-6 bottom-24 sm:bottom-20' : 'right-6 bottom-6 sm:bottom-6') : (hasBanner ? 'right-0 bottom-24 sm:bottom-12' : 'right-0 bottom-0')}`}
+              className={`pointer-events-auto fixed ss-chatbot-toggle ${useMiniButton ? (hasBanner ? 'right-6 bottom-24 sm:bottom-20' : 'right-6 bottom-6 sm:bottom-6') : (hasBanner ? 'right-0 bottom-24 sm:bottom-12' : 'right-0 bottom-0')}`}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               drag
@@ -728,7 +728,9 @@ export function Chatbot() {
                 y: dragY,
                 rotate: rotationValue,
                 cursor: isDragging ? "grabbing" : "pointer",
-                touchAction: "none"
+                touchAction: "none",
+                transitionProperty: "bottom, right",
+                transitionDuration: "500ms"
               }}
             >
               {useMiniButton ? (
@@ -804,13 +806,15 @@ export function Chatbot() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.1 } }}
               transition={{ type: "spring", stiffness: 600, damping: 35 }}
-              className={`chatbot-window-container ss-chatbot-window fixed z-50 transition-all duration-500 ${(useMiniButton ? miniIsOnLeft : isOnLeft) ? 'left-8' : 'right-6'} ${hasBanner ? 'bottom-[120px]' : 'bottom-20'}`}
+              className={`chatbot-window-container ss-chatbot-window fixed z-50 ${(useMiniButton ? miniIsOnLeft : isOnLeft) ? 'left-8' : 'right-6'} ${hasBanner ? 'bottom-[120px]' : 'bottom-20'}`}
               style={{
                 transformOrigin: (useMiniButton ? miniIsOnLeft : isOnLeft) ? 'bottom left' : 'bottom right',
                 willChange: 'transform, opacity',
                 pointerEvents: 'auto',
                 transform: 'translate3d(0,0,0)',
-                backfaceVisibility: 'hidden'
+                backfaceVisibility: 'hidden',
+                transitionProperty: 'bottom',
+                transitionDuration: '500ms'
               }}
             >
               <Card className="chatbot-window w-[480px] max-w-[90vw] h-[70vh] min-h-[450px] max-h-[620px] flex flex-col shadow-2xl p-0 gap-0 overflow-hidden border-[3px] border-[#ff6b00] rounded-2xl dark:bg-slate-900 dark:border-[#ff8c00]">
