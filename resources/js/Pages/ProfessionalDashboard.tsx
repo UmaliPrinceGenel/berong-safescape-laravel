@@ -486,54 +486,54 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                     <CircleHelp className="h-3.5 w-3.5 text-slate-400 group-hover/btn:text-red-500" />
                                                 </button>
                                             </DialogTrigger>
-                                            <DialogContent className="max-w-md bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-2xl p-0 overflow-hidden shadow-xl">
-                                                <div className="bg-red-600 p-6 sm:p-8 text-center relative">
+                                            <DialogContent className="max-w-md bg-slate-950 border-[4px] border-red-500 rounded-[2.5rem] p-0 overflow-hidden shadow-2xl">
+                                                <div className="bg-red-500 p-6 sm:p-8 text-center relative">
                                                     <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
                                                         <Star className="absolute top-4 left-4 h-12 w-12 text-white rotate-12" />
                                                         <Trophy className="absolute bottom-4 right-4 h-12 w-12 text-white -rotate-12" />
                                                     </div>
                                                     <DialogHeader>
-                                                        <DialogTitle className="text-xl sm:text-2xl font-bold text-white uppercase tracking-tight mb-1 text-center">Professional Rank Guide</DialogTitle>
-                                                        <DialogDescription className="text-white/80 font-semibold text-xs text-center">
+                                                        <DialogTitle className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tighter mb-2 text-center">Professional Rank Guide</DialogTitle>
+                                                        <DialogDescription className="text-white/80 font-bold text-sm text-center">
                                                             Complete training videos to level up your rank!
                                                         </DialogDescription>
                                                     </DialogHeader>
                                                 </div>
 
-                                                <div className="p-4 sm:p-6 space-y-2.5">
+                                                <div className="p-4 sm:p-6 space-y-3 bg-slate-950">
                                                     {PROFESSIONAL_RANKS.map((rank, i) => {
                                                         const Icon = rank.icon
                                                         const isCurrent = currentRank.name === rank.name
 
                                                         return (
                                                             <div key={i} className={cn(
-                                                                "relative flex items-center gap-4 p-3.5 rounded-xl border transition-all",
-                                                                isCurrent ? "bg-white dark:bg-slate-900 border-red-500 shadow-md scale-[1.01]" : "bg-white/50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-850 opacity-75"
+                                                                "relative flex items-center gap-4 p-4 rounded-2xl border-2 transition-all",
+                                                                isCurrent ? "bg-[#0b1329] border-red-500 shadow-lg scale-[1.02]" : "bg-[#070d19]/80 border-slate-800/85 opacity-70"
                                                             )}>
                                                                 {isCurrent && (
-                                                                    <div className="absolute -top-2.5 -right-2 bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-sm border border-white dark:border-slate-900 uppercase tracking-tight">
+                                                                    <div className="absolute -top-2.5 -right-2 bg-red-500 text-white text-[9px] font-black px-2.5 py-1 rounded-full shadow-md border-2 border-slate-950 uppercase tracking-tight">
                                                                         Current
                                                                     </div>
                                                                 )}
-                                                                <div className={cn("h-10 w-10 rounded-lg flex items-center justify-center shrink-0 border", rank.bg, rank.border, rank.color)}>
-                                                                    <Icon className="h-5 w-5" />
+                                                                <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center text-xl shrink-0 border-2", rank.bg, rank.border, rank.color)}>
+                                                                    <Icon className="h-6 w-6" />
                                                                 </div>
                                                                 <div className="flex-1">
                                                                     <div className="flex items-center justify-between">
-                                                                        <h4 className={cn("font-bold text-xs uppercase tracking-tight", rank.color)}>{rank.name}</h4>
-                                                                        <span className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase">{rank.count}+ Videos</span>
+                                                                        <h4 className={cn("font-black text-sm uppercase tracking-tight", rank.color)}>{rank.name}</h4>
+                                                                        <span className="text-[10px] font-black text-slate-500 uppercase">{rank.count}+ Videos</span>
                                                                     </div>
-                                                                    <p className="text-[10px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{rank.desc}</p>
+                                                                    <p className="text-[10px] sm:text-xs font-bold text-slate-400 leading-tight mt-0.5">{rank.desc}</p>
                                                                 </div>
                                                             </div>
                                                         )
                                                     })}
                                                 </div>
 
-                                                <div className="p-6 pt-0">
+                                                <div className="p-6 pt-0 bg-slate-950">
                                                     <button
                                                         onClick={() => setShowRankGuide(false)}
-                                                        className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3.5 rounded-xl transition-all uppercase tracking-wider text-xs shadow-sm"
+                                                        className="w-full bg-red-500 hover:bg-red-600 text-white font-black py-4 rounded-2xl border-b-[6px] border-red-800 active:border-b-0 active:translate-y-[6px] transition-all uppercase tracking-widest text-sm shadow-md"
                                                     >
                                                         Got it, Officer!
                                                     </button>
