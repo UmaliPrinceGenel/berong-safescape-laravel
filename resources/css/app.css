@@ -484,10 +484,6 @@ input[type="number"] {
     transition: margin-right 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease, visibility 0.5s !important;
   }
   
-  .ss-chatbot-window {
-    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s !important;
-  }
-  
   body.footer-in-view .ss-feedback-widget {
     margin-left: -250px !important;
     opacity: 0 !important;
@@ -503,6 +499,7 @@ input[type="number"] {
   }
   
   body.footer-in-view .ss-chatbot-window {
+    transition: opacity 0.4s ease, visibility 0.4s !important;
     opacity: 0 !important;
     pointer-events: none !important;
     visibility: hidden;
