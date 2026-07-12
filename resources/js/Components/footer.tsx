@@ -104,10 +104,12 @@ export function Footer() {
   // Scroll-into-view detection for desktop footer
   const desktopFooterRef = useRef(null);
   const isDesktopInView = useInView(desktopFooterRef, { once: false, margin: "-80px" });
+  const isDesktopInViewOnce = useInView(desktopFooterRef, { once: true, margin: "-80px" });
 
   // Scroll-into-view detection for mobile footer
   const mobileFooterRef = useRef(null);
   const isMobileInView = useInView(mobileFooterRef, { once: false, margin: "-40px" });
+  const isMobileInViewOnce = useInView(mobileFooterRef, { once: true, margin: "-40px" });
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -176,7 +178,7 @@ export function Footer() {
           {/* Brand Section */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
-            animate={isMobileInView ? { opacity: 1, y: 0 } : {}}
+            animate={isMobileInViewOnce ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
             className="mb-6"
           >
@@ -200,7 +202,7 @@ export function Footer() {
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 10 }}
-                animate={isMobileInView ? { opacity: 1, y: 0 } : {}}
+                animate={isMobileInViewOnce ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.15 + index * 0.1 }}
                 className="col-span-1"
               >
@@ -223,7 +225,7 @@ export function Footer() {
           {/* Social + Copyright */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={isMobileInView ? { opacity: 1 } : {}}
+            animate={isMobileInViewOnce ? { opacity: 1 } : {}}
             transition={{ duration: 0.4, delay: 0.5 }}
           >
             <div className="flex items-center gap-3 mb-5">
@@ -303,7 +305,7 @@ export function Footer() {
           {/* 1. Tagline (Centered) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={isDesktopInView ? { opacity: 1, y: 0 } : {}}
+            animate={isDesktopInViewOnce ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="w-full text-center mb-10 mt-6 px-4"
           >
@@ -318,7 +320,7 @@ export function Footer() {
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
-                animate={isDesktopInView ? { opacity: 1, y: 0 } : {}}
+                animate={isDesktopInViewOnce ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                 className="flex flex-col gap-5 items-start"
               >
@@ -342,7 +344,7 @@ export function Footer() {
                   <motion.div
                     className="mt-2"
                     initial={{ opacity: 0, scale: 0.9 }}
-                    animate={isDesktopInView ? { opacity: 1, scale: 1 } : {}}
+                    animate={isDesktopInViewOnce ? { opacity: 1, scale: 1 } : {}}
                     transition={{ duration: 0.4, delay: 0.6 }}
                   >
                     <a
@@ -369,7 +371,7 @@ export function Footer() {
           {/* 3. Animated Gradient Divider */}
           <motion.div
             initial={{ scaleX: 0 }}
-            animate={isDesktopInView ? { scaleX: 1 } : {}}
+            animate={isDesktopInViewOnce ? { scaleX: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.5 }}
             className="w-full h-px mb-12 bg-gradient-to-r from-transparent via-slate-700/60 to-transparent"
           />
@@ -377,7 +379,7 @@ export function Footer() {
           {/* 4. Massive Mascot + Berong Unit — Scroll-triggered reveal */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            animate={isDesktopInView ? { opacity: 1, y: 0 } : {}}
+            animate={isDesktopInViewOnce ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.6 }}
             className="w-full flex justify-center items-end mb-6 overflow-visible"
           >
@@ -385,7 +387,7 @@ export function Footer() {
               {/* MASCOT CONTAINER — slides in from left */}
               <motion.div
                 initial={{ opacity: 0, x: -40 }}
-                animate={isDesktopInView ? { opacity: 1, x: 0 } : {}}
+                animate={isDesktopInViewOnce ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
                 className="hidden sm:block shrink-0 w-auto pointer-events-none select-none mb-[79px] -mr-[1vw] xl:-mr-[13px]"
               >
@@ -407,7 +409,7 @@ export function Footer() {
           {/* 5. Copyright */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
-            animate={isDesktopInView ? { opacity: 1, y: 0 } : {}}
+            animate={isDesktopInViewOnce ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 1.0 }}
             className="w-full text-center relative pt-8 mt-4"
           >
