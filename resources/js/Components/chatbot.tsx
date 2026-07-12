@@ -49,7 +49,7 @@ const processedIntents = Object.entries(chatbotIntents).map(([tag, data]) => {
 
 export function Chatbot() {
   const { user, isAuthenticated } = useAuth()
-  const { props } = usePage()
+  const { props, url } = usePage()
   const maintenanceAlert: any = props.maintenanceAlert
   const hasBanner = maintenanceAlert && !maintenanceAlert.is_active
   const [isOpen, setIsOpen] = useState(false)
@@ -68,6 +68,20 @@ export function Chatbot() {
   const currentAudioRef = useRef<HTMLAudioElement | null>(null)
   const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null)
   const [isTTSLoading, setIsTTSLoading] = useState(false)
+
+  // Stop speaking when navigation happens or component unmounts
+  useEffect(() => {
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.speechSynthesis.cancel()
+      }
+      if (currentAudioRef.current) {
+        currentAudioRef.current.pause()
+        currentAudioRef.current.currentTime = 0
+      }
+      setSpeakingMessageId(null)
+    }
+  }, [url])
 
   const playPop = () => {
     try {
