@@ -487,7 +487,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                 </button>
                                             </DialogTrigger>
                                             <DialogContent className="max-w-md bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-2xl p-0 overflow-hidden shadow-xl">
-                                                <div className="bg-red-550 p-6 sm:p-8 text-center relative">
+                                                <div className="bg-red-600 p-6 sm:p-8 text-center relative">
                                                     <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
                                                         <Star className="absolute top-4 left-4 h-12 w-12 text-white rotate-12" />
                                                         <Trophy className="absolute bottom-4 right-4 h-12 w-12 text-white -rotate-12" />
@@ -599,7 +599,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                 </div>
 
                                                 {/* Premium Play Button Overlay */}
-                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-[1.5px] z-10">
+                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
                                                     <div className="w-12 h-12 bg-red-500/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(239,68,68,0.6)] border-2 border-white/30 transform scale-50 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 ease-out delay-75">
                                                         <Play className="h-5 w-5 text-white ml-1 drop-shadow-md" fill="currentColor" />
                                                     </div>
