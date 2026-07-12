@@ -103,11 +103,23 @@ export function Footer() {
 
   // Scroll-into-view detection for desktop footer
   const desktopFooterRef = useRef(null);
-  const isDesktopInView = useInView(desktopFooterRef, { once: true, margin: "-80px" });
+  const isDesktopInView = useInView(desktopFooterRef, { once: false, margin: "-80px" });
 
   // Scroll-into-view detection for mobile footer
   const mobileFooterRef = useRef(null);
-  const isMobileInView = useInView(mobileFooterRef, { once: true, margin: "-40px" });
+  const isMobileInView = useInView(mobileFooterRef, { once: false, margin: "-40px" });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (isDesktopInView || isMobileInView) {
+      document.body.classList.add('footer-in-view');
+    } else {
+      document.body.classList.remove('footer-in-view');
+    }
+    return () => {
+      document.body.classList.remove('footer-in-view');
+    };
+  }, [isDesktopInView, isMobileInView]);
 
   const reduceMotion = Boolean(prefersReducedMotion);
 
