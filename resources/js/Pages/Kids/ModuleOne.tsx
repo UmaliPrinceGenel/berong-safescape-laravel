@@ -270,7 +270,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
       await axios.post('/api/badges/award', {
         badge_id: 'module_1',
         badge_name: 'Fire Scout',
-        badge_icon: '/badges/fire_hall.webp'
+        badge_icon: '/badges/fire_hall.webp?v=2'
       });
 
       await axios.post("/api/kids/safescape", { 
@@ -1154,7 +1154,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
                       <div className="absolute -top-1 sm:-top-2 left-1/3 w-1 h-1 bg-orange-400 rounded-full" style={{ animation: 'fireSpark 1.5s ease-out infinite 0.3s', opacity: 0.6 }} />
                       <div className="absolute -top-1 sm:-top-2 right-1/3 w-1 h-1 bg-red-400 rounded-full" style={{ animation: 'fireSpark 1.8s ease-out infinite 0.6s', opacity: 0.7 }} />
                       {/* Fire image */}
-                      <img src="/badges/fire_hall.webp" alt="Fire" className="w-10 h-10 sm:w-16 sm:h-16 object-contain relative z-10 drop-shadow-[0_0_12px_rgba(255,100,0,0.8)]" style={{ animation: 'fireWobble 0.6s ease-in-out infinite alternate' }} />
+                      <img src="/badges/fire_hall.webp?v=2" alt="Fire" className="w-10 h-10 sm:w-16 sm:h-16 object-contain relative z-10 drop-shadow-[0_0_12px_rgba(255,100,0,0.8)]" style={{ animation: 'fireWobble 0.6s ease-in-out infinite alternate' }} />
                     </div>
                   )}
 
@@ -1253,7 +1253,7 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
           <div className="bg-white dark:bg-slate-900 rounded-[2rem] max-w-sm w-full p-8 flex flex-col items-center text-center shadow-2xl border-[4px] border-amber-200 dark:border-amber-900/50 animate-in zoom-in-95 duration-500">
             <div className="h-24 w-24 bg-amber-50 dark:bg-amber-900/20 rounded-full border-[4px] border-amber-100 dark:border-amber-800 flex items-center justify-center mb-6 shadow-inner relative overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,theme(colors.amber.300/20)_0%,transparent_70%)] animate-pulse"></div>
-              <img src="/badges/fire_hall.webp" alt="Fire Scout Badge" className="h-16 w-16 object-contain relative z-10 drop-shadow-md" />
+              <img src="/badges/fire_hall.webp?v=2" alt="Fire Scout Badge" className="h-16 w-16 object-contain relative z-10 drop-shadow-md" />
             </div>
             <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-2">Badge Unlocked!</h2>
             <p className="text-amber-600 dark:text-amber-400 font-bold uppercase tracking-widest text-sm mb-4">Fire Scout</p>

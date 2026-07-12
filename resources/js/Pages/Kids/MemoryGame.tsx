@@ -88,7 +88,7 @@ const MemoryGamePage = () => {
               axios.post('/api/badges/award', {
                 badge_id: 'memory_master',
                 badge_name: 'Memory Master',
-                badge_icon: '/badges/memory_hall.webp'
+                badge_icon: '/badges/memory_hall.webp?v=2'
               }).catch(err => console.error("Failed to award badge:", err.response?.data || err.message))
             }
             else playSound('match')
@@ -128,7 +128,7 @@ const MemoryGamePage = () => {
           <div className="max-w-xl mx-auto w-full px-4 sm:px-6">
             <div className="w-full bg-white dark:bg-slate-900 border border-white/60 dark:border-slate-800/60 rounded-[3rem] p-10 sm:p-14 shadow-[0_20px_60px_rgba(20,184,166,0.15)] flex flex-col items-center text-center transform transition-all duration-700 animate-in fade-in zoom-in">
               <div className="w-32 h-32 md:w-48 md:h-48 mb-6 animate-bounce-slow drop-shadow-2xl mx-auto">
-                <img src="/badges/memory_hall.webp" alt="Memory Master Badge" className="w-full h-full object-contain" />
+                <img src="/badges/memory_hall.webp?v=2" alt="Memory Master Badge" className="w-full h-full object-contain" />
               </div>
               <h2 className="text-4xl sm:text-5xl font-black text-teal-600 dark:text-teal-400 tracking-tight mb-4 drop-shadow-sm">You Won!</h2>
               <p className="text-lg sm:text-xl font-bold text-slate-600 dark:text-slate-300 mb-2">All matches found!</p>
@@ -175,7 +175,7 @@ const MemoryGamePage = () => {
           
           <div className="max-w-md w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-[3rem] shadow-2xl text-center animate-in zoom-in duration-500 transition-colors">
             <div className="w-24 h-24 bg-teal-100 dark:bg-teal-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
-               <img src="/badges/memory_hall.webp" alt="Memory Game" className="w-16 h-16 object-contain drop-shadow-md" />
+               <img src="/badges/memory_hall.webp?v=2" alt="Memory Game" className="w-16 h-16 object-contain drop-shadow-md" />
             </div>
             <h1 className="text-4xl font-black mb-2 italic text-slate-900 dark:text-white tracking-tight uppercase">MEMORY MATCH</h1>
             <p className="text-slate-500 dark:text-slate-400 font-medium mb-8 leading-relaxed">

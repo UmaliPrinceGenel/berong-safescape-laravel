@@ -50,7 +50,7 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
             difficulty: "medium",
             category: "activities",
             isCompleted: earnedBadgeIds.includes('quiz_hero'),
-            badgeImageUrl: "/badges/quiz_hall.webp",
+            badgeImageUrl: "/badges/quiz_hall.webp?v=2",
             badgeName: "Quiz Hero",
             badgeHint: "Score 100% on any Fire Safety Quiz."
           },
@@ -64,7 +64,7 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
               difficulty: "easy",
               category: "activities",
               isCompleted: earnedBadgeIds.includes('memory_master'),
-              badgeImageUrl: "/badges/memory_hall.webp",
+              badgeImageUrl: "/badges/memory_hall.webp?v=2",
               badgeName: "Memory Master",
               badgeHint: "Finish the Memory Match game with zero mistakes."
             },
@@ -78,7 +78,7 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
               difficulty: "hard",
               category: "activities",
               isCompleted: earnedBadgeIds.includes('smoke_scout'),
-              badgeImageUrl: "/badges/smoke_hall.webp",
+              badgeImageUrl: "/badges/smoke_hall.webp?v=2",
               badgeName: "Smoke Scout",
               badgeHint: "Stay low and find your way out of the smoke-filled maze!"
             },
@@ -92,7 +92,7 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
               difficulty: "easy",
               category: "activities",
               isCompleted: earnedBadgeIds.includes('safety_scout'),
-              badgeImageUrl: "/badges/safety_hall.webp",
+              badgeImageUrl: "/badges/safety_hall.webp?v=2",
               badgeName: "Safety Scout",
               badgeHint: "Correcty identify all hazards in the Hazard House."
             },
@@ -106,7 +106,7 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
               difficulty: "medium",
               category: "activities",
               isCompleted: earnedBadgeIds.includes('hazard_hero'),
-              badgeImageUrl: "/badges/hazard_hall.webp",
+              badgeImageUrl: "/badges/hazard_hall.webp?v=2",
               badgeName: "Hazard Hero",
               badgeHint: "Neutralize hazards and reach 500 points in Hazard Blitz."
             },

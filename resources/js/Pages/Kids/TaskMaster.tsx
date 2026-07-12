@@ -25,7 +25,7 @@ export default function TaskMaster() {
       // The Godot game should send something like: window.parent.postMessage("TASK_MASTER_WON", "*");
       if (event.data === "TASK_MASTER_WON" || event.data?.type === "TASK_MASTER_WON") {
         try {
-          const res = await axios.post('/api/badges/award', { badge_id: 'task_master', badge_name: 'Task Master', badge_icon: '/badges/task_master_badge.webp' });
+          const res = await axios.post('/api/badges/award', { badge_id: 'task_master', badge_name: 'Task Master', badge_icon: '/badges/task_master_badge.webp?v=2' });
           if (res.data.is_new) {
             playSound('/sounds/win.mp3', 'games');
             setShowWinNotification(true);
@@ -118,7 +118,7 @@ export default function TaskMaster() {
           <div className="absolute inset-0 z-[10002] bg-black/80 flex flex-col items-center justify-center p-4">
             <div className="bg-white dark:bg-slate-900 rounded-[2rem] p-8 sm:p-12 max-w-md w-full text-center shadow-[0_0_100px_rgba(59,130,246,0.3)] transform scale-100 animate-in zoom-in duration-300">
               <div className="w-32 h-32 mx-auto flex items-center justify-center mb-6 relative group transform hover:scale-110 transition-transform duration-500">
-                <img src="/badges/task_master_badge.webp" alt="Task Master Badge" className="w-full h-full object-contain drop-shadow-xl" />
+                <img src="/badges/task_master_badge.webp?v=2" alt="Task Master Badge" className="w-full h-full object-contain drop-shadow-xl" />
               </div>
               <h2 className="text-3xl font-black text-slate-800 dark:text-white uppercase mb-2">Badge Earned!</h2>
               <p className="text-slate-500 dark:text-slate-400 font-bold mb-8">

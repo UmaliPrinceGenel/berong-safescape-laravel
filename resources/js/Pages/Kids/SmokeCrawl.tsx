@@ -285,7 +285,7 @@ const SmokeCrawl = () => {
       axios.post('/api/badges/award', {
         badge_id: 'smoke_scout',
         badge_name: 'Smoke Scout',
-        badge_icon: '/badges/smoke_hall.webp'
+        badge_icon: '/badges/smoke_hall.webp?v=2'
       }).catch(err => console.error("Failed to award badge:", err.response?.data || err.message))
       return
     }
@@ -540,7 +540,7 @@ const SmokeCrawl = () => {
                 {gameState === 'won' && (
                   <div className="absolute inset-0 bg-green-500/95 flex flex-col items-center justify-center p-6 text-center backdrop-blur-md">
                     <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mb-4 shadow-lg overflow-hidden">
-                      <img src="/badges/smoke_hall.webp" alt="Smoke Scout Badge" className="w-full h-full object-contain p-2" />
+                      <img src="/badges/smoke_hall.webp?v=2" alt="Smoke Scout Badge" className="w-full h-full object-contain p-2" />
                     </div>
                     <h2 className="text-2xl font-black text-white mb-1">ESCAPED!</h2>
                     <p className="text-white/90 text-sm font-bold mb-6">You stayed low and found the way out! True Hero status earned.</p>

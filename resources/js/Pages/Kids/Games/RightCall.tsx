@@ -27,7 +27,7 @@ export default function RightCall() {
         setShowWinNotification(true);
         // Save the badge via API
         try {
-          await axios.post('/api/badges/award', { badge_id: 'dispatch_hero', badge_name: 'Dispatch Hero', badge_icon: '/badges/dispatch_hall.webp' });
+          await axios.post('/api/badges/award', { badge_id: 'dispatch_hero', badge_name: 'Dispatch Hero', badge_icon: '/badges/dispatch_hall.webp?v=2' });
         } catch (e) {
           console.error("Failed to award badge", e);
         }

@@ -59,7 +59,7 @@ const ModuleTwoPage = ({ moduleNum, initialProgress }: { moduleNum: number; init
           await axios.post('/api/badges/award', {
             badge_id: `module_${currentModule}`,
             badge_name: 'Fire Marshal',
-            badge_icon: '/badges/shield_hall.webp'
+            badge_icon: '/badges/shield_hall.webp?v=2'
           });
         } catch (err: any) {
           console.error("Failed to award badge automatically:", err.response?.data || err.message)
@@ -518,7 +518,7 @@ const ModuleTwoPage = ({ moduleNum, initialProgress }: { moduleNum: number; init
           <div className="bg-white dark:bg-slate-900 rounded-[2rem] max-w-sm w-full p-8 flex flex-col items-center text-center shadow-2xl border-[4px] border-amber-200 dark:border-amber-900/50 animate-in zoom-in-95 duration-500">
             <div className="h-24 w-24 bg-amber-50 dark:bg-amber-900/20 rounded-full border-[4px] border-amber-100 dark:border-amber-800 flex items-center justify-center mb-6 shadow-inner relative overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,theme(colors.amber.300/20)_0%,transparent_70%)] animate-pulse"></div>
-              <img src="/badges/shield_hall.webp" alt="Safety Leader Badge" className="h-16 w-16 object-contain relative z-10 drop-shadow-md" />
+              <img src="/badges/shield_hall.webp?v=2" alt="Safety Leader Badge" className="h-16 w-16 object-contain relative z-10 drop-shadow-md" />
             </div>
             <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-2">Badge Unlocked!</h2>
             <p className="text-amber-600 dark:text-amber-400 font-bold uppercase tracking-widest text-sm mb-4">Safety Leader</p>
