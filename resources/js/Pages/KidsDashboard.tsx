@@ -93,7 +93,7 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
       description: "Practice your Home Fire Escape Plan! Save your family from the spreading fire in this realistic 3D simulation.",
       type: "game",
       illustrationUrl: "/edith.webp",
-      href: "/kids/simulation",
+      href: "https://edith.bfpscberong.app",
       isLocked: completedIds.length < 5,
       category: "games",
       unlockRequirement: "Complete 5 Modules"
@@ -206,7 +206,11 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
     playSound('/sounds/tap.mp3', 'general')
 
     if (content.href !== "#") {
-      router.visit(content.href)
+      if (content.href.startsWith("http")) {
+        window.open(content.href, '_blank', 'noopener,noreferrer')
+      } else {
+        router.visit(content.href)
+      }
     }
   }
 

@@ -175,7 +175,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                         </Link>
 
                         {/* EDITH Feature */}
-                        <Link href="/adult/simulation" className="block group h-full outline-none relative">
+                        <a href="https://edith.bfpscberong.app" target="_blank" rel="noopener noreferrer" className="block group h-full outline-none relative">
                             {/* FLOATING HOVER PREVIEW WINDOW */}
                             <div className="hidden sm:block absolute bottom-[105%] left-1/2 -translate-x-1/2 mb-2 w-[305px] sm:w-[350px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl border-2 border-red-100 dark:border-red-500/40 p-3 shadow-2xl shadow-red-100/50 dark:shadow-red-500/25 pointer-events-none opacity-0 scale-95 -translate-y-2 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-300 z-50">
                                 {/* Triangle indicator below preview */}
@@ -262,7 +262,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                     <ArrowRight className="h-4 w-4 sm:h-6 sm:w-6 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" strokeWidth={3} />
                                 </div>
                             </div>
-                        </Link>
+                        </a>
 
                         {/* Fire Safety Videos Feature */}
                         <Link 
