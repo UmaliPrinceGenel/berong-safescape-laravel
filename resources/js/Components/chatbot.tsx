@@ -699,7 +699,7 @@ export function Chatbot() {
           {!isOpen ? (
             <motion.div
               key="chatbot-toggle"
-              className={`pointer-events-auto fixed ss-chatbot-toggle transition-all duration-500 ${useMiniButton ? (hasBanner ? 'right-6 bottom-20 sm:bottom-20' : 'right-6 bottom-6 sm:bottom-6') : (hasBanner ? 'right-0 bottom-12' : 'right-0 bottom-0')}`}
+              className={`pointer-events-auto fixed ss-chatbot-toggle ${!isDragging ? 'transition-all duration-500' : ''} ${useMiniButton ? (hasBanner ? 'right-6 bottom-24 sm:bottom-20' : 'right-6 bottom-6 sm:bottom-6') : (hasBanner ? 'right-0 bottom-24 sm:bottom-12' : 'right-0 bottom-0')}`}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               drag

@@ -48,7 +48,7 @@ export const FeedbackWidget = () => {
     }
 
     return (
-        <div className={cn("fixed left-6 sm:left-8 z-50 ss-feedback-widget transition-all duration-500", hasBanner ? "bottom-16" : "bottom-6")}>
+        <div className={cn("fixed left-6 sm:left-8 z-50 ss-feedback-widget transition-all duration-500", hasBanner ? "bottom-24 sm:bottom-20" : "bottom-6")}>
             {/* Toggle Button */}
             <AnimatePresence>
                 {!isOpen && (
