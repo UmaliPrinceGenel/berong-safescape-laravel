@@ -472,58 +472,58 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                         <h2 className="text-3xl font-black text-slate-800 dark:text-white tracking-tight">Training Videos</h2>
                         
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 w-full xl:w-auto">
-                            {/* Enhanced Rank Badge */}
-                            <div className={`group relative flex items-center gap-3.5 px-5 py-3 sm:py-3.5 rounded-[1.5rem] border-[3px] border-b-[6px] bg-white dark:bg-slate-800 ${currentRank.border} dark:border-slate-700 shadow-sm hover:translate-y-[-2px] active:translate-y-[2px] transition-all duration-200 animate-in fade-in slide-in-from-right-4 flex-1 sm:flex-initial min-w-[220px] cursor-default`}>
-                                <div className={`h-12 w-12 rounded-[1rem] bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 shadow-inner border-2 ${currentRank.border} flex items-center justify-center ${currentRank.color} shrink-0 group-hover:scale-110 transition-transform duration-300`}>
-                                    <RankIcon className="h-6 w-6 drop-shadow-sm" />
+                            {/* Simplified Rank Badge */}
+                            <div className="flex items-center gap-3.5 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex-1 sm:flex-initial min-w-[220px] cursor-default">
+                                <div className={cn("h-10 w-10 rounded-lg border flex items-center justify-center shrink-0", currentRank.bg, currentRank.border, currentRank.color)}>
+                                    <RankIcon className="h-5 w-5" />
                                 </div>
-                                <div className="flex flex-col z-10">
+                                <div className="flex flex-col">
                                     <div className="flex items-center gap-1.5">
-                                        <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-400">Professional Rank</span>
+                                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Professional Rank</span>
                                         <Dialog open={showRankGuide} onOpenChange={setShowRankGuide}>
                                             <DialogTrigger asChild>
-                                                <button className="p-0.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors group/btn cursor-pointer">
+                                                <button className="p-0.5 hover:bg-slate-100 dark:hover:bg-slate-850 rounded-full transition-colors group/btn cursor-pointer">
                                                     <CircleHelp className="h-3.5 w-3.5 text-slate-400 group-hover/btn:text-red-500" />
                                                 </button>
                                             </DialogTrigger>
-                                            <DialogContent className="max-w-md bg-slate-50 dark:bg-slate-950 border-[4px] border-red-500 rounded-[2.5rem] p-0 overflow-hidden">
-                                                <div className="bg-red-500 p-6 sm:p-8 text-center relative">
+                                            <DialogContent className="max-w-md bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-2xl p-0 overflow-hidden shadow-xl">
+                                                <div className="bg-red-550 p-6 sm:p-8 text-center relative">
                                                     <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
                                                         <Star className="absolute top-4 left-4 h-12 w-12 text-white rotate-12" />
                                                         <Trophy className="absolute bottom-4 right-4 h-12 w-12 text-white -rotate-12" />
                                                     </div>
                                                     <DialogHeader>
-                                                        <DialogTitle className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tighter mb-2 text-center">Professional Rank Guide</DialogTitle>
-                                                        <DialogDescription className="text-white/80 font-bold text-sm text-center">
+                                                        <DialogTitle className="text-xl sm:text-2xl font-bold text-white uppercase tracking-tight mb-1 text-center">Professional Rank Guide</DialogTitle>
+                                                        <DialogDescription className="text-white/80 font-semibold text-xs text-center">
                                                             Complete training videos to level up your rank!
                                                         </DialogDescription>
                                                     </DialogHeader>
                                                 </div>
 
-                                                <div className="p-4 sm:p-6 space-y-3">
+                                                <div className="p-4 sm:p-6 space-y-2.5">
                                                     {PROFESSIONAL_RANKS.map((rank, i) => {
                                                         const Icon = rank.icon
                                                         const isCurrent = currentRank.name === rank.name
 
                                                         return (
                                                             <div key={i} className={cn(
-                                                                "relative flex items-center gap-4 p-4 rounded-2xl border-2 transition-all",
-                                                                isCurrent ? "bg-white dark:bg-slate-900 border-red-500 shadow-lg scale-[1.02]" : "bg-white/50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800 opacity-70"
+                                                                "relative flex items-center gap-4 p-3.5 rounded-xl border transition-all",
+                                                                isCurrent ? "bg-white dark:bg-slate-900 border-red-500 shadow-md scale-[1.01]" : "bg-white/50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-850 opacity-75"
                                                             )}>
                                                                 {isCurrent && (
-                                                                    <div className="absolute -top-2.5 -right-2 bg-red-500 text-white text-[9px] font-black px-2.5 py-1 rounded-full shadow-md border-2 border-white dark:border-slate-900 uppercase tracking-tight">
+                                                                    <div className="absolute -top-2.5 -right-2 bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-sm border border-white dark:border-slate-900 uppercase tracking-tight">
                                                                         Current
                                                                     </div>
                                                                 )}
-                                                                <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center text-xl shrink-0 border-2", rank.bg, rank.border, rank.color)}>
-                                                                    <Icon className={cn("h-6 w-6")} />
+                                                                <div className={cn("h-10 w-10 rounded-lg flex items-center justify-center shrink-0 border", rank.bg, rank.border, rank.color)}>
+                                                                    <Icon className="h-5 w-5" />
                                                                 </div>
                                                                 <div className="flex-1">
                                                                     <div className="flex items-center justify-between">
-                                                                        <h4 className={cn("font-black text-sm uppercase tracking-tight", rank.color)}>{rank.name}</h4>
-                                                                        <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase">{rank.count}+ Videos</span>
+                                                                        <h4 className={cn("font-bold text-xs uppercase tracking-tight", rank.color)}>{rank.name}</h4>
+                                                                        <span className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase">{rank.count}+ Videos</span>
                                                                     </div>
-                                                                    <p className="text-[10px] sm:text-xs font-bold text-slate-700 dark:text-slate-400 leading-tight mt-0.5">{rank.desc}</p>
+                                                                    <p className="text-[10px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{rank.desc}</p>
                                                                 </div>
                                                             </div>
                                                         )
@@ -533,7 +533,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                 <div className="p-6 pt-0">
                                                     <button
                                                         onClick={() => setShowRankGuide(false)}
-                                                        className="w-full bg-red-500 hover:bg-red-600 text-white font-black py-4 rounded-2xl border-b-[6px] border-red-800 active:border-b-0 active:translate-y-[6px] transition-all uppercase tracking-widest text-sm"
+                                                        className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3.5 rounded-xl transition-all uppercase tracking-wider text-xs shadow-sm"
                                                     >
                                                         Got it, Officer!
                                                     </button>
@@ -541,23 +541,23 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                             </DialogContent>
                                         </Dialog>
                                     </div>
-                                    <span className={`text-[15px] sm:text-[17px] font-black ${currentRank.color} drop-shadow-sm whitespace-nowrap`}>{currentRank.name}</span>
+                                    <span className={`text-[14px] sm:text-[15px] font-bold ${currentRank.color} whitespace-nowrap`}>{currentRank.name}</span>
                                 </div>
                             </div>
 
-                            {/* Enhanced Progress Tracker */}
-                            <div className="group flex items-center gap-4 px-5 py-3 sm:py-3.5 rounded-[1.5rem] border-[3px] border-b-[6px] border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:translate-y-[-2px] active:translate-y-[2px] transition-all duration-200 flex-1 sm:flex-initial sm:min-w-[320px] cursor-default">
-                                <div className="h-12 w-12 rounded-[1rem] bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-900/40 dark:to-emerald-800/40 border-2 border-emerald-200 dark:border-emerald-700/50 flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform duration-300">
-                                    <GraduationCap className="h-6 w-6 text-emerald-600 dark:text-emerald-400 drop-shadow-sm" />
+                            {/* Simplified Progress Tracker */}
+                            <div className="flex items-center gap-4 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex-1 sm:flex-initial sm:min-w-[320px] cursor-default">
+                                <div className="h-10 w-10 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50 flex items-center justify-center shrink-0 text-emerald-600 dark:text-emerald-400">
+                                    <GraduationCap className="h-5 w-5" />
                                 </div>
-                                <div className="flex-1 space-y-2">
-                                    <div className="flex justify-between items-center text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                                <div className="flex-1 space-y-1.5">
+                                    <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-wider text-slate-450 dark:text-slate-500">
                                         <span>Training Progress</span>
-                                        <span className="text-emerald-600 dark:text-emerald-400 font-black bg-emerald-50 dark:bg-emerald-900/30 px-2 py-0.5 rounded-md">{watchedCount} / {videos.length}</span>
+                                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">{watchedCount} / {videos.length}</span>
                                     </div>
-                                    <div className="relative h-3 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden shadow-inner border border-slate-200 dark:border-slate-600">
+                                    <div className="relative h-2 w-full bg-slate-100 dark:bg-slate-800/80 rounded-full overflow-hidden">
                                         <div 
-                                            className="absolute top-0 left-0 h-full bg-gradient-to-r from-red-500 to-red-400 dark:from-red-600 dark:to-red-500 transition-all duration-1000 ease-out" 
+                                            className="absolute top-0 left-0 h-full bg-emerald-500 transition-all duration-500 ease-out" 
                                             style={{ width: `${progressPercent}%` }}
                                         />
                                     </div>
