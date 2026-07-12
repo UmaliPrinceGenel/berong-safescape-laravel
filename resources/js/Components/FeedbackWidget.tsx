@@ -4,7 +4,13 @@ import axios from 'axios'
 import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'motion/react'
 
+import { usePage } from '@inertiajs/react'
+
 export const FeedbackWidget = () => {
+    const { props } = usePage()
+    const maintenanceAlert: any = props.maintenanceAlert
+    const hasBanner = maintenanceAlert && !maintenanceAlert.is_active
+
     const [isOpen, setIsOpen] = useState(false)
     const [rating, setRating] = useState(0)
     const [hoverRating, setHoverRating] = useState(0)
@@ -42,7 +48,7 @@ export const FeedbackWidget = () => {
     }
 
     return (
-        <div className="fixed bottom-6 left-6 sm:left-8 z-50 ss-feedback-widget">
+        <div className={cn("fixed left-6 sm:left-8 z-50 ss-feedback-widget transition-all duration-500", hasBanner ? "bottom-16" : "bottom-6")}>
             {/* Toggle Button */}
             <AnimatePresence>
                 {!isOpen && (

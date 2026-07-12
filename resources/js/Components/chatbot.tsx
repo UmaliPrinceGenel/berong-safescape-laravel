@@ -8,7 +8,7 @@ import { MessageCircle, X, Send, Sparkles, Minimize2, Maximize2, Volume2, Volume
 import Image from '@/Components/Image';
 import { motion, AnimatePresence, useMotionValue, animate } from "motion/react"
 import { useAuth } from "@/lib/auth-context"
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import ReactMarkdown from "react-markdown"
 import chatbotIntents from "@/lib/chatbot-intents.json"
@@ -49,6 +49,9 @@ const processedIntents = Object.entries(chatbotIntents).map(([tag, data]) => {
 
 export function Chatbot() {
   const { user, isAuthenticated } = useAuth()
+  const { props } = usePage()
+  const maintenanceAlert: any = props.maintenanceAlert
+  const hasBanner = maintenanceAlert && !maintenanceAlert.is_active
   const [isOpen, setIsOpen] = useState(false)
   const [showCTA, setShowCTA] = useState(true)
   const ctaTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -696,7 +699,7 @@ export function Chatbot() {
           {!isOpen ? (
             <motion.div
               key="chatbot-toggle"
-              className={`pointer-events-auto fixed ss-chatbot-toggle ${useMiniButton ? 'right-6 bottom-6 sm:bottom-6' : 'right-0 bottom-0'}`}
+              className={`pointer-events-auto fixed ss-chatbot-toggle transition-all duration-500 ${useMiniButton ? (hasBanner ? 'right-6 bottom-20 sm:bottom-20' : 'right-6 bottom-6 sm:bottom-6') : (hasBanner ? 'right-0 bottom-12' : 'right-0 bottom-0')}`}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               drag
@@ -801,7 +804,7 @@ export function Chatbot() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.1 } }}
               transition={{ type: "spring", stiffness: 600, damping: 35 }}
-              className={`chatbot-window-container ss-chatbot-window fixed bottom-20 z-50 ${(useMiniButton ? miniIsOnLeft : isOnLeft) ? 'left-8' : 'right-6'}`}
+              className={`chatbot-window-container ss-chatbot-window fixed z-50 transition-all duration-500 ${(useMiniButton ? miniIsOnLeft : isOnLeft) ? 'left-8' : 'right-6'} ${hasBanner ? 'bottom-[120px]' : 'bottom-20'}`}
               style={{
                 transformOrigin: (useMiniButton ? miniIsOnLeft : isOnLeft) ? 'bottom left' : 'bottom right',
                 willChange: 'transform, opacity',
