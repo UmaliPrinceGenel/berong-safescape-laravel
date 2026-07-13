@@ -20,6 +20,13 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/clear-reset-limit', function () {
+    $ip = request()->ip();
+    $ipRateKey = 'pwd_reset_ip_' . md5($ip);
+    \Illuminate\Support\Facades\Cache::forget($ipRateKey);
+    return 'Rate limit cache cleared for IP: ' . $ip;
+});
+
 Route::get('/about', function () {
     return Inertia::render('About');
 });
