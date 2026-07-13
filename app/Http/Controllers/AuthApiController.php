@@ -437,17 +437,17 @@ class AuthApiController extends Controller
             return response()->json(['success' => false, 'error' => 'Please enter a valid username.'], 400);
         }
 
-        // ── Global IP-based rate limiting (3 reset requests per 30 min) ──
+        // ── Global IP-based rate limiting (5 reset requests per 15 min) ──
         $ipRateKey = 'pwd_reset_ip_' . md5($ip);
         $ipAttempts = (int) \Illuminate\Support\Facades\Cache::get($ipRateKey, 0);
 
-        if ($ipAttempts >= 3) {
+        if ($ipAttempts >= 5) {
             \Illuminate\Support\Facades\Log::warning('Password reset rate limit exceeded', [
                 'ip' => $ip, 'username' => $username, 'step' => $step
             ]);
             return response()->json([
                 'success' => false,
-                'error' => 'Too many reset requests. Please try again in 30 minutes.'
+                'error' => 'Too many reset requests. Please try again in 15 minutes.'
             ], 429);
         }
 
@@ -458,7 +458,7 @@ class AuthApiController extends Controller
         // ─────────────────────────────────────────────
         if ($step === 1) {
             // Increment IP rate counter
-            \Illuminate\Support\Facades\Cache::put($ipRateKey, $ipAttempts + 1, now()->addMinutes(30));
+            \Illuminate\Support\Facades\Cache::put($ipRateKey, $ipAttempts + 1, now()->addMinutes(15));
 
             // Constant-time response — don't reveal if username/email exists
             if (!$user || !$user->email) {
