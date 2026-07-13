@@ -166,48 +166,48 @@ const HazardBlitz = () => {
     const edge = edges[Math.floor(Math.random() * edges.length)];
     
     let x = 0, y = 0, vx = 0, vy = 0;
-    const speedMultiplier = 1 + (level - 1) * 0.05;
+    const speedMultiplier = 1 + (level - 1) * 0.04;
 
     if (edge === 'top') {
       const side = Math.floor(Math.random() * 3);
-      const baseFallSpeed = 1.5 + Math.random() * 1.5;
+      const baseFallSpeed = 0.6 + Math.random() * 0.6;
       y = -80;
       if (side === 0) { // Top-Left
         x = Math.random() * (rect.width * 0.3);
-        vx = (0.5 + Math.random() * 1) * speedMultiplier;
+        vx = (0.2 + Math.random() * 0.3) * speedMultiplier;
       } else if (side === 1) { // Top-Center
         x = rect.width * 0.3 + Math.random() * (rect.width * 0.4);
-        vx = (Math.random() - 0.5) * 1.5 * speedMultiplier;
+        vx = (Math.random() - 0.5) * 0.5 * speedMultiplier;
       } else { // Top-Right
         x = rect.width * 0.7 + Math.random() * (rect.width * 0.3);
-        vx = -(0.5 + Math.random() * 1) * speedMultiplier;
+        vx = -(0.2 + Math.random() * 0.3) * speedMultiplier;
       }
       vy = baseFallSpeed * speedMultiplier; 
     } else if (edge === 'bottom') {
       const side = Math.floor(Math.random() * 3);
-      const baseLaunch = -(5 + Math.random() * 2); 
+      const baseLaunch = -(2.5 + Math.random() * 1.0); 
       y = rect.height + 80;
       if (side === 0) { // Bottom-Left
         x = Math.random() * (rect.width * 0.3);
-        vx = (1 + Math.random() * 1.5) * speedMultiplier;
+        vx = (0.4 + Math.random() * 0.6) * speedMultiplier;
       } else if (side === 1) { // Bottom-Center
         x = rect.width * 0.3 + Math.random() * (rect.width * 0.4);
-        vx = (Math.random() - 0.5) * 1.5 * speedMultiplier;
+        vx = (Math.random() - 0.5) * 0.5 * speedMultiplier;
       } else { // Bottom-Right
         x = rect.width * 0.7 + Math.random() * (rect.width * 0.3);
-        vx = -(1 + Math.random() * 1.5) * speedMultiplier;
+        vx = -(0.4 + Math.random() * 0.6) * speedMultiplier;
       }
       vy = baseLaunch * speedMultiplier;
     } else if (edge === 'left') {
       x = -80;
       y = Math.random() * (rect.height * 0.6); // Top 60%
-      vx = (2 + Math.random() * 1.5) * speedMultiplier;
-      vy = -(1.5 + Math.random() * 1.5) * speedMultiplier; // Float upwards slightly
+      vx = (0.8 + Math.random() * 0.6) * speedMultiplier;
+      vy = -(0.5 + Math.random() * 0.5) * speedMultiplier; // Float upwards slightly
     } else if (edge === 'right') {
       x = rect.width + 80;
       y = Math.random() * (rect.height * 0.6); // Top 60%
-      vx = -(2 + Math.random() * 1.5) * speedMultiplier;
-      vy = -(1.5 + Math.random() * 1.5) * speedMultiplier; // Float upwards slightly
+      vx = -(0.8 + Math.random() * 0.6) * speedMultiplier;
+      vy = -(0.5 + Math.random() * 0.5) * speedMultiplier; // Float upwards slightly
     }
 
     const newItem: GameObject = {
@@ -238,7 +238,7 @@ const HazardBlitz = () => {
           ...item,
           x: item.x + item.vx,
           y: item.y + item.vy,
-          vy: item.vy + 0.03, // Very gentle downward acceleration
+          vy: item.vy + 0.015, // Halved gravity for slower falling arc
           rotation: item.rotation + item.rotationSpeed
         };
 
@@ -334,14 +334,14 @@ const HazardBlitz = () => {
 
       {/* ===== MOBILE: Fullscreen fixed overlay ===== */}
       {isMobile && (
-        <div className="fixed inset-0 bg-slate-950 z-[9999] flex flex-col overflow-hidden touch-none select-none">
+        <div className="fixed inset-0 bg-slate-50 dark:bg-slate-950 z-[9999] flex flex-col overflow-hidden touch-none select-none text-slate-900 dark:text-white transition-colors duration-200">
           
           {/* Portrait: Rotate Device Overlay */}
           {isPortrait && (
-            <div className="absolute inset-0 z-[10001] bg-slate-900/95 flex flex-col items-center justify-center p-6 text-center">
+            <div className="absolute inset-0 z-[10001] bg-white/95 dark:bg-slate-900/95 flex flex-col items-center justify-center p-6 text-center text-slate-900 dark:text-white">
               <Smartphone className="w-16 h-16 text-primary mb-6 animate-bounce" style={{ transform: 'rotate(90deg)' }} />
-              <h2 className="text-3xl font-black text-white mb-3 uppercase tracking-tight">Rotate Device</h2>
-              <p className="text-slate-400 font-bold max-w-xs text-lg">
+              <h2 className="text-3xl font-black mb-3 uppercase tracking-tight">Rotate Device</h2>
+              <p className="text-slate-600 dark:text-slate-400 font-bold max-w-xs text-lg">
                 Hazard Blitz is best played in landscape mode! Please rotate your phone.
               </p>
               <Link 
@@ -358,7 +358,7 @@ const HazardBlitz = () => {
           <div className="absolute top-4 left-4 z-[10000] flex items-center gap-3">
             <Link 
               href="/kids/challenges" 
-              className="bg-black/50 hover:bg-black/80 text-white p-3 rounded-full transition-all border border-white/20 shadow-xl flex items-center gap-2 group"
+              className="bg-white/80 hover:bg-white dark:bg-black/50 dark:hover:bg-black/80 text-slate-800 dark:text-white p-3 rounded-full transition-all border border-slate-200 dark:border-white/20 shadow-xl flex items-center gap-2 group"
             >
               <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
               <span className="font-bold hidden sm:inline">Exit Game</span>
@@ -366,7 +366,7 @@ const HazardBlitz = () => {
 
             <button 
               onClick={toggleFullscreen}
-              className="bg-black/50 hover:bg-black/80 text-white p-3 rounded-full transition-all border border-white/20 shadow-xl flex items-center gap-2 group"
+              className="bg-white/80 hover:bg-white dark:bg-black/50 dark:hover:bg-black/80 text-slate-800 dark:text-white p-3 rounded-full transition-all border border-slate-200 dark:border-white/20 shadow-xl flex items-center gap-2 group"
             >
               <Maximize className="h-5 w-5 group-hover:scale-110 transition-transform" />
               <span className="font-bold hidden sm:inline">Fullscreen</span>
@@ -389,25 +389,25 @@ const HazardBlitz = () => {
               <div></div>
               {/* Centered Score & Lives */}
               <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-auto">
-                <div className="bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-2">
+                <div className="bg-white/80 dark:bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200 dark:border-white/10 flex items-center gap-2 shadow-sm">
                   <Trophy className="h-4 w-4 text-yellow-400" />
                   <div className="flex flex-col">
-                    <span className="text-[8px] font-black text-white/50 uppercase leading-none">Score</span>
+                    <span className="text-[8px] font-black text-slate-500 dark:text-white/50 uppercase leading-none">Score</span>
                     <span className="text-base font-black text-yellow-400 leading-none">{score}</span>
                   </div>
                 </div>
-                <div className="bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-2">
+                <div className="bg-white/80 dark:bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200 dark:border-white/10 flex items-center gap-2 shadow-sm">
                   <Heart className={cn("h-4 w-4 transition-colors", lives <= 1 ? "text-red-500 animate-pulse" : "text-red-400")} fill="currentColor" />
                   <div className="flex flex-col">
-                    <span className="text-[8px] font-black text-white/50 uppercase leading-none">Lives</span>
+                    <span className="text-[8px] font-black text-slate-500 dark:text-white/50 uppercase leading-none">Lives</span>
                     <span className="text-base font-black text-red-400 leading-none">{lives}</span>
                   </div>
                 </div>
               </div>
               {/* Right Stats */}
               <div className="flex items-center gap-2 pointer-events-auto">
-                <div className="bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 flex flex-col items-center">
-                  <span className="text-[8px] font-black text-white/50 uppercase leading-none">Goal</span>
+                <div className="bg-white/80 dark:bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200 dark:border-white/10 flex flex-col items-center shadow-sm">
+                  <span className="text-[8px] font-black text-slate-500 dark:text-white/50 uppercase leading-none">Goal</span>
                   <span className="text-sm font-black text-emerald-400 leading-none">500</span>
                 </div>
               </div>
@@ -420,27 +420,27 @@ const HazardBlitz = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm"
+                  className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 dark:bg-slate-900/80 backdrop-blur-sm"
                 >
-                  <div className="max-w-sm w-full max-h-[90vh] overflow-y-auto overflow-x-hidden bg-slate-800 rounded-2xl border-4 border-primary p-4 text-center shadow-2xl relative">
+                  <div className="max-w-sm w-full max-h-[90vh] overflow-y-auto overflow-x-hidden bg-white dark:bg-slate-800 rounded-2xl border-4 border-primary p-4 text-center shadow-2xl relative text-slate-900 dark:text-white">
                     <div className="h-10 w-10 bg-primary/20 rounded-xl flex items-center justify-center mx-auto mb-2">
                       <Zap className="h-5 w-5 text-primary" fill="currentColor" />
                     </div>
                     <h2 className="text-lg font-black uppercase tracking-tighter mb-1 italic">Hazard <span className="text-primary">Blitz</span></h2>
-                    <p className="text-[10px] text-slate-400 font-bold mb-3 leading-tight">
+                    <p className="text-[10px] text-slate-600 dark:text-slate-400 font-bold mb-3 leading-tight">
                       Tap the hazards to neutralize them! Avoid the safety equipment!
                     </p>
                     <div className="grid grid-cols-2 gap-2 mb-3">
-                      <div className="bg-slate-900/50 p-2 rounded-xl border-2 border-primary/20">
+                      <div className="bg-slate-50 dark:bg-slate-900/50 p-2 rounded-xl border-2 border-primary/20">
                         <span className="text-[9px] font-black text-primary uppercase block mb-1">Neutralize</span>
                         <div className="flex justify-center gap-1 text-lg">
-                          {HAZARDS.slice(0, 3).map(h => h.icon)}
+                          {HAZARDS.map(h => h.icon)}
                         </div>
                       </div>
-                      <div className="bg-slate-900/50 p-2 rounded-xl border-2 border-white/10">
-                        <span className="text-[9px] font-black text-white/50 uppercase block mb-1">Avoid</span>
-                        <div className="flex justify-center gap-1 text-lg opacity-50">
-                          {SAFETY.slice(0, 3).map(s => s.icon)}
+                      <div className="bg-slate-50 dark:bg-slate-900/50 p-2 rounded-xl border-2 border-slate-200 dark:border-white/10">
+                        <span className="text-[9px] font-black text-slate-400 dark:text-white/50 uppercase block mb-1">Avoid</span>
+                        <div className="flex justify-center gap-1 text-lg opacity-80 dark:opacity-50">
+                          {SAFETY.map(s => s.icon)}
                         </div>
                       </div>
                     </div>
@@ -460,27 +460,27 @@ const HazardBlitz = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-red-950/90 backdrop-blur-md"
+                  className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-red-950/40 dark:bg-red-950/90 backdrop-blur-md"
                 >
-                  <div className="max-w-sm w-full max-h-[90vh] overflow-y-auto overflow-x-hidden bg-slate-900 rounded-2xl border-4 border-red-500 p-4 text-center shadow-2xl">
+                  <div className="max-w-sm w-full max-h-[90vh] overflow-y-auto overflow-x-hidden bg-white dark:bg-slate-900 rounded-2xl border-4 border-red-500 p-4 text-center shadow-2xl text-slate-900 dark:text-white">
                     <div className="h-10 w-10 bg-red-500/20 rounded-xl flex items-center justify-center mx-auto mb-2">
                       <AlertCircle className="h-6 w-6 text-red-500" />
                     </div>
                     <h2 className="text-xl font-black uppercase tracking-tighter mb-1">Game Over</h2>
-                    <p className="text-slate-400 font-bold mb-3 uppercase tracking-widest text-[10px]">Great Training Hero!</p>
+                    <p className="text-slate-600 dark:text-slate-400 font-bold mb-3 uppercase tracking-widest text-[10px]">Great Training Hero!</p>
                     <div className="grid grid-cols-2 gap-2 mb-3">
-                      <div className="bg-slate-800 p-3 rounded-xl border-2 border-white/5">
-                        <span className="text-[9px] font-black text-white/30 uppercase block mb-1">Final Score</span>
+                      <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border-2 border-slate-100 dark:border-white/5">
+                        <span className="text-[9px] font-black text-slate-400 dark:text-white/30 uppercase block mb-1">Final Score</span>
                         <span className="text-2xl font-black text-yellow-400">{score}</span>
                       </div>
-                      <div className="bg-slate-800 p-3 rounded-xl border-2 border-white/5">
-                        <span className="text-[9px] font-black text-white/30 uppercase block mb-1">High Score</span>
-                        <span className="text-2xl font-black text-white">{highScore}</span>
+                      <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border-2 border-slate-100 dark:border-white/5">
+                        <span className="text-[9px] font-black text-slate-400 dark:text-white/30 uppercase block mb-1">High Score</span>
+                        <span className="text-2xl font-black text-slate-800 dark:text-white">{highScore}</span>
                       </div>
                     </div>
                     <button 
                       onClick={startGame}
-                      className="w-full bg-white hover:bg-slate-100 text-red-600 font-black py-3 rounded-xl shadow-[0_4px_0_#cbd5e1] active:translate-y-1 active:shadow-none transition-all uppercase tracking-widest flex items-center justify-center gap-2 text-sm"
+                      className="w-full bg-slate-900 dark:bg-white hover:bg-slate-800 dark:hover:bg-slate-100 text-white dark:text-red-600 font-black py-3 rounded-xl shadow-[0_4px_0_#475569] dark:shadow-[0_4px_0_#cbd5e1] active:translate-y-1 active:shadow-none transition-all uppercase tracking-widest flex items-center justify-center gap-2 text-sm"
                     >
                       <RotateCcw className="h-5 w-5" />
                       Try Again
@@ -494,22 +494,22 @@ const HazardBlitz = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-blue-950/90 backdrop-blur-md"
+                  className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-blue-950/40 dark:bg-blue-950/90 backdrop-blur-md"
                 >
-                  <div className="max-w-sm w-full max-h-[90vh] overflow-y-auto overflow-x-hidden bg-slate-900 rounded-2xl border-4 border-blue-500 p-4 text-center shadow-2xl">
+                  <div className="max-w-sm w-full max-h-[90vh] overflow-y-auto overflow-x-hidden bg-white dark:bg-slate-900 rounded-2xl border-4 border-blue-500 p-4 text-center shadow-2xl text-slate-900 dark:text-white">
                     <div className="h-10 w-10 bg-blue-500/20 rounded-xl flex items-center justify-center mx-auto mb-2">
                       <Trophy className="h-6 w-6 text-blue-400" />
                     </div>
                     <h2 className="text-xl font-black uppercase tracking-tighter mb-1">Victory!</h2>
-                    <p className="text-blue-400 font-bold mb-3 uppercase tracking-widest text-[10px]">Mission Accomplished!</p>
+                    <p className="text-slate-600 dark:text-slate-400 font-bold mb-3 uppercase tracking-widest text-[10px] text-blue-600 dark:text-blue-400">Mission Accomplished!</p>
                     <div className="grid grid-cols-2 gap-2 mb-3">
-                      <div className="bg-slate-800 p-3 rounded-xl border-2 border-white/5">
-                        <span className="text-[9px] font-black text-white/30 uppercase block mb-1">Final Score</span>
+                      <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border-2 border-slate-100 dark:border-white/5">
+                        <span className="text-[9px] font-black text-slate-400 dark:text-white/30 uppercase block mb-1">Final Score</span>
                         <span className="text-2xl font-black text-yellow-400">{score}</span>
                       </div>
-                      <div className="bg-slate-800 p-3 rounded-xl border-2 border-white/5">
-                        <span className="text-[9px] font-black text-white/30 uppercase block mb-1">Status</span>
-                        <span className="text-lg font-black text-white uppercase italic">Elite</span>
+                      <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border-2 border-slate-100 dark:border-white/5">
+                        <span className="text-[9px] font-black text-slate-400 dark:text-white/30 uppercase block mb-1">Status</span>
+                        <span className="text-lg font-black text-slate-850 dark:text-white uppercase italic">Elite</span>
                       </div>
                     </div>
                     <motion.div 
@@ -526,7 +526,7 @@ const HazardBlitz = () => {
                           <BadgeCheck className="h-3 w-3" />
                           Badge Obtained
                         </div>
-                        <div className="text-white font-black text-sm leading-tight">Hazard Hero</div>
+                        <div className="text-slate-900 dark:text-white font-black text-sm leading-tight">Hazard Hero</div>
                       </div>
                     </motion.div>
                     <div className="flex gap-2">
@@ -539,7 +539,7 @@ const HazardBlitz = () => {
                       </button>
                       <Link 
                         href="/kids/challenges"
-                        className="flex-1 bg-white/10 hover:bg-white/20 text-white font-bold py-3 rounded-xl transition-all uppercase tracking-widest text-[10px] flex items-center justify-center text-center leading-tight"
+                        className="flex-1 bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-slate-800 dark:text-white font-bold py-3 rounded-xl transition-all uppercase tracking-widest text-[10px] flex items-center justify-center text-center leading-tight"
                       >
                         Activities
                       </Link>
@@ -626,44 +626,43 @@ const HazardBlitz = () => {
               </Link>
             </div>
 
-            <div className="w-full flex-1 flex flex-col bg-slate-900 rounded-[2.5rem] border-4 border-slate-800 overflow-hidden shadow-2xl relative select-none">
-        
-        {/* ── Game UI Header ── */}
-        <div className="absolute top-0 left-0 right-0 z-50 p-6 flex items-center justify-between pointer-events-none">
-          <div className="w-32"></div> {/* Left spacer */}
+            <div className="w-full flex-1 flex flex-col bg-white dark:bg-slate-900 rounded-[2.5rem] border-4 border-slate-200 dark:border-slate-800 overflow-hidden shadow-2xl relative select-none transition-colors duration-200">
+              {/* Game UI Header */}
+            <div className="absolute top-0 left-0 right-0 z-50 p-6 flex items-center justify-between pointer-events-none">
+              <div className="w-32"></div> {/* Left spacer */}
 
-          {/* Centered Score & Lives */}
-          <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-8 pointer-events-auto">
-             <div className="bg-black/40 backdrop-blur-md px-3 sm:px-6 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl border border-white/10 flex items-center gap-2 sm:gap-3">
-                <Trophy className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-400" />
-                <div className="flex flex-col">
-                   <span className="text-[8px] sm:text-[10px] font-black text-white/50 uppercase leading-none">Score</span>
-                   <span className="text-base sm:text-2xl font-black text-yellow-400 leading-none">{score}</span>
+              {/* Centered Score & Lives */}
+              <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-8 pointer-events-auto">
+                <div className="bg-white/80 dark:bg-black/40 backdrop-blur-md px-3 sm:px-6 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl border border-slate-200 dark:border-white/10 flex items-center gap-2 sm:gap-3 shadow-md">
+                  <Trophy className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-500" />
+                  <div className="flex flex-col">
+                    <span className="text-[8px] sm:text-[10px] font-black text-slate-500 dark:text-white/50 uppercase leading-none">Score</span>
+                    <span className="text-base sm:text-2xl font-black text-yellow-500 leading-none">{score}</span>
+                  </div>
                 </div>
-             </div>
 
-             <div className="bg-black/40 backdrop-blur-md px-3 sm:px-6 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl border border-white/10 flex items-center gap-2 sm:gap-3">
-                <Heart className={cn("h-4 w-4 sm:h-5 sm:w-5 transition-colors", lives <= 1 ? "text-red-500 animate-pulse" : "text-red-400")} fill="currentColor" />
-                <div className="flex flex-col">
-                   <span className="text-[8px] sm:text-[10px] font-black text-white/50 uppercase leading-none">Lives</span>
-                   <span className="text-base sm:text-2xl font-black text-red-400 leading-none">{lives}</span>
+                <div className="bg-white/80 dark:bg-black/40 backdrop-blur-md px-3 sm:px-6 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl border border-slate-200 dark:border-white/10 flex items-center gap-2 sm:gap-3 shadow-md">
+                  <Heart className={cn("h-4 w-4 sm:h-5 sm:w-5 transition-colors", lives <= 1 ? "text-red-500 animate-pulse" : "text-red-500")} fill="currentColor" />
+                  <div className="flex flex-col">
+                    <span className="text-[8px] sm:text-[10px] font-black text-slate-500 dark:text-white/50 uppercase leading-none">Lives</span>
+                    <span className="text-base sm:text-2xl font-black text-red-500 leading-none">{lives}</span>
+                  </div>
                 </div>
-             </div>
-          </div>
+              </div>
 
-          {/* Right Stats */}
-          <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto">
-            <div className="bg-black/40 backdrop-blur-md px-3 sm:px-6 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl border border-white/10 flex flex-col items-center">
-               <span className="text-[8px] sm:text-[10px] font-black text-white/50 uppercase leading-none">Goal</span>
-               <span className="text-sm sm:text-2xl font-black text-emerald-400 leading-none">500</span>
-            </div>
+              {/* Right Stats */}
+              <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto">
+                <div className="bg-white/80 dark:bg-black/40 backdrop-blur-md px-3 sm:px-6 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl border border-slate-200 dark:border-white/10 flex flex-col items-center shadow-md">
+                  <span className="text-[8px] sm:text-[10px] font-black text-slate-500 dark:text-white/50 uppercase leading-none">Goal</span>
+                  <span className="text-sm sm:text-2xl font-black text-emerald-500 dark:text-emerald-400 leading-none">500</span>
+                </div>
 
-            <div className="hidden sm:flex bg-black/40 backdrop-blur-md px-6 py-2 rounded-2xl border border-white/10 flex-col items-center">
-               <span className="text-[10px] font-black text-white/50 uppercase leading-none">Level</span>
-               <span className="text-2xl font-black text-blue-400 leading-none">{level}</span>
+                <div className="hidden sm:flex bg-white/80 dark:bg-black/40 backdrop-blur-md px-6 py-2 rounded-2xl border border-slate-200 dark:border-white/10 flex flex-col items-center shadow-md">
+                  <span className="text-[10px] font-black text-slate-500 dark:text-white/50 uppercase leading-none">Level</span>
+                  <span className="text-2xl font-black text-blue-500 dark:text-blue-400 leading-none">{level}</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
         {/* ── Game Area ── */}
         <div 
@@ -682,29 +681,29 @@ const HazardBlitz = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-slate-900/80 backdrop-blur-sm"
+                className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-slate-900/40 dark:bg-slate-900/80 backdrop-blur-sm"
               >
-                 <div className="max-w-md w-full max-h-[85vh] overflow-y-auto overflow-x-hidden bg-slate-800 rounded-[2rem] sm:rounded-[2.5rem] border-4 border-primary p-5 sm:p-8 text-center shadow-2xl relative">
+                 <div className="max-w-md w-full max-h-[85vh] overflow-y-auto overflow-x-hidden bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-[2.5rem] border-4 border-primary p-5 sm:p-8 text-center shadow-2xl relative text-slate-900 dark:text-white">
                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl pointer-events-none" />
                    <div className="h-12 w-12 sm:h-20 sm:w-20 bg-primary/20 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto mb-3 sm:mb-6">
                        <Zap className="h-6 w-6 sm:h-10 sm:w-10 text-primary" fill="currentColor" />
                     </div>
                    <h2 className="text-xl sm:text-4xl font-black uppercase tracking-tighter mb-2 sm:mb-4 italic">Hazard <span className="text-primary">Blitz</span></h2>
-                    <p className="text-[11px] sm:text-base text-slate-400 font-bold mb-4 sm:mb-8 leading-tight">
+                    <p className="text-[11px] sm:text-base text-slate-600 dark:text-slate-400 font-bold mb-4 sm:mb-8 leading-tight">
                       Neutralize the fire hazards! Tap the hazards to clear them, but avoid the safety equipment!
                     </p>
                    
                    <div className="grid grid-cols-2 gap-3 mb-6 sm:mb-8">
-                      <div className="bg-slate-900/50 p-4 rounded-2xl border-2 border-primary/20">
+                      <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border-2 border-primary/20">
                          <span className="text-[10px] font-black text-primary uppercase block mb-2">Neutralize</span>
                          <div className="flex justify-center gap-2 text-2xl">
-                            {HAZARDS.slice(0, 3).map(h => h.icon)}
+                            {HAZARDS.map(h => h.icon)}
                          </div>
                       </div>
-                      <div className="bg-slate-900/50 p-4 rounded-2xl border-2 border-white/10">
-                         <span className="text-[10px] font-black text-white/50 uppercase block mb-2">Avoid</span>
-                         <div className="flex justify-center gap-2 text-2xl opacity-50">
-                            {SAFETY.slice(0, 3).map(s => s.icon)}
+                      <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border-2 border-slate-200 dark:border-white/10">
+                         <span className="text-[10px] font-black text-slate-400 dark:text-white/50 uppercase block mb-2">Avoid</span>
+                         <div className="flex justify-center gap-2 text-2xl opacity-85 dark:opacity-50">
+                            {SAFETY.map(s => s.icon)}
                          </div>
                       </div>
                    </div>
@@ -725,30 +724,30 @@ const HazardBlitz = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-red-950/90 backdrop-blur-md"
+                className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-red-950/40 dark:bg-red-950/90 backdrop-blur-md"
               >
-                <div className="max-w-md w-full max-h-[85vh] overflow-y-auto overflow-x-hidden bg-slate-900 rounded-[2rem] sm:rounded-[2.5rem] border-4 border-red-500 p-5 sm:p-8 text-center shadow-2xl relative">
+                <div className="max-w-md w-full max-h-[85vh] overflow-y-auto overflow-x-hidden bg-white dark:bg-slate-900 rounded-[2rem] sm:rounded-[2.5rem] border-4 border-red-500 p-5 sm:p-8 text-center shadow-2xl relative text-slate-900 dark:text-white">
                    <div className="h-14 w-14 sm:h-20 sm:w-20 bg-red-500/20 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
                       <AlertCircle className="h-8 w-8 sm:h-10 sm:w-10 text-red-500" />
                    </div>
                    
                    <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter mb-2">Game Over</h2>
-                   <p className="text-slate-400 font-bold mb-4 sm:mb-8 uppercase tracking-widest text-xs sm:text-sm">Great Training Hero!</p>
+                   <p className="text-slate-600 dark:text-slate-400 font-bold mb-4 sm:mb-8 uppercase tracking-widest text-xs sm:text-sm">Great Training Hero!</p>
                    
                    <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
-                      <div className="bg-slate-800 p-4 rounded-2xl border-2 border-white/5">
-                         <span className="text-[10px] font-black text-white/30 uppercase block mb-1">Final Score</span>
-                         <span className="text-3xl font-black text-yellow-400">{score}</span>
+                      <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl border-2 border-slate-100 dark:border-white/5">
+                         <span className="text-[10px] font-black text-slate-450 dark:text-white/30 uppercase block mb-1">Final Score</span>
+                         <span className="text-3xl font-black text-yellow-500">{score}</span>
                       </div>
-                      <div className="bg-slate-800 p-4 rounded-2xl border-2 border-white/5">
-                         <span className="text-[10px] font-black text-white/30 uppercase block mb-1">High Score</span>
-                         <span className="text-3xl font-black text-white">{highScore}</span>
+                      <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl border-2 border-slate-100 dark:border-white/5">
+                         <span className="text-[10px] font-black text-slate-450 dark:text-white/30 uppercase block mb-1">High Score</span>
+                         <span className="text-3xl font-black text-slate-800 dark:text-white">{highScore}</span>
                       </div>
                    </div>
 
                    <button 
                     onClick={startGame}
-                    className="w-full bg-white hover:bg-slate-100 text-red-600 font-black py-5 rounded-2xl shadow-[0_6px_0_#cbd5e1] active:translate-y-1 active:shadow-none transition-all uppercase tracking-widest flex items-center justify-center gap-3"
+                    className="w-full bg-slate-900 dark:bg-white hover:bg-slate-800 dark:hover:bg-slate-100 text-white dark:text-red-600 font-black py-5 rounded-2xl shadow-[0_6px_0_#475569] dark:shadow-[0_6px_0_#cbd5e1] active:translate-y-1 active:shadow-none transition-all uppercase tracking-widest flex items-center justify-center gap-3"
                    >
                      <RotateCcw className="h-6 w-6" />
                      Try Again
@@ -762,24 +761,24 @@ const HazardBlitz = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-blue-950/90 backdrop-blur-md"
+                className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-blue-950/40 dark:bg-blue-950/90 backdrop-blur-md"
               >
-                <div className="max-w-md w-full max-h-[85vh] overflow-y-auto overflow-x-hidden bg-slate-900 rounded-[2rem] sm:rounded-[2.5rem] border-4 border-blue-500 p-5 sm:p-8 text-center shadow-2xl relative">
+                <div className="max-w-md w-full max-h-[85vh] overflow-y-auto overflow-x-hidden bg-white dark:bg-slate-900 rounded-[2rem] sm:rounded-[2.5rem] border-4 border-blue-500 p-5 sm:p-8 text-center shadow-2xl relative text-slate-900 dark:text-white">
                    <div className="h-14 w-14 sm:h-20 sm:w-20 bg-blue-500/20 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
                       <Trophy className="h-8 w-8 sm:h-10 sm:w-10 text-blue-400" />
                    </div>
                    
                    <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter mb-2">Victory!</h2>
-                   <p className="text-slate-400 font-bold mb-4 sm:mb-8 uppercase tracking-widest text-xs sm:text-sm text-blue-400">Mission Accomplished!</p>
+                   <p className="text-slate-650 dark:text-slate-400 font-bold mb-4 sm:mb-8 uppercase tracking-widest text-xs sm:text-sm text-blue-600 dark:text-blue-400">Mission Accomplished!</p>
                    
                    <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
-                    <div className="bg-slate-800 p-4 rounded-2xl border-2 border-white/5">
-                       <span className="text-[10px] font-black text-white/30 uppercase block mb-1">Final Score</span>
-                       <span className="text-2xl sm:text-3xl font-black text-yellow-400">{score}</span>
+                    <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl border-2 border-slate-100 dark:border-white/5">
+                       <span className="text-[10px] font-black text-slate-450 dark:text-white/30 uppercase block mb-1">Final Score</span>
+                       <span className="text-2xl sm:text-3xl font-black text-yellow-500">{score}</span>
                     </div>
-                    <div className="bg-slate-800 p-4 rounded-2xl border-2 border-white/5">
-                       <span className="text-[10px] font-black text-white/30 uppercase block mb-1">Status</span>
-                       <span className="text-xl sm:text-2xl font-black text-white uppercase italic">Elite</span>
+                    <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl border-2 border-slate-100 dark:border-white/5">
+                       <span className="text-[10px] font-black text-slate-450 dark:text-white/30 uppercase block mb-1">Status</span>
+                       <span className="text-xl sm:text-2xl font-black text-slate-850 dark:text-white uppercase italic">Elite</span>
                     </div>
                  </div>
 
@@ -788,17 +787,17 @@ const HazardBlitz = () => {
                    initial={{ scale: 0.9, opacity: 0 }}
                    animate={{ scale: 1, opacity: 1 }}
                    transition={{ delay: 0.5 }}
-                   className="bg-emerald-500/10 border-2 border-emerald-500/20 p-3 sm:p-4 rounded-2xl mb-6 sm:mb-8 flex items-center gap-4 text-left"
+                   className="bg-emerald-500/10 border-2 border-emerald-500/20 p-3 sm:p-4 rounded-2xl mb-6 sm:mb-8 flex items-center gap-4 text-left text-slate-900 dark:text-white"
                  >
                     <div className="h-12 w-12 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shrink-0 overflow-hidden">
                       <img src="/badges/hazard_hall.webp?v=2" alt="Hazard Hero Badge" className="w-full h-full object-contain p-1" />
                     </div>
                     <div>
-                       <div className="flex items-center gap-1.5 text-emerald-400 font-black text-xs uppercase tracking-widest">
+                       <div className="flex items-center gap-1.5 text-emerald-500 dark:text-emerald-400 font-black text-xs uppercase tracking-widest">
                           <BadgeCheck className="h-3 w-3" />
                           Badge Obtained
                        </div>
-                       <div className="text-white font-black text-lg leading-tight">Hazard Hero</div>
+                       <div className="font-black text-lg leading-tight">Hazard Hero</div>
                     </div>
                  </motion.div>
 
@@ -812,7 +811,7 @@ const HazardBlitz = () => {
                      </button>
                      <Link 
                       href="/kids/challenges"
-                      className="w-full bg-white/10 hover:bg-white/20 text-white font-bold py-4 rounded-2xl transition-all uppercase tracking-widest text-sm"
+                      className="w-full bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-slate-800 dark:text-white font-bold py-4 rounded-2xl transition-all uppercase tracking-widest text-sm"
                      >
                        Back to Activities
                      </Link>
@@ -885,8 +884,8 @@ const HazardBlitz = () => {
           ))}
 
           {/* Background Visuals */}
-          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,#1e293b_0%,#0f172a_100%)] opacity-50" />
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-600 shadow-[0_0_20px_rgba(220,38,38,0.5)] z-20" />
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,#e2e8f0_0%,#f8fafc_100%)] dark:bg-[radial-gradient(circle_at_50%_50%,#1e293b_0%,#0f172a_100%)] opacity-50" />
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-650 shadow-[0_0_20px_rgba(220,38,38,0.5)] z-20" />
         </div>
       </div>
           </div>
@@ -907,7 +906,7 @@ const HazardBlitzLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <RootLayout>
-        <div className="min-h-screen relative flex flex-col bg-slate-950">
+        <div className="min-h-screen relative flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors duration-200">
             {!isMobileDevice && <Navigation />}
             <div className={cn(
               "flex-1 w-full text-scalable relative z-10 flex flex-col",
