@@ -92,7 +92,7 @@ const BadgeHallPage = ({ completedModules = [], earnedBadges = [] }: BadgeHallPr
 
           <div className="flex flex-row items-center gap-6 sm:gap-12">
             <div className="h-24 w-24 sm:h-44 sm:w-44 bg-white/20 rounded-[2rem] sm:rounded-[3rem] flex items-center justify-center shadow-2xl border-2 sm:border-4 border-white/30 shrink-0 transform -rotate-3 overflow-hidden">
-               <img src="/badges/badge_hall.webp?v=2" className="h-full w-full object-contain p-2 sm:p-4" alt="Badge Hall" />
+               <img src="/badges/badge_hall.webp?v=3" className="h-full w-full object-contain p-2 sm:p-4" alt="Badge Hall" />
             </div>
             
             <div className="text-left flex-1">
