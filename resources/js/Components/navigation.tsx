@@ -567,7 +567,7 @@ export function Navigation() {
               </Link>
             )}
 
-            {isAuthenticated && user?.role === "admin" && (
+            {isAuthenticated && user?.permissions?.isAdmin && (
               <Link
                 href="/admin"
                 className={`flex items-center gap-4 px-6 py-3.5 font-bold text-[0.9375rem] transition-colors ${url.startsWith('/admin') ? 'text-yellow-600 dark:text-yellow-400 bg-slate-100 dark:bg-slate-800' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50'}`}
