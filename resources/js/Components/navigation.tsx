@@ -125,7 +125,7 @@ export function Navigation() {
   if (user?.permissions?.accessProfessional) accessibleItems.push({ name: 'PROFESSIONAL', href: '/professional', active: url.startsWith('/professional') });
   if (user?.permissions?.accessAdult) accessibleItems.push({ name: 'ADULTS', href: '/adult', active: url.startsWith('/adult') });
   if (user?.permissions?.accessKids) accessibleItems.push({ name: 'KIDS', href: '/kids', active: url.startsWith('/kids') });
-  if (user?.role === 'admin') accessibleItems.push({ name: 'ADMIN', href: '/admin', active: url.startsWith('/admin') });
+  if (user?.permissions?.isAdmin) accessibleItems.push({ name: 'ADMIN', href: '/admin', active: url.startsWith('/admin') });
   const [isMeetDevsInView, setIsMeetDevsInView] = useState(false);
   const [isAssessmentInView, setIsAssessmentInView] = useState(false);
   const [isScrollingDown, setIsScrollingDown] = useState(false);
@@ -312,7 +312,7 @@ export function Navigation() {
                         </DropdownMenuItem>
                       </Link>
                     )}
-                    {user?.role === 'admin' && (
+                    {user?.permissions?.isAdmin && (
                       <Link href="/admin" className="block w-full">
                         <DropdownMenuItem className="cursor-pointer font-bold rounded-lg py-2.5 px-3 flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 focus:bg-slate-100 dark:focus:bg-slate-800 transition-colors">
                           <span className={url.startsWith('/admin') ? "text-yellow-600" : "text-slate-700 dark:text-slate-300"}>ADMIN PANEL</span>

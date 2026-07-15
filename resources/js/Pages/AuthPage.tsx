@@ -120,10 +120,11 @@ function AuthContent() {
       // Determine redirect from the returned user (not stale React state)
       let redirectPath = '/'
       if (result.user) {
-        if (result.user.role === 'admin') redirectPath = '/admin'
-        else if (result.user.role === 'professional') redirectPath = '/professional'
-        else if (result.user.role === 'adult') redirectPath = '/adult'
-        else if (result.user.role === 'kid') redirectPath = '/kids'
+        const roles = (result.user.role ?? '').split(',').map(r => r.trim());
+        if (roles.includes('admin')) redirectPath = '/admin'
+        else if (roles.includes('professional')) redirectPath = '/professional'
+        else if (roles.includes('adult')) redirectPath = '/adult'
+        else if (roles.includes('kid')) redirectPath = '/kids'
       }
       // Small delay to ensure cookie is fully set and let loading animation play out
       await new Promise(resolve => setTimeout(resolve, 1500))

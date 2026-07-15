@@ -56,10 +56,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 function determineRedirectPath(user: User | null): string {
   if (!user) return '/'
 
-  if (user.role === 'admin') return '/admin'
-  if (user.role === 'professional') return '/professional'
-  if (user.role === 'adult') return '/adult'
-  if (user.role === 'kid') return '/kids'
+  const roles = (user.role ?? '').split(',').map(r => r.trim());
+  if (roles.includes('admin')) return '/admin'
+  if (roles.includes('professional')) return '/professional'
+  if (roles.includes('adult')) return '/adult'
+  if (roles.includes('kid')) return '/kids'
 
   return '/'
 }
