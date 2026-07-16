@@ -26,6 +26,16 @@ export function NotificationPopover() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(false);
   const [error] = useState<string | null>(null);
+  const [filter, setFilter] = useState<'all' | 'video' | 'blog' | 'achievement' | 'system'>('all');
+
+  const filteredNotifications = notifications.filter((notif) => {
+    if (filter === 'all') return true;
+    if (filter === 'video') return notif.type === 'video';
+    if (filter === 'blog') return notif.type === 'blog';
+    if (filter === 'achievement') return notif.type === 'achievement';
+    if (filter === 'system') return ['urgent', 'warning', 'success'].includes(notif.type) || !['video', 'blog', 'achievement'].includes(notif.type);
+    return true;
+  });
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [previewNotification, setPreviewNotification] = useState<Notification | null>(null);
@@ -279,18 +289,62 @@ export function NotificationPopover() {
             </Button>
           )}
         </div>
+
+        {/* Filter Pills */}
+        <div className="flex gap-1.5 p-3 overflow-x-auto scrollbar-none border-b border-slate-100 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-950/20 transition-colors">
+          {[
+            { id: 'all', label: 'All' },
+            { id: 'video', label: 'Videos' },
+            { id: 'blog', label: 'Articles' },
+            { id: 'achievement', label: 'Badges' },
+            { id: 'system', label: 'Alerts' },
+          ].map((tab) => {
+            const count = tab.id === 'all' 
+              ? notifications.length 
+              : notifications.filter(n => {
+                  if (tab.id === 'video') return n.type === 'video';
+                  if (tab.id === 'blog') return n.type === 'blog';
+                  if (tab.id === 'achievement') return n.type === 'achievement';
+                  return ['urgent', 'warning', 'success'].includes(n.type) || !['video', 'blog', 'achievement'].includes(n.type);
+                }).length;
+
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setFilter(tab.id as any)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-full transition-all duration-200 outline-none select-none shrink-0 ${
+                  filter === tab.id
+                    ? "bg-sky-500 text-white shadow-[0_2px_0_#0284c7] hover:bg-sky-600 active:translate-y-[1px] active:shadow-none"
+                    : "bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 border-transparent"
+                }`}
+              >
+                {tab.label}
+                {count > 0 && (
+                  <span className={`text-[9px] px-1 py-0.5 rounded-full font-black ${
+                    filter === tab.id
+                      ? "bg-white text-sky-600"
+                      : "bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-400"
+                  }`}>
+                    {count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
         <ScrollArea className="h-[450px]">
           <div className="p-3">
             {loading ? (
               <div className="p-6 text-center text-sm text-slate-500 dark:text-slate-400 font-medium">Loading notifications...</div>
             ) : error ? (
               <div className="p-6 text-center text-sm text-red-500 font-medium">{error}</div>
-            ) : notifications.length === 0 ? (
-              <div className="p-6 text-center text-sm text-slate-500 dark:text-slate-400 font-medium">No notifications yet</div>
+            ) : filteredNotifications.length === 0 ? (
+              <div className="p-6 text-center text-sm text-slate-500 dark:text-slate-400 font-medium">No notifications in this category</div>
             ) : (
               <div className="space-y-2 pb-32">
                 <AnimatePresence initial={false}>
-                  {notifications.slice(0, 50).map((notification) => (
+                  {filteredNotifications.slice(0, 50).map((notification) => (
                     <motion.div
                       key={notification.id}
                       initial={{ opacity: 1, height: "auto", paddingTop: "0.875rem", paddingBottom: "0.875rem" }}

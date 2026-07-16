@@ -166,12 +166,22 @@ class AdminController extends Controller
             'authorId' => $request->user()->id,
         ]);
 
+        $targetRoles = ['admin'];
+        if ($post->category === 'professional') {
+            $targetRoles[] = 'professional';
+        } elseif ($post->category === 'adult') {
+            $targetRoles[] = 'adult';
+        } else {
+            $targetRoles[] = 'kid';
+            $targetRoles[] = 'adult'; // Adults can also access Kids area
+        }
+
         \App\Models\Notification::broadcast(
             'New Article Published',
             'A new article "' . $post->title . '" has been published. Check it out!',
             'blog',
-            'adult',
-            ['adult', 'professional', 'admin'] // Do not notify kids
+            $post->category,
+            $targetRoles
         );
 
         return response()->json(['success' => true, 'post' => $post], 201);
@@ -242,6 +252,7 @@ class AdminController extends Controller
             $targetRoles[] = 'adult';
         } else {
             $targetRoles[] = 'kid';
+            $targetRoles[] = 'adult'; // Adults can also access Kids area
         }
 
         \App\Models\Notification::broadcast(
