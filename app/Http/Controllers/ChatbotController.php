@@ -22,6 +22,7 @@ class ChatbotController extends Controller
 
         $userMessage = $request->input('message');
         $apiKey = config('services.gemini.api_key');
+        $model = config('services.gemini.model', 'gemini-1.5-flash');
 
         if (empty($apiKey)) {
             $fallbackContext = $this->searchDataset($userMessage, 1);
@@ -74,7 +75,7 @@ class ChatbotController extends Controller
             try {
                 $response = Http::timeout(30)->withoutVerifying()->withHeaders([
                     'Content-Type' => 'application/json',
-                ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key={$apiKey}", [
+                ])->post("https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}", [
                     'system_instruction' => [
                         'parts' => [
                             ['text' => $systemPrompt]
