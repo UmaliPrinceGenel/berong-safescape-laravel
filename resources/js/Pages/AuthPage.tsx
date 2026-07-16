@@ -25,6 +25,7 @@ function AuthContent() {
   const isSessionExpired = searchParams.get("session_expired") === "1"
   const { login, register, isAuthenticating, getRedirectPath } = useAuth()
   const [error, setError] = useState("")
+  const [showOverwriteConfirm, setShowOverwriteConfirm] = useState(false)
   const [loading, setLoading] = useState(false)
   const [isLogin, setIsLogin] = useState(true)
   const [showRegistrationWizard, setShowRegistrationWizard] = useState(false)
@@ -132,6 +133,33 @@ function AuthContent() {
       // Use full page navigation to clear Next.js router cache
       window.location.href = redirectPath
       return // Ensure we don't setLoading(false) so loader persists
+    } else if (result.requiresConfirmation) {
+      setLoading(false)
+      setShowOverwriteConfirm(true)
+    } else {
+      setError(result.error || "Invalid username or password")
+      setLoading(false)
+    }
+  }
+
+  const handleConfirmOverwrite = async () => {
+    setShowOverwriteConfirm(false)
+    setLoading(true)
+    setError("")
+
+    const result = await login(loginData.username, loginData.password, true)
+
+    if (result.success) {
+      let redirectPath = '/'
+      if (result.user) {
+        const roles = (result.user.role ?? '').split(',').map(r => r.trim());
+        if (roles.includes('admin')) redirectPath = '/admin'
+        else if (roles.includes('professional')) redirectPath = '/professional'
+        else if (roles.includes('adult')) redirectPath = '/adult'
+        else if (roles.includes('kid')) redirectPath = '/kids'
+      }
+      await new Promise(resolve => setTimeout(resolve, 1500))
+      window.location.href = redirectPath
     } else {
       setError(result.error || "Invalid username or password")
       setLoading(false)
@@ -692,6 +720,40 @@ function AuthContent() {
                   </Button>
                 </div>
               )}
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={showOverwriteConfirm} onOpenChange={setShowOverwriteConfirm}>
+          <DialogContent className="max-w-[90vw] sm:max-w-md bg-white dark:bg-slate-900 border-none rounded-[2rem] p-0 overflow-hidden shadow-2xl transition-colors duration-500">
+            <div className="bg-amber-500 p-6 text-center border-b-[6px] border-white/20">
+              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl transform rotate-3 overflow-hidden p-2">
+                <Shield className="h-10 w-10 text-amber-600 animate-pulse" strokeWidth={2.5} />
+              </div>
+              <DialogTitle className="text-2xl font-black text-white uppercase tracking-tight italic drop-shadow-md">Active Session Detected</DialogTitle>
+            </div>
+            <div className="p-6 sm:p-8 text-center">
+              <DialogDescription className="text-slate-500 dark:text-slate-400 font-bold text-base sm:text-lg leading-relaxed mb-6 transition-colors">
+                This account is currently logged in on another device. Logging in here will automatically sign you out of the other device.
+                <br/><br/>
+                Do you want to proceed?
+              </DialogDescription>
+              <DialogFooter className="flex flex-col-reverse sm:flex-row gap-3 justify-center">
+                <button
+                  type="button"
+                  onClick={() => setShowOverwriteConfirm(false)}
+                  className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-extrabold h-12 px-6 rounded-2xl transition-all shadow-[0_4px_0_#cbd5e1] dark:shadow-none active:translate-y-0.5 active:shadow-none"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleConfirmOverwrite}
+                  className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-white font-extrabold h-12 px-6 rounded-2xl transition-all shadow-[0_4px_0_#d97706] active:translate-y-0.5 active:shadow-none"
+                >
+                  Yes, Log In Here
+                </button>
+              </DialogFooter>
             </div>
           </DialogContent>
         </Dialog>

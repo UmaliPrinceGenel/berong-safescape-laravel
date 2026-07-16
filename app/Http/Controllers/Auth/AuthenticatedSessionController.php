@@ -27,12 +27,34 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        // 1. Validate credentials manually first without logging in
+        $user = \App\Models\User::where('username', $request->input('username'))->first();
+        if (!$user || !\Illuminate\Support\Facades\Hash::check($request->input('password'), $user->password)) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'username' => trans('auth.failed'),
+            ]);
+        }
 
-        // Single Device Login: terminate all other active sessions for this user
-        Auth::logoutOtherDevices($request->input('password'));
+        // 2. Check if an active session exists in the database
+        $activeSessionExists = \Illuminate\Support\Facades\DB::table('sessions')
+            ->where('user_id', $user->id)
+            ->where('last_activity', '>=', now()->subMinutes(config('session.lifetime'))->getTimestamp())
+            ->exists();
+
+        if ($activeSessionExists && !$request->boolean('confirm_overwrite')) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'session_conflict' => 'This account is currently active on another device. Logging in here will sign you out of that device.'
+            ]);
+        }
+
+        // 3. If there is an active session and they confirmed, terminate it
+        if ($activeSessionExists) {
+            \Illuminate\Support\Facades\DB::table('sessions')->where('user_id', $user->id)->delete();
+        }
+
+        $request->authenticate();
 
         $request->session()->regenerate();
 

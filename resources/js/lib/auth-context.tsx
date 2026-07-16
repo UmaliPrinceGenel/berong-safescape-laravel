@@ -39,7 +39,7 @@ export interface User {
 
 interface AuthContextType {
   user: User | null
-  login: (username: string, password: string) => Promise<{ success: boolean; error?: string; user?: User }>
+  login: (username: string, password: string, confirmOverwrite?: boolean) => Promise<{ success: boolean; error?: string; user?: User; requiresConfirmation?: boolean }>
   register: (username: string, password: string, name: string, age: number) => Promise<{ success: boolean; error?: string }>
   logout: () => void
   refreshUser: () => Promise<void>
@@ -112,10 +112,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
   }
 
-  const login = async (username: string, password: string): Promise<{ success: boolean; error?: string; user?: User }> => {
+  const login = async (username: string, password: string, confirmOverwrite: boolean = false): Promise<{ success: boolean; error?: string; user?: User; requiresConfirmation?: boolean }> => {
     setIsAuthenticating(true)
     return new Promise((resolve) => {
-        router.post('/login', { username, password }, {
+        router.post('/login', { username, password, confirm_overwrite: confirmOverwrite }, {
             onSuccess: (page) => {
                 // Do not setIsAuthenticating(false) here, we wait for full page reload to Dashboard
                 const fetchedUser = (page.props as any).auth?.user;
@@ -126,7 +126,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             },
             onError: (errors) => {
                 setIsAuthenticating(false);
-                resolve({ success: false, error: Object.values(errors)[0] as string || 'Login failed' });
+                if (errors.session_conflict) {
+                    resolve({ success: false, requiresConfirmation: true, error: errors.session_conflict as string });
+                } else {
+                    resolve({ success: false, error: Object.values(errors)[0] as string || 'Login failed' });
+                }
             }
         });
     });
