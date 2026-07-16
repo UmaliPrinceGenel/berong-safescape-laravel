@@ -32,10 +32,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         // Single Device Login: terminate all other active sessions for this user
-        $user = Auth::user();
-        if ($user) {
-            \Illuminate\Support\Facades\DB::table('sessions')->where('user_id', $user->id)->delete();
-        }
+        Auth::logoutOtherDevices($request->input('password'));
 
         $request->session()->regenerate();
 
