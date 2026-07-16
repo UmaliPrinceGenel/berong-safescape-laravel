@@ -35,6 +35,15 @@ export const apiFetch = async (url: string, options: RequestInit = {}) => {
       validateStatus: () => true,
     });
 
+    if (res.status === 401 || res.status === 419) {
+      if (typeof window !== 'undefined') {
+        const path = window.location.pathname;
+        if (path !== '/' && path !== '/about' && !path.startsWith('/login') && !path.startsWith('/register') && !path.startsWith('/maintenance')) {
+          window.location.href = '/login?session_expired=1';
+        }
+      }
+    }
+
     return {
       ok: res.status >= 200 && res.status < 300,
       json: async () => res.data,

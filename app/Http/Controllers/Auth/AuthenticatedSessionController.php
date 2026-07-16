@@ -31,6 +31,12 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        // Single Device Login: terminate all other active sessions for this user
+        $user = Auth::user();
+        if ($user) {
+            \Illuminate\Support\Facades\DB::table('sessions')->where('user_id', $user->id)->delete();
+        }
+
         $request->session()->regenerate();
 
         return redirect()->intended(route('dashboard', absolute: false));

@@ -22,6 +22,7 @@ import { motion } from "motion/react"
 function AuthContent() {
   
   const searchParams = new URLSearchParams(window.location.search)
+  const isSessionExpired = searchParams.get("session_expired") === "1"
   const { login, register, isAuthenticating, getRedirectPath } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
@@ -419,6 +420,15 @@ function AuthContent() {
                       </button>
                     </div>
                   </div>
+
+                  {isSessionExpired && !error && (
+                    <Alert className="rounded-lg sm:rounded-xl py-2 bg-yellow-50 dark:bg-yellow-950/30 border-yellow-200 dark:border-yellow-900/50 text-yellow-700 dark:text-yellow-400">
+                      <AlertCircle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                      <AlertDescription className="text-xs sm:text-sm font-semibold">
+                        Your session expired because you logged in on another device. Please sign in again.
+                      </AlertDescription>
+                    </Alert>
+                  )}
 
                   {error && (
                     <Alert variant="destructive" className="rounded-lg sm:rounded-xl py-2">
