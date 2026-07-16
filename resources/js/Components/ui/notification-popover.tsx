@@ -5,7 +5,7 @@ import { Button } from "@/Components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover";
 import { router } from '@inertiajs/react';
 import { Badge } from "@/Components/ui/badge";
-import { Bell, Check, MoreHorizontal, Trash2, ArrowRight, Trophy, X } from "lucide-react";
+import { Bell, Check, MoreHorizontal, Trash2, ArrowRight, Trophy, X, ChevronDown } from "lucide-react";
 import { ScrollArea } from "@/Components/ui/scroll-area";
 import { useAuth } from "@/lib/auth-context";
 import { motion, AnimatePresence } from 'motion/react';
@@ -27,6 +27,15 @@ export function NotificationPopover() {
   const [loading, setLoading] = useState(false);
   const [error] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'video' | 'blog' | 'achievement' | 'system'>('all');
+  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
+
+  const filterLabels = {
+    all: 'All Notifications',
+    video: 'Videos',
+    blog: 'Articles',
+    achievement: 'Badges',
+    system: 'Alerts'
+  };
 
   const filteredNotifications = notifications.filter((notif) => {
     if (filter === 'all') return true;
@@ -290,47 +299,76 @@ export function NotificationPopover() {
           )}
         </div>
 
-        {/* Filter Pills */}
-        <div className="flex gap-1.5 p-3 overflow-x-auto scrollbar-none border-b border-slate-100 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-950/20 transition-colors">
-          {[
-            { id: 'all', label: 'All' },
-            { id: 'video', label: 'Videos' },
-            { id: 'blog', label: 'Articles' },
-            { id: 'achievement', label: 'Badges' },
-            { id: 'system', label: 'Alerts' },
-          ].map((tab) => {
-            const count = tab.id === 'all' 
-              ? notifications.length 
-              : notifications.filter(n => {
-                  if (tab.id === 'video') return n.type === 'video';
-                  if (tab.id === 'blog') return n.type === 'blog';
-                  if (tab.id === 'achievement') return n.type === 'achievement';
-                  return ['urgent', 'warning', 'success'].includes(n.type) || !['video', 'blog', 'achievement'].includes(n.type);
-                }).length;
+        {/* Category Selector Dropdown Row */}
+        <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/20 dark:bg-slate-950/10 z-[110] relative">
+          <span className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">Filter</span>
+          <div className="relative">
+             <button
+               onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+               className="flex items-center gap-2 px-3 py-1.5 text-xs font-extrabold rounded-xl bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-700 dark:text-slate-200 shadow-[0_2px_0_#e2e8f0] dark:shadow-[0_2px_0_#0f172a] active:translate-y-[1px] active:shadow-none transition-all outline-none select-none cursor-pointer"
+             >
+               {filterLabels[filter]}
+               <ChevronDown className={`h-3.5 w-3.5 text-slate-450 transition-transform duration-200 shrink-0 ${isFilterDropdownOpen ? 'rotate-180' : ''}`} />
+             </button>
 
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setFilter(tab.id as any)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-full transition-all duration-200 outline-none select-none shrink-0 ${
-                  filter === tab.id
-                    ? "bg-sky-500 text-white shadow-[0_2px_0_#0284c7] hover:bg-sky-600 active:translate-y-[1px] active:shadow-none"
-                    : "bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 border-transparent"
-                }`}
-              >
-                {tab.label}
-                {count > 0 && (
-                  <span className={`text-[9px] px-1 py-0.5 rounded-full font-black ${
-                    filter === tab.id
-                      ? "bg-white text-sky-600"
-                      : "bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-400"
-                  }`}>
-                    {count}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+             <AnimatePresence>
+               {isFilterDropdownOpen && (
+                 <>
+                   {/* Transparent click-to-dismiss overlay */}
+                   <div className="fixed inset-0 z-[115]" onClick={() => setIsFilterDropdownOpen(false)} />
+                   
+                   <motion.div
+                     initial={{ opacity: 0, scale: 0.95, y: -4 }}
+                     animate={{ opacity: 1, scale: 1, y: 0 }}
+                     exit={{ opacity: 0, scale: 0.95, y: -4 }}
+                     transition={{ duration: 0.15 }}
+                     className="absolute right-0 mt-1.5 w-48 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 shadow-xl rounded-[14px] p-1.5 z-[120] origin-top-right overflow-hidden transition-colors"
+                   >
+                     {[
+                       { id: 'all', label: 'All Notifications' },
+                       { id: 'video', label: 'Videos' },
+                       { id: 'blog', label: 'Articles' },
+                       { id: 'achievement', label: 'Badges' },
+                       { id: 'system', label: 'Alerts' },
+                     ].map((option) => {
+                       const count = option.id === 'all' 
+                         ? notifications.length 
+                         : notifications.filter(n => {
+                             if (option.id === 'video') return n.type === 'video';
+                             if (option.id === 'blog') return n.type === 'blog';
+                             if (option.id === 'achievement') return n.type === 'achievement';
+                             return ['urgent', 'warning', 'success'].includes(n.type) || !['video', 'blog', 'achievement'].includes(n.type);
+                           }).length;
+
+                       return (
+                         <button
+                           key={option.id}
+                           onClick={() => {
+                             setFilter(option.id as any);
+                             setIsFilterDropdownOpen(false);
+                           }}
+                           className={`w-full text-left px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors cursor-pointer select-none ${
+                             filter === option.id
+                               ? "bg-sky-50 dark:bg-sky-950/30 text-sky-600 dark:text-sky-400"
+                               : "bg-transparent text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                           }`}
+                         >
+                           {option.label}
+                           <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-black ${
+                             filter === option.id
+                               ? "bg-sky-100 dark:bg-sky-900/50 text-sky-600 dark:text-sky-400"
+                               : "bg-slate-100 text-slate-500 dark:bg-slate-850 dark:text-slate-400"
+                           }`}>
+                             {count}
+                           </span>
+                         </button>
+                       );
+                     })}
+                   </motion.div>
+                 </>
+               )}
+             </AnimatePresence>
+          </div>
         </div>
 
         <ScrollArea className="h-[450px]">
