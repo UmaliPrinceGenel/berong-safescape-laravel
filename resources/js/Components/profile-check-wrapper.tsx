@@ -16,7 +16,7 @@ export function ProfileCheckWrapper({ children }: ProfileCheckWrapperProps) {
 
   useEffect(() => {
     // Check if user needs to complete profile
-    if (!isLoading && user && user.role !== "admin") {
+    if (!isLoading && user && !user?.permissions?.isAdmin) {
       // Check profileCompleted flag
       if (user.profileCompleted === false) {
         setShowModal(true)

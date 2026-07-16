@@ -90,7 +90,7 @@ export default function AnalyticsDashboard({
   useEffect(() => {
     if (authLoading) return
 
-    if (user?.role !== "admin") {
+    if (!user?.permissions?.isAdmin) {
       router.visit("/")
       return
     }
@@ -170,7 +170,7 @@ export default function AnalyticsDashboard({
     )
   }
 
-  if (user?.role !== "admin") {
+  if (!user?.permissions?.isAdmin) {
     return null
   }
 
