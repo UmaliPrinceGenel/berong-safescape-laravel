@@ -725,10 +725,10 @@ function AuthContent() {
         </Dialog>
 
         <Dialog open={showOverwriteConfirm} onOpenChange={setShowOverwriteConfirm}>
-          <DialogContent className="max-w-[90vw] sm:max-w-md bg-white dark:bg-slate-900 border-none rounded-[2rem] p-0 overflow-hidden shadow-2xl transition-colors duration-500">
-            <div className="bg-amber-500 p-6 text-center border-b-[6px] border-white/20">
-              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl transform rotate-3 overflow-hidden p-2">
-                <Shield className="h-10 w-10 text-amber-600 animate-pulse" strokeWidth={2.5} />
+          <DialogContent showCloseButton={false} className="max-w-[90vw] sm:max-w-md bg-white dark:bg-slate-900 border-none rounded-[2rem] p-0 overflow-hidden shadow-2xl transition-colors duration-500">
+            <div className="bg-amber-500 dark:bg-amber-600 p-6 text-center border-b-[6px] border-white/20 dark:border-black/20">
+              <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl transform rotate-3 overflow-hidden p-2 transition-colors">
+                <Shield className="h-10 w-10 text-amber-600 dark:text-amber-500 animate-pulse" strokeWidth={2.5} />
               </div>
               <DialogTitle className="text-2xl font-black text-white uppercase tracking-tight italic drop-shadow-md">Active Session Detected</DialogTitle>
             </div>
@@ -738,22 +738,22 @@ function AuthContent() {
                 <br/><br/>
                 Do you want to proceed?
               </DialogDescription>
-              <DialogFooter className="flex flex-col-reverse sm:flex-row gap-3 justify-center">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center w-full mt-4">
                 <button
                   type="button"
                   onClick={() => setShowOverwriteConfirm(false)}
-                  className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-extrabold h-12 px-6 rounded-2xl transition-all shadow-[0_4px_0_#cbd5e1] dark:shadow-none active:translate-y-0.5 active:shadow-none"
+                  className="flex-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 font-extrabold h-12 rounded-2xl transition-all border-2 border-slate-200 dark:border-slate-700 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#1e293b] active:translate-y-0.5 active:shadow-none focus:outline-none focus:ring-0 focus-visible:outline-none"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={handleConfirmOverwrite}
-                  className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-white font-extrabold h-12 px-6 rounded-2xl transition-all shadow-[0_4px_0_#d97706] active:translate-y-0.5 active:shadow-none"
+                  className="flex-1 bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-500 text-white font-extrabold h-12 rounded-2xl transition-all shadow-[0_4px_0_#d97706] dark:shadow-[0_4px_0_#78350f] active:translate-y-0.5 active:shadow-none focus:outline-none focus:ring-0 focus-visible:outline-none"
                 >
                   Yes, Log In Here
                 </button>
-              </DialogFooter>
+              </div>
             </div>
           </DialogContent>
         </Dialog>
