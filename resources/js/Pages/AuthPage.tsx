@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, Suspense } from "react"
+import { useState, Suspense, lazy } from "react"
 import { router, usePage } from '@inertiajs/react';
 import { useAuth } from "@/lib/auth-context"
 import { Button } from "@/Components/ui/button"
@@ -15,9 +15,9 @@ import { Shield, AlertCircle, Loader2, KeyRound, Eye, EyeOff, ArrowLeft, CheckCi
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/Components/ui/dialog"
 import { Link } from '@inertiajs/react';
 import Image from '@/Components/Image';
-import { RegistrationWizard } from "@/Components/registration-wizard"
-import { Chatbot } from "@/Components/chatbot"
 import { motion } from "motion/react"
+
+const RegistrationWizard = lazy(() => import("@/Components/registration-wizard").then(m => ({ default: m.RegistrationWizard })))
 
 function AuthContent() {
   
@@ -316,7 +316,14 @@ function AuthContent() {
       {showRegistrationWizard && (
         <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 overflow-hidden sm:bg-slate-50 dark:sm:bg-slate-950 sm:bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:sm:bg-[radial-gradient(#1e293b_1px,transparent_1px)] sm:[background-size:16px_16px] sm:flex sm:items-center sm:justify-center sm:p-4 transition-colors duration-500">
           <div className="w-full max-w-3xl flex flex-col h-full sm:h-auto sm:max-h-[90vh]">
-            <RegistrationWizard onBackToLogin={() => setShowRegistrationWizard(false)} />
+            <Suspense fallback={
+              <div className="flex flex-col items-center justify-center p-8 h-64 my-auto">
+                <Loader2 className="h-8 w-8 animate-spin text-orange-500 mb-2" />
+                <p className="text-slate-500 dark:text-slate-400 font-bold text-sm">Loading Registration Wizard...</p>
+              </div>
+            }>
+              <RegistrationWizard onBackToLogin={() => setShowRegistrationWizard(false)} />
+            </Suspense>
           </div>
         </div>
       )}
@@ -738,18 +745,18 @@ function AuthContent() {
                 <br/><br/>
                 Do you want to proceed?
               </DialogDescription>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center w-full mt-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center w-full mt-6 px-2 sm:px-0">
                 <button
                   type="button"
                   onClick={() => setShowOverwriteConfirm(false)}
-                  className="flex-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 font-extrabold h-12 rounded-2xl transition-all border-2 border-slate-200 dark:border-slate-700 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#1e293b] active:translate-y-0.5 active:shadow-none focus:outline-none focus:ring-0 focus-visible:outline-none"
+                  className="w-full sm:flex-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 font-extrabold text-sm sm:text-base h-13 sm:h-14 rounded-2xl transition-all border-2 border-slate-200 dark:border-slate-700 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#1e293b] active:translate-y-0.5 active:shadow-none focus:outline-none focus:ring-0 focus-visible:outline-none"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={handleConfirmOverwrite}
-                  className="flex-1 bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-500 text-white font-extrabold h-12 rounded-2xl transition-all shadow-[0_4px_0_#d97706] dark:shadow-[0_4px_0_#78350f] active:translate-y-0.5 active:shadow-none focus:outline-none focus:ring-0 focus-visible:outline-none"
+                  className="w-full sm:flex-1 bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-500 text-white font-extrabold text-sm sm:text-base h-13 sm:h-14 rounded-2xl transition-all shadow-[0_4px_0_#d97706] dark:shadow-[0_4px_0_#78350f] active:translate-y-0.5 active:shadow-none focus:outline-none focus:ring-0 focus-visible:outline-none"
                 >
                   Yes, Log In Here
                 </button>
