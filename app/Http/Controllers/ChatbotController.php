@@ -172,7 +172,7 @@ class ChatbotController extends Controller
         
         // "Antoni" voice ID (a natural male voice). 
         // You can browse other voices and get their IDs in your ElevenLabs dashboard.
-        $voiceId = $request->input('voice', '1CkEF8EejhtlF4pZv178'); 
+        $voiceId = $request->input('voice', 'SVJS0DSa4N4d5FJthbKT'); 
 
         $response = Http::withHeaders([
                 'xi-api-key' => $apiKey,
