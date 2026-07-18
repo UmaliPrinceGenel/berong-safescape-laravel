@@ -33,7 +33,7 @@ interface UserScores {
 export default function ProfilePage() {
   
   const { user, isAuthenticated, isLoading, refreshUser } = useAuth()
-  const isKid = user?.role ? user.role.split(',').map(r => r.trim()).includes('kid') : false
+  const isKid = user?.role ? user.role.split(',').map(r => r.trim()).some(r => r === 'kid' || r === 'adult') : false
   const [loading, setLoading] = useState(true)
   const [success, setSuccess] = useState("")
   const [error, setError] = useState("")

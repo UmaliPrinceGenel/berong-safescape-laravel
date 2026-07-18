@@ -146,9 +146,10 @@ class AssessmentController extends Controller
         /** @var User $user */
         $user = Auth::user();
         $userRoles = array_filter(array_map('trim', explode(',', $user->role ?? 'guest')));
-        $isAdult = $user->age >= 18 && !in_array('kid', $userRoles);
+        $isLearner = in_array('kid', $userRoles) || in_array('adult', $userRoles);
+        $isAdult = !$isLearner; // For frontend compatibility, treat non-learners (professionals/admins) as 'isAdult'
         
-        // Count how many modules the kid completed
+        // Count how many modules the user completed
         $modulesCompleted = \App\Models\SafeScapeProgress::where('userId', $user->id)->where('completed', true)->count();
         $engagementPoints = $user->engagementPoints ?? 0;
         
@@ -166,14 +167,14 @@ class AssessmentController extends Controller
         }
         
         $eligible = true;
-        if ($isAdult) $eligible = false;
+        if (!$isLearner) $eligible = false;
         if (is_null($user->preTestScore)) $eligible = false;
-        if (!$isAdult && $modulesCompleted < $minModules) $eligible = false;
+        if ($isLearner && $modulesCompleted < $minModules) $eligible = false;
         
         return response()->json([
             'eligible' => $eligible,
             'alreadyCompleted' => $alreadyCompleted,
-            'reason' => $eligible ? 'Eligible' : ($isAdult ? 'Post-Test is not applicable for adult accounts' : 'Requirements not met'),
+            'reason' => $eligible ? 'Eligible' : (!$isLearner ? 'Post-Test is not applicable for this profile type' : 'Requirements not met'),
             'requirements' => [
                 'minEngagementPoints' => $minPoints,
                 'minModulesCompleted' => $minModules,
