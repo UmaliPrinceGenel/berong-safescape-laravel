@@ -797,7 +797,20 @@ function AdminDashboard({
               <AlertDialogHeader>
                 <AlertDialogTitle className="text-2xl font-black text-slate-800 dark:text-white tracking-tight">Verify Admin Password</AlertDialogTitle>
                 <AlertDialogDescription className="text-slate-500 dark:text-slate-400 font-bold text-sm mt-2">
-                  Enter your admin password to {roleChangeDialog.action === 'remove' ? 'remove' : 'grant'} the <strong className="text-slate-800 dark:text-white font-extrabold">{roleChangeDialog.permission}</strong> permission for <strong className="text-slate-800 dark:text-white font-extrabold">{roleChangeDialog.userName}</strong>.
+                  {(() => {
+                    const permissionLabels: Record<string, string> = {
+                      accessKids: 'Kids',
+                      accessAdult: 'Adults',
+                      accessProfessional: 'Professional',
+                      isAdmin: 'Admin'
+                    };
+                    const displayPermissionName = permissionLabels[roleChangeDialog.permission] || roleChangeDialog.permission;
+                    return (
+                      <>
+                        Enter your admin password to {roleChangeDialog.action === 'remove' ? 'remove' : 'grant'} the <strong className="text-slate-800 dark:text-white font-extrabold">{displayPermissionName}</strong> permission for <strong className="text-slate-800 dark:text-white font-extrabold">{roleChangeDialog.userName}</strong>.
+                      </>
+                    );
+                  })()}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <div className="py-3">
