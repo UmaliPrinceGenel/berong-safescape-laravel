@@ -234,7 +234,7 @@ export const ContentCard = React.memo(({ content, onClick }: ContentCardProps) =
               )}>
                  <div className="flex items-center justify-center">
                     <img 
-                      src={content.badgeImageUrl || "/badges/badge_hall.webp?v=2"} 
+                      src={content.badgeImageUrl || "/badges/badge_hall.webp?v=3"} 
                       alt="Badge" 
                       className={cn(
                         "h-4 w-4 sm:h-5 sm:w-5 object-contain transition-all",

@@ -141,12 +141,14 @@ class AdminController extends Controller
 
         // Send a welcome notification for new BFP Professional personnel
         if ($action === 'add' && $targetRole === 'professional') {
-            $notifExists = \App\Models\Notification::where('userId', $user->id)
+            // Only skip if there's already an unread welcome notification pending
+            $unreadWelcomeExists = \App\Models\Notification::where('userId', $user->id)
                 ->where('category', 'professional')
                 ->where('title', 'Welcome BFP Personnel!')
+                ->where('isRead', false)
                 ->exists();
 
-            if (!$notifExists) {
+            if (!$unreadWelcomeExists) {
                 \App\Models\Notification::create([
                     'userId'    => $user->id,
                     'title'     => 'Welcome BFP Personnel!',

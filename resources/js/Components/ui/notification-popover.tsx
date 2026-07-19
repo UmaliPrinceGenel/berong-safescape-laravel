@@ -104,10 +104,10 @@ export function NotificationPopover() {
     }
   }, [notifications]);
 
-  // Polling for new notifications every 30 seconds
+  // Polling for new notifications every 10 seconds
   useEffect(() => {
     if (!user) return;
-    const interval = setInterval(fetchNotifications, 30000);
+    const interval = setInterval(fetchNotifications, 10000);
     return () => clearInterval(interval);
   }, [user]);
 
