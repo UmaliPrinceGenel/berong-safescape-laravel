@@ -175,7 +175,7 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
             <div className="relative bg-white dark:bg-slate-800 rounded-[2rem] p-5 sm:p-8 shadow-xl border-2 border-slate-50 dark:border-slate-700 overflow-hidden transition-colors duration-500">
                {/* Decorative floating elements */}
                 <div className="hidden sm:block absolute top-0 right-0 p-8 opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-700">
-                   <img src="/games.webp" className="h-24 w-24 sm:h-36 sm:w-36 object-contain" alt="" />
+                   <img src="/games.webp?v=2" className="h-24 w-24 sm:h-36 sm:w-36 object-contain" alt="" />
                 </div>
                 <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-blue-50 dark:bg-blue-900/20 rounded-full opacity-60"></div>
                

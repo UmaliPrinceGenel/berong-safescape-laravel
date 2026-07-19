@@ -139,6 +139,26 @@ class AdminController extends Controller
         $newRoleString = implode(',', $currentRoles);
         $user->update(['role' => $newRoleString]);
 
+        // Send a welcome notification for new BFP Professional personnel
+        if ($action === 'add' && $targetRole === 'professional') {
+            $notifExists = \App\Models\Notification::where('userId', $user->id)
+                ->where('category', 'professional')
+                ->where('title', 'Welcome BFP Personnel!')
+                ->exists();
+
+            if (!$notifExists) {
+                \App\Models\Notification::create([
+                    'userId'    => $user->id,
+                    'title'     => 'Welcome BFP Personnel!',
+                    'message'   => 'Congratulations! You have been granted BFP Professional access. You can now access professional Training Videos, study the Training Manuals, and explore the dispatch game, "The Right Call".',
+                    'type'      => 'success',
+                    'category'  => 'professional',
+                    'isRead'    => false,
+                    'createdAt' => now(),
+                ]);
+            }
+        }
+
         return response()->json(['success' => true, 'user' => $user]);
     }
 

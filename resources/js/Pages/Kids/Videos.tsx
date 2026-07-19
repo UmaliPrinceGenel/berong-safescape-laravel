@@ -273,7 +273,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
             <div className="relative bg-white dark:bg-slate-800 rounded-[2rem] p-5 sm:p-8 shadow-xl border-2 border-slate-50 dark:border-slate-700 overflow-hidden transition-colors duration-500">
                {/* Decorative floating elements */}
                <div className="hidden sm:block absolute top-0 right-0 p-8 opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-700">
-                  <img src="/badges/intel_hall.webp?v=2" className="h-24 w-24 sm:h-36 sm:w-36 object-contain" alt="" />
+                  <img src="/videos.webp?v=2" className="h-24 w-24 sm:h-36 sm:w-36 object-contain" alt="" />
                </div>
                <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-red-50 dark:bg-red-900/10 rounded-full blur-2xl opacity-60"></div>
                
@@ -353,7 +353,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
                     <div className="px-3 sm:px-4 py-2 bg-slate-700 rounded-xl text-slate-300 font-black text-[10px] sm:text-xs uppercase tracking-tighter whitespace-nowrap">Day 0{activeVideo.id}</div>
                     <div className="px-3 sm:px-4 py-2 bg-red-600 rounded-xl text-white font-black text-[10px] sm:text-xs uppercase tracking-tighter shadow-lg shadow-red-900/20 whitespace-nowrap">Active Intel</div>
                     <div className="px-3 sm:px-4 py-2 bg-amber-500 rounded-xl text-white font-black text-[10px] sm:text-xs uppercase tracking-tighter shadow-lg shadow-amber-900/20 flex items-center gap-1.5 whitespace-nowrap">
-                      <span className="hidden sm:inline text-xs">🎬</span>
+                      <img src="/badges/intel_hall.webp?v=2" className="h-4 w-4 object-contain shrink-0" alt="Intel Analyst" />
                       <span>REWARD AVAILABLE</span>
                     </div>
                   </div>
