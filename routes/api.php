@@ -12,6 +12,7 @@ use App\Http\Controllers\AuthApiController;
 use App\Http\Controllers\SchoolAnalyticsController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\GameProgressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,12 @@ Route::get('/quick-questions', [ContentController::class, 'questions']);
 
 // Public schools list (for registration dropdowns)
 Route::get('/schools', [SchoolAnalyticsController::class, 'index']);
+
+// Game progress integration for Task Master
+Route::prefix('games/taskmaster')->group(function () {
+    Route::get('/load', [GameProgressController::class, 'load']);
+    Route::post('/save', [GameProgressController::class, 'save']);
+});
 
 // Public maintenance status endpoint for real-time polling
 Route::get('/maintenance-status', function () {

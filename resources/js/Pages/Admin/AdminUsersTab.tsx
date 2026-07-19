@@ -55,6 +55,8 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                       <h4 className="font-black text-slate-800 dark:text-white truncate text-base sm:text-lg">{u.name}</h4>
                       <div className="flex flex-wrap items-center gap-2 mt-0.5 sm:mt-1">
                         <span className="text-xs font-bold text-slate-500 dark:text-slate-400 truncate">{u.email}</span>
+                        <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-slate-600" />
+                        <span className="text-xs font-bold text-slate-500 dark:text-slate-400 truncate">@{u.username}</span>
                         <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-slate-600 hidden sm:block" />
                         <span className="text-xs font-black px-2 py-0.5 rounded-md bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-500 uppercase tracking-wider">
                           {u.role}

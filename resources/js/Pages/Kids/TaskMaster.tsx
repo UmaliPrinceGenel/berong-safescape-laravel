@@ -90,7 +90,7 @@ export default function TaskMaster() {
 
         {/* The Game Iframe */}
         <iframe 
-          src={`/games/task_master/index.html?user_id=${user?.id || 'guest'}`} 
+          src={`/games/task_master/index.html?user_id=${user?.id || 'guest'}&player_name=${encodeURIComponent(user?.name || '')}`} 
           className="w-full h-full border-none pointer-events-auto touch-none select-none"
           allowFullScreen
           scrolling="no"
