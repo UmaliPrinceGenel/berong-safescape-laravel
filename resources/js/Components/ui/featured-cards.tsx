@@ -315,7 +315,6 @@ export function FeaturedCards({ serverUser }: { serverUser?: ServerUser | null }
         className="text-center mb-10 sm:mb-14"
       >
         <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-red-50 dark:bg-red-500/10 border border-red-200/50 dark:border-red-500/20 mb-6 shadow-sm">
-          <Flame className="h-4 w-4 text-red-500" strokeWidth={2.5} />
           <span className="text-[10px] sm:text-xs font-black text-red-600 dark:text-red-400 uppercase tracking-[0.2em]">Choose Your Path</span>
         </div>
         <h2 className="text-3xl sm:text-5xl font-black text-slate-800 dark:text-white tracking-tight">
