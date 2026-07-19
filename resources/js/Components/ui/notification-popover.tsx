@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import axios from 'axios';
 import { Button } from "@/Components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover";
@@ -49,6 +50,7 @@ export function NotificationPopover() {
   const [isOpen, setIsOpen] = useState(false);
   const [previewNotification, setPreviewNotification] = useState<Notification | null>(null);
   const [welcomeNotification, setWelcomeNotification] = useState<Notification | null>(null);
+  const [mounted, setMounted] = useState(false);
   const prevNotificationsRef = useRef<Notification[]>([]);
   const previewTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isFirstFetchRef = useRef(true);
@@ -114,6 +116,7 @@ export function NotificationPopover() {
   }, [user]);
 
   useEffect(() => {
+    setMounted(true);
     const handleClickOutside = () => {
       // Only trigger a state update if something is actually open
       setOpenDropdownId(currentId => currentId === null ? null : null);
@@ -485,86 +488,89 @@ export function NotificationPopover() {
       </PopoverContent>
     </Popover >
 
-    <AnimatePresence>
-      {welcomeNotification && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
-            className="relative bg-slate-900 border-[6px] border-red-500 rounded-[2.5rem] p-6 sm:p-8 max-w-md w-full text-center overflow-hidden shadow-[0_20px_50px_rgba(220,38,38,0.3)]"
-          >
-            {/* Mascot Avatar / BFP Badge */}
-            <div className="relative mx-auto w-20 h-20 sm:w-24 sm:h-24 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center mb-6 shadow-xl border-4 border-red-500 overflow-hidden transform hover:scale-105 transition-transform duration-300 shrink-0">
-              <img 
-                src="/badges/badge_hall.webp?v=2" 
-                alt="BFP Badge" 
-                className="w-[85%] h-[85%] object-contain"
-              />
-            </div>
+    {mounted && typeof document !== 'undefined' && createPortal(
+      <AnimatePresence>
+        {welcomeNotification && (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
+              className="relative bg-slate-900 border-[6px] border-red-500 rounded-[2.5rem] p-6 sm:p-8 max-w-md w-full text-center overflow-y-auto max-h-[95vh] shadow-[0_20px_50px_rgba(220,38,38,0.3)]"
+            >
+              {/* Mascot Avatar / BFP Badge */}
+              <div className="relative mx-auto w-20 h-20 sm:w-24 sm:h-24 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center mb-6 shadow-xl border-4 border-red-500 overflow-hidden transform hover:scale-105 transition-transform duration-300 shrink-0">
+                <img 
+                  src="/badges/badge_hall.webp?v=2" 
+                  alt="BFP Badge" 
+                  className="w-[85%] h-[85%] object-contain"
+                />
+              </div>
 
-            <h3 className="text-xl sm:text-2xl font-black text-red-500 uppercase tracking-tighter mb-2">
-              Welcome BFP Personnel!
-            </h3>
-            
-            <p className="text-slate-300 font-bold text-xs sm:text-sm leading-relaxed mb-6">
-              Congratulations! You have been granted BFP Professional access. Here are your new tools:
-            </p>
+              <h3 className="text-xl sm:text-2xl font-black text-red-500 uppercase tracking-tighter mb-2">
+                Welcome BFP Personnel!
+              </h3>
+              
+              <p className="text-slate-300 font-bold text-xs sm:text-sm leading-relaxed mb-6">
+                Congratulations! You have been granted BFP Professional access. Here are your new tools:
+              </p>
 
-            {/* Features list */}
-            <div className="grid grid-cols-1 gap-3 mb-6 text-left">
-              <div className="flex gap-3 p-3 rounded-2xl bg-slate-800/60 border border-slate-700/50">
-                <div className="w-9 h-9 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0">
-                  <Play className="h-4.5 w-4.5 text-red-500 fill-current" />
+              {/* Features list */}
+              <div className="grid grid-cols-1 gap-3 mb-6 text-left">
+                <div className="flex gap-3 p-3 rounded-2xl bg-slate-800/60 border border-slate-700/50">
+                  <div className="w-9 h-9 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0">
+                    <Play className="h-4.5 w-4.5 text-red-500 fill-current" />
+                  </div>
+                  <div>
+                    <h4 className="font-black text-white text-xs uppercase tracking-wide">Training Videos</h4>
+                    <p className="text-slate-400 text-[10px] sm:text-xs font-semibold leading-relaxed mt-0.5">Watch specialized instructional videos for BFP training.</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-black text-white text-xs uppercase tracking-wide">Training Videos</h4>
-                  <p className="text-slate-400 text-[10px] sm:text-xs font-semibold leading-relaxed mt-0.5">Watch specialized instructional videos for BFP training.</p>
+
+                <div className="flex gap-3 p-3 rounded-2xl bg-slate-800/60 border border-slate-700/50">
+                  <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
+                    <BookOpen className="h-4.5 w-4.5 text-amber-500" />
+                  </div>
+                  <div>
+                    <h4 className="font-black text-white text-xs uppercase tracking-wide">Training Manuals</h4>
+                    <p className="text-slate-400 text-[10px] sm:text-xs font-semibold leading-relaxed mt-0.5">Read fire safety codes, guidelines, and manuals.</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 p-3 rounded-2xl bg-slate-800/60 border border-slate-700/50">
+                  <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
+                    <Shield className="h-4.5 w-4.5 text-blue-500" />
+                  </div>
+                  <div>
+                    <h4 className="font-black text-white text-xs uppercase tracking-wide">The Right Call</h4>
+                    <p className="text-slate-400 text-[10px] sm:text-xs font-semibold leading-relaxed mt-0.5">Explore the interactive emergency dispatch simulation.</p>
+                  </div>
                 </div>
               </div>
 
-              <div className="flex gap-3 p-3 rounded-2xl bg-slate-800/60 border border-slate-700/50">
-                <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
-                  <BookOpen className="h-4.5 w-4.5 text-amber-500" />
-                </div>
-                <div>
-                  <h4 className="font-black text-white text-xs uppercase tracking-wide">Training Manuals</h4>
-                  <p className="text-slate-400 text-[10px] sm:text-xs font-semibold leading-relaxed mt-0.5">Read fire safety codes, guidelines, and manuals.</p>
-                </div>
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={handleEnterDashboard}
+                  className="flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-red-900/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-100 flex items-center justify-center gap-2"
+                >
+                  <span>Enter Dashboard</span>
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={handleDismissWelcome}
+                  className="px-5 py-3 rounded-2xl bg-slate-800 border border-slate-700 hover:bg-slate-700 text-slate-300 font-bold text-xs sm:text-sm uppercase tracking-wider transition-colors duration-100"
+                >
+                  Dismiss
+                </button>
               </div>
-
-              <div className="flex gap-3 p-3 rounded-2xl bg-slate-800/60 border border-slate-700/50">
-                <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
-                  <Shield className="h-4.5 w-4.5 text-blue-500" />
-                </div>
-                <div>
-                  <h4 className="font-black text-white text-xs uppercase tracking-wide">The Right Call</h4>
-                  <p className="text-slate-400 text-[10px] sm:text-xs font-semibold leading-relaxed mt-0.5">Explore the interactive emergency dispatch simulation.</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={handleEnterDashboard}
-                className="flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-red-900/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-100 flex items-center justify-center gap-2"
-              >
-                <span>Enter Dashboard</span>
-                <ArrowRight className="h-4 w-4" />
-              </button>
-              <button
-                onClick={handleDismissWelcome}
-                className="px-5 py-3 rounded-2xl bg-slate-800 border border-slate-700 hover:bg-slate-700 text-slate-300 font-bold text-xs sm:text-sm uppercase tracking-wider transition-colors duration-100"
-              >
-                Dismiss
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>,
+      document.body
+    )}
     </>
   );
 }
