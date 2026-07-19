@@ -509,25 +509,25 @@ export default function AboutPage() {
         {
             icon: BookOpen,
             title: "E-Learning Modules",
-            description: "Interactive courses for professionals, adults, and kids tailored to different learning needs.",
+            description: "Interactive courses for kids tailored to different learning needs.",
             color: "bg-blue-500",
         },
         {
             icon: Brain,
             title: "AI-Powered Chatbot",
-            description: "Berong AI assistant trained on official BFP protocols to answer your fire safety questions.",
+            description: "Ask Berong, our AI fire safety assistant, any question about fire prevention, emergency preparedness, and BFP guidelines.",
             color: "bg-purple-500",
         },
         {
             icon: Flame,
             title: "Fire Simulation",
-            description: "Advanced fire spread simulation using PPO and UNet models for evacuation planning.",
+            description: "Practice your home fire escape plan with a realistic 3D fire spread simulation (EDITH).",
             color: "bg-orange-500",
         },
         {
             icon: Gamepad2,
             title: "Educational Games",
-            description: "Fun and engaging games that teach fire safety concepts to learners of all ages.",
+            description: "Play interactive mini-games like Task Master, Hazard Blitz, and more to test your fire safety knowledge.",
             color: "bg-green-500",
         },
     ];
