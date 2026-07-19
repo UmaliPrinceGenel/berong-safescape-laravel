@@ -514,8 +514,8 @@ export default function AboutPage() {
         },
         {
             icon: Brain,
-            title: "AI-Powered Chatbot",
-            description: "Ask Berong, our AI fire safety assistant, any question about fire prevention, emergency preparedness, and BFP guidelines.",
+            title: "Chatbot",
+            description: "Ask Berong any question about fire prevention, emergency preparedness, and BFP guidelines.",
             color: "bg-purple-500",
         },
         {
