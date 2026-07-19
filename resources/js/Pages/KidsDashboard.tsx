@@ -85,7 +85,10 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
       href: "/kids/safescape",
       category: "modules",
       isCompleted: completedIds.length >= 5,
-      shouldPulse: shouldPulse
+      shouldPulse: shouldPulse,
+      badgeImageUrl: "/badges/badge_hall.webp?v=2",
+      badgeName: "Fire Marshal",
+      badgeHint: "Earned by completing all 5 modules."
     },
     {
       id: "edith-simulation",

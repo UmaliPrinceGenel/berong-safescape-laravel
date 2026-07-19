@@ -233,18 +233,14 @@ export const ContentCard = React.memo(({ content, onClick }: ContentCardProps) =
                   : "bg-slate-50 dark:bg-slate-900 border-slate-100 dark:border-slate-800"
               )}>
                  <div className="flex items-center justify-center">
-                    {content.badgeImageUrl ? (
-                      <img 
-                        src={content.badgeImageUrl} 
-                        alt="Badge" 
-                        className={cn(
-                          "h-4 w-4 sm:h-5 sm:w-5 object-contain transition-all",
-                          !content.isCompleted && "filter grayscale opacity-50"
-                        )} 
-                      />
-                    ) : (
-                      <span className="text-[10px] sm:text-sm">🎖️</span>
-                    )}
+                    <img 
+                      src={content.badgeImageUrl || "/badges/badge_hall.webp?v=2"} 
+                      alt="Badge" 
+                      className={cn(
+                        "h-4 w-4 sm:h-5 sm:w-5 object-contain transition-all",
+                        !content.isCompleted && "filter grayscale opacity-50"
+                      )} 
+                    />
                  </div>
                  <span className={cn(
                    "text-[8px] sm:text-[10px] font-black uppercase tracking-wider",

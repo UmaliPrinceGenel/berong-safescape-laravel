@@ -188,15 +188,6 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
                   </Link>
                   
                   <div className="flex-1">
-                     <div className="flex items-center gap-3 mb-1">
-                        <span className="px-2.5 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest rounded-full border border-blue-200 dark:border-blue-800">
-                           Mission: Possible
-                        </span>
-                        <span className="flex items-center gap-1 text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-                           <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                           Live Ops
-                        </span>
-                     </div>
                      <h1 className="text-2xl sm:text-4xl font-black text-slate-800 dark:text-white tracking-tight mb-1 sm:mb-2 uppercase">
                         Mini <span className="text-blue-600 dark:text-blue-400">Games</span>
                      </h1>
