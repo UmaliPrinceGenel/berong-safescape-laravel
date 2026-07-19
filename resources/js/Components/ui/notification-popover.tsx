@@ -164,8 +164,15 @@ export function NotificationPopover() {
     }
   };
 
-  const handleEnterDashboard = async () => {
-    await handleDismissWelcome();
+  const handleEnterDashboard = () => {
+    if (welcomeNotification) {
+      const welcomeId = welcomeNotification.id;
+      // Clear modal immediately so the portal unmounts before navigation
+      setWelcomeNotification(null);
+      setNotifications(prev => prev.map(n => n.id === welcomeId ? { ...n, isRead: true } : n));
+      // Fire-and-forget the API call
+      axios.patch(`/api/notifications/${welcomeId}/read`).catch(() => {});
+    }
     router.get('/professional');
   };
 
