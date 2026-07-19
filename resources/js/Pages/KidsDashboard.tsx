@@ -95,7 +95,7 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
       title: "EDITH Simulation",
       description: "Practice your Home Fire Escape Plan! Save your family from the spreading fire in this realistic 3D simulation.",
       type: "game",
-      illustrationUrl: "/edith.webp?v=2",
+      illustrationUrl: "/edith.webp?v=3",
       href: "https://edith.bfpscberong.app",
       isLocked: completedIds.length < 5,
       category: "games",
