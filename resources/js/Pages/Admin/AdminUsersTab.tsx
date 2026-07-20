@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react"
+import React, { useState, useMemo, useRef } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card"
 import { Search, Users as UsersIcon, Trash2, ChevronLeft, ChevronRight } from "lucide-react"
 import type { UsersTabProps } from "@/types/admin"
@@ -13,6 +13,11 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
   promptRoleChange
 }) => {
   const [currentPage, setCurrentPage] = useState(1)
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  const scrollToTop = () => {
+    cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   // Reset to page 1 when search query changes
   const displayedUsers = useMemo(() => {
@@ -26,7 +31,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
   const paginatedUsers = filteredUsers.slice(startIdx, startIdx + USERS_PER_PAGE)
 
   return (
-    <Card className="rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all">
+    <Card ref={cardRef} className="rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all scroll-mt-6">
       <CardHeader className="px-6 pt-6 pb-2">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -136,7 +141,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
           <div className="flex items-center justify-center gap-3 mt-6 pt-6 border-t-2 border-slate-200 dark:border-slate-700">
             <button
               type="button"
-              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); setTimeout(scrollToTop, 50); }}
               disabled={safePage <= 1}
               className="inline-flex items-center gap-1.5 font-extrabold px-4 pb-2 pt-2.5 rounded-xl text-sm transition-all bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 shadow-[0_4px_0_#e2e8f0] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] dark:hover:shadow-[0_6px_0_#0f172a] active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0] disabled:opacity-40 disabled:pointer-events-none disabled:translate-y-0 disabled:shadow-[0_4px_0_#e2e8f0]"
             >
@@ -148,7 +153,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
             </span>
             <button
               type="button"
-              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); setTimeout(scrollToTop, 50); }}
               disabled={safePage >= totalPages}
               className="inline-flex items-center gap-1.5 font-extrabold px-4 pb-2 pt-2.5 rounded-xl text-sm transition-all bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 shadow-[0_4px_0_#e2e8f0] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] dark:hover:shadow-[0_6px_0_#0f172a] active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0] disabled:opacity-40 disabled:pointer-events-none disabled:translate-y-0 disabled:shadow-[0_4px_0_#e2e8f0]"
             >
