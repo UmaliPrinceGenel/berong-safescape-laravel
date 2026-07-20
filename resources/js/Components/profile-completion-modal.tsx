@@ -92,6 +92,14 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
     }
   }, [step])
 
+  // iOS WebKit (Safari / Chrome) event capturing wake-up fix
+  useEffect(() => {
+    if (!isOpen) return;
+    const handlePointerDown = () => {};
+    document.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [isOpen]);
+
   const fetchQuestions = async () => {
     try {
       setLoading(true)
@@ -317,7 +325,7 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
             <div>
               <Label>Gender *</Label>
               <Select value={data.gender} onValueChange={(value) => updateField("gender", value)}>
-                <SelectTrigger className={`${validationErrors.gender ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
+                <SelectTrigger className={`w-full ${validationErrors.gender ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
                   <SelectValue placeholder="Select your gender" />
                 </SelectTrigger>
                 <SelectContent>
@@ -334,7 +342,7 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
             <div>
               <Label>Barangay *</Label>
               <Select value={data.barangay} onValueChange={(value) => updateField("barangay", value)}>
-                <SelectTrigger className={`${validationErrors.barangay ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
+                <SelectTrigger className={`w-full ${validationErrors.barangay ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
                   <SelectValue placeholder="Select your barangay" />
                 </SelectTrigger>
                 <SelectContent>
@@ -353,7 +361,7 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
                 <div>
                   <Label>School *</Label>
                   <Select value={data.school} onValueChange={(value) => updateField("school", value)}>
-                    <SelectTrigger className={`${validationErrors.school ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
+                    <SelectTrigger className={`w-full ${validationErrors.school ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
                       <SelectValue placeholder="Select your school" />
                     </SelectTrigger>
                     <SelectContent>
@@ -385,7 +393,7 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
                 <div>
                   <Label>Grade Level *</Label>
                   <Select value={data.gradeLevel} onValueChange={(value) => updateField("gradeLevel", value)}>
-                    <SelectTrigger className={`${validationErrors.gradeLevel ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
+                    <SelectTrigger className={`w-full ${validationErrors.gradeLevel ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
                       <SelectValue placeholder="Select your grade level" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-slate-200 dark:border-slate-800 shadow-xl max-h-[300px]">
@@ -407,7 +415,7 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
                 <div>
                   <Label>Occupation *</Label>
                   <Select value={data.occupation} onValueChange={(value) => updateField("occupation", value)}>
-                    <SelectTrigger className={`${validationErrors.occupation ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
+                    <SelectTrigger className={`w-full ${validationErrors.occupation ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
                       <SelectValue placeholder="Select your occupation" />
                     </SelectTrigger>
                     <SelectContent>
