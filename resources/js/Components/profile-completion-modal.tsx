@@ -324,7 +324,7 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
           <div className="space-y-4 py-4">
             <div>
               <Label>Gender *</Label>
-              <Select value={data.gender} onValueChange={(value) => updateField("gender", value)}>
+              <Select modal={false} value={data.gender} onValueChange={(value) => updateField("gender", value)}>
                 <SelectTrigger className={`w-full ${validationErrors.gender ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
                   <SelectValue placeholder="Select your gender" />
                 </SelectTrigger>
@@ -341,7 +341,7 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
 
             <div>
               <Label>Barangay *</Label>
-              <Select value={data.barangay} onValueChange={(value) => updateField("barangay", value)}>
+              <Select modal={false} value={data.barangay} onValueChange={(value) => updateField("barangay", value)}>
                 <SelectTrigger className={`w-full ${validationErrors.barangay ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
                   <SelectValue placeholder="Select your barangay" />
                 </SelectTrigger>
@@ -360,7 +360,7 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
               <>
                 <div>
                   <Label>School *</Label>
-                  <Select value={data.school} onValueChange={(value) => updateField("school", value)}>
+                  <Select modal={false} value={data.school} onValueChange={(value) => updateField("school", value)}>
                     <SelectTrigger className={`w-full ${validationErrors.school ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
                       <SelectValue placeholder="Select your school" />
                     </SelectTrigger>
@@ -392,7 +392,7 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
 
                 <div>
                   <Label>Grade Level *</Label>
-                  <Select value={data.gradeLevel} onValueChange={(value) => updateField("gradeLevel", value)}>
+                  <Select modal={false} value={data.gradeLevel} onValueChange={(value) => updateField("gradeLevel", value)}>
                     <SelectTrigger className={`w-full ${validationErrors.gradeLevel ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
                       <SelectValue placeholder="Select your grade level" />
                     </SelectTrigger>
@@ -414,7 +414,7 @@ export function ProfileCompletionModal({ isOpen, onComplete }: ProfileCompletion
               <>
                 <div>
                   <Label>Occupation *</Label>
-                  <Select value={data.occupation} onValueChange={(value) => updateField("occupation", value)}>
+                  <Select modal={false} value={data.occupation} onValueChange={(value) => updateField("occupation", value)}>
                     <SelectTrigger className={`w-full ${validationErrors.occupation ? "border-red-500" : ""} text-xs sm:text-sm md:text-base`}>
                       <SelectValue placeholder="Select your occupation" />
                     </SelectTrigger>
