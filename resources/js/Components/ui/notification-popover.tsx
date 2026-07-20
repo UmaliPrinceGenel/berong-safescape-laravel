@@ -164,14 +164,19 @@ export function NotificationPopover() {
     }
   };
 
-  const handleEnterDashboard = () => {
+  const handleEnterDashboard = async () => {
     if (welcomeNotification) {
       const welcomeId = welcomeNotification.id;
-      // Clear modal immediately so the portal unmounts before navigation
+      // Clear modal immediately so it visually disappears
       setWelcomeNotification(null);
       setNotifications(prev => prev.map(n => n.id === welcomeId ? { ...n, isRead: true } : n));
-      // Fire-and-forget the API call
-      axios.patch(`/api/notifications/${welcomeId}/read`).catch(() => {});
+      // Wait for the API to confirm read status before navigating,
+      // so the new page's fetch won't find it unread and reopen the modal
+      try {
+        await axios.patch(`/api/notifications/${welcomeId}/read`);
+      } catch (e) {
+        console.error('Failed to mark welcome notification as read:', e);
+      }
     }
     router.get('/professional');
   };
