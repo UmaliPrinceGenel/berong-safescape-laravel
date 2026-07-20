@@ -186,6 +186,13 @@ export function RegistrationWizard({ onBackToLogin }: RegistrationWizardProps) {
     }
   }, [currentStep])
 
+  // iOS WebKit (Safari / Chrome) event capturing wake-up fix
+  useEffect(() => {
+    const handlePointerDown = () => {};
+    document.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, []);
+
   const fetchQuestions = async () => {
     try {
       setLoading(true)
@@ -670,7 +677,7 @@ export function RegistrationWizard({ onBackToLogin }: RegistrationWizardProps) {
             <div>
               <Label className="text-sm font-bold text-slate-700 dark:text-slate-300 transition-colors">Gender *</Label>
               <Select value={data.gender} onValueChange={(value) => updateField("gender", value)}>
-                <SelectTrigger className={`rounded-xl border-2 h-11 text-xs sm:text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 focus:ring-orange-400 focus:border-orange-400 transition-all hover:border-slate-300 dark:bg-slate-950 dark:border-slate-800 ${validationErrors.gender ? "border-red-400 bg-red-50 dark:bg-red-500/10" : "border-gray-200"}`}>
+                <SelectTrigger className={`w-full rounded-xl border-2 h-11 text-xs sm:text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 focus:ring-orange-400 focus:border-orange-400 transition-all hover:border-slate-300 dark:bg-slate-950 dark:border-slate-800 ${validationErrors.gender ? "border-red-400 bg-red-50 dark:bg-red-500/10" : "border-gray-200"}`}>
                   <SelectValue placeholder="Select your gender" />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-800 dark:bg-slate-900 shadow-xl p-1">
@@ -690,7 +697,7 @@ export function RegistrationWizard({ onBackToLogin }: RegistrationWizardProps) {
             <div>
               <Label className="text-sm font-bold text-slate-700 dark:text-slate-300">Barangay *</Label>
               <Select value={data.barangay} onValueChange={(value) => updateField("barangay", value)}>
-                <SelectTrigger className={`rounded-xl border-2 h-11 text-xs sm:text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 focus:ring-orange-400 focus:border-orange-400 transition-all hover:border-slate-300 dark:bg-slate-950 dark:border-slate-800 ${validationErrors.barangay ? "border-red-500 bg-red-50 dark:bg-red-500/10" : "border-gray-200"}`}>
+                <SelectTrigger className={`w-full rounded-xl border-2 h-11 text-xs sm:text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 focus:ring-orange-400 focus:border-orange-400 transition-all hover:border-slate-300 dark:bg-slate-950 dark:border-slate-800 ${validationErrors.barangay ? "border-red-500 bg-red-50 dark:bg-red-500/10" : "border-gray-200"}`}>
                   <SelectValue placeholder="Select your barangay" />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-800 dark:bg-slate-900 shadow-xl p-1">
@@ -707,7 +714,7 @@ export function RegistrationWizard({ onBackToLogin }: RegistrationWizardProps) {
                 <div>
                   <Label className="text-sm font-bold text-slate-700 dark:text-slate-300">School *</Label>
                   <Select value={data.school} onValueChange={(value) => updateField("school", value)}>
-                    <SelectTrigger className={`rounded-xl border-2 h-11 text-xs sm:text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 focus:ring-orange-400 focus:border-orange-400 transition-all hover:border-slate-300 dark:bg-slate-950 dark:border-slate-800 ${validationErrors.school ? "border-red-500 bg-red-50 dark:bg-red-500/10" : "border-gray-200"}`}>
+                    <SelectTrigger className={`w-full rounded-xl border-2 h-11 text-xs sm:text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 focus:ring-orange-400 focus:border-orange-400 transition-all hover:border-slate-300 dark:bg-slate-950 dark:border-slate-800 ${validationErrors.school ? "border-red-500 bg-red-50 dark:bg-red-500/10" : "border-gray-200"}`}>
                       <SelectValue placeholder="Select your school" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-800 dark:bg-slate-900 shadow-xl p-1">
@@ -738,7 +745,7 @@ export function RegistrationWizard({ onBackToLogin }: RegistrationWizardProps) {
                 <div>
                   <Label className="text-sm font-bold text-slate-700 dark:text-slate-300">Grade Level *</Label>
                   <Select value={data.gradeLevel} onValueChange={(value) => updateField("gradeLevel", value)}>
-                    <SelectTrigger className={`rounded-xl border-2 h-11 text-xs sm:text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 focus:ring-orange-400 focus:border-orange-400 transition-all hover:border-slate-300 dark:bg-slate-950 dark:border-slate-800 ${validationErrors.gradeLevel ? "border-red-500 bg-red-50 dark:bg-red-500/10" : "border-gray-200"}`}>
+                    <SelectTrigger className={`w-full rounded-xl border-2 h-11 text-xs sm:text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 focus:ring-orange-400 focus:border-orange-400 transition-all hover:border-slate-300 dark:bg-slate-950 dark:border-slate-800 ${validationErrors.gradeLevel ? "border-red-500 bg-red-50 dark:bg-red-500/10" : "border-gray-200"}`}>
                       <SelectValue placeholder="Select your grade level" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-800 dark:bg-slate-900 shadow-xl p-1">
@@ -755,7 +762,7 @@ export function RegistrationWizard({ onBackToLogin }: RegistrationWizardProps) {
                 <div>
                   <Label className="text-sm font-bold text-slate-700 dark:text-slate-300">Occupation *</Label>
                   <Select value={data.occupation} onValueChange={(value) => updateField("occupation", value)}>
-                    <SelectTrigger className={`rounded-xl border-2 h-11 text-xs sm:text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 focus:ring-orange-400 focus:border-orange-400 transition-all hover:border-slate-300 dark:bg-slate-950 dark:border-slate-800 ${validationErrors.occupation ? "border-red-500 bg-red-50 dark:bg-red-500/10" : "border-gray-200"}`}>
+                    <SelectTrigger className={`w-full rounded-xl border-2 h-11 text-xs sm:text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 focus:ring-orange-400 focus:border-orange-400 transition-all hover:border-slate-300 dark:bg-slate-950 dark:border-slate-800 ${validationErrors.occupation ? "border-red-500 bg-red-50 dark:bg-red-500/10" : "border-gray-200"}`}>
                       <SelectValue placeholder="Select your occupation" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-800 dark:bg-slate-900 shadow-xl p-1">
@@ -787,7 +794,7 @@ export function RegistrationWizard({ onBackToLogin }: RegistrationWizardProps) {
                   <div>
                     <Label className="text-sm font-bold text-slate-700 dark:text-slate-300">School (Optional)</Label>
                     <Select value={data.school} onValueChange={(value) => updateField("school", value)}>
-                      <SelectTrigger className="rounded-xl border-2 h-11 text-xs sm:text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 focus:ring-orange-400 focus:border-orange-400 transition-all hover:border-slate-300 dark:bg-slate-950 dark:border-slate-800 border-gray-200 transition-colors">
+                      <SelectTrigger className="w-full rounded-xl border-2 h-11 text-xs sm:text-sm md:text-base font-bold text-slate-700 dark:text-slate-200 focus:ring-orange-400 focus:border-orange-400 transition-all hover:border-slate-300 dark:bg-slate-950 dark:border-slate-800 border-gray-200 transition-colors">
                         <SelectValue placeholder="Select your school" />
                       </SelectTrigger>
                       <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-800 dark:bg-slate-900 shadow-xl p-1">
