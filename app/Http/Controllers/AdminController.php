@@ -24,7 +24,7 @@ class AdminController extends Controller
             'initialCarouselImages' => \App\Models\CarouselImage::where('isActive', true)->orderBy('order', 'asc')->get(),
             'initialBlogPosts' => \App\Models\BlogPost::with('author:id,name')->orderBy('order', 'asc')->orderBy('created_at', 'desc')->take(100)->get(),
             'initialVideos' => \App\Models\Video::orderBy('order', 'asc')->orderBy('created_at', 'desc')->take(100)->get(),
-            'initialUsers' => \App\Models\User::latest()->paginate(20),
+            'initialUsers' => \App\Models\User::latest()->get(),
             'initialQuickQuestions' => \App\Models\QuickQuestion::where('isActive', true)->orderBy('created_at', 'desc')->get(),
             'initialFireCodeSections' => \App\Models\FireCodeSection::orderBy('sectionNum')->get(),
         ]);
@@ -79,7 +79,7 @@ class AdminController extends Controller
 
         return response()->json([
             'success' => true,
-            'users' => $query->latest()->paginate(20),
+            'users' => $query->latest()->get(),
         ]);
     }
 
