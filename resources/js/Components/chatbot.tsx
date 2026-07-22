@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { Button } from "@/Components/ui/button"
 import { Card } from "@/Components/ui/card"
 import { Input } from "@/Components/ui/input"
-import { MessageCircle, X, Send, Sparkles, Minimize2, Maximize2, Volume2, VolumeX, Mic, Square, User } from "lucide-react"
+import { MessageCircle, X, Send, Sparkles, Minimize2, Maximize2, Volume2, VolumeX, Mic, Square, User, Loader2 } from "lucide-react"
 import Image from '@/Components/Image';
 import { motion, AnimatePresence, useMotionValue, animate } from "motion/react"
 import { useAuth } from "@/lib/auth-context"
@@ -174,9 +174,7 @@ export function Chatbot() {
   const speakText = async (text: string, messageId: string | null = null, force: boolean = false) => {
     if (!readAloudRef.current && !force) return
 
-    if (isTTSLoading) return;
-
-    // If clicking the button of the currently speaking message, just stop it and return
+    // If clicking the button of the currently speaking or loading message, stop/cancel it
     if (messageId && speakingMessageId === messageId) {
       window.speechSynthesis.cancel();
       if (currentAudioRef.current) {
@@ -184,8 +182,11 @@ export function Chatbot() {
         currentAudioRef.current.currentTime = 0;
       }
       setSpeakingMessageId(null);
+      setIsTTSLoading(false);
       return;
     }
+
+    if (isTTSLoading) return;
 
     // Stop any current native speech or audio
     window.speechSynthesis.cancel()
@@ -961,16 +962,28 @@ export function Chatbot() {
                             </div>
                             <button
                               onClick={() => speakText(message.text, message.id, true)}
-                              disabled={isTTSLoading}
-                              className={`absolute -bottom-2 -right-2 h-8 w-8 flex items-center justify-center rounded-full border-2 shadow-md transition-all z-10 ${isTTSLoading ? 'cursor-not-allowed opacity-70' : 'hover:scale-110 active:scale-90'
-                                } ${speakingMessageId === message.id
-                                  ? `bg-orange-500 border-orange-200 text-white ${isTTSLoading ? 'animate-pulse' : ''}`
-                                  : "bg-slate-500 dark:bg-slate-700 border-white dark:border-slate-900 text-white"
-                                }`}
-                              title={speakingMessageId === message.id && !isTTSLoading ? "Stop reading" : "Read aloud"}
+                              disabled={isTTSLoading && speakingMessageId !== message.id}
+                              className={`absolute -bottom-2 -right-2 h-8 w-8 flex items-center justify-center rounded-full border-2 shadow-md transition-all z-10 ${
+                                speakingMessageId === message.id
+                                  ? isTTSLoading
+                                    ? "bg-amber-500 border-amber-200 text-white animate-pulse"
+                                    : "bg-orange-500 border-orange-200 text-white hover:scale-110 active:scale-90"
+                                  : "bg-slate-500 dark:bg-slate-700 border-white dark:border-slate-900 text-white hover:scale-110 active:scale-90"
+                              } ${isTTSLoading && speakingMessageId !== message.id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                              title={
+                                speakingMessageId === message.id
+                                  ? isTTSLoading
+                                    ? "Generating voice audio..."
+                                    : "Stop reading"
+                                  : "Read aloud"
+                              }
                             >
-                              {speakingMessageId === message.id && !isTTSLoading ? (
-                                <Square className="h-3 w-3 fill-current" />
+                              {speakingMessageId === message.id ? (
+                                isTTSLoading ? (
+                                  <Loader2 className="h-4 w-4 animate-spin text-white" />
+                                ) : (
+                                  <Square className="h-3 w-3 fill-current" />
+                                )
                               ) : (
                                 <Volume2 className="h-4 w-4" strokeWidth={2.5} />
                               )}

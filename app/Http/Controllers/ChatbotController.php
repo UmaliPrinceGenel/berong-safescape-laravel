@@ -165,7 +165,7 @@ class ChatbotController extends Controller
         if (!empty($googleApiKey)) {
             $text = $request->input('text');
             $cleanText = preg_replace('/[*#_`]/', '', $text);
-            $voiceName = $request->input('voice', 'fil-PH-Wavenet-C');
+            $voiceName = $request->input('voice', 'en-US-Journey-D');
             $languageCode = substr($voiceName, 0, 5);
 
             $response = Http::withoutVerifying()
