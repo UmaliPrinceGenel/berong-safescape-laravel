@@ -160,41 +160,70 @@ class ChatbotController extends Controller
             'voice' => 'sometimes|string'
         ]);
 
-        $apiKey = config('services.elevenlabs.api_key');
+        $googleApiKey = config('services.google.tts_key') ?: config('services.gemini.api_key');
 
-        if (empty($apiKey)) {
-            return response()->json(['error' => 'ElevenLabs API key missing'], 500);
+        if (!empty($googleApiKey)) {
+            $text = $request->input('text');
+            $cleanText = preg_replace('/[*#_`]/', '', $text);
+            $voiceName = $request->input('voice', 'fil-PH-Wavenet-C');
+            $languageCode = substr($voiceName, 0, 5);
+
+            $response = Http::withoutVerifying()
+                ->timeout(30)
+                ->post("https://texttospeech.googleapis.com/v1/text:synthesize?key={$googleApiKey}", [
+                    'input' => [
+                        'text' => $cleanText
+                    ],
+                    'voice' => [
+                        'languageCode' => $languageCode,
+                        'name' => $voiceName
+                    ],
+                    'audioConfig' => [
+                        'audioEncoding' => 'MP3',
+                        'speakingRate' => 1.0,
+                        'pitch' => 0.0
+                    ]
+                ]);
+
+            if ($response->successful() && isset($response->json()['audioContent'])) {
+                $audioBinary = base64_decode($response->json()['audioContent']);
+                return response($audioBinary, 200, [
+                    'Content-Type' => 'audio/mpeg',
+                    'Cache-Control' => 'public, max-age=86400',
+                ]);
+            }
+
+            Log::error("Google Cloud TTS Error: " . $response->body());
         }
 
-        $text = $request->input('text');
-        // Clean text (remove markdown for better speech)
-        $cleanText = preg_replace('/[*#_`]/', '', $text);
-        
-        // "Antoni" voice ID (a natural male voice). 
-        // You can browse other voices and get their IDs in your ElevenLabs dashboard.
-        $voiceId = $request->input('voice', 'SVJS0DSa4N4d5FJthbKT'); 
+        // Fallback to ElevenLabs if configured
+        $elevenLabsKey = config('services.elevenlabs.api_key');
+        if (!empty($elevenLabsKey)) {
+            $text = $request->input('text');
+            $cleanText = preg_replace('/[*#_`]/', '', $text);
+            $voiceId = $request->input('voice', 'SVJS0DSa4N4d5FJthbKT'); 
 
-        $response = Http::withHeaders([
-                'xi-api-key' => $apiKey,
-            ])
-            ->withoutVerifying()
-            ->timeout(30)
-            ->post("https://api.elevenlabs.io/v1/text-to-speech/{$voiceId}", [
-                'text' => $cleanText,
-                'model_id' => 'eleven_multilingual_v2', // Multilingual model is highly realistic
-                'voice_settings' => [
-                    'stability' => 0.5,
-                    'similarity_boost' => 0.75
-                ]
-            ]);
+            $response = Http::withHeaders([
+                    'xi-api-key' => $elevenLabsKey,
+                ])
+                ->withoutVerifying()
+                ->timeout(30)
+                ->post("https://api.elevenlabs.io/v1/text-to-speech/{$voiceId}", [
+                    'text' => $cleanText,
+                    'model_id' => 'eleven_multilingual_v2',
+                    'voice_settings' => [
+                        'stability' => 0.5,
+                        'similarity_boost' => 0.75
+                    ]
+                ]);
 
-        if ($response->successful()) {
-            return response($response->body(), 200, [
-                'Content-Type' => 'audio/mpeg',
-            ]);
+            if ($response->successful()) {
+                return response($response->body(), 200, [
+                    'Content-Type' => 'audio/mpeg',
+                ]);
+            }
         }
 
-        Log::error("ElevenLabs TTS Error: " . $response->body());
         return response()->json(['error' => 'Failed to generate speech'], 500);
     }
 

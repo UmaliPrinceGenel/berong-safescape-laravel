@@ -43,4 +43,8 @@ return [
         'api_key' => env('ELEVENLABS_API_KEY'),
     ],
 
+    'google' => [
+        'tts_key' => env('GOOGLE_TTS_API_KEY', env('GEMINI_API_KEY')),
+    ],
+
 ];
