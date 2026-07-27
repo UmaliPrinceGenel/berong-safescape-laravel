@@ -1,9 +1,34 @@
 import React, { useState, useMemo, useEffect, useRef } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card"
-import { Search, Users as UsersIcon, Trash2, ChevronLeft, ChevronRight, Filter, ChevronDown, X } from "lucide-react"
+import { Search, Users as UsersIcon, Trash2, ChevronLeft, ChevronRight, Filter, ChevronDown, X, Check } from "lucide-react"
+import { Popover, PopoverTrigger, PopoverContent } from "@/Components/ui/popover"
+import { Checkbox } from "@/Components/ui/checkbox"
 import type { UsersTabProps } from "@/types/admin"
 
 const USERS_PER_PAGE = 20
+
+const PERMISSION_OPTIONS = [
+  {
+    id: "accessKids",
+    label: "Kid Access",
+    badgeClass: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-400 border-yellow-300 dark:border-yellow-700/50",
+  },
+  {
+    id: "accessAdult",
+    label: "Adult Access",
+    badgeClass: "bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-400 border-teal-300 dark:border-teal-700/50",
+  },
+  {
+    id: "accessProfessional",
+    label: "Professional Access",
+    badgeClass: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-400 border-red-300 dark:border-red-700/50",
+  },
+  {
+    id: "isAdmin",
+    label: "Admin",
+    badgeClass: "bg-slate-900 text-white dark:bg-slate-800 border-slate-700",
+  },
+] as const
 
 export const AdminUsersTab: React.FC<UsersTabProps> = ({
   users,
@@ -13,29 +38,59 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
   promptRoleChange
 }) => {
   const [currentPage, setCurrentPage] = useState(1)
-  const [permissionFilter, setPermissionFilter] = useState<string>("all")
+  const [selectedPermissions, setSelectedPermissions] = useState<string[]>([])
+  const [matchMode, setMatchMode] = useState<"any" | "all">("any")
   const cardRef = useRef<HTMLDivElement>(null)
 
   const scrollToTop = () => {
     cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
-  // Filter users by selected permission
-  const permissionFilteredUsers = useMemo(() => {
-    if (permissionFilter === "all") return filteredUsers
-    return filteredUsers.filter((u) => {
-      if (permissionFilter === "accessKids") return !!u.permissions?.accessKids
-      if (permissionFilter === "accessAdult") return !!u.permissions?.accessAdult
-      if (permissionFilter === "accessProfessional") return !!u.permissions?.accessProfessional
-      if (permissionFilter === "isAdmin") return !!u.permissions?.isAdmin
-      return true
+  // Count users per permission across filtered users
+  const permissionCounts = useMemo(() => {
+    const counts: Record<string, number> = {
+      accessKids: 0,
+      accessAdult: 0,
+      accessProfessional: 0,
+      isAdmin: 0,
+    }
+    filteredUsers.forEach((u) => {
+      if (u.permissions?.accessKids) counts.accessKids++
+      if (u.permissions?.accessAdult) counts.accessAdult++
+      if (u.permissions?.accessProfessional) counts.accessProfessional++
+      if (u.permissions?.isAdmin) counts.isAdmin++
     })
-  }, [filteredUsers, permissionFilter])
+    return counts
+  }, [filteredUsers])
+
+  const togglePermission = (id: string) => {
+    setSelectedPermissions((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
+    )
+  }
+
+  // Filter users by checked permissions
+  const permissionFilteredUsers = useMemo(() => {
+    if (selectedPermissions.length === 0) return filteredUsers
+
+    return filteredUsers.filter((u) => {
+      if (!u.permissions) return false
+      if (matchMode === "all") {
+        return selectedPermissions.every(
+          (perm) => !!(u.permissions as any)[perm]
+        )
+      } else {
+        return selectedPermissions.some(
+          (perm) => !!(u.permissions as any)[perm]
+        )
+      }
+    })
+  }, [filteredUsers, selectedPermissions, matchMode])
 
   // Reset to page 1 when search query or permission filter changes
   useEffect(() => {
     setCurrentPage(1)
-  }, [userSearchQuery, permissionFilter])
+  }, [userSearchQuery, selectedPermissions, matchMode])
 
   const totalPages = Math.max(1, Math.ceil(permissionFilteredUsers.length / USERS_PER_PAGE))
   const safePage = Math.min(currentPage, totalPages)
@@ -43,7 +98,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
   const paginatedUsers = permissionFilteredUsers.slice(startIdx, startIdx + USERS_PER_PAGE)
 
   const resetFilters = () => {
-    setPermissionFilter("all")
+    setSelectedPermissions([])
     setUserSearchQuery("")
   }
 
@@ -65,28 +120,126 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
-              {/* Permission Filter */}
-              <div className="relative group w-full sm:w-52">
-                <Filter className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 pointer-events-none transition-colors ${
-                  permissionFilter !== "all" ? "text-[#d60000]" : "text-slate-400 group-focus-within:text-[#d60000]"
-                }`} />
-                <select
-                  value={permissionFilter}
-                  onChange={(e) => setPermissionFilter(e.target.value)}
-                  className={`w-full pl-10 pr-8 h-11 text-sm text-slate-800 dark:text-white border-2 rounded-xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/20 font-bold transition-all hover:border-slate-300 dark:hover:border-slate-600 cursor-pointer appearance-none ${
-                    permissionFilter !== "all"
-                      ? "border-red-500 dark:border-red-500/60 ring-2 ring-red-500/20"
-                      : "border-slate-200 dark:border-slate-700"
-                  }`}
+              {/* Permission Multi-Select Filter Popover */}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    className={`inline-flex items-center justify-between gap-2 h-11 px-3.5 text-sm font-extrabold rounded-xl border-2 transition-all backdrop-blur-sm cursor-pointer w-full sm:w-56 ${
+                      selectedPermissions.length > 0
+                        ? "bg-red-50 dark:bg-red-950/30 border-red-500 text-red-600 dark:text-red-400 shadow-[0_2px_8px_rgba(214,0,0,0.15)] ring-2 ring-red-500/20"
+                        : "bg-white/50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 truncate">
+                      <Filter className={`h-4 w-4 shrink-0 ${selectedPermissions.length > 0 ? "text-[#d60000]" : "text-slate-400"}`} />
+                      <span className="truncate">
+                        {selectedPermissions.length === 0
+                          ? "All Permissions"
+                          : selectedPermissions.length === 1
+                          ? PERMISSION_OPTIONS.find((p) => p.id === selectedPermissions[0])?.label
+                          : `${selectedPermissions.length} Permissions`}
+                      </span>
+                    </div>
+                    {selectedPermissions.length > 0 ? (
+                      <span className="flex items-center justify-center h-5 px-1.5 text-xs font-black rounded-full bg-[#d60000] text-white shrink-0">
+                        {selectedPermissions.length}
+                      </span>
+                    ) : (
+                      <ChevronDown className="h-4 w-4 shrink-0 text-slate-400" />
+                    )}
+                  </button>
+                </PopoverTrigger>
+
+                <PopoverContent
+                  align="end"
+                  className="w-72 p-3 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-2xl space-y-3 z-50"
                 >
-                  <option value="all" className="bg-white dark:bg-slate-900 text-slate-800 dark:text-white">All Permissions</option>
-                  <option value="accessKids" className="bg-white dark:bg-slate-900 text-slate-800 dark:text-white">Kid Access</option>
-                  <option value="accessAdult" className="bg-white dark:bg-slate-900 text-slate-800 dark:text-white">Adult Access</option>
-                  <option value="accessProfessional" className="bg-white dark:bg-slate-900 text-slate-800 dark:text-white">Professional Access</option>
-                  <option value="isAdmin" className="bg-white dark:bg-slate-900 text-slate-800 dark:text-white">Admin</option>
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
-              </div>
+                  {/* Popover Header */}
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                    <div className="flex items-center gap-2">
+                      <Filter className="h-4 w-4 text-[#d60000]" />
+                      <span className="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                        Filter Permissions
+                      </span>
+                    </div>
+                    {selectedPermissions.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setSelectedPermissions([])}
+                        className="text-xs font-bold text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors cursor-pointer"
+                      >
+                        Clear All
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Match Mode Selector */}
+                  <div className="flex items-center justify-between px-2 py-1 bg-slate-100 dark:bg-slate-800/60 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400">
+                    <span>Match rule:</span>
+                    <div className="flex gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setMatchMode("any")}
+                        className={`px-2 py-0.5 rounded-lg text-[11px] transition-all cursor-pointer ${
+                          matchMode === "any"
+                            ? "bg-white dark:bg-slate-700 text-[#d60000] dark:text-red-400 shadow-xs font-black border border-slate-200 dark:border-slate-600"
+                            : "hover:text-slate-900 dark:hover:text-white"
+                        }`}
+                        title="Show users who have AT LEAST ONE of the checked permissions"
+                      >
+                        ANY (OR)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setMatchMode("all")}
+                        className={`px-2 py-0.5 rounded-lg text-[11px] transition-all cursor-pointer ${
+                          matchMode === "all"
+                            ? "bg-white dark:bg-slate-700 text-[#d60000] dark:text-red-400 shadow-xs font-black border border-slate-200 dark:border-slate-600"
+                            : "hover:text-slate-900 dark:hover:text-white"
+                        }`}
+                        title="Show users who have ALL of the checked permissions"
+                      >
+                        ALL (AND)
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Checkbox Options */}
+                  <div className="space-y-1.5">
+                    {PERMISSION_OPTIONS.map((option) => {
+                      const isChecked = selectedPermissions.includes(option.id)
+                      const count = permissionCounts[option.id] || 0
+
+                      return (
+                        <div
+                          key={option.id}
+                          onClick={() => togglePermission(option.id)}
+                          className={`flex items-center justify-between p-2 rounded-xl border-2 transition-all cursor-pointer select-none ${
+                            isChecked
+                              ? "bg-red-50/60 dark:bg-red-950/30 border-red-300 dark:border-red-800/60 shadow-xs"
+                              : "bg-transparent border-transparent hover:bg-slate-100 dark:hover:bg-slate-800/50"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <Checkbox
+                              checked={isChecked}
+                              onCheckedChange={() => togglePermission(option.id)}
+                              className="data-[state=checked]:bg-[#d60000] data-[state=checked]:border-[#d60000]"
+                            />
+                            <span className={`text-xs font-extrabold px-2 py-0.5 rounded-md border ${option.badgeClass}`}>
+                              {option.label}
+                            </span>
+                          </div>
+                          <span className="text-xs font-black text-slate-400 dark:text-slate-500">
+                            {count}
+                          </span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </PopoverContent>
+              </Popover>
 
               {/* Search Bar */}
               <div className="relative group w-full sm:w-64 lg:w-72">
@@ -102,7 +255,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                   <button
                     type="button"
                     onClick={() => setUserSearchQuery("")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded-md"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded-md cursor-pointer"
                     title="Clear search"
                   >
                     <X className="h-4 w-4" />
@@ -119,13 +272,13 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                 <p className="text-slate-500 dark:text-slate-400 font-bold text-base mb-2">
                   No users found matching your filters.
                 </p>
-                {(permissionFilter !== "all" || userSearchQuery !== "") && (
+                {(selectedPermissions.length > 0 || userSearchQuery !== "") && (
                   <button
                     type="button"
                     onClick={resetFilters}
                     className="mt-2 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-black rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 transition-all cursor-pointer"
                   >
-                    Reset Filter & Search
+                    Reset Filters & Search
                   </button>
                 )}
               </div>
