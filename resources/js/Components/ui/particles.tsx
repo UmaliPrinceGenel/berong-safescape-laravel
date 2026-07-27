@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useMemo } from 'react';
+import { useSettings } from '@/lib/settings-context';
 import './particles.css';
 
 interface ParticlesProps {
@@ -55,6 +56,9 @@ export const Particles = React.memo(({
     vx = 0,
     vy = 0,
 }: ParticlesProps) => {
+    const { reduceMotion } = useSettings();
+    if (reduceMotion) return null;
+
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const canvasContainerRef = useRef<HTMLDivElement>(null);
     const context = useRef<CanvasRenderingContext2D | null>(null);
