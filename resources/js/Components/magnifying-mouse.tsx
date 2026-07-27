@@ -94,6 +94,18 @@ export function MagnifyingMouse() {
                     ) || (element.tagName === 'DIV' && element.children.length === 0 ? element : null);
 
                     if (target) {
+                        // Check if text is already large on the page (>= 24px / 1.5rem). If so, suppress Hover Reader to avoid redundancy.
+                        try {
+                            const computedStyle = window.getComputedStyle(target);
+                            const fontSizePx = parseFloat(computedStyle.fontSize || '0');
+                            if (fontSizePx >= 24) {
+                                setIsVisible(false);
+                                return;
+                            }
+                        } catch (err) {
+                            // Fallback if computedStyle fails
+                        }
+
                         // Check explicit data override or aria-label/title first
                         const explicitText = target.dataset.hoverText || target.getAttribute('aria-label') || target.getAttribute('title');
                         const rawText = target.innerText || target.textContent || '';
