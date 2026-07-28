@@ -35,7 +35,11 @@ export const apiFetch = async (url: string, options: RequestInit = {}) => {
       validateStatus: () => true,
     });
 
-    if (res.status === 401 || res.status === 419) {
+    if (res.status === 419) {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('safescape-session-expired'));
+      }
+    } else if (res.status === 401) {
       if (typeof window !== 'undefined') {
         const path = window.location.pathname;
         if (path !== '/' && path !== '/about' && !path.startsWith('/login') && !path.startsWith('/register') && !path.startsWith('/maintenance')) {

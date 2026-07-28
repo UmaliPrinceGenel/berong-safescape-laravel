@@ -10,6 +10,8 @@ import { usePage } from '@inertiajs/react';
 import { Toaster } from "@/Components/ui/sonner";
 import { AlertTriangle } from "lucide-react";
 
+import { PageExpiredModal } from "@/Components/page-expired-modal";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const { url, component, props } = usePage();
   const isAuthPage = url.startsWith('/login') || url.startsWith('/register');
@@ -142,6 +144,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <LoginLoader />
           <LogoutLoader />
           <FocusModeManager />
+          <PageExpiredModal />
         </div>
         <Toaster position="top-right" richColors duration={3000} />
 
