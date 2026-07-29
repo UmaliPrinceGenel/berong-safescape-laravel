@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useSettings } from "@/lib/settings-context"
 import { Moon, Sun, Zap, Type, BookOpen, Focus, Eye, ZoomIn, Volume2, Gamepad2, Music, BellRing } from "lucide-react"
 import { Slider } from "@/Components/ui/slider"
+import { AccessibilityPreviewSandbox } from "@/Components/accessibility-preview-sandbox"
 
 /**
  * Reusable settings panel for the navigation component.
@@ -34,6 +35,10 @@ export function SettingsPanel({ variant }: SettingsPanelProps) {
   if (variant === 'mobile') {
     return (
       <>
+        {/* Live Interactive Sandbox Preview (Mobile) */}
+        <div className="px-4 py-2">
+          <AccessibilityPreviewSandbox />
+        </div>
         {/* Dark Mode Toggle (Mobile) */}
         <div
           onClick={toggleDarkMode}
