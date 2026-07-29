@@ -9,8 +9,6 @@ import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info, Sett
 import { cn } from "@/lib/utils"
 import { NotificationPopover } from "@/Components/ui/notification-popover"
 import { SettingsPanel } from "@/Components/settings-panel"
-import { AccessibilityPreviewSandbox } from "@/Components/accessibility-preview-sandbox"
-import { playSound } from "@/lib/audio"
 import { Slider } from "@/Components/ui/slider"
 import {
   DropdownMenu,
@@ -694,9 +692,6 @@ export function Navigation() {
           </div>
 
           <div className="p-3 sm:p-5 pt-3 sm:pt-4 max-h-[55vh] sm:max-h-[65vh] overflow-y-auto space-y-2.5 sm:space-y-4 scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-            {/* Real-time Interactive Sandbox */}
-            <AccessibilityPreviewSandbox />
-
             {/* Visual Assists */}
             <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800/80 space-y-3 sm:space-y-4 transition-colors">
               <h3 className="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Visual Assists</h3>
@@ -812,78 +807,39 @@ export function Navigation() {
 
             {/* Audio & Volume */}
             <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800/80 space-y-3 sm:space-y-4 transition-colors">
-              <h3 className="text-xs sm:text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest flex items-center justify-between">
-                <span>Audio & Volume</span>
-                <span className="text-[10px] text-slate-400 font-normal lowercase">click sliders to sample sound</span>
-              </h3>
+              <h3 className="text-xs sm:text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Audio & Volume</h3>
               
               <div className="space-y-4 pt-1">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-sm sm:text-base font-bold text-slate-800 dark:text-white">
                     <span className="flex items-center gap-1.5 sm:gap-2"><Volume2 className="h-4 w-4 sm:h-4.5 sm:w-4.5 text-indigo-500 dark:text-indigo-400 shrink-0" /> General</span>
-                    <div className="flex items-center gap-2">
-                      <button 
-                        type="button" 
-                        onClick={() => playSound('/sounds/click.mp3', 'general')}
-                        className="px-2 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 text-xs font-bold border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-200 transition-colors"
-                      >
-                        🔊 Test
-                      </button>
-                      <span className="text-slate-500 dark:text-slate-400">{localGeneral}%</span>
-                    </div>
+                    <span className="text-slate-500 dark:text-slate-400">{localGeneral}%</span>
                   </div>
-                  <Slider value={[localGeneral]} min={0} max={100} step={1} onValueChange={(vals) => setLocalGeneral(vals[0])} onValueCommit={(vals) => { setGeneralVolume(vals[0]); playSound('/sounds/click.mp3', 'general'); }} className="w-full" />
+                  <Slider value={[localGeneral]} min={0} max={100} step={1} onValueChange={(vals) => setLocalGeneral(vals[0])} onValueCommit={(vals) => setGeneralVolume(vals[0])} className="w-full" />
                 </div>
                 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-sm sm:text-base font-bold text-slate-800 dark:text-white">
                     <span className="flex items-center gap-1.5 sm:gap-2"><Gamepad2 className="h-4 w-4 sm:h-4.5 sm:w-4.5 text-indigo-500 dark:text-indigo-400 shrink-0" /> Games</span>
-                    <div className="flex items-center gap-2">
-                      <button 
-                        type="button" 
-                        onClick={() => playSound('/sounds/match.mp3', 'games')}
-                        className="px-2 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 text-xs font-bold border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-200 transition-colors"
-                      >
-                        🔊 Test
-                      </button>
-                      <span className="text-slate-500 dark:text-slate-400">{localGames}%</span>
-                    </div>
+                    <span className="text-slate-500 dark:text-slate-400">{localGames}%</span>
                   </div>
-                  <Slider value={[localGames]} min={0} max={100} step={1} onValueChange={(vals) => setLocalGames(vals[0])} onValueCommit={(vals) => { setGamesVolume(vals[0]); playSound('/sounds/match.mp3', 'games'); }} className="w-full" />
+                  <Slider value={[localGames]} min={0} max={100} step={1} onValueChange={(vals) => setLocalGames(vals[0])} onValueCommit={(vals) => setGamesVolume(vals[0])} className="w-full" />
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-sm sm:text-base font-bold text-slate-800 dark:text-white">
                     <span className="flex items-center gap-1.5 sm:gap-2"><Music className="h-4 w-4 sm:h-4.5 sm:w-4.5 text-indigo-500 dark:text-indigo-400 shrink-0" /> Music</span>
-                    <div className="flex items-center gap-2">
-                      <button 
-                        type="button" 
-                        onClick={() => playSound('/sounds/game_music.mp3', 'music')}
-                        className="px-2 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 text-xs font-bold border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-200 transition-colors"
-                      >
-                        🔊 Test
-                      </button>
-                      <span className="text-slate-500 dark:text-slate-400">{localMusic}%</span>
-                    </div>
+                    <span className="text-slate-500 dark:text-slate-400">{localMusic}%</span>
                   </div>
-                  <Slider value={[localMusic]} min={0} max={100} step={1} onValueChange={(vals) => setLocalMusic(vals[0])} onValueCommit={(vals) => { setMusicVolume(vals[0]); playSound('/sounds/game_music.mp3', 'music'); }} className="w-full" />
+                  <Slider value={[localMusic]} min={0} max={100} step={1} onValueChange={(vals) => setLocalMusic(vals[0])} onValueCommit={(vals) => setMusicVolume(vals[0])} className="w-full" />
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-sm sm:text-base font-bold text-slate-800 dark:text-white">
                     <span className="flex items-center gap-1.5 sm:gap-2"><BellRing className="h-4 w-4 sm:h-4.5 sm:w-4.5 text-indigo-500 dark:text-indigo-400 shrink-0" /> Notifications</span>
-                    <div className="flex items-center gap-2">
-                      <button 
-                        type="button" 
-                        onClick={() => playSound('/sounds/finish.mp3', 'notification')}
-                        className="px-2 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 text-xs font-bold border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-200 transition-colors"
-                      >
-                        🔊 Test
-                      </button>
-                      <span className="text-slate-500 dark:text-slate-400">{localNotification}%</span>
-                    </div>
+                    <span className="text-slate-500 dark:text-slate-400">{localNotification}%</span>
                   </div>
-                  <Slider value={[localNotification]} min={0} max={100} step={1} onValueChange={(vals) => setLocalNotification(vals[0])} onValueCommit={(vals) => { setNotificationVolume(vals[0]); playSound('/sounds/finish.mp3', 'notification'); }} className="w-full" />
+                  <Slider value={[localNotification]} min={0} max={100} step={1} onValueChange={(vals) => setLocalNotification(vals[0])} onValueCommit={(vals) => setNotificationVolume(vals[0])} className="w-full" />
                 </div>
               </div>
             </div>
