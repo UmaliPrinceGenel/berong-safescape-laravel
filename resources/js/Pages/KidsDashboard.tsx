@@ -248,23 +248,19 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-8">
           {/* Deferred Welcome Banner */}
           <Deferred data="progress" fallback={<KidsWelcomeBannerSkeleton />}>
-            <div data-tour="kids-hero-banner">
-              <KidsWelcomeBanner 
-                completedModules={progress?.completedModules || []} 
-                earnedBadges={progress?.badges || []} 
-              />
-            </div>
+            <KidsWelcomeBanner 
+              completedModules={progress?.completedModules || []} 
+              earnedBadges={progress?.badges || []} 
+            />
           </Deferred>
 
           {/* Deferred Content Grid */}
           <Deferred data="progress" fallback={<ContentGridSkeleton count={6} />}>
-            <div data-tour="kids-games-section">
-              <ContentGrid
-                contents={allContent}
-                onCardClick={handleContentClick}
-                emptyMessage="No content available yet. Check back soon! 🎉"
-              />
-            </div>
+            <ContentGrid
+              contents={allContent}
+              onCardClick={handleContentClick}
+              emptyMessage="No content available yet. Check back soon! 🎉"
+            />
           </Deferred>
           
           <MinecraftSMP />

@@ -11,9 +11,6 @@ import { Toaster } from "@/Components/ui/sonner";
 import { AlertTriangle } from "lucide-react";
 
 import { PageExpiredModal } from "@/Components/page-expired-modal";
-import { TourProvider } from "@/Components/onboarding-tutorial/tour-context";
-import { TutorialOverlay } from "@/Components/onboarding-tutorial/tutorial-overlay";
-import { TourCompletionModal } from "@/Components/onboarding-tutorial/tour-completion-modal";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const { url, component, props } = usePage();
@@ -114,62 +111,58 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <AuthProvider>
-      <TourProvider>
-        <div className="antialiased relative min-h-screen font-sans bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
-          <Suspense fallback={null}>
-            <PageLoader />
-          </Suspense>
+      <div className="antialiased relative min-h-screen font-sans bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
+        <Suspense fallback={null}>
+          <PageLoader />
+        </Suspense>
 
-          {/* Background Image Layer */}
-          <div
-            className={`fixed top-0 left-0 w-full z-0 pointer-events-none transform-gpu ${isHighOpacityBg ? 'opacity-100' : 'opacity-10 sm:opacity-20'}`}
-            style={{ height: '100vh', minHeight: '100lvh' }}
-          >
-            <img 
-              src="/web-background-image.webp"
-              alt=""
-              className="w-full h-full object-cover"
-              style={{ 
-                objectPosition: 'center 80%',
-                backfaceVisibility: 'hidden',
-                WebkitBackfaceVisibility: 'hidden'
-              }}
-            />
-          </div>
-
-          {/* Content Layer - Full opacity */}
-          <div className="relative z-10 w-full min-h-screen flex flex-col">
-            <ProfileCheckWrapper>
-              <div className={(localAlert && !localAlert.is_active) ? "pb-12" : ""}>
-                {children}
-              </div>
-            </ProfileCheckWrapper>
-            {(!isAuthPage && !isMiniGame && !url.startsWith('/maintenance')) && <Chatbot />}
-            <LoginLoader />
-            <LogoutLoader />
-            <FocusModeManager />
-            <PageExpiredModal />
-            <TutorialOverlay />
-            <TourCompletionModal />
-          </div>
-          <Toaster position="top-right" richColors duration={3000} />
-
-          {/* Global Pre-Maintenance Alert Banner */}
-          {(localAlert && !localAlert.is_active) && (
-            <div className="fixed bottom-0 left-0 w-full z-[10001] bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 text-slate-950 text-xs sm:text-sm font-black py-3 px-4 text-left sm:text-center flex items-start sm:items-center justify-start sm:justify-center gap-2 shadow-[0_-4px_20px_rgba(245,158,11,0.25)] select-none animate-slide-up">
-              <AlertTriangle className="h-4 w-4 shrink-0 text-slate-950 mt-0.5 sm:mt-0" />
-              <span className="tracking-wide flex items-center flex-wrap justify-start sm:justify-center gap-2">
-                <span>{localAlert.warning_message}</span>
-                {timeLeftStr && (
-                  <span className="px-2 py-0.5 bg-slate-950 text-amber-400 rounded-lg text-[10px] sm:text-xs font-mono tracking-tight shadow-sm border border-amber-400/20 whitespace-nowrap">
-                    {timeLeftStr}
-                  </span>
-                )}
-              </span>
-            </div>
-          )}
+        {/* Background Image Layer */}
+        <div
+          className={`fixed top-0 left-0 w-full z-0 pointer-events-none transform-gpu ${isHighOpacityBg ? 'opacity-100' : 'opacity-10 sm:opacity-20'}`}
+          style={{ height: '100vh', minHeight: '100lvh' }}
+        >
+          <img 
+            src="/web-background-image.webp"
+            alt=""
+            className="w-full h-full object-cover"
+            style={{ 
+              objectPosition: 'center 80%',
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden'
+            }}
+          />
         </div>
-      </TourProvider>
+
+        {/* Content Layer - Full opacity */}
+        <div className="relative z-10 w-full min-h-screen flex flex-col">
+          <ProfileCheckWrapper>
+            <div className={(localAlert && !localAlert.is_active) ? "pb-12" : ""}>
+              {children}
+            </div>
+          </ProfileCheckWrapper>
+          {(!isAuthPage && !isMiniGame && !url.startsWith('/maintenance')) && <Chatbot />}
+          <LoginLoader />
+          <LogoutLoader />
+          <FocusModeManager />
+          <PageExpiredModal />
+        </div>
+        <Toaster position="top-right" richColors duration={3000} />
+
+        {/* Global Pre-Maintenance Alert Banner */}
+        {(localAlert && !localAlert.is_active) && (
+          <div className="fixed bottom-0 left-0 w-full z-[10001] bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 text-slate-950 text-xs sm:text-sm font-black py-3 px-4 text-left sm:text-center flex items-start sm:items-center justify-start sm:justify-center gap-2 shadow-[0_-4px_20px_rgba(245,158,11,0.25)] select-none animate-slide-up">
+            <AlertTriangle className="h-4 w-4 shrink-0 text-slate-950 mt-0.5 sm:mt-0" />
+            <span className="tracking-wide flex items-center flex-wrap justify-start sm:justify-center gap-2">
+              <span>{localAlert.warning_message}</span>
+              {timeLeftStr && (
+                <span className="px-2 py-0.5 bg-slate-950 text-amber-400 rounded-lg text-[10px] sm:text-xs font-mono tracking-tight shadow-sm border border-amber-400/20 whitespace-nowrap">
+                  {timeLeftStr}
+                </span>
+              )}
+            </span>
+          </div>
+        )}
+      </div>
     </AuthProvider>
   );
 }

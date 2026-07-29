@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useSettings } from "@/lib/settings-context"
-import { useTour } from "@/Components/onboarding-tutorial/tour-context"
-import { Moon, Sun, Zap, Type, BookOpen, Focus, Eye, ZoomIn, Volume2, Gamepad2, Music, BellRing, Sparkles } from "lucide-react"
+import { Moon, Sun, Zap, Type, BookOpen, Focus, Eye, ZoomIn, Volume2, Gamepad2, Music, BellRing } from "lucide-react"
 import { Slider } from "@/Components/ui/slider"
 
 /**
@@ -18,7 +17,6 @@ interface SettingsPanelProps {
 }
 
 export function SettingsPanel({ variant }: SettingsPanelProps) {
-  const { startTour } = useTour()
   const { reduceMotion, toggleReduceMotion, textSize, setTextSize, isDarkMode, toggleDarkMode, dyslexiaFont, toggleDyslexiaFont, focusMode, toggleFocusMode, colorBlindness, setColorBlindness, magnifyingMouse, toggleMagnifyingMouse, generalVolume, setGeneralVolume, gamesVolume, setGamesVolume, musicVolume, setMusicVolume, notificationVolume, setNotificationVolume } = useSettings()
 
   // Local state for smooth slider dragging without triggering context re-renders constantly
@@ -211,17 +209,6 @@ export function SettingsPanel({ variant }: SettingsPanelProps) {
             </div>
           </div>
         </div>
-
-        {/* Replay App Tour Button (Mobile) */}
-        <div className="px-6 py-4 border-t border-slate-700/50">
-          <button
-            onClick={() => startTour()}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black text-sm text-slate-950 bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 hover:from-amber-300 hover:to-orange-400 shadow-lg active:scale-95 transition-all cursor-pointer"
-          >
-            <Sparkles className="h-4 w-4" />
-            Replay App Tour 🚀
-          </button>
-        </div>
       </>
     )
   }
@@ -399,19 +386,6 @@ export function SettingsPanel({ variant }: SettingsPanelProps) {
             <Slider value={[localNotification]} min={0} max={100} step={1} onValueChange={(vals) => setLocalNotification(vals[0])} onValueCommit={(vals) => setNotificationVolume(vals[0])} className="w-full" />
           </div>
         </div>
-      </div>
-
-      <div className="h-[1px] bg-slate-100 dark:bg-slate-800 my-1 transition-colors" />
-
-      {/* Replay App Tour Button (Desktop Dropdown) */}
-      <div className="p-3">
-        <button
-          onClick={(e) => { e.preventDefault(); startTour(); }}
-          className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-black text-xs text-slate-950 bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 hover:from-amber-300 hover:to-orange-400 shadow-md active:scale-95 transition-all cursor-pointer"
-        >
-          <Sparkles className="h-3.5 w-3.5" />
-          Replay App Tour 🚀
-        </button>
       </div>
     </>
   )

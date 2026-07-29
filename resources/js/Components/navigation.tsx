@@ -4,9 +4,8 @@ import { Link, usePage } from '@inertiajs/react';
 import { useState, useEffect, useRef } from "react"
 import { useAuth } from "@/lib/auth-context"
 import { useSettings } from "@/lib/settings-context"
-import { useTour } from "@/Components/onboarding-tutorial/tour-context"
 import { Button } from "@/Components/ui/button"
-import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info, Settings, ChevronDown, ArrowRight, Clock, Sliders, BookOpen, Eye, Focus, Type, Zap, Sun, Moon, ZoomIn, Volume2, Gamepad2, Music, BellRing, Sparkles } from "lucide-react"
+import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info, Settings, ChevronDown, ArrowRight, Clock, Sliders, BookOpen, Eye, Focus, Type, Zap, Sun, Moon, ZoomIn, Volume2, Gamepad2, Music, BellRing } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { NotificationPopover } from "@/Components/ui/notification-popover"
 import { SettingsPanel } from "@/Components/settings-panel"
@@ -79,7 +78,6 @@ function TimeDisplay({ mobile = false }: { mobile?: boolean }) {
 
 export function Navigation() {
   const { user, logout, isAuthenticated } = useAuth()
-  const { startTour } = useTour()
   const { url } = usePage();
   const isDashboard = url === '/';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -381,7 +379,6 @@ export function Navigation() {
 
                         {/* Accessibility Settings Modal Trigger */}
                         <DropdownMenuItem 
-                          data-tour="nav-accessibility"
                           onClick={(e) => { e.preventDefault(); setShowAccessibilityModal(true); }}
                           className="cursor-pointer font-bold rounded-lg py-2.5 px-3 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800 focus:bg-slate-50 dark:focus:bg-slate-800 transition-colors group"
                         >
@@ -390,19 +387,6 @@ export function Navigation() {
                             Accessibility Center
                           </span>
                           <ArrowRight className="h-3.5 w-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
-                        </DropdownMenuItem>
-
-                        <div className="h-[1px] bg-slate-100 dark:bg-slate-800 my-1 transition-colors" />
-
-                        {/* Interactive App Tour Trigger */}
-                        <DropdownMenuItem 
-                          onClick={(e) => { e.preventDefault(); startTour(); }}
-                          className="cursor-pointer font-bold rounded-lg py-2.5 px-3 flex items-center justify-between hover:bg-amber-50 dark:hover:bg-amber-950/30 focus:bg-amber-50 dark:focus:bg-amber-950/30 transition-colors group"
-                        >
-                          <span className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400 font-extrabold">
-                            <Sparkles className="h-4 w-4 text-amber-500 group-hover:rotate-12 transition-transform" />
-                            Take App Tour
-                          </span>
                         </DropdownMenuItem>
                         
                         <div className="h-[1px] bg-slate-100 dark:bg-slate-800 my-1 transition-colors" />

@@ -136,14 +136,16 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
 
             <div className="relative z-10">
                     {/* Welcome Banner */}
-                    <div data-tour="adult-banner">
-                        <AdultWelcomeBanner />
-                    </div>
+                    <AdultWelcomeBanner />
 
-                    {/* Quick Access Feature Cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-4 sm:mt-6 mb-8">
-                        {/* Course Hub / Articles Feature */}
-                        <Link href="/article" className="block group h-full outline-none" data-tour="course-hub">
+                    {/* Feature Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-10 sm:mb-12">
+                        {/* Fire Safety Articles Feature */}
+                        <Link 
+                            href="#articles-section" 
+                            onClick={(e) => { e.preventDefault(); document.getElementById('articles-section')?.scrollIntoView({ behavior: 'smooth' }) }} 
+                            className="block group h-full outline-none md:hidden"
+                        >
                             <div className="relative overflow-hidden bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2rem] p-3 sm:p-4 flex items-center gap-3 sm:gap-6 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_6px_0_#1e293b] sm:shadow-[0_8px_0_#cbd5e1] sm:dark:shadow-[0_8px_0_#1e293b] border-[3px] border-white dark:border-slate-700 h-full hover:translate-y-[2px] active:translate-y-[6px] sm:hover:translate-y-[2px] sm:active:translate-y-[8px] hover:shadow-[0_4px_0_#cbd5e1] dark:hover:shadow-[0_4px_0_#1e293b] sm:hover:shadow-[0_6px_0_#cbd5e1] sm:dark:hover:shadow-[0_6px_0_#1e293b] active:shadow-none transition-all duration-200">
                                 {/* Subtle Background Image */}
                                 <div className="absolute inset-0 z-0 opacity-[0.05] dark:opacity-[0.1] group-hover:opacity-[0.08] dark:group-hover:opacity-[0.15] transition-opacity duration-500">
@@ -173,7 +175,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                         </Link>
 
                         {/* EDITH Feature */}
-                        <a href="https://edith.bfpscberong.app" target="_blank" rel="noopener noreferrer" className="block group h-full outline-none relative" data-tour="floor-plan-builder">
+                        <a href="https://edith.bfpscberong.app" target="_blank" rel="noopener noreferrer" className="block group h-full outline-none relative">
                             {/* FLOATING HOVER PREVIEW WINDOW */}
                             <div className="hidden sm:block absolute bottom-[105%] left-1/2 -translate-x-1/2 mb-2 w-[305px] sm:w-[350px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl border-2 border-red-100 dark:border-red-500/40 p-3 shadow-2xl shadow-red-100/50 dark:shadow-red-500/25 pointer-events-none opacity-0 scale-95 -translate-y-2 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-300 z-50">
                                 {/* Triangle indicator below preview */}
