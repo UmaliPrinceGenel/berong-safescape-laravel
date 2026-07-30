@@ -82,11 +82,11 @@ const getYouTubeId = (id: string) => {
 };
 
 const PROFESSIONAL_RANKS = [
-    { name: "Master Fire Chief", count: 10, icon: Trophy, color: "text-red-600", bg: "bg-red-50", border: "border-red-200", desc: "The highest honor! You have mastered all training materials and lead with supreme expertise." },
-    { name: "Elite Responder", count: 6, icon: Star, color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-200", desc: "An exceptional officer with advanced knowledge and rapid response capabilities." },
-    { name: "Safety Specialist", count: 3, icon: Shield, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200", desc: "A dedicated professional focused on specialized fire safety and prevention protocols." },
-    { name: "Active Officer", count: 1, icon: Zap, color: "text-orange-600", bg: "bg-orange-50", border: "border-orange-200", desc: "A committed member of the force actively participating in ongoing training." },
-    { name: "Novice Officer", count: 0, icon: Medal, color: "text-slate-600", bg: "bg-slate-50", border: "border-slate-200", desc: "A new professional starting their journey in advanced fire safety training." },
+    { name: "Master Fire Chief", count: 10, icon: Trophy, color: "text-red-600 dark:text-red-400", bg: "bg-red-50 dark:bg-red-950/40", border: "border-red-200 dark:border-red-800/60", desc: "The highest honor! You have mastered all training materials and lead with supreme expertise." },
+    { name: "Elite Responder", count: 6, icon: Star, color: "text-blue-600 dark:text-blue-400", bg: "bg-blue-50 dark:bg-blue-950/40", border: "border-blue-200 dark:border-blue-800/60", desc: "An exceptional officer with advanced knowledge and rapid response capabilities." },
+    { name: "Safety Specialist", count: 3, icon: Shield, color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-950/40", border: "border-emerald-200 dark:border-emerald-800/60", desc: "A dedicated professional focused on specialized fire safety and prevention protocols." },
+    { name: "Active Officer", count: 1, icon: Zap, color: "text-orange-600 dark:text-orange-400", bg: "bg-orange-50 dark:bg-orange-950/40", border: "border-orange-200 dark:border-orange-800/60", desc: "A committed member of the force actively participating in ongoing training." },
+    { name: "Novice Officer", count: 0, icon: Medal, color: "text-slate-600 dark:text-slate-400", bg: "bg-slate-50 dark:bg-slate-900/40", border: "border-slate-200 dark:border-slate-800/60", desc: "A new professional starting their journey in advanced fire safety training." },
 ]
 
 const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: ProfessionalPageClientProps) => {
@@ -486,7 +486,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                     <CircleHelp className="h-3.5 w-3.5 text-slate-400 group-hover/btn:text-red-500" />
                                                 </button>
                                             </DialogTrigger>
-                                            <DialogContent className="max-w-md bg-slate-950 border-[4px] border-red-500 rounded-[2.5rem] p-0 overflow-hidden shadow-2xl">
+                                            <DialogContent className="max-w-md bg-white dark:bg-slate-950 border-[4px] border-red-500 rounded-[2.5rem] p-0 overflow-hidden shadow-2xl">
                                                 <div className="bg-red-500 p-6 sm:p-8 text-center relative">
                                                     <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
                                                         <Star className="absolute top-4 left-4 h-12 w-12 text-white rotate-12" />
@@ -500,7 +500,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                     </DialogHeader>
                                                 </div>
 
-                                                <div className="p-4 sm:p-6 space-y-3 bg-slate-950">
+                                                <div className="p-4 sm:p-6 space-y-3 bg-slate-50 dark:bg-slate-950">
                                                     {PROFESSIONAL_RANKS.map((rank, i) => {
                                                         const Icon = rank.icon
                                                         const isCurrent = currentRank.name === rank.name
@@ -508,10 +508,12 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                         return (
                                                             <div key={i} className={cn(
                                                                 "relative flex items-center gap-4 p-4 rounded-2xl border-2 transition-all",
-                                                                isCurrent ? "bg-[#0b1329] border-red-500 shadow-lg scale-[1.02]" : "bg-[#070d19]/80 border-slate-800/85 opacity-70"
+                                                                isCurrent 
+                                                                    ? "bg-white dark:bg-[#0b1329] border-red-500 shadow-lg scale-[1.02]" 
+                                                                    : "bg-white/80 dark:bg-[#070d19]/80 border-slate-200 dark:border-slate-800/85 opacity-90 dark:opacity-70"
                                                             )}>
                                                                 {isCurrent && (
-                                                                    <div className="absolute -top-2.5 -right-2 bg-red-500 text-white text-[9px] font-black px-2.5 py-1 rounded-full shadow-md border-2 border-slate-950 uppercase tracking-tight">
+                                                                    <div className="absolute -top-2.5 -right-2 bg-red-500 text-white text-[9px] font-black px-2.5 py-1 rounded-full shadow-md border-2 border-white dark:border-slate-950 uppercase tracking-tight">
                                                                         Current
                                                                     </div>
                                                                 )}
@@ -521,16 +523,16 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                                 <div className="flex-1">
                                                                     <div className="flex items-center justify-between">
                                                                         <h4 className={cn("font-black text-sm uppercase tracking-tight", rank.color)}>{rank.name}</h4>
-                                                                        <span className="text-[10px] font-black text-slate-500 uppercase">{rank.count}+ Videos</span>
+                                                                        <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase">{rank.count}+ Videos</span>
                                                                     </div>
-                                                                    <p className="text-[10px] sm:text-xs font-bold text-slate-400 leading-tight mt-0.5">{rank.desc}</p>
+                                                                    <p className="text-[10px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 leading-tight mt-0.5">{rank.desc}</p>
                                                                 </div>
                                                             </div>
                                                         )
                                                     })}
                                                 </div>
 
-                                                <div className="p-6 pt-0 bg-slate-950">
+                                                <div className="p-6 pt-0 bg-slate-50 dark:bg-slate-950">
                                                     <button
                                                         onClick={() => setShowRankGuide(false)}
                                                         className="w-full bg-red-500 hover:bg-red-600 text-white font-black py-4 rounded-2xl border-b-[6px] border-red-800 active:border-b-0 active:translate-y-[6px] transition-all uppercase tracking-widest text-sm shadow-md"
