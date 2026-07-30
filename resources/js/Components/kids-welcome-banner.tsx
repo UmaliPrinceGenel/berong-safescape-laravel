@@ -97,19 +97,19 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
 
   // Ranking Logic
   const getHeroRank = (count: number) => {
-    if (count >= 10) return { name: "Legendary Hero", color: "text-yellow-300", bg: "bg-yellow-400/30", icon: Star }
-    if (count >= 7) return { name: "Master Hero", color: "text-orange-300", bg: "bg-orange-400/30", icon: Trophy }
-    if (count >= 4) return { name: "Safety Elite", color: "text-blue-300", bg: "bg-blue-400/30", icon: Shield }
-    if (count >= 1) return { name: "Fire Scout", color: "text-green-300", bg: "bg-green-400/30", icon: Flame }
-    return { name: "Recruit", color: "text-slate-300", bg: "bg-slate-400/30", icon: Zap }
+    if (count >= 10) return { name: "Legendary Hero", color: "text-yellow-300", bg: "bg-yellow-400/30", icon: Star, image: "/ranks/legendary_hero.webp" }
+    if (count >= 7) return { name: "Master Hero", color: "text-orange-300", bg: "bg-orange-400/30", icon: Trophy, image: "/ranks/master_hero.webp" }
+    if (count >= 4) return { name: "Safety Elite", color: "text-blue-300", bg: "bg-blue-400/30", icon: Shield, image: "/ranks/safety_elite.webp" }
+    if (count >= 1) return { name: "Fire Scout", color: "text-green-300", bg: "bg-green-400/30", icon: Flame, image: "/ranks/fire_scout.webp" }
+    return { name: "Recruit", color: "text-slate-300", bg: "bg-slate-400/30", icon: Zap, image: "/ranks/recruit.webp" }
   }
 
   const RANKS = [
-    { name: "Legendary Hero", count: 10, color: "text-yellow-400", bg: "bg-yellow-400/10", icon: Star, desc: "The ultimate protector of the city! You've mastered almost everything." },
-    { name: "Master Hero", count: 7, color: "text-orange-400", bg: "bg-orange-400/10", icon: Trophy, desc: "A true expert in fire safety. You lead by example." },
-    { name: "Safety Elite", count: 4, color: "text-blue-400", bg: "bg-blue-400/10", icon: Shield, desc: "A highly skilled responder. You know exactly what to do." },
-    { name: "Fire Scout", count: 1, color: "text-emerald-400", bg: "bg-emerald-400/10", icon: Flame, desc: "A brave beginner. You've taken your first steps to safety." },
-    { name: "Recruit", count: 0, color: "text-slate-400", bg: "bg-slate-400/10", icon: Zap, desc: "A new hero in training. Start a module to earn your first badge!" }
+    { name: "Legendary Hero", count: 10, color: "text-yellow-400", bg: "bg-yellow-400/10", icon: Star, image: "/ranks/legendary_hero.webp", desc: "The ultimate protector of the city! You've mastered almost everything." },
+    { name: "Master Hero", count: 7, color: "text-orange-400", bg: "bg-orange-400/10", icon: Trophy, image: "/ranks/master_hero.webp", desc: "A true expert in fire safety. You lead by example." },
+    { name: "Safety Elite", count: 4, color: "text-blue-400", bg: "bg-blue-400/10", icon: Shield, image: "/ranks/safety_elite.webp", desc: "A highly skilled responder. You know exactly what to do." },
+    { name: "Fire Scout", count: 1, color: "text-emerald-400", bg: "bg-emerald-400/10", icon: Flame, image: "/ranks/fire_scout.webp", desc: "A brave beginner. You've taken your first steps to safety." },
+    { name: "Recruit", count: 0, color: "text-slate-400", bg: "bg-slate-400/10", icon: Zap, image: "/ranks/recruit.webp", desc: "A new hero in training. Start a module to earn your first badge!" }
   ]
 
   const currentRank = getHeroRank(badgesFound)
@@ -220,7 +220,7 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
               </h1>
               <div className="flex flex-wrap items-center justify-start sm:justify-center gap-1.5 sm:gap-2.5 text-yellow-50/90 font-black text-[13px] sm:text-xl tracking-tight">
                 <span className="flex items-center gap-1.5 sm:gap-2">
-                  You are a <span className="text-yellow-300 underline underline-offset-4 decoration-yellow-400/50">{currentRank.name}</span> <RankIcon className="h-4 w-4 sm:h-6 sm:w-6 fill-yellow-300 text-yellow-300" />
+                  You are a <span className="text-yellow-300 underline underline-offset-4 decoration-yellow-400/50">{currentRank.name}</span> <img src={currentRank.image} alt={currentRank.name} className="h-6 w-6 sm:h-8 sm:w-8 inline-block object-contain drop-shadow" />
                 </span>
                 
 
@@ -249,7 +249,6 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
                      
                      <div className="p-4 sm:p-6 space-y-3">
                         {RANKS.map((rank, i) => {
-                          const Icon = rank.icon
                           const isCurrent = currentRank.name === rank.name
                           
                           return (
@@ -262,8 +261,8 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
                                     Current
                                  </div>
                                )}
-                               <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center text-xl shrink-0 border-2", rank.bg, rank.color.replace('text-', 'border-'))}>
-                                  <Icon className={cn("h-6 w-6", rank.color)} />
+                               <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center shrink-0 border-2 overflow-hidden p-1 bg-white/80 dark:bg-slate-800/80 shadow-sm", rank.color.replace('text-', 'border-'))}>
+                                  <img src={rank.image} alt={rank.name} className="h-full w-full object-contain drop-shadow-sm" />
                                </div>
                                <div className="flex-1">
                                    <div className="flex items-center justify-between">
@@ -315,7 +314,7 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
                    <h3 className="text-2xl sm:text-4xl font-black text-white leading-none mb-3">{firstName}</h3>
                     <div className="flex flex-wrap gap-2 items-center">
                       <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-400 rounded-full text-red-700 font-black text-xs uppercase shadow-md">
-                         <RankIcon className="h-3 w-3" />
+                         <img src={currentRank.image} alt={currentRank.name} className="h-4 w-4 object-contain inline-block" />
                          Level {Math.floor(badgesFound / 2) + 1}
                       </div>
                       <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white border border-orange-200 rounded-full text-orange-600 font-black text-xs uppercase shadow-md">
@@ -435,9 +434,9 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ delay: 0.3, type: "spring", bounce: 0.6 }}
-                  className="mx-auto w-32 h-32 sm:w-40 sm:h-40 bg-slate-800 rounded-full flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(250,204,21,0.2)] border-[6px] border-yellow-400"
+                  className="mx-auto w-32 h-32 sm:w-40 sm:h-40 bg-slate-800 rounded-full flex items-center justify-center p-4 mb-6 shadow-[0_0_40px_rgba(250,204,21,0.2)] border-[6px] border-yellow-400 overflow-hidden"
                 >
-                  <promotedRank.icon className={cn("h-16 w-16 sm:h-20 sm:w-20", promotedRank.color)} />
+                  <img src={promotedRank.image} alt={promotedRank.name} className="h-full w-full object-contain drop-shadow-xl" />
                 </motion.div>
                 <h2 className={cn("text-3xl sm:text-4xl font-black uppercase tracking-tighter mb-2", promotedRank.color)}>
                   {promotedRank.name}
