@@ -73,7 +73,7 @@ export function PageExpiredModal() {
         {/* Icon Header */}
         <div className="flex justify-center mb-3 sm:mb-4">
           <div className="relative p-3.5 sm:p-4 bg-amber-100 dark:bg-amber-950/60 border-2 border-amber-400 dark:border-amber-500/50 rounded-2xl text-amber-600 dark:text-amber-400 shadow-md">
-            <ShieldAlert className="h-8 w-8 sm:h-10 sm:w-10 animate-bounce" strokeWidth={2.5} />
+            <ShieldAlert className="h-8 w-8 sm:h-10 sm:w-10" strokeWidth={2.5} />
             <div className="absolute -bottom-1 -right-1 p-1 bg-red-600 rounded-full text-white">
               <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </div>
