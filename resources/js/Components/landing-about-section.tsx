@@ -165,7 +165,7 @@ const teamMembers = [
     },
     {
         name: "Francis Neil M. Mistica",
-        roles: ["AI/ML Engineer"],
+        roles: ["AI/ML Engineer", "Minecraft SMP"],
         image: "/mistica_pr.webp",
         socials: [
             { icon: Github, url: "https://github.com/Kiko915", label: "GitHub" },
@@ -177,7 +177,7 @@ const teamMembers = [
     },
     {
         name: "Ian Patrick Z. Mesias",
-        roles: ["Research & Communications"],
+        roles: ["Research & Communications", "Minecraft SMP"],
         image: "/mesias_pr.webp",
         socials: [
             { icon: Github, url: "https://github.com/imPickleRiick", label: "GitHub" },
@@ -188,7 +188,7 @@ const teamMembers = [
     },
     {
         name: "Dheyn Michael Orlanda",
-        roles: ["Software Engineer"],
+        roles: ["Software Engineer", "Minecraft SMP"],
         image: "/orlanda_pr.webp",
         socials: [
             { icon: Github, url: "https://github.com/Necookie", label: "GitHub" },
