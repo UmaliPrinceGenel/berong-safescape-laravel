@@ -466,7 +466,7 @@ function DeveloperTeamCarousel() {
             <div 
                 ref={scrollContainerRef}
                 onScroll={handleScroll}
-                className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scrollbar-none pb-6 pt-1 px-1 -mx-4 sm:mx-0 px-4 sm:px-0"
+                className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8 overflow-x-auto sm:overflow-visible snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden pb-6 pt-1 px-1 -mx-4 sm:mx-0 px-4 sm:px-0"
             >
                 {teamMembers.map((member, index) => (
                     <div 
