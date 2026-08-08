@@ -514,8 +514,8 @@ export default function Assessment({ type }: AssessmentProps) {
                                         <span className={cn(
                                             "font-black px-2.5 py-1 rounded-full text-sm sm:text-base border flex items-center gap-1 transition-all",
                                             timeLeft < 120 
-                                                ? "bg-red-50 dark:bg-red-950/30 border-red-300 dark:border-red-900 text-red-655 dark:text-red-400"
-                                                : "bg-amber-50 dark:bg-amber-950/30 border-amber-250 dark:border-amber-900/50 text-amber-600 dark:text-amber-400"
+                                                ? "bg-red-50 dark:bg-red-950/30 border-red-300 dark:border-red-900 text-red-600 dark:text-red-400"
+                                                : "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50 text-amber-600 dark:text-amber-400"
                                         )}>
                                             ⏱️ {Math.floor(timeLeft / 60)}:{(timeLeft % 60) < 10 ? '0' : ''}{timeLeft % 60}
                                         </span>

@@ -885,7 +885,7 @@ const HazardBlitz = () => {
 
           {/* Background Visuals */}
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,#e2e8f0_0%,#f8fafc_100%)] dark:bg-[radial-gradient(circle_at_50%_50%,#1e293b_0%,#0f172a_100%)] opacity-50" />
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-650 shadow-[0_0_20px_rgba(220,38,38,0.5)] z-20" />
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-600 shadow-[0_0_20px_rgba(220,38,38,0.5)] z-20" />
         </div>
       </div>
           </div>
