@@ -285,68 +285,79 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
             ) : (
               paginatedUsers.map((u) => (
                 <div key={u.id} className="group p-4 sm:p-5 border-2 border-slate-200 dark:border-slate-700 rounded-2xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm shadow-sm hover:shadow-[0_4px_0_#e2e8f0] dark:hover:shadow-[0_4px_0_#0f172a] hover:-translate-y-0.5 transition-all">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="flex items-center gap-3 sm:gap-4">
-                      <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-black text-base sm:text-lg">
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    {/* User Details */}
+                    <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0">
+                      <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center border-2 border-slate-300 dark:border-slate-700 text-slate-650 dark:text-slate-350 font-black text-base sm:text-lg shrink-0">
                         {u.name.charAt(0).toUpperCase()}
                       </div>
-                      <div className="min-w-0">
-                        <h4 className="font-black text-slate-800 dark:text-white truncate text-base sm:text-lg">{u.name}</h4>
-                        <div className="flex flex-wrap items-center gap-2 mt-0.5 sm:mt-1">
-                          <span className="text-xs font-bold text-slate-500 dark:text-slate-400 truncate">{u.email}</span>
-                          <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-slate-600" />
-                          <span className="text-xs font-bold text-slate-500 dark:text-slate-400 truncate">@{u.username}</span>
-                          <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-slate-600 hidden sm:block" />
-                          <span className="text-xs font-black px-2 py-0.5 rounded-md bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-500 uppercase tracking-wider">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                          <h4 className="font-black text-slate-800 dark:text-white truncate text-base sm:text-lg leading-tight">{u.name}</h4>
+                          <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-500 uppercase tracking-wider">
                             {u.role}
                           </span>
                         </div>
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2 mt-1 text-slate-500 dark:text-slate-400">
+                          <span className="text-xs font-semibold truncate max-w-[200px] sm:max-w-xs">{u.email}</span>
+                          <span className="hidden sm:inline text-slate-300 dark:text-slate-650">•</span>
+                          <span className="text-xs font-semibold truncate">@{u.username}</span>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex flex-wrap items-center gap-2">
+
+                    {/* Access Permissions Controls */}
+                    <div className="w-full lg:w-auto grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center gap-2 shrink-0">
                       <button
                         type="button"
                         onClick={() => promptRoleChange(u.id, "accessKids", u.name, u.permissions.accessKids ? "remove" : "add")}
-                        className={`inline-flex items-center justify-center font-extrabold px-4 pb-2 pt-2.5 rounded-xl text-xs sm:text-sm transition-all ${
+                        className={`inline-flex items-center justify-center font-extrabold px-3 sm:px-4 py-2.5 sm:py-2 rounded-xl text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                           u.permissions.accessKids
-                            ? "bg-yellow-500 dark:bg-yellow-600 text-white shadow-[0_4px_0_#ca8a04] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#ca8a04] hover:bg-red-600 dark:hover:bg-red-700 hover:shadow-[0_4px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b]"
-                            : "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 shadow-[0_4px_0_#e2e8f0] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] dark:hover:shadow-[0_6px_0_#0f172a] hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-200 active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0]"
+                            ? "bg-yellow-500 hover:bg-yellow-600 text-white shadow-[0_3px_0_#ca8a04] active:translate-y-[3px] active:shadow-none"
+                            : "bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 border-2 border-slate-200 dark:border-slate-700"
                         }`}
                       >
-                        Kid Access {u.permissions.accessKids && <Trash2 className="h-4 w-4 ml-2 inline opacity-0 group-hover:opacity-100 transition-opacity" strokeWidth={2.5} style={{ opacity: 0.7 }} />}
+                        <span className="truncate">Kids</span>
+                        {u.permissions.accessKids && <Check className="h-3.5 w-3.5 ml-1.5 shrink-0" strokeWidth={3} />}
                       </button>
+
                       <button
                         type="button"
                         onClick={() => promptRoleChange(u.id, "accessAdult", u.name, u.permissions.accessAdult ? "remove" : "add")}
-                        className={`inline-flex items-center justify-center font-extrabold px-4 pb-2 pt-2.5 rounded-xl text-xs sm:text-sm transition-all ${
+                        className={`inline-flex items-center justify-center font-extrabold px-3 sm:px-4 py-2.5 sm:py-2 rounded-xl text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                           u.permissions.accessAdult
-                            ? "bg-teal-700 dark:bg-teal-800 text-white shadow-[0_4px_0_#0f766e] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#0f766e] hover:bg-red-600 dark:hover:bg-red-700 hover:shadow-[0_4px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b]"
-                            : "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 shadow-[0_4px_0_#e2e8f0] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] dark:hover:shadow-[0_6px_0_#0f172a] hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-200 active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0]"
+                            ? "bg-teal-750 hover:bg-teal-800 text-white shadow-[0_3px_0_#0f766e] active:translate-y-[3px] active:shadow-none"
+                            : "bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 border-2 border-slate-200 dark:border-slate-700"
                         }`}
                       >
-                        Adult Access {u.permissions.accessAdult && <Trash2 className="h-4 w-4 ml-2 inline opacity-0 group-hover:opacity-100 transition-opacity" strokeWidth={2.5} style={{ opacity: 0.7 }} />}
+                        <span className="truncate">Adults</span>
+                        {u.permissions.accessAdult && <Check className="h-3.5 w-3.5 ml-1.5 shrink-0" strokeWidth={3} />}
                       </button>
+
                       <button
                         type="button"
                         onClick={() => promptRoleChange(u.id, "accessProfessional", u.name, u.permissions.accessProfessional ? "remove" : "add")}
-                        className={`inline-flex items-center justify-center font-extrabold px-4 pb-2 pt-2.5 rounded-xl text-xs sm:text-sm transition-all ${
+                        className={`inline-flex items-center justify-center font-extrabold px-3 sm:px-4 py-2.5 sm:py-2 rounded-xl text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                           u.permissions.accessProfessional
-                            ? "bg-[#d60000] text-white shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] hover:bg-red-600 dark:hover:bg-red-700 active:translate-y-1 active:shadow-[0_0px_0_#991b1b]"
-                            : "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 shadow-[0_4px_0_#e2e8f0] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] dark:hover:shadow-[0_6px_0_#0f172a] hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-200 active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0]"
+                            ? "bg-[#d60000] hover:bg-red-650 text-white shadow-[0_3px_0_#991b1b] active:translate-y-[3px] active:shadow-none"
+                            : "bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 border-2 border-slate-200 dark:border-slate-700"
                         }`}
                       >
-                        Professional Access {u.permissions.accessProfessional && <Trash2 className="h-4 w-4 ml-2 inline opacity-0 group-hover:opacity-100 transition-opacity" strokeWidth={2.5} style={{ opacity: 0.7 }} />}
+                        <span className="truncate">Pro</span>
+                        {u.permissions.accessProfessional && <Check className="h-3.5 w-3.5 ml-1.5 shrink-0" strokeWidth={3} />}
                       </button>
+
                       <button
                         type="button"
                         onClick={() => promptRoleChange(u.id, "isAdmin", u.name, u.permissions.isAdmin ? "remove" : "add")}
-                        className={`inline-flex items-center justify-center font-extrabold px-4 pb-2 pt-2.5 rounded-xl text-xs sm:text-sm transition-all ${
+                        className={`inline-flex items-center justify-center font-extrabold px-3 sm:px-4 py-2.5 sm:py-2 rounded-xl text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                           u.permissions.isAdmin
-                            ? "bg-slate-900 dark:bg-black text-white shadow-[0_4px_0_#0f172a] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#0f172a] hover:bg-red-600 dark:hover:bg-red-700 hover:shadow-[0_4px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b]"
-                            : "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 shadow-[0_4px_0_#e2e8f0] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#e2e8f0] hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-200 active:translate-y-1 active:shadow-[0_0px_0_#e2e8f0]"
+                            ? "bg-slate-900 hover:bg-slate-950 text-white shadow-[0_3px_0_#0f172a] active:translate-y-[3px] active:shadow-none"
+                            : "bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 border-2 border-slate-200 dark:border-slate-700"
                         }`}
                       >
-                        Admin {u.permissions.isAdmin && <Trash2 className="h-4 w-4 ml-2 inline opacity-0 group-hover:opacity-100 transition-opacity" strokeWidth={2.5} style={{ opacity: 0.7 }} />}
+                        <span className="truncate">Admin</span>
+                        {u.permissions.isAdmin && <Check className="h-3.5 w-3.5 ml-1.5 shrink-0" strokeWidth={3} />}
                       </button>
                     </div>
                   </div>
