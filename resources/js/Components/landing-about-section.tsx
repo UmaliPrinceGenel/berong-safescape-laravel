@@ -432,6 +432,107 @@ function StaticTeamCard({ member, index }: { member: typeof teamMembers[0]; inde
     );
 }
 
+// Mobile-optimized Touch Carousel for Research Team
+function DeveloperTeamCarousel() {
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    const handleScroll = () => {
+        if (!scrollContainerRef.current) return;
+        const container = scrollContainerRef.current;
+        const scrollPosition = container.scrollLeft;
+        const cardWidth = container.offsetWidth * 0.82;
+        const index = Math.round(scrollPosition / cardWidth);
+        setActiveIndex(Math.min(Math.max(index, 0), teamMembers.length - 1));
+    };
+
+    const scrollToIndex = (index: number) => {
+        if (!scrollContainerRef.current) return;
+        const container = scrollContainerRef.current;
+        const cardElements = container.children;
+        if (cardElements[index]) {
+            (cardElements[index] as HTMLElement).scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+            });
+        }
+        setActiveIndex(index);
+    };
+
+    return (
+        <div className="w-full">
+            {/* Mobile Header status indicator & swipe hint */}
+            <div className="flex sm:hidden items-center justify-between px-2 mb-3">
+                <span className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">
+                    Developer {activeIndex + 1} of {teamMembers.length}
+                </span>
+                <span className="inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-widest text-red-500 dark:text-red-400 animate-pulse">
+                    Swipe ↔
+                </span>
+            </div>
+
+            {/* Scrollable Container (Mobile: Horizontal Snap Scroll | Desktop: Multi-column Grid) */}
+            <div 
+                ref={scrollContainerRef}
+                onScroll={handleScroll}
+                className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scrollbar-none pb-6 pt-1 px-1 -mx-4 sm:mx-0 px-4 sm:px-0"
+            >
+                {teamMembers.map((member, index) => (
+                    <div 
+                        key={index} 
+                        className="w-[85vw] max-w-[320px] shrink-0 snap-center sm:w-auto sm:max-w-none sm:shrink sm:snap-align-none"
+                    >
+                        <StaticTeamCard 
+                            member={member} 
+                            index={index} 
+                        />
+                    </div>
+                ))}
+            </div>
+
+            {/* Mobile Navigation Dots & Arrow Controls */}
+            <div className="flex sm:hidden items-center justify-center gap-3 mt-2">
+                <button
+                    type="button"
+                    onClick={() => scrollToIndex(Math.max(0, activeIndex - 1))}
+                    disabled={activeIndex === 0}
+                    className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed border border-slate-200 dark:border-slate-700 active:scale-95 transition-all"
+                    aria-label="Previous developer"
+                >
+                    <ChevronLeft className="w-4 h-4" />
+                </button>
+
+                <div className="flex items-center gap-2">
+                    {teamMembers.map((_, i) => (
+                        <button
+                            key={i}
+                            type="button"
+                            onClick={() => scrollToIndex(i)}
+                            className={`h-2.5 rounded-full transition-all duration-300 ${
+                                activeIndex === i 
+                                    ? "w-8 bg-[#d60000] dark:bg-red-500 shadow-sm" 
+                                    : "w-2.5 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400"
+                            }`}
+                            aria-label={`Go to developer ${i + 1}`}
+                        />
+                    ))}
+                </div>
+
+                <button
+                    type="button"
+                    onClick={() => scrollToIndex(Math.min(teamMembers.length - 1, activeIndex + 1))}
+                    disabled={activeIndex === teamMembers.length - 1}
+                    className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed border border-slate-200 dark:border-slate-700 active:scale-95 transition-all"
+                    aria-label="Next developer"
+                >
+                    <ChevronRight className="w-4 h-4" />
+                </button>
+            </div>
+        </div>
+    );
+}
+
 // Animated Team Card Component
 function TeamCard({ member, index, reduceMotion, progress, totalCards = 9 }: { key?: React.Key; member: typeof teamMembers[0]; index: number; reduceMotion: boolean; progress: any; totalCards?: number }) {
     const ref = useRef(null);
@@ -1284,15 +1385,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                 </p>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 w-full">
-                                {teamMembers.map((member, index) => (
-                                    <StaticTeamCard 
-                                        key={index} 
-                                        member={member} 
-                                        index={index} 
-                                    />
-                                ))}
-                            </div>
+                            <DeveloperTeamCarousel />
                         </div>
                     </section>
                 </div>
