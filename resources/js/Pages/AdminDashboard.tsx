@@ -773,6 +773,7 @@ function AdminDashboard({
                     className="absolute inset-0 bg-[#d60000] rounded-xl shadow-[0_4px_0_#991b1b]"
                     initial={false}
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    style={{ willChange: "transform" }}
                   />
                 )}
                 <span className="relative z-10 flex items-center justify-center">

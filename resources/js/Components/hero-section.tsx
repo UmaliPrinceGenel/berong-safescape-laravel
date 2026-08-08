@@ -39,7 +39,7 @@ export function HeroSection() {
             {/* === Animated Background === */}
             <motion.div
                 className="absolute inset-0 z-0 bg-slate-50 dark:bg-[#0B1120] transition-colors duration-500"
-                style={{ y: bgY }}
+                style={{ y: bgY, willChange: "transform" }}
             >
                 {/* Modern Glow Effects */}
                 <motion.div
@@ -88,13 +88,14 @@ export function HeroSection() {
             {/* === Main Content === */}
             <motion.div
                 className="relative z-10 flex flex-col items-center text-center px-4 sm:px-10 py-10 sm:py-24 max-w-4xl mx-auto"
-                style={{ opacity: contentOpacity, y: contentY }}
+                style={{ opacity: contentOpacity, y: contentY, willChange: "transform, opacity" }}
             >
                 {/* Badge */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.5, delay: 0.1 }}
+                    style={{ willChange: "transform, opacity" }}
                     className="mb-6 sm:mb-8"
                 >
                     <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] shadow-sm leading-snug">
@@ -116,6 +117,7 @@ export function HeroSection() {
                                 delay: 0.2 + i * 0.1,
                                 ease: [0.25, 0.46, 0.45, 0.94],
                             }}
+                            style={{ willChange: "transform, opacity" }}
                             className={`inline-block mr-[0.25em] ${
                                 word === "Safety." || word === "Lives."
                                     ? "text-red-500 dark:text-yellow-300 drop-shadow-[0_2px_10px_rgba(239,68,68,0.3)] dark:drop-shadow-[0_4px_20px_rgba(253,224,71,0.4)]"
@@ -132,6 +134,7 @@ export function HeroSection() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6, delay: 0.8 }}
+                    style={{ willChange: "transform, opacity" }}
                     className="text-base sm:text-xl md:text-2xl text-slate-700 dark:text-white/90 font-medium max-w-2xl leading-relaxed mb-8 sm:mb-10 px-2 transition-colors duration-500"
                 >
                     Empowering every Filipino with interactive fire safety education - 
@@ -143,6 +146,7 @@ export function HeroSection() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.5, delay: 1.0 }}
+                    style={{ willChange: "transform, opacity" }}
                     className="flex justify-center"
                 >
                     <button

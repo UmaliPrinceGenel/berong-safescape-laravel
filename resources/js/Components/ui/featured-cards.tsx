@@ -168,6 +168,7 @@ function AnimatedFeaturedCard({
         delay: index * 0.15,
         ease: [0.25, 0.46, 0.45, 0.94],
       }}
+      style={{ willChange: "transform, opacity" }}
       className="h-full"
     >
       {isRestricted ? (
@@ -237,6 +238,7 @@ function MobileAnimatedCard({
         delay: index * 0.1,
         ease: "easeOut",
       }}
+      style={{ willChange: "transform, opacity" }}
     >
       {isRestricted ? (
         <div className="block w-full cursor-not-allowed">
@@ -312,6 +314,7 @@ export function FeaturedCards({ serverUser }: { serverUser?: ServerUser | null }
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5 }}
+        style={{ willChange: "transform, opacity" }}
         className="text-center mb-10 sm:mb-14"
       >
         <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-red-50 dark:bg-red-500/10 border border-red-200/50 dark:border-red-500/20 mb-6 shadow-sm">
