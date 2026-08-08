@@ -159,9 +159,8 @@ export function Navigation() {
       const meetDevsSection = document.getElementById('meet-the-developers');
       if (meetDevsSection) {
         const rect = meetDevsSection.getBoundingClientRect();
-        // If the top of the section is near or above the navbar (e.g. 100px)
-        // AND the bottom of the section hasn't passed the middle of the screen
-        if (rect.top < 150 && rect.bottom > window.innerHeight * 0.5) {
+        // Trigger when section top enters upper viewport area and bottom is visible
+        if (rect.top < 350 && rect.bottom > 100) {
           setIsMeetDevsInView(true);
         } else {
           setIsMeetDevsInView(false);
@@ -190,7 +189,7 @@ export function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Sync nav-hidden class for other components (like sub-headers) to react to navbar visibility
+  // Sync nav-hidden & meet-devs-in-view classes for floating action elements to hide in developers section
   useEffect(() => {
     if (((isScrollingDown && !isAssessmentInView) || isMeetDevsInView)) {
       document.documentElement.classList.add('nav-hidden');
@@ -198,8 +197,17 @@ export function Navigation() {
       document.documentElement.classList.remove('nav-hidden');
     }
     
+    if (isMeetDevsInView) {
+      document.documentElement.classList.add('meet-devs-in-view');
+    } else {
+      document.documentElement.classList.remove('meet-devs-in-view');
+    }
+
     // Cleanup on unmount
-    return () => document.documentElement.classList.remove('nav-hidden');
+    return () => {
+      document.documentElement.classList.remove('nav-hidden');
+      document.documentElement.classList.remove('meet-devs-in-view');
+    };
   }, [isScrollingDown, isAssessmentInView, isMeetDevsInView]);
 
 
