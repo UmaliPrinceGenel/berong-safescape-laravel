@@ -21,6 +21,8 @@ type FeaturedCardItem = {
   color: string;
   btn: string;
   gradient: string;
+  btnShadow: string;
+  btnShadowHover: string;
   accentBorder: string;
 };
 
@@ -38,6 +40,8 @@ const mockFeaturedCards: FeaturedCardItem[] = [
     icon: <Briefcase className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2.5} />,
     color: 'bg-red-600',
     gradient: 'from-red-600 to-rose-700',
+    btnShadow: 'shadow-[0_4px_0_#991b1b]',
+    btnShadowHover: 'group-hover:shadow-[0_6px_0_#7f1d1d]',
     accentBorder: 'hover:border-red-400/50',
   },
   {
@@ -52,6 +56,8 @@ const mockFeaturedCards: FeaturedCardItem[] = [
     icon: <Users className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2.5} />,
     color: 'bg-orange-600',
     gradient: 'from-orange-500 to-amber-600',
+    btnShadow: 'shadow-[0_4px_0_#c2410c]',
+    btnShadowHover: 'group-hover:shadow-[0_6px_0_#9a3412]',
     accentBorder: 'hover:border-orange-400/50',
   },
   {
@@ -66,6 +72,8 @@ const mockFeaturedCards: FeaturedCardItem[] = [
     icon: <Baby className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2.5} />,
     color: 'bg-emerald-600',
     gradient: 'from-emerald-500 to-teal-600',
+    btnShadow: 'shadow-[0_4px_0_#047857]',
+    btnShadowHover: 'group-hover:shadow-[0_6px_0_#065f46]',
     accentBorder: 'hover:border-emerald-400/50',
   },
 ];
@@ -149,7 +157,7 @@ function AnimatedFeaturedCard({
               🔒 Locked
             </div>
           ) : (
-            <div className={`w-full bg-gradient-to-r ${card.gradient} text-white font-black text-xs sm:text-sm py-3.5 sm:py-4 rounded-xl shadow-lg transition-all flex items-center justify-center tracking-[0.15em] uppercase ${isRestricted ? '' : 'group-hover/card:shadow-[0_10px_20px_rgba(0,0,0,0.2)] group-hover/card:-translate-y-1'}`}>
+            <div className={`w-full bg-gradient-to-r ${card.gradient} text-white font-black text-xs sm:text-sm py-3.5 sm:py-4 rounded-xl ${card.btnShadow} transition-all flex items-center justify-center tracking-[0.15em] uppercase ${isRestricted ? '' : `${card.btnShadowHover} group-hover/card:-translate-y-1`}`}>
               {card.btn}
             </div>
           )}
@@ -220,7 +228,7 @@ function MobileAnimatedCard({
           🔒 Locked
         </div>
       ) : (
-        <div className={`mt-3 w-full bg-gradient-to-r ${card.gradient} text-white font-extrabold text-xs py-2.5 rounded-xl shadow-[0_3px_0_rgba(0,0,0,0.15)] transition-all group-hover:-translate-y-0.5 group-hover:shadow-[0_5px_0_rgba(0,0,0,0.15)] group-active:translate-y-[3px] group-active:shadow-[0_0px_0_rgba(0,0,0,0.15)] flex items-center justify-center gap-2 tracking-wide uppercase`}>
+        <div className={`mt-3 w-full bg-gradient-to-r ${card.gradient} text-white font-black text-xs py-3 rounded-xl ${card.btnShadow} transition-all group-hover:-translate-y-0.5 ${card.btnShadowHover} group-active:translate-y-[3px] group-active:shadow-none flex items-center justify-center gap-2 tracking-wide uppercase`}>
           {card.btn}
           <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform duration-300" strokeWidth={3} />
         </div>
