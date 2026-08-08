@@ -143,16 +143,7 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
   }, [progress])
 
   return (
-    <div className="-mt-[104px] sm:-mt-[120px] pt-[88px] sm:pt-[120px] min-h-[calc(100vh+104px)] sm:min-h-[calc(100vh+120px)] relative bg-background transition-colors duration-500">
-      {/* Background Image with Overlay */}
-      <div className="fixed top-0 left-0 w-full z-0 pointer-events-none" style={{ height: '100vh', minHeight: '100lvh' }}>
-        <img 
-          src="/challenges-bg.webp" 
-          alt="" 
-          className="w-full h-full object-cover opacity-20 dark:opacity-10 mix-blend-multiply grayscale-[20%]" 
-        />
-        <div className="absolute inset-0 bg-background/90"></div>
-      </div>
+    <div className="-mt-[104px] sm:-mt-[120px] pt-[88px] sm:pt-[120px] min-h-[calc(100vh+104px)] sm:min-h-[calc(100vh+120px)] relative bg-slate-50 dark:bg-slate-950 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] transition-colors duration-500 font-sans flex flex-col">
       {/* Animated Particles Background */}
       {!isMobile && !reduceMotion && (
         <Particles

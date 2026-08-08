@@ -168,11 +168,7 @@ const QuizPage = () => {
 
   if (!hasStarted) {
     return (
-      <div className="-mt-[104px] sm:-mt-[120px] pt-[104px] sm:pt-[120px] min-h-screen relative flex flex-col font-sans bg-blue-50 dark:bg-slate-950 selection:bg-teal-300 selection:text-teal-900 transition-colors duration-500">
-        <div className="fixed top-0 left-0 w-full z-0 pointer-events-none" style={{ height: '100vh', minHeight: '100lvh' }}>
-          <img src="/challenges-bg.webp" alt="" className="w-full h-full object-cover opacity-100 dark:opacity-50 transition-opacity duration-500" />
-          <div className="absolute inset-0 bg-white/10 dark:bg-slate-950/60 transition-colors duration-500"></div>
-        </div>
+      <div className="-mt-[104px] sm:-mt-[120px] pt-[104px] sm:pt-[120px] min-h-screen relative flex flex-col font-sans bg-slate-50 dark:bg-slate-950 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] selection:bg-teal-300 selection:text-teal-900 transition-colors duration-500">
         
         <div className="absolute top-[112px] sm:top-[128px] left-4 z-[60]">
           <Link href="/kids/challenges" className="inline-flex items-center gap-2 text-slate-500 dark:text-slate-400 font-bold hover:text-orange-600 dark:hover:text-orange-400 transition-all text-sm bg-white dark:bg-slate-800 px-4 py-2 rounded-full border border-white/60 dark:border-slate-700/60 shadow-sm">
@@ -277,16 +273,7 @@ const QuizPage = () => {
   const progressPercentage = ((currentQuestionIndex) / activeQuestions.length) * 100;
 
   return (
-    <div className="-mt-[104px] sm:-mt-[120px] pt-[104px] sm:pt-[120px] min-h-screen relative flex flex-col font-sans bg-blue-50 dark:bg-slate-950 transition-colors duration-500 selection:bg-orange-300 selection:text-orange-900">
-      {/* Heroic Background */}
-      <div className="fixed top-0 left-0 w-full z-0 pointer-events-none" style={{ height: '100vh', minHeight: '100lvh' }}>
-        <img 
-          src="/challenges-bg.webp" 
-          alt="" 
-          className="w-full h-full object-cover opacity-100 dark:opacity-50 transition-opacity duration-500" 
-        />
-        <div className="absolute inset-0 bg-white/40 dark:bg-slate-950/60 transition-colors duration-500"></div>
-      </div>
+    <div className="-mt-[104px] sm:-mt-[120px] pt-[104px] sm:pt-[120px] min-h-screen relative flex flex-col font-sans bg-slate-50 dark:bg-slate-950 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] transition-colors duration-500 selection:bg-orange-300 selection:text-orange-900">
 
       <div className="absolute top-[112px] sm:top-[128px] left-4 z-[60]">
         <Link 
