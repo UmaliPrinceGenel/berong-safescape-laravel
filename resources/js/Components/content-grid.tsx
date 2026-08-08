@@ -164,48 +164,72 @@ export function ContentGrid({
       )}
 
       <div className={cn(
-        "grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8 relative z-10",
-        isMap ? "gap-y-6 sm:gap-y-12 md:gap-y-24" : "gap-y-4"
+        "relative z-10 w-full",
+        isMap ? "flex flex-col gap-6 sm:gap-10 md:gap-16" : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
       )}>
         {isLoading ? (
-          Array.from({ length: skeletonCount }).map((_, i) => (
-            <div 
-              key={`skeleton-${i}`}
-              className={cn(
-                "w-full h-full transform transition-all duration-500",
-                isMap && i % 2 !== 0 ? "md:translate-y-20" : ""
-              )}
-            >
-              <div className="bg-white dark:bg-slate-900 rounded-2xl sm:rounded-[2.5rem] overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col h-[280px] sm:h-[450px] transition-colors duration-500">
-                <Skeleton className="h-32 sm:h-52 w-full rounded-none" />
-                <div className="p-4 sm:p-6 flex-1 flex flex-col gap-4">
-                  <Skeleton className="h-6 w-3/4 rounded-lg" />
-                  <Skeleton className="h-4 w-full rounded-md" />
-                  <Skeleton className="h-4 w-5/6 rounded-md" />
-                  <div className="mt-auto flex justify-between items-center">
-                    <Skeleton className="h-8 w-20 rounded-full" />
-                    <Skeleton className="h-10 w-28 rounded-full" />
+          Array.from({ length: skeletonCount }).map((_, i) => {
+            const isLeft = i % 2 === 0
+            return (
+              <div 
+                key={`skeleton-${i}`}
+                className={cn(
+                  "w-full transition-all duration-500 flex",
+                  isMap ? (isLeft ? "justify-start" : "justify-end") : ""
+                )}
+              >
+                <div className={cn(
+                  "flex flex-col h-[280px] sm:h-[450px] bg-white dark:bg-slate-900 rounded-2xl sm:rounded-[2.5rem] overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800",
+                  isMap ? "w-[88%] sm:w-[78%] md:w-[65%] max-w-xl" : "w-full"
+                )}>
+                  <Skeleton className="h-32 sm:h-52 w-full rounded-none" />
+                  <div className="p-4 sm:p-6 flex-1 flex flex-col gap-4">
+                    <Skeleton className="h-6 w-3/4 rounded-lg" />
+                    <Skeleton className="h-4 w-full rounded-md" />
+                    <Skeleton className="h-4 w-5/6 rounded-md" />
+                    <div className="mt-auto flex justify-between items-center">
+                      <Skeleton className="h-8 w-20 rounded-full" />
+                      <Skeleton className="h-10 w-28 rounded-full" />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))
+            )
+          })
         ) : (
-          contents.map((content, index) => (
-            <div 
-              key={content.id}
-              className={cn(
-                "w-full h-full transform transition-all duration-500",
-                isMap && index % 2 !== 0 ? "md:translate-y-20" : ""
-              )}
-            >
-              {/* Card Content */}
-              <ContentCard 
-                content={content} 
-                onClick={() => onCardClick?.(content)}
-              />
-            </div>
-          ))
+          contents.map((content, index) => {
+            const isLeft = index % 2 === 0
+            return (
+              <div 
+                key={content.id}
+                className={cn(
+                  "w-full transition-all duration-500 flex relative group/zig",
+                  isMap ? (isLeft ? "justify-start" : "justify-end") : ""
+                )}
+              >
+                {/* Dotted Connecting Line between Zig-Zag Cards */}
+                {isMap && index < contents.length - 1 && (
+                  <div 
+                    className={cn(
+                      "absolute -bottom-6 sm:-bottom-10 h-6 sm:h-10 border-r-4 border-dashed border-orange-400/40 dark:border-orange-500/30 z-0 pointer-events-none",
+                      isLeft ? "left-[44%] sm:left-[39%]" : "right-[44%] sm:right-[39%]"
+                    )}
+                  />
+                )}
+
+                {/* Card Item Container */}
+                <div className={cn(
+                  "relative z-10",
+                  isMap ? "w-[88%] sm:w-[78%] md:w-[65%] max-w-xl" : "w-full"
+                )}>
+                  <ContentCard 
+                    content={content} 
+                    onClick={() => onCardClick?.(content)}
+                  />
+                </div>
+              </div>
+            )
+          })
         )}
       </div>
 
