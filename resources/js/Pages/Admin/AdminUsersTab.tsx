@@ -292,16 +292,26 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                         {u.name.charAt(0).toUpperCase()}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                          <h4 className="font-black text-slate-800 dark:text-white truncate text-base sm:text-lg leading-tight">{u.name}</h4>
-                          <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-500 uppercase tracking-wider">
-                            {u.role}
-                          </span>
-                        </div>
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2 mt-1 text-slate-500 dark:text-slate-400">
-                          <span className="text-xs font-semibold truncate max-w-[200px] sm:max-w-xs">{u.email}</span>
-                          <span className="hidden sm:inline text-slate-300 dark:text-slate-650">•</span>
-                          <span className="text-xs font-semibold truncate">@{u.username}</span>
+                        {/* Display Name */}
+                        <h4 className="font-black text-slate-800 dark:text-white truncate text-base sm:text-lg leading-tight w-full mb-1">
+                          {u.name}
+                        </h4>
+                        
+                        {/* Info Row (Email, Username, Role) */}
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-slate-500 dark:text-slate-400">
+                          {/* Email */}
+                          <span className="text-xs font-semibold truncate max-w-[220px] sm:max-w-xs">{u.email}</span>
+                          
+                          {/* Separator (desktop only) */}
+                          <span className="hidden sm:inline text-slate-305 dark:text-slate-650">•</span>
+                          
+                          {/* Username and Role Badge */}
+                          <div className="flex items-center gap-2 mt-0.5 sm:mt-0">
+                            <span className="text-xs font-semibold truncate">@{u.username}</span>
+                            <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-500 uppercase tracking-wider shrink-0 select-none">
+                              {u.role}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -314,7 +324,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                         className={`inline-flex items-center justify-center font-extrabold px-3 sm:px-4 py-2.5 sm:py-2 rounded-xl text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                           u.permissions.accessKids
                             ? "bg-yellow-500 hover:bg-yellow-600 text-yellow-950 shadow-[0_3px_0_#ca8a04] dark:bg-yellow-600 dark:hover:bg-yellow-550 dark:text-yellow-950 dark:shadow-[0_3px_0_#854d0e] active:translate-y-[3px] active:shadow-none"
-                            : "bg-white hover:bg-slate-50 dark:bg-slate-850 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700"
+                            : "bg-slate-50 hover:bg-slate-100 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700"
                         }`}
                       >
                         <span className="truncate">Kids</span>
@@ -327,7 +337,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                         className={`inline-flex items-center justify-center font-extrabold px-3 sm:px-4 py-2.5 sm:py-2 rounded-xl text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                           u.permissions.accessAdult
                             ? "bg-teal-600 hover:bg-teal-700 text-white shadow-[0_3px_0_#0d9488] dark:bg-teal-700 dark:hover:bg-teal-600 dark:text-white dark:shadow-[0_3px_0_#115e59] active:translate-y-[3px] active:shadow-none"
-                            : "bg-white hover:bg-slate-50 dark:bg-slate-850 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700"
+                            : "bg-slate-50 hover:bg-slate-100 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700"
                         }`}
                       >
                         <span className="truncate">Adults</span>
@@ -340,7 +350,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                         className={`inline-flex items-center justify-center font-extrabold px-3 sm:px-4 py-2.5 sm:py-2 rounded-xl text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                           u.permissions.accessProfessional
                             ? "bg-[#d60000] hover:bg-red-700 text-white shadow-[0_3px_0_#991b1b] dark:bg-red-700 dark:hover:bg-red-600 dark:text-white dark:shadow-[0_3px_0_#7f1d1d] active:translate-y-[3px] active:shadow-none"
-                            : "bg-white hover:bg-slate-50 dark:bg-slate-850 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700"
+                            : "bg-slate-50 hover:bg-slate-100 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700"
                         }`}
                       >
                         <span className="truncate">Pro</span>
@@ -352,8 +362,8 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                         onClick={() => promptRoleChange(u.id, "isAdmin", u.name, u.permissions.isAdmin ? "remove" : "add")}
                         className={`inline-flex items-center justify-center font-extrabold px-3 sm:px-4 py-2.5 sm:py-2 rounded-xl text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                           u.permissions.isAdmin
-                            ? "bg-slate-900 hover:bg-slate-850 text-white shadow-[0_3px_0_#0f172a] dark:bg-slate-100 dark:hover:bg-white dark:text-slate-900 dark:shadow-[0_3px_0_#cbd5e1] active:translate-y-[3px] active:shadow-none"
-                            : "bg-white hover:bg-slate-50 dark:bg-slate-850 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700"
+                            ? "bg-slate-900 hover:bg-slate-800 text-white shadow-[0_3px_0_#0f172a] dark:bg-slate-100 dark:hover:bg-white dark:text-slate-900 dark:shadow-[0_3px_0_#cbd5e1] active:translate-y-[3px] active:shadow-none"
+                            : "bg-slate-50 hover:bg-slate-100 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700"
                         }`}
                       >
                         <span className="truncate">Admin</span>
