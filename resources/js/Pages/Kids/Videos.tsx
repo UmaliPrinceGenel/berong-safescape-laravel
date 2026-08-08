@@ -239,16 +239,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
   // Removed hardcoded moreVideos list as it is now derived from props
 
   return (
-    <div className="-mt-[104px] sm:-mt-[120px] pt-[88px] sm:pt-[120px] min-h-[calc(100vh+104px)] sm:min-h-[calc(100vh+120px)] relative overflow-hidden bg-blue-50 dark:bg-slate-950 transition-colors duration-500">
-      {/* Heroic Background */}
-      <div className="fixed top-0 left-0 w-full z-0 pointer-events-none" style={{ height: '100vh', minHeight: '100lvh' }}>
-        <img 
-          src="/challenges-bg.webp" 
-          alt="" 
-          className="w-full h-full object-cover opacity-30 dark:opacity-10 mix-blend-multiply" 
-        />
-        <div className="absolute inset-0 bg-background/80 transition-colors duration-500"></div>
-      </div>
+    <div className="-mt-[104px] sm:-mt-[120px] pt-[88px] sm:pt-[120px] min-h-[calc(100vh+104px)] sm:min-h-[calc(100vh+120px)] relative overflow-hidden bg-slate-50 dark:bg-slate-950 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] transition-colors duration-500 font-sans flex flex-col">
 
       {/* Animated Particles */}
       {!isMobile && !reduceMotion && (
@@ -289,11 +280,13 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
                      <h1 className="text-2xl sm:text-4xl font-black text-slate-800 dark:text-white tracking-tight mb-1 sm:mb-2 uppercase">
                         Fire Safety <span className="text-primary">Videos</span>
                      </h1>
-                     <p className="text-slate-500 dark:text-slate-400 font-bold text-sm sm:text-base max-w-lg leading-relaxed flex items-center flex-wrap gap-1.5">
-                        <span>Watch all fire safety videos to the end to earn your</span>
-                        <span className="text-red-600 font-black">Intel Analyst Badge</span>!
-                        <img src="/badges/intel_hall.webp?v=2" className="h-5 w-5 object-contain inline-block align-middle" alt="Intel Analyst" />
-                     </p>
+                      <p className="text-slate-500 dark:text-slate-400 font-bold text-sm sm:text-base max-w-lg leading-relaxed">
+                        Watch all fire safety videos to the end to earn your{" "}
+                        <span className="inline-flex items-center gap-1 text-red-600 font-black">
+                          Intel Analyst Badge!
+                          <img src="/badges/intel_hall.webp?v=2" className="h-5 w-5 object-contain inline shrink-0" alt="Intel Analyst" />
+                        </span>
+                      </p>
                   </div>
                </div>
 

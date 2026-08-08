@@ -71,36 +71,41 @@ const MODULE_META: Record<number, { title: string; gameIcon: string; gameLabel: 
 }
 
 // Themes for completed modules to prevent visual overload of a single color
-const MODULE_THEMES: Record<number, { borderClass: string; shadowClass: string; buttonClass: string; badgeClass: string }> = {
+const MODULE_THEMES: Record<number, { borderClass: string; shadowClass: string; buttonClass: string; badgeClass: string; badgeBorderClass: string }> = {
   1: {
     borderClass: "border-amber-500",
     shadowClass: "shadow-[0_8px_0_rgba(245,158,11,0.15)] dark:shadow-[0_8px_0_rgba(120,53,15,0.4)]",
     buttonClass: "bg-amber-500 hover:bg-amber-400 border-amber-700 text-white",
-    badgeClass: "bg-amber-50 border-amber-100 text-amber-600 dark:bg-amber-950/30 dark:border-amber-900/30 dark:text-amber-400"
+    badgeClass: "bg-amber-50 border-amber-100 text-amber-600 dark:bg-amber-950/30 dark:border-amber-900/30 dark:text-amber-400",
+    badgeBorderClass: "bg-amber-50 border-amber-400 dark:bg-amber-950/30 dark:border-amber-500"
   },
   2: {
     borderClass: "border-blue-500",
     shadowClass: "shadow-[0_8px_0_rgba(59,130,246,0.15)] dark:shadow-[0_8px_0_rgba(30,58,138,0.4)]",
     buttonClass: "bg-blue-500 hover:bg-blue-400 border-blue-700 text-white",
-    badgeClass: "bg-blue-50 border-blue-100 text-blue-600 dark:bg-blue-950/30 dark:border-blue-900/30 dark:text-blue-400"
+    badgeClass: "bg-blue-50 border-blue-100 text-blue-600 dark:bg-blue-950/30 dark:border-blue-900/30 dark:text-blue-400",
+    badgeBorderClass: "bg-blue-50 border-blue-400 dark:bg-blue-950/30 dark:border-blue-500"
   },
   3: {
     borderClass: "border-indigo-500",
     shadowClass: "shadow-[0_8px_0_rgba(99,102,241,0.15)] dark:shadow-[0_8px_0_rgba(49,16,143,0.4)]",
     buttonClass: "bg-indigo-500 hover:bg-indigo-400 border-indigo-700 text-white",
-    badgeClass: "bg-indigo-50 border-indigo-100 text-indigo-600 dark:bg-indigo-950/30 dark:border-indigo-900/30 dark:text-indigo-400"
+    badgeClass: "bg-indigo-50 border-indigo-100 text-indigo-600 dark:bg-indigo-950/30 dark:border-indigo-900/30 dark:text-indigo-400",
+    badgeBorderClass: "bg-indigo-50 border-indigo-400 dark:bg-indigo-950/30 dark:border-indigo-500"
   },
   4: {
     borderClass: "border-teal-500",
     shadowClass: "shadow-[0_8px_0_rgba(20,184,166,0.15)] dark:shadow-[0_8px_0_rgba(17,94,89,0.4)]",
     buttonClass: "bg-teal-500 hover:bg-teal-400 border-teal-700 text-white",
-    badgeClass: "bg-teal-50 border-teal-100 text-teal-600 dark:bg-teal-950/30 dark:border-teal-900/30 dark:text-teal-400"
+    badgeClass: "bg-teal-50 border-teal-100 text-teal-600 dark:bg-teal-950/30 dark:border-teal-900/30 dark:text-teal-400",
+    badgeBorderClass: "bg-teal-50 border-teal-400 dark:bg-teal-950/30 dark:border-teal-500"
   },
   5: {
     borderClass: "border-rose-500",
     shadowClass: "shadow-[0_8px_0_rgba(244,63,94,0.15)] dark:shadow-[0_8px_0_rgba(159,18,57,0.4)]",
     buttonClass: "bg-rose-500 hover:bg-rose-400 border-rose-700 text-white",
-    badgeClass: "bg-rose-50 border-rose-100 text-rose-600 dark:bg-rose-950/30 dark:border-rose-900/30 dark:text-rose-400"
+    badgeClass: "bg-rose-50 border-rose-100 text-rose-600 dark:bg-rose-950/30 dark:border-rose-900/30 dark:text-rose-400",
+    badgeBorderClass: "bg-rose-50 border-rose-400 dark:bg-rose-950/30 dark:border-rose-500"
   }
 }
 
@@ -428,7 +433,8 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
                   borderClass: "border-slate-200 dark:border-slate-800",
                   shadowClass: "shadow-[0_8px_0_#e2e8f0] dark:shadow-[0_8px_0_#0f172a]",
                   buttonClass: "bg-blue-600 hover:bg-blue-500 border-blue-800 text-white",
-                  badgeClass: "bg-blue-50 border-blue-100 text-blue-600 dark:bg-blue-950/30 dark:border-blue-900/30 dark:text-blue-400"
+                  badgeClass: "bg-blue-50 border-blue-100 text-blue-600 dark:bg-blue-950/30 dark:border-blue-900/30 dark:text-blue-400",
+                  badgeBorderClass: "bg-blue-50 border-blue-400 dark:bg-blue-950/30 dark:border-blue-500"
                 }
 
                 return (
@@ -526,7 +532,7 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
                                 className={cn(
                                   "flex items-center justify-center shrink-0 w-[52px] h-[52px] rounded-2xl border-[3px] shadow-sm transition-transform group-hover/badge:scale-110 cursor-help",
                                   module.isCompleted 
-                                    ? "bg-amber-50 border-amber-200 dark:bg-amber-950/20 dark:border-amber-900/30" 
+                                    ? theme.badgeBorderClass 
                                     : "bg-slate-50 border-slate-200 dark:bg-slate-900/30 dark:border-slate-800"
                                 )}
                               >
@@ -613,7 +619,7 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
                   </div>
                 </div>
 
-                <div className="p-7 flex flex-col flex-1">
+                <div className="p-7 flex flex-col flex-1 relative z-10">
                   <p className={cn("text-sm sm:text-base leading-relaxed mb-6 flex-1 font-bold", completedCount === 5 ? "text-slate-700 dark:text-slate-300" : "text-slate-400 dark:text-slate-500")}>
                     {completedCount === 5 
                       ? "Congratulations! You've successfully mastered all 5 fire safety modules. Claim your official hero certificate now!" 
