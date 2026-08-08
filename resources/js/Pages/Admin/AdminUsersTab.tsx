@@ -132,7 +132,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                     }`}
                   >
                     <div className="flex items-center gap-2 truncate">
-                      <Filter className={`h-4 w-4 shrink-0 ${selectedPermissions.length > 0 ? "text-[#d60000]" : "text-slate-400"}`} />
+                      <Filter className={`h-4 w-4 shrink-0 ${selectedPermissions.length > 0 ? "text-[#d60000]" : "text-slate-500 dark:text-slate-400"}`} />
                       <span className="truncate">
                         {selectedPermissions.length === 0
                           ? "All Permissions"
@@ -146,7 +146,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                         {selectedPermissions.length}
                       </span>
                     ) : (
-                      <ChevronDown className="h-4 w-4 shrink-0 text-slate-400" />
+                      <ChevronDown className="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400" />
                     )}
                   </button>
                 </PopoverTrigger>
@@ -243,7 +243,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
 
               {/* Search Bar */}
               <div className="relative group w-full sm:w-64 lg:w-72">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-[#d60000] transition-colors" />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 dark:text-slate-400 group-focus-within:text-[#d60000] dark:group-focus-within:text-red-400 transition-colors" />
                 <input
                   type="text"
                   placeholder="Search users..."
@@ -255,7 +255,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                   <button
                     type="button"
                     onClick={() => setUserSearchQuery("")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded-md cursor-pointer"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-0.5 rounded-md cursor-pointer"
                     title="Clear search"
                   >
                     <X className="h-4 w-4" />
