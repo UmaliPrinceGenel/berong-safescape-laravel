@@ -462,16 +462,6 @@ function DeveloperTeamCarousel() {
 
     return (
         <div className="w-full">
-            {/* Mobile Header status indicator & swipe hint */}
-            <div className="flex sm:hidden items-center justify-between px-2 mb-3">
-                <span className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">
-                    Developer {activeIndex + 1} of {teamMembers.length}
-                </span>
-                <span className="inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-widest text-red-500 dark:text-red-400 animate-pulse">
-                    Swipe ↔
-                </span>
-            </div>
-
             {/* Scrollable Container (Mobile: Horizontal Snap Scroll | Desktop: Multi-column Grid) */}
             <div 
                 ref={scrollContainerRef}
