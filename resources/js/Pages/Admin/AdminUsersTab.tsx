@@ -323,8 +323,8 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                         onClick={() => promptRoleChange(u.id, "accessKids", u.name, u.permissions.accessKids ? "remove" : "add")}
                         className={`inline-flex items-center justify-center font-extrabold px-3 sm:px-4 py-2.5 sm:py-2 rounded-xl text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                           u.permissions.accessKids
-                            ? "bg-yellow-500 hover:bg-yellow-600 text-yellow-950 shadow-[0_3px_0_#ca8a04] dark:bg-yellow-600 dark:hover:bg-yellow-550 dark:text-yellow-950 dark:shadow-[0_3px_0_#854d0e] active:translate-y-[3px] active:shadow-none"
-                            : "bg-slate-50 hover:bg-slate-100 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700"
+                            ? "bg-yellow-500 hover:bg-yellow-600 text-yellow-950 shadow-[0_3px_0_#b45309] dark:bg-yellow-600 dark:hover:bg-yellow-500 dark:text-yellow-950 dark:shadow-[0_3px_0_#78350f] active:translate-y-[3px] active:shadow-none"
+                            : "bg-slate-100 hover:bg-slate-200 text-slate-700 shadow-[0_3px_0_#cbd5e1] dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60 dark:shadow-[0_3px_0_#0f172a] active:translate-y-[3px] active:shadow-none"
                         }`}
                       >
                         <span className="truncate">Kids</span>
@@ -336,8 +336,8 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                         onClick={() => promptRoleChange(u.id, "accessAdult", u.name, u.permissions.accessAdult ? "remove" : "add")}
                         className={`inline-flex items-center justify-center font-extrabold px-3 sm:px-4 py-2.5 sm:py-2 rounded-xl text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                           u.permissions.accessAdult
-                            ? "bg-teal-600 hover:bg-teal-700 text-white shadow-[0_3px_0_#0d9488] dark:bg-teal-700 dark:hover:bg-teal-600 dark:text-white dark:shadow-[0_3px_0_#115e59] active:translate-y-[3px] active:shadow-none"
-                            : "bg-slate-50 hover:bg-slate-100 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700"
+                            ? "bg-teal-600 hover:bg-teal-700 text-white shadow-[0_3px_0_#0f766e] dark:bg-teal-700 dark:hover:bg-teal-600 dark:text-white dark:shadow-[0_3px_0_#115e59] active:translate-y-[3px] active:shadow-none"
+                            : "bg-slate-100 hover:bg-slate-200 text-slate-700 shadow-[0_3px_0_#cbd5e1] dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60 dark:shadow-[0_3px_0_#0f172a] active:translate-y-[3px] active:shadow-none"
                         }`}
                       >
                         <span className="truncate">Adults</span>
@@ -350,7 +350,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                         className={`inline-flex items-center justify-center font-extrabold px-3 sm:px-4 py-2.5 sm:py-2 rounded-xl text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                           u.permissions.accessProfessional
                             ? "bg-[#d60000] hover:bg-red-700 text-white shadow-[0_3px_0_#991b1b] dark:bg-red-700 dark:hover:bg-red-600 dark:text-white dark:shadow-[0_3px_0_#7f1d1d] active:translate-y-[3px] active:shadow-none"
-                            : "bg-slate-50 hover:bg-slate-100 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700"
+                            : "bg-slate-100 hover:bg-slate-200 text-slate-700 shadow-[0_3px_0_#cbd5e1] dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60 dark:shadow-[0_3px_0_#0f172a] active:translate-y-[3px] active:shadow-none"
                         }`}
                       >
                         <span className="truncate">Pro</span>
@@ -362,8 +362,8 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                         onClick={() => promptRoleChange(u.id, "isAdmin", u.name, u.permissions.isAdmin ? "remove" : "add")}
                         className={`inline-flex items-center justify-center font-extrabold px-3 sm:px-4 py-2.5 sm:py-2 rounded-xl text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                           u.permissions.isAdmin
-                            ? "bg-slate-900 hover:bg-slate-800 text-white shadow-[0_3px_0_#0f172a] dark:bg-slate-100 dark:hover:bg-white dark:text-slate-900 dark:shadow-[0_3px_0_#cbd5e1] active:translate-y-[3px] active:shadow-none"
-                            : "bg-slate-50 hover:bg-slate-100 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700"
+                            ? "bg-slate-900 hover:bg-slate-800 text-white shadow-[0_3px_0_#020617] dark:bg-slate-100 dark:hover:bg-white dark:text-slate-900 dark:shadow-[0_3px_0_#94a3b8] active:translate-y-[3px] active:shadow-none"
+                            : "bg-slate-100 hover:bg-slate-200 text-slate-700 shadow-[0_3px_0_#cbd5e1] dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60 dark:shadow-[0_3px_0_#0f172a] active:translate-y-[3px] active:shadow-none"
                         }`}
                       >
                         <span className="truncate">Admin</span>
