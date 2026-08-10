@@ -82,11 +82,6 @@ function SortableCarouselItem({
                 <h4 className="font-black text-sm sm:text-base text-slate-800 dark:text-white leading-snug break-words [word-break:break-word]">
                     {image.title}
                 </h4>
-                {image.altText && (
-                    <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium leading-normal break-words [word-break:break-word] mt-0.5">
-                        Alt: {image.altText}
-                    </p>
-                )}
             </div>
 
             <button
