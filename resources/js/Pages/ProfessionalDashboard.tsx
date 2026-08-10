@@ -608,9 +608,10 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                         initial={{ opacity: 0, y: 16 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.3, delay: idx * 0.05 }}
+                                        className="h-full"
                                     >
                                         <Card
-                                            className="flex flex-row sm:flex-col cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.25rem] sm:rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#0f172a] active:translate-y-0.5 active:shadow-none transition-all duration-300 overflow-hidden p-2.5 sm:p-0 gap-0"
+                                            className="flex flex-row sm:flex-col h-full cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.25rem] sm:rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#0f172a] active:translate-y-0.5 active:shadow-none transition-all duration-300 overflow-hidden p-2.5 sm:p-0 gap-0"
                                             onClick={() => handleVideoSelect(video)}
                                         >
                                             {/* Thumbnail Box */}
@@ -642,18 +643,20 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
 
                                             {/* Info Section */}
                                             <CardContent className="p-0 sm:p-5 pl-3 sm:pl-5 flex flex-col justify-between flex-1 min-w-0 py-0.5 sm:py-5">
-                                                <div>
-                                                    <CardTitle className="text-xs sm:text-base font-black text-slate-800 dark:text-white line-clamp-2 leading-snug group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                                                <div className="flex flex-col justify-start">
+                                                    <CardTitle className="text-xs sm:text-base font-black text-slate-800 dark:text-white line-clamp-2 sm:min-h-[2.6rem] leading-snug group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors flex items-start">
                                                         {video.title}
                                                     </CardTitle>
-                                                    {video.description && (
-                                                        <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 line-clamp-1 mt-1 leading-normal">
+                                                    {video.description ? (
+                                                        <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 line-clamp-2 sm:min-h-[2.25rem] mt-1.5 leading-normal">
                                                             {video.description}
                                                         </p>
+                                                    ) : (
+                                                        <div className="hidden sm:block sm:min-h-[2.25rem] mt-1.5" />
                                                     )}
                                                 </div>
 
-                                                <div className="flex items-center justify-between mt-2 pt-1.5 sm:pt-2.5 sm:border-t border-slate-100 dark:border-slate-800/80">
+                                                <div className="flex items-center justify-between mt-3 pt-1.5 sm:pt-2.5 sm:border-t border-slate-100 dark:border-slate-800/80">
                                                     {video.duration ? (
                                                         <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-400 dark:text-slate-500">
                                                             <Clock className="h-3 w-3 text-red-500" />
@@ -664,7 +667,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                             Professional
                                                         </span>
                                                     )}
-                                                    <span className="text-[11px] sm:text-xs font-bold text-slate-500 group-hover:text-red-500 dark:group-hover:text-red-400 flex items-center gap-1 transition-colors">
+                                                    <span className="text-[11px] sm:text-xs font-bold text-slate-500 group-hover:text-red-600 dark:group-hover:text-red-400 flex items-center gap-1 transition-colors">
                                                         Watch <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
                                                     </span>
                                                 </div>
