@@ -51,35 +51,33 @@ function SortableCarouselItem({
         <div
             ref={setNodeRef}
             style={style}
-            className={`p-4 sm:p-5 border-2 rounded-2xl bg-white dark:bg-slate-900/70 backdrop-blur-sm transition-shadow transition-colors duration-200 flex flex-col sm:flex-row items-start sm:items-center gap-3 ${
+            className={`p-3 sm:p-4 border-2 rounded-2xl bg-white dark:bg-slate-900/70 backdrop-blur-sm transition-shadow transition-colors duration-200 flex items-center gap-2.5 sm:gap-3.5 w-full ${
                 isDragging 
                     ? 'border-red-400 dark:border-red-500 shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1)] opacity-95 ring-4 ring-red-100 dark:ring-red-900/30' 
                     : 'border-slate-200 dark:border-slate-700/80 shadow-xs hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600'
             }`}
         >
-            <div className="flex items-center justify-between w-full sm:w-auto gap-3">
-                <button
-                    {...attributes}
-                    {...listeners}
-                    className={`touch-none cursor-grab active:cursor-grabbing p-2 rounded-xl transition-colors flex items-center justify-center shrink-0 ${
-                        isDragging 
-                            ? 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border-2 border-red-200 dark:border-red-900/50 shadow-inner' 
-                            : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300 shadow-2xs'
-                    }`}
-                    aria-label="Drag to reorder"
-                >
-                    <GripVertical className="h-4 w-4 sm:h-5 sm:w-5" />
-                </button>
+            <button
+                {...attributes}
+                {...listeners}
+                className={`touch-none cursor-grab active:cursor-grabbing p-1.5 sm:p-2 rounded-xl transition-colors flex items-center justify-center shrink-0 ${
+                    isDragging 
+                        ? 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border-2 border-red-200 dark:border-red-900/50 shadow-inner' 
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300 shadow-2xs'
+                }`}
+                aria-label="Drag to reorder"
+            >
+                <GripVertical className="h-4 w-4 sm:h-5 sm:w-5" />
+            </button>
 
-                {image.url && (
-                    <div className="h-12 w-20 sm:h-14 sm:w-24 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shrink-0">
-                        <img src={image.url} alt={image.altText || image.title} className="h-full w-full object-cover" />
-                    </div>
-                )}
-            </div>
+            {image.url && (
+                <div className="h-12 w-16 sm:h-14 sm:w-20 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shrink-0 shadow-2xs">
+                    <img src={image.url} alt={image.altText || image.title} className="h-full w-full object-cover" />
+                </div>
+            )}
 
-            <div className="flex-1 min-w-0 w-full">
-                <h4 className="font-black text-sm sm:text-base text-slate-800 dark:text-white leading-snug break-words [word-break:break-word]">
+            <div className="flex-1 min-w-0">
+                <h4 className="font-black text-xs sm:text-sm text-slate-800 dark:text-white leading-tight break-words [word-break:break-word] line-clamp-2">
                     {image.title}
                 </h4>
             </div>
@@ -87,7 +85,7 @@ function SortableCarouselItem({
             <button
                 type="button"
                 onClick={() => onDelete(image.id)}
-                className={`shrink-0 flex items-center justify-center font-extrabold h-9 w-9 sm:h-10 sm:w-10 rounded-xl text-sm transition-all ml-auto ${
+                className={`shrink-0 flex items-center justify-center font-extrabold h-9 w-9 sm:h-10 sm:w-10 rounded-xl text-sm transition-all ${
                     isDragging 
                         ? 'bg-red-200 text-red-500' 
                         : 'bg-[#d60000] text-white shadow-[0_3px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_5px_0_#991b1b] active:translate-y-1 active:shadow-none'
