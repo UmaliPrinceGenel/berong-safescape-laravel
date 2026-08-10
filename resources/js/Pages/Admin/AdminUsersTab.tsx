@@ -104,35 +104,37 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
 
   return (
     <div ref={cardRef} className="scroll-mt-28">
-      <Card className="rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all">
-        <CardHeader className="px-6 pt-6 pb-2">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 rounded-xl shadow-sm">
-                <UsersIcon className="h-6 w-6 text-[#d60000]" strokeWidth={2.5} />
+      <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all">
+        <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-3">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
+                <UsersIcon className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
               </div>
-              <div>
-                <CardTitle className="text-2xl font-black text-slate-800 dark:text-white tracking-tight">System Users</CardTitle>
-                <CardDescription className="text-slate-500 dark:text-slate-400 font-medium mt-1">
+              <div className="min-w-0">
+                <CardTitle className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight truncate">
+                  System Users
+                </CardTitle>
+                <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5 line-clamp-1">
                   Manage user roles and access permissions · {permissionFilteredUsers.length} user{permissionFilteredUsers.length !== 1 ? 's' : ''}
                 </CardDescription>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+            <div className="grid grid-cols-1 xs:grid-cols-2 lg:flex lg:items-center gap-2 sm:gap-3 w-full lg:w-auto mt-1 lg:mt-0">
               {/* Permission Multi-Select Filter Popover */}
               <Popover>
                 <PopoverTrigger asChild>
                   <button
                     type="button"
-                    className={`inline-flex items-center justify-between gap-2 h-11 px-3.5 text-sm font-extrabold rounded-xl border-2 transition-all backdrop-blur-sm cursor-pointer w-full sm:w-56 ${
+                    className={`inline-flex items-center justify-between gap-2 h-10 sm:h-11 px-3.5 text-xs sm:text-sm font-extrabold rounded-xl border-2 transition-all backdrop-blur-sm cursor-pointer w-full lg:w-56 shadow-2xs ${
                       selectedPermissions.length > 0
-                        ? "bg-red-50 dark:bg-red-950/30 border-red-500 text-red-600 dark:text-red-400 shadow-[0_2px_8px_rgba(214,0,0,0.15)] ring-2 ring-red-500/20"
-                        : "bg-white/50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600"
+                        ? "bg-red-50 dark:bg-red-950/30 border-red-500 text-red-600 dark:text-red-400 ring-2 ring-red-500/20"
+                        : "bg-white dark:bg-slate-900/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600"
                     }`}
                   >
                     <div className="flex items-center gap-2 truncate">
-                      <Filter className={`h-4 w-4 shrink-0 ${selectedPermissions.length > 0 ? "text-[#d60000]" : "text-slate-500 dark:text-slate-400"}`} />
+                      <Filter className={`h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 ${selectedPermissions.length > 0 ? "text-[#d60000]" : "text-slate-400 dark:text-slate-500"}`} />
                       <span className="truncate">
                         {selectedPermissions.length === 0
                           ? "All Permissions"
@@ -142,11 +144,11 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                       </span>
                     </div>
                     {selectedPermissions.length > 0 ? (
-                      <span className="flex items-center justify-center h-5 px-1.5 text-xs font-black rounded-full bg-[#d60000] text-white shrink-0">
+                      <span className="flex items-center justify-center h-4.5 px-1.5 text-[10px] font-black rounded-full bg-[#d60000] text-white shrink-0">
                         {selectedPermissions.length}
                       </span>
                     ) : (
-                      <ChevronDown className="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400" />
+                      <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-400 dark:text-slate-500" />
                     )}
                   </button>
                 </PopoverTrigger>
@@ -242,30 +244,30 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
               </Popover>
 
               {/* Search Bar */}
-              <div className="relative group w-full sm:w-64 lg:w-72">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 dark:text-slate-400 group-focus-within:text-[#d60000] dark:group-focus-within:text-red-400 transition-colors" />
+              <div className="relative group w-full lg:w-64 xl:w-72">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-400 group-focus-within:text-[#d60000] dark:group-focus-within:text-red-400 transition-colors" />
                 <input
                   type="text"
                   placeholder="Search users..."
                   value={userSearchQuery}
                   onChange={(e) => setUserSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-9 h-11 text-sm text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/20 font-bold transition-all hover:border-slate-300 dark:hover:border-slate-600"
+                  className="w-full pl-9 sm:pl-10 pr-8 h-10 sm:h-11 text-xs sm:text-sm text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900/80 backdrop-blur-sm focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/20 font-bold transition-all hover:border-slate-300 dark:hover:border-slate-600 shadow-2xs"
                 />
                 {userSearchQuery && (
                   <button
                     type="button"
                     onClick={() => setUserSearchQuery("")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-0.5 rounded-md cursor-pointer"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded-md cursor-pointer"
                     title="Clear search"
                   >
-                    <X className="h-4 w-4" />
+                    <X className="h-3.5 w-3.5" />
                   </button>
                 )}
               </div>
             </div>
           </div>
         </CardHeader>
-        <CardContent className="px-6 pb-6 pt-4">
+        <CardContent className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 sm:pt-4">
           <div className="space-y-4">
             {paginatedUsers.length === 0 ? (
               <div className="text-center py-12 px-4 bg-white/30 dark:bg-slate-900/30 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700">

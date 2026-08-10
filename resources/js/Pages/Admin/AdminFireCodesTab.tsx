@@ -102,12 +102,19 @@ export const AdminFireCodesTab: React.FC<FireCodesTabProps> = ({
 
   return (
     <div className="space-y-6">
-      <Card className="rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-[0_4px_0_#e2e8f0] dark:hover:shadow-[0_4px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6">
-        <CardHeader>
-          <CardTitle className="text-xl font-bold text-slate-800 dark:text-white">Add New Manual or Fire Code PDF</CardTitle>
-          <CardDescription className="text-slate-500 dark:text-slate-400 font-medium">Upload manuals or fire codes as PDF files</CardDescription>
+      <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6">
+        <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-3">
+          <div className="flex items-center gap-3">
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
+              <Plus className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
+            </div>
+            <div>
+              <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight">Add New Manual or Fire Code PDF</CardTitle>
+              <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Upload manuals or fire codes as PDF files</CardDescription>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 sm:pt-4 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="fc-category" className="font-bold text-slate-700 dark:text-slate-300">Category</Label>
@@ -115,7 +122,7 @@ export const AdminFireCodesTab: React.FC<FireCodesTabProps> = ({
                 value={newFireCode.category || "Policy"}
                 onValueChange={(value) => setNewFireCode({ ...newFireCode, category: value })}
               >
-                <SelectTrigger id="fc-category" className="w-full border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 font-bold text-slate-700 dark:text-white focus:ring-red-500 shadow-sm transition-all hover:border-slate-300">
+                <SelectTrigger id="fc-category" className="w-full h-10 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 font-bold text-slate-700 dark:text-white focus:ring-red-500 shadow-sm transition-all hover:border-slate-300">
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-800 shadow-xl p-1">
@@ -155,7 +162,7 @@ export const AdminFireCodesTab: React.FC<FireCodesTabProps> = ({
                   />
                   <label
                     htmlFor="fc-manual-file-input"
-                    className={`inline-flex items-center justify-center bg-white dark:bg-slate-900 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl px-4 py-6 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-red-500 dark:hover:border-red-500 cursor-pointer w-full text-center transition-all ${
+                    className={`inline-flex items-center justify-center bg-white dark:bg-slate-900 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl px-4 py-5 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-red-500 dark:hover:border-red-500 cursor-pointer w-full text-center transition-all ${
                       uploading ? "opacity-50 pointer-events-none" : ""
                     }`}
                   >
@@ -218,14 +225,14 @@ export const AdminFireCodesTab: React.FC<FireCodesTabProps> = ({
             />
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 mt-2">
+          <div className="flex flex-wrap items-center gap-4 mt-2 pb-12 sm:pb-0">
             <button
               type="button"
               onClick={handleAddFireCode}
               disabled={uploading}
-              className="inline-flex items-center justify-center bg-[#d60000] hover:bg-red-500 disabled:opacity-50 text-white font-extrabold px-5 pb-2 pt-2.5 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+              className="inline-flex items-center justify-center bg-[#d60000] hover:bg-red-500 disabled:opacity-50 text-white font-extrabold px-6 pb-2.5 pt-3 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all cursor-pointer"
             >
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="h-5 w-5 mr-2" strokeWidth={2.5} />
               Add Document
             </button>
             {success && (
