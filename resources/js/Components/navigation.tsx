@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react"
 import { useAuth } from "@/lib/auth-context"
 import { useSettings } from "@/lib/settings-context"
 import { Button } from "@/Components/ui/button"
-import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info, Settings, ChevronDown, ArrowRight, Clock, Sliders, BookOpen, Eye, Focus, Type, Zap, Sun, Moon, ZoomIn, Volume2, Gamepad2, Music, BellRing } from "lucide-react"
+import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info, Settings, ChevronDown, ArrowRight, Clock, Sliders, BookOpen, Eye, Focus, Type, Zap, Sun, Moon, ZoomIn, Volume2, Gamepad2, Music, BellRing, Sparkles } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { NotificationPopover } from "@/Components/ui/notification-popover"
 import { SettingsPanel } from "@/Components/settings-panel"
@@ -721,6 +721,55 @@ export function Navigation() {
           </div>
 
           <div className="p-3 sm:p-5 pt-3 sm:pt-4 max-h-[55vh] sm:max-h-[65vh] overflow-y-auto space-y-2.5 sm:space-y-4 scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            {/* Live Preview Sandbox */}
+            <div className="bg-gradient-to-br from-slate-100 to-emerald-50/50 dark:from-slate-900/90 dark:to-emerald-950/30 rounded-2xl p-3.5 sm:p-4 border-2 border-emerald-500/30 shadow-inner space-y-2.5 transition-all">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-black text-xs sm:text-sm uppercase tracking-wider">
+                  <Sparkles className="h-4 w-4 text-emerald-500 animate-pulse" />
+                  Live Preview Sandbox
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 uppercase tracking-widest border border-emerald-300 dark:border-emerald-800">
+                  Real-Time
+                </span>
+              </div>
+              
+              <div className={cn(
+                "p-3.5 sm:p-4 rounded-xl border bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 shadow-xs transition-all space-y-2",
+                dyslexiaFont && "font-open-dyslexic",
+                colorBlindness === 'protanopia' && "filter-protanopia",
+                colorBlindness === 'deuteranopia' && "filter-deuteranopia",
+                colorBlindness === 'tritanopia' && "filter-tritanopia"
+              )}>
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+                  <h4 className={cn(
+                    "font-black text-slate-800 dark:text-white leading-tight",
+                    textSize === 'normal' && "text-xs sm:text-sm",
+                    textSize === 'large' && "text-sm sm:text-base",
+                    textSize === 'xlarge' && "text-base sm:text-lg"
+                  )}>
+                    🔥 Fire Safety Protocol Sample
+                  </h4>
+                  <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400 uppercase tracking-wider border border-red-200 dark:border-red-900/50">
+                    Active
+                  </span>
+                </div>
+                <p className={cn(
+                  "text-slate-600 dark:text-slate-300 font-semibold leading-relaxed",
+                  textSize === 'normal' && "text-xs",
+                  textSize === 'large' && "text-xs sm:text-sm",
+                  textSize === 'xlarge' && "text-sm sm:text-base"
+                )}>
+                  In case of emergency, stop, drop, and roll immediately. Follow illuminated exit signs and maintain clear access to all emergency routes.
+                </p>
+                <div className="flex items-center gap-2 pt-1">
+                  <div className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                    Updates instantly as you toggle settings below
+                  </span>
+                </div>
+              </div>
+            </div>
+
             {/* Visual Assists */}
             <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800/80 space-y-3 sm:space-y-4 transition-colors">
               <h3 className="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Visual Assists</h3>

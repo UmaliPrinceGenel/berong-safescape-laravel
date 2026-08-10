@@ -363,7 +363,7 @@ export default function ProfilePage() {
         <div className="fixed inset-0 pointer-events-none transition-colors duration-500 bg-white dark:bg-slate-950 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px]" />
 
         {/* Header Cover Banner */}
-        <div className="mb-6 sm:mb-8 bg-white dark:bg-slate-800 rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#1e293b] overflow-hidden transition-colors relative z-10">
+        <div className="mb-6 sm:mb-8 bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden transition-all relative z-10">
           {/* Cover color band */}
           <div className="h-28 sm:h-36 bg-gradient-to-r from-rose-500 via-orange-500 to-amber-400 dark:from-rose-800 dark:via-orange-850 dark:to-amber-600 relative overflow-hidden">
             {/* Grid pattern overlay */}
@@ -373,12 +373,12 @@ export default function ProfilePage() {
           </div>
           
           {/* Main header content */}
-          <div className="px-6 pb-6 pt-0 relative flex flex-col md:flex-row items-center md:items-center md:justify-between gap-6 -mt-10 sm:-mt-12">
-            <div className="flex flex-col md:flex-row items-center md:items-center gap-4 sm:gap-6 text-center md:text-left">
-              {/* Avatar Selector Trigger for EVERYONE */}
+          <div className="px-4 sm:px-8 pb-5 sm:pb-8 pt-0 relative flex flex-col md:flex-row items-center md:items-center md:justify-between gap-5 -mt-12 sm:-mt-14">
+            <div className="flex flex-col md:flex-row items-center gap-4 sm:gap-6 text-center md:text-left w-full md:w-auto">
+              {/* Avatar Selector Trigger */}
               <button 
                 onClick={() => setShowAvatarModal(true)}
-                className="group relative flex items-center justify-center h-24 w-24 sm:h-28 sm:w-28 rounded-full border-4 border-white dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl hover:border-yellow-400 dark:hover:border-yellow-500 transition-all duration-300 shrink-0 overflow-visible cursor-pointer"
+                className="group relative flex items-center justify-center h-24 w-24 sm:h-28 sm:w-28 rounded-full border-4 border-white dark:border-slate-900 bg-white dark:bg-slate-900 shadow-xl hover:border-yellow-400 dark:hover:border-yellow-500 transition-all duration-300 shrink-0 overflow-visible cursor-pointer"
               >
                 <div className="h-full w-full flex items-center justify-center group-hover:scale-105 transition-transform overflow-hidden rounded-full relative bg-slate-50 dark:bg-slate-950">
                   {(() => {
@@ -402,45 +402,46 @@ export default function ProfilePage() {
                   </div>
                 </div>
                 {/* Plus/Edit Icon Badge */}
-                <div className="absolute bottom-0 right-0 h-7 w-7 sm:h-8 sm:w-8 bg-yellow-400 hover:bg-yellow-500 rounded-full border-4 border-white dark:border-slate-800 flex items-center justify-center shadow-md transition-transform group-hover:scale-110">
-                  <Camera className="text-white h-3 w-3 sm:h-3.5 sm:w-3.5" strokeWidth={3} />
+                <div className="absolute bottom-0 right-0 h-7 w-7 sm:h-8 sm:w-8 bg-yellow-400 hover:bg-yellow-500 rounded-full border-4 border-white dark:border-slate-900 flex items-center justify-center shadow-md transition-transform group-hover:scale-110">
+                  <Camera className="text-white h-3.5 w-3.5" strokeWidth={3} />
                 </div>
               </button>
               
-              <div className="flex flex-col justify-center bg-white/85 dark:bg-slate-900/60 backdrop-blur-md border-2 border-slate-100 dark:border-slate-800/80 px-4 py-2.5 sm:px-5 sm:py-3 rounded-2xl shadow-sm md:-mt-5">
+              {/* Profile Name & Email Box */}
+              <div className="w-full md:w-auto flex flex-col justify-center bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border-[2.5px] border-slate-200 dark:border-slate-800 p-4 sm:px-6 sm:py-4 rounded-2xl shadow-sm">
                 <div className="flex flex-col sm:flex-row items-center gap-2 mb-1 justify-center md:justify-start">
-                  <h1 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight transition-colors">{profile.name || "Fire Safety Hero"}</h1>
-                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-red-100 dark:bg-red-900/40 text-[#d60000] dark:text-red-400 text-[10px] font-black uppercase tracking-wider rounded-full border border-red-200 dark:border-red-800 transition-colors">
+                  <h1 className="text-xl sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight transition-colors">{profile.name || "Fire Safety Hero"}</h1>
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-red-100 dark:bg-red-950/60 text-[#d60000] dark:text-red-400 text-[10px] font-black uppercase tracking-wider rounded-full border border-red-200 dark:border-red-900/60 transition-colors">
                     <Shield className="h-3 w-3" strokeWidth={2.5} />
                     {profile.role || "User"}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium transition-colors flex items-center justify-center md:justify-start gap-1.5">
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-semibold transition-colors flex items-center justify-center md:justify-start gap-1.5 mt-0.5">
                   <Mail className="h-3.5 w-3.5 text-slate-400" />
                   {profile.email || "No email linked"}
                 </p>
               </div>
             </div>
 
-            {/* Quick stats board */}
-            <div className="flex flex-wrap items-center justify-center gap-3 w-full md:w-auto md:-mt-5">
-              <div className="flex items-center gap-3 bg-white/85 dark:bg-slate-900/60 backdrop-blur-md border-2 border-slate-100 dark:border-slate-800/80 px-5 py-3.5 rounded-2xl shadow-sm hover:shadow-md hover:border-yellow-400/40 dark:hover:border-yellow-500/40 transition-all duration-300 min-w-[130px] flex-1 md:flex-initial cursor-default">
-                <div className="bg-yellow-100 dark:bg-yellow-900/30 p-2 rounded-xl transition-colors">
-                  <Award className="h-5 w-5 text-yellow-500" strokeWidth={2.5} />
+            {/* Quick stats board (2-column grid on mobile) */}
+            <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-3 w-full md:w-auto">
+              <div className="flex items-center gap-3 bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border-[2.5px] border-slate-200 dark:border-slate-800 p-3 sm:px-5 sm:py-3.5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex-1 md:flex-initial cursor-default">
+                <div className="bg-yellow-100 dark:bg-yellow-950/50 p-2 rounded-xl text-yellow-600 dark:text-yellow-400 shrink-0">
+                  <Award className="h-4.5 w-4.5 sm:h-5 sm:w-5" strokeWidth={2.5} />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none">XP Points</p>
-                  <p className="text-lg font-black text-slate-800 dark:text-white mt-1 leading-none">{scores?.engagementPoints ?? 0}</p>
+                  <p className="text-[9px] sm:text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none">XP Points</p>
+                  <p className="text-base sm:text-lg font-black text-slate-800 dark:text-white mt-1 leading-none">{scores?.engagementPoints ?? 0}</p>
                 </div>
               </div>
               
-              <div className="flex items-center gap-3 bg-white/85 dark:bg-slate-900/60 backdrop-blur-md border-2 border-slate-100 dark:border-slate-800/80 px-5 py-3.5 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-400/40 dark:hover:border-blue-500/40 transition-all duration-300 min-w-[130px] flex-1 md:flex-initial cursor-default">
-                <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-xl transition-colors">
-                  <Calendar className="h-5 w-5 text-blue-500" strokeWidth={2.5} />
+              <div className="flex items-center gap-3 bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border-[2.5px] border-slate-200 dark:border-slate-800 p-3 sm:px-5 sm:py-3.5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex-1 md:flex-initial cursor-default">
+                <div className="bg-blue-100 dark:bg-blue-950/50 p-2 rounded-xl text-blue-600 dark:text-blue-400 shrink-0">
+                  <Calendar className="h-4.5 w-4.5 sm:h-5 sm:w-5" strokeWidth={2.5} />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none">Age Group</p>
-                  <p className="text-lg font-black text-slate-800 dark:text-white mt-1 leading-none">{profile.age ? `${profile.age} Y/O` : "N/A"}</p>
+                  <p className="text-[9px] sm:text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none">Age Group</p>
+                  <p className="text-base sm:text-lg font-black text-slate-800 dark:text-white mt-1 leading-none">{profile.age ? `${profile.age} Y/O` : "N/A"}</p>
                 </div>
               </div>
             </div>
@@ -486,17 +487,17 @@ export default function ProfilePage() {
           </AnimatePresence>
         </div>
 
-        <div className="space-y-6 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-28 sm:mb-16 relative z-10">
           {/* Profile Information */}
-          <Card className="rounded-[2rem] border-2 border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#e2e8f0] dark:shadow-[0_8px_0_#1e293b] bg-white dark:bg-slate-800 p-0 overflow-hidden transition-colors flex flex-col h-full">
-            <CardHeader className="bg-slate-100/50 dark:bg-slate-900/60 border-b-2 border-slate-100 dark:border-slate-700 pt-8 pb-8 rounded-t-[1.85rem] transition-colors">
-              <CardTitle className="text-xl font-bold text-slate-800 dark:text-white transition-colors">Profile Information</CardTitle>
-              <CardDescription className="text-slate-500 dark:text-slate-400 font-medium transition-colors">Update your personal information</CardDescription>
+          <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] bg-white dark:bg-slate-900 p-0 overflow-hidden transition-colors flex flex-col h-full">
+            <CardHeader className="bg-slate-50 dark:bg-slate-950/60 border-b-[3px] border-slate-100 dark:border-slate-800 p-5 sm:p-7 transition-colors">
+              <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white transition-colors">Profile Information</CardTitle>
+              <CardDescription className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 transition-colors">Update your personal information</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6 pt-6 pb-8 dark:bg-slate-800 transition-colors flex-1 flex flex-col justify-between">
+            <CardContent className="p-5 sm:p-7 space-y-6 dark:bg-slate-900 transition-colors flex-1 flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="profile-name" className="font-bold text-slate-700 dark:text-slate-300 ml-1 transition-colors">Full Name</Label>
+                  <Label htmlFor="profile-name" className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300 ml-1 transition-colors">Full Name</Label>
                   <div className="relative flex items-center">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500 z-10" strokeWidth={2.5} />
                     <Input
@@ -508,12 +509,12 @@ export default function ProfilePage() {
                         setProfile({ ...profile, name: e.target.value })
                       }}
                       style={{ paddingLeft: '3.25rem' }}
-                      className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 pr-4 py-6 focus-visible:border-red-500 dark:focus-visible:border-red-500 focus-visible:ring-offset-0 focus-visible:ring-0 transition-colors font-medium text-slate-700 dark:text-slate-200 w-full"
+                      className="rounded-2xl border-[3px] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 pr-4 py-3.5 focus-visible:border-red-500 dark:focus-visible:border-red-500 focus-visible:ring-offset-0 focus-visible:ring-0 transition-colors font-semibold text-sm text-slate-800 dark:text-slate-200 w-full shadow-xs"
                     />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="profile-email" className="font-bold text-slate-700 dark:text-slate-300 ml-1 transition-colors">Email Address</Label>
+                  <Label htmlFor="profile-email" className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300 ml-1 transition-colors">Email Address</Label>
                   <div className="relative flex items-center">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500 z-10" strokeWidth={2.5} />
                     <Input
@@ -523,67 +524,67 @@ export default function ProfilePage() {
                       value={profile.email}
                       readOnly
                       style={{ paddingLeft: '3.25rem' }}
-                      className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 pr-4 py-6 focus-visible:ring-offset-0 focus-visible:ring-0 transition-colors font-medium text-slate-500 dark:text-slate-400 w-full cursor-not-allowed select-none"
+                      className="rounded-2xl border-[3px] border-slate-200 dark:border-slate-800 bg-slate-100/60 dark:bg-slate-950/60 pr-4 py-3.5 transition-colors font-semibold text-sm text-slate-500 dark:text-slate-400 w-full cursor-not-allowed select-none"
                     />
                   </div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 ml-1 font-medium transition-colors">
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 ml-1 font-semibold transition-colors">
                     Used for password reset. Must be unique per account.
                   </p>
                 </div>
               </div>
 
-              <div className="flex-1 flex flex-col justify-between gap-6 mt-6">
-                {/* Account Status Info Box (Replaced disabled inputs) */}
-                <div className="grid grid-cols-2 gap-4 flex-1 items-stretch">
-                  <div className="bg-slate-50 dark:bg-slate-900/40 border-2 border-slate-150 dark:border-slate-800/80 rounded-2xl p-5 transition-colors flex flex-col justify-center">
-                    <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider">Account Role</p>
-                    <p className="text-base font-black text-slate-700 dark:text-slate-350 mt-1.5 capitalize">{profile.role}</p>
+              <div className="space-y-5 pt-2">
+                {/* Account Status Info Box */}
+                <div className="grid grid-cols-2 gap-3.5">
+                  <div className="bg-slate-50 dark:bg-slate-950/50 border-[2.5px] border-slate-200 dark:border-slate-800/80 rounded-2xl p-4 transition-colors flex flex-col justify-center">
+                    <p className="text-[9px] sm:text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider">Account Role</p>
+                    <p className="text-sm sm:text-base font-black text-slate-700 dark:text-slate-200 mt-1 capitalize truncate">{profile.role}</p>
                   </div>
-                  <div className="bg-slate-50 dark:bg-slate-900/40 border-2 border-slate-150 dark:border-slate-800/80 rounded-2xl p-5 transition-colors flex flex-col justify-center">
-                    <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider">Current Age</p>
-                    <p className="text-base font-black text-slate-700 dark:text-slate-355 mt-1.5">{profile.age ? `${profile.age} Years Old` : "N/A"}</p>
+                  <div className="bg-slate-50 dark:bg-slate-950/50 border-[2.5px] border-slate-200 dark:border-slate-800/80 rounded-2xl p-4 transition-colors flex flex-col justify-center">
+                    <p className="text-[9px] sm:text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider">Current Age</p>
+                    <p className="text-sm sm:text-base font-black text-slate-700 dark:text-slate-200 mt-1 truncate">{profile.age ? `${profile.age} Y/O` : "N/A"}</p>
                   </div>
                 </div>
 
-                <Button 
+                <button 
                   onClick={handleUpdateProfile} 
-                  className="w-full bg-[#e11d48] text-white shadow-[0_4px_0_#9f1239] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#9f1239] hover:bg-[#e11d48] active:translate-y-1 active:shadow-[0_0px_0_#9f1239] rounded-full font-black uppercase tracking-wider py-6 transition-all cursor-pointer"
+                  className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 rounded-2xl border-b-[5px] border-red-800 active:border-b-0 active:translate-y-[5px] transition-all uppercase tracking-widest text-xs sm:text-sm shadow-md cursor-pointer flex items-center justify-center gap-2"
                 >
-                  <User className="h-5 w-5 mr-2" strokeWidth={2.5} />
+                  <User className="h-4.5 w-4.5" strokeWidth={2.5} />
                   Update Profile
-                </Button>
+                </button>
               </div>
             </CardContent>
           </Card>
 
           {/* Password Management */}
-          <Card className="rounded-[2rem] border-2 border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#e2e8f0] dark:shadow-[0_8px_0_#1e293b] bg-white dark:bg-slate-800 p-0 overflow-hidden transition-colors flex flex-col h-full">
-            <CardHeader className="bg-slate-100/50 dark:bg-slate-900/60 border-b-2 border-slate-100 dark:border-slate-700 pt-8 pb-8 rounded-t-[1.85rem] transition-colors">
-              <CardTitle className="text-xl font-bold text-slate-800 dark:text-white transition-colors">Password Management</CardTitle>
-              <CardDescription className="text-slate-500 dark:text-slate-400 font-medium transition-colors">Change your account password</CardDescription>
+          <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] bg-white dark:bg-slate-900 p-0 overflow-hidden transition-colors flex flex-col h-full">
+            <CardHeader className="bg-slate-50 dark:bg-slate-950/60 border-b-[3px] border-slate-100 dark:border-slate-800 p-5 sm:p-7 transition-colors">
+              <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white transition-colors">Password Management</CardTitle>
+              <CardDescription className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 transition-colors">Change your account password</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6 pt-6 pb-8 dark:bg-slate-800 transition-colors flex-1 flex flex-col justify-between">
+            <CardContent className="p-5 sm:p-7 space-y-6 dark:bg-slate-900 transition-colors flex-1 flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="current-password" className="font-bold text-slate-700 dark:text-slate-300 ml-1 transition-colors">Current Password</Label>
+                  <Label htmlFor="current-password" className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300 ml-1 transition-colors">Current Password</Label>
                   <div className="relative flex items-center">
                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500 z-10" strokeWidth={2.5} />
                     <Input
                       id="current-password"
                       type={showCurrentPassword ? "text" : "password"}
-                      placeholder="Enter your current password"
+                      placeholder="Enter current password"
                       value={password.current}
                       onChange={(e) => {
                         setError("")
                         setPassword({ ...password, current: e.target.value })
                       }}
                       style={{ paddingLeft: '3.25rem', paddingRight: '3.25rem' }}
-                      className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 py-6 focus-visible:border-red-500 dark:focus-visible:border-red-500 focus-visible:ring-offset-0 focus-visible:ring-0 transition-colors font-medium text-slate-700 dark:text-slate-200 w-full"
+                      className="rounded-2xl border-[3px] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 py-3.5 focus-visible:border-red-500 dark:focus-visible:border-red-500 focus-visible:ring-offset-0 focus-visible:ring-0 transition-colors font-semibold text-sm text-slate-800 dark:text-slate-200 w-full shadow-xs"
                     />
                     <button
                       type="button"
                       onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer"
                       tabIndex={-1}
                     >
                       {showCurrentPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -591,50 +592,50 @@ export default function ProfilePage() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="new-password" className="font-bold text-slate-700 dark:text-slate-300 ml-1 transition-colors">New Password</Label>
+                  <Label htmlFor="new-password" className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300 ml-1 transition-colors">New Password</Label>
                   <div className="relative flex items-center">
                     <Key className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500 z-10" strokeWidth={2.5} />
                     <Input
                       id="new-password"
                       type={showNewPassword ? "text" : "password"}
-                      placeholder="Enter your new password"
+                      placeholder="Enter new password"
                       value={password.new}
                       onChange={(e) => {
                         setError("")
                         setPassword({ ...password, new: e.target.value })
                       }}
                       style={{ paddingLeft: '3.25rem', paddingRight: '3.25rem' }}
-                      className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 py-6 focus-visible:border-red-500 dark:focus-visible:border-red-500 focus-visible:ring-offset-0 focus-visible:ring-0 transition-colors font-medium text-slate-700 dark:text-slate-200 w-full"
+                      className="rounded-2xl border-[3px] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 py-3.5 focus-visible:border-red-500 dark:focus-visible:border-red-500 focus-visible:ring-offset-0 focus-visible:ring-0 transition-colors font-semibold text-sm text-slate-800 dark:text-slate-200 w-full shadow-xs"
                     />
                     <button
                       type="button"
                       onClick={() => setShowNewPassword(!showNewPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer"
                       tabIndex={-1}
                     >
                       {showNewPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
                   </div>
                   
-                  {/* Permanent Password Requirements - Inline Below Input */}
-                  <div className="bg-slate-50 dark:bg-slate-900/50 border-2 border-slate-200 dark:border-slate-800 rounded-2xl p-5 transition-colors">
-                    <p className="text-[10px] font-black text-slate-700 dark:text-slate-300 mb-4 uppercase tracking-wider flex items-center gap-2">
+                  {/* Permanent Password Requirements */}
+                  <div className="bg-slate-50 dark:bg-slate-950/50 border-[2.5px] border-slate-200 dark:border-slate-800 rounded-2xl p-4 transition-colors">
+                    <p className="text-[10px] font-black text-slate-700 dark:text-slate-300 mb-3 uppercase tracking-wider flex items-center gap-2">
                       <Shield className="h-3 w-3 text-orange-500" />
                       Password Strength
                     </p>
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
+                    <div className="grid grid-cols-2 gap-x-3 gap-y-2">
                       {[
                         { label: "At least 8 characters", met: password.new.length >= 8 },
                         { label: "One uppercase letter", met: /[A-Z]/.test(password.new) },
                         { label: "One lowercase letter", met: /[a-z]/.test(password.new) },
                         { label: "One number (0-9)", met: /[0-9]/.test(password.new) },
-                        { label: "One special character (!@#...)", met: /[^A-Za-z0-9]/.test(password.new) },
+                        { label: "One special character", met: /[^A-Za-z0-9]/.test(password.new) },
                       ].map((req, i) => (
-                        <div key={i} className="flex items-center gap-2.5">
-                          <div className={`h-4 w-4 shrink-0 rounded-full flex items-center justify-center transition-all duration-300 ${req.met ? "bg-green-500 scale-110" : "bg-slate-100 dark:bg-slate-800"}`}>
+                        <div key={i} className="flex items-center gap-2">
+                          <div className={`h-4 w-4 shrink-0 rounded-full flex items-center justify-center transition-all duration-300 ${req.met ? "bg-green-500 scale-110" : "bg-slate-200 dark:bg-slate-800"}`}>
                             <Check className={`h-2.5 w-2.5 text-white transition-opacity ${req.met ? "opacity-100" : "opacity-0"}`} strokeWidth={5} />
                           </div>
-                          <span className={`text-[10px] sm:text-xs font-bold leading-tight transition-colors ${req.met ? "text-green-700 dark:text-green-400" : "text-slate-500 dark:text-slate-400"}`}>
+                          <span className={`text-[10px] sm:text-xs font-semibold leading-tight transition-colors ${req.met ? "text-green-700 dark:text-green-400" : "text-slate-500 dark:text-slate-400"}`}>
                             {req.label}
                           </span>
                         </div>
@@ -643,25 +644,25 @@ export default function ProfilePage() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="confirm-password" className="font-bold text-slate-700 dark:text-slate-300 ml-1 transition-colors">Confirm New Password</Label>
+                  <Label htmlFor="confirm-password" className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300 ml-1 transition-colors">Confirm New Password</Label>
                   <div className="relative flex items-center">
                     <CheckCircle className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500 z-10" strokeWidth={2.5} />
                     <Input
                       id="confirm-password"
                       type={showConfirmPassword ? "text" : "password"}
-                      placeholder="Confirm your new password"
+                      placeholder="Confirm new password"
                       value={password.confirm}
                       onChange={(e) => {
                         setError("")
                         setPassword({ ...password, confirm: e.target.value })
                       }}
                       style={{ paddingLeft: '3.25rem', paddingRight: '3.25rem' }}
-                      className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 py-6 focus-visible:border-red-500 dark:focus-visible:border-red-500 focus-visible:ring-offset-0 focus-visible:ring-0 transition-colors font-medium text-slate-700 dark:text-slate-200 w-full"
+                      className="rounded-2xl border-[3px] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 py-3.5 focus-visible:border-red-500 dark:focus-visible:border-red-500 focus-visible:ring-offset-0 focus-visible:ring-0 transition-colors font-semibold text-sm text-slate-800 dark:text-slate-200 w-full shadow-xs"
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer"
                       tabIndex={-1}
                     >
                       {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -669,23 +670,25 @@ export default function ProfilePage() {
                   </div>
                 </div>
               </div>
-              <Button
-                onClick={handleChangePassword}
-                className="w-full bg-orange-500 text-white shadow-[0_4px_0_#c2410c] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#c2410c] hover:bg-orange-600 active:translate-y-1 active:shadow-[0_0px_0_#c2410c] rounded-full font-black uppercase tracking-wider py-6 transition-all cursor-pointer"
-                disabled={passwordLoading}
-              >
-                {passwordLoading ? (
-                  <>
-                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                    Changing...
-                  </>
-                ) : (
-                  <>
-                    <Key className="h-5 w-5 mr-2" />
-                    Change Password
-                  </>
-                )}
-              </Button>
+              <div className="pt-2">
+                <button
+                  onClick={handleChangePassword}
+                  disabled={passwordLoading}
+                  className="w-full bg-slate-800 hover:bg-slate-900 dark:bg-slate-800 dark:hover:bg-slate-700 text-white font-black py-4 rounded-2xl border-b-[5px] border-slate-950 dark:border-slate-950 active:border-b-0 active:translate-y-[5px] transition-all uppercase tracking-widest text-xs sm:text-sm shadow-md cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  {passwordLoading ? (
+                    <>
+                      <Loader2 className="h-4.5 w-4.5 animate-spin" />
+                      Changing...
+                    </>
+                  ) : (
+                    <>
+                      <Key className="h-4.5 w-4.5" strokeWidth={2.5} />
+                      Change Password
+                    </>
+                  )}
+                </button>
+              </div>
             </CardContent>
           </Card>
         </div>
