@@ -285,41 +285,41 @@ export const AdminSettingsTab: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         {/* CARD 1: Warning Alerts Settings */}
-        <Card className="bg-white/90 dark:bg-slate-800/50 backdrop-blur-md rounded-2xl sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] transition-all duration-300">
-          <CardHeader className="p-6 pb-4 sm:p-8 sm:pb-6">
+        <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-white/90 dark:bg-slate-800/50 backdrop-blur-md transition-all">
+          <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-3">
             <div className="flex items-center gap-3">
-              <div className="bg-amber-100 dark:bg-amber-900/30 p-2.5 rounded-2xl">
-                <Megaphone className="h-6 w-6 text-amber-500" />
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
+                <Megaphone className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500" strokeWidth={2.5} />
               </div>
               <div>
-                <CardTitle className="text-xl sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight uppercase">Warning Banner</CardTitle>
-                <CardDescription className="font-bold text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Alert active users before shutdown</CardDescription>
+                <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight uppercase">Warning Banner</CardTitle>
+                <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Alert active users before shutdown</CardDescription>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="p-6 pt-0 sm:p-8 sm:pt-0 space-y-4">
-            <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 space-y-3">
+          <CardContent className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 sm:pt-4 space-y-4">
+            <div className="bg-amber-500/10 dark:bg-amber-950/30 border-2 border-amber-500/20 dark:border-amber-900/40 rounded-2xl p-3.5 sm:p-4 space-y-2.5">
               <div className="flex items-center justify-between gap-3">
                 <span className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider">Banner Notice Status</span>
                 <button
                   onClick={handleToggleWarning}
                   disabled={saving}
-                  className={`px-4 py-1.5 rounded-full font-black text-[10px] sm:text-xs uppercase tracking-wider transition-all shadow-sm ${
+                  className={`px-3.5 py-1.5 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-wider transition-all shadow-xs cursor-pointer ${
                     maintenance.warning_active 
-                      ? "bg-amber-500 hover:bg-amber-400 text-slate-950" 
-                      : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-300"
+                      ? "bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-[0_2px_0_#b45309]" 
+                      : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-300 shadow-[0_2px_0_#94a3b8]"
                   }`}
                 >
                   {maintenance.warning_active ? "Enabled" : "Disabled"}
                 </button>
               </div>
-              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 leading-relaxed">
-                When enabled, all users browsing SafeScape will see a warnings header at the bottom of the page in real-time.
+              <p className="text-xs font-medium text-slate-600 dark:text-slate-400 leading-relaxed">
+                When enabled, all users browsing SafeScape will see a warning header at the bottom of the page in real-time.
               </p>
             </div>
 
-            <div className="space-y-1.5 pt-2">
-              <Label htmlFor="warning-duration" className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300">Countdown Duration (Minutes)</Label>
+            <div className="space-y-2 pt-1">
+              <Label htmlFor="warning-duration" className="font-bold text-slate-700 dark:text-slate-300">Countdown Duration (Minutes)</Label>
               <Input
                 id="warning-duration"
                 type="number"
@@ -334,82 +334,88 @@ export const AdminSettingsTab: React.FC = () => {
                   });
                 }}
                 placeholder="15"
-                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-amber-500 text-xs sm:text-sm"
+                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-amber-500 font-bold"
               />
-              <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 leading-tight">
+              <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 leading-tight">
                 Sets the countdown timer displayed in the live warning banner before the lockout undergoes.
               </p>
             </div>
 
-            <div className="space-y-1.5 pt-2">
-              <Label htmlFor="warning-message-text" className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300">Warning Alert Text</Label>
+            <div className="space-y-2 pt-1">
+              <Label htmlFor="warning-message-text" className="font-bold text-slate-700 dark:text-slate-300">Warning Alert Text</Label>
               <Textarea
                 id="warning-message-text"
-                rows={4}
+                rows={3}
                 value={maintenance.warning_message}
                 onChange={(e) => setMaintenance({ ...maintenance, warning_message: e.target.value })}
                 placeholder="Alert message details..."
-                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-amber-500 text-xs sm:text-sm"
+                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-amber-500 font-medium resize-none"
               />
             </div>
 
-            <button
-              onClick={handleSaveWarningText}
-              disabled={saving}
-              className="w-full inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-3 rounded-xl shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 active:translate-y-1 active:shadow-none transition-all uppercase tracking-wider text-xs"
-            >
-              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-              Save Alert Notice
-            </button>
+            <div className="pt-2">
+              <button
+                onClick={handleSaveWarningText}
+                disabled={saving}
+                className="w-full inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-3 rounded-xl shadow-[0_4px_0_#b45309] hover:-translate-y-0.5 active:translate-y-1 active:shadow-none transition-all uppercase tracking-wider text-xs cursor-pointer"
+              >
+                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" strokeWidth={2.5} />}
+                Save Alert Notice
+              </button>
+            </div>
           </CardContent>
         </Card>
 
         {/* CARD 2: Maintenance Mode settings */}
-        <Card className={`rounded-2xl sm:rounded-[2rem] border-[3px] shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] transition-all duration-300 bg-white/90 dark:bg-slate-800/50 ${
+        <Card className={`rounded-[1.5rem] sm:rounded-[2rem] border-[3px] shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] transition-all duration-300 bg-white/90 dark:bg-slate-800/50 overflow-hidden ${
           maintenance.is_active 
             ? "border-red-500/50 shadow-red-500/10 dark:border-red-500/30" 
             : "border-slate-200 dark:border-slate-700"
         }`}>
-          <CardHeader className="p-6 pb-4 sm:p-8 sm:pb-6">
+          <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-3">
             <div className="flex items-center gap-3">
-              <div className={`p-2.5 rounded-2xl ${maintenance.is_active ? "bg-red-100 dark:bg-red-900/30" : "bg-slate-100 dark:bg-slate-700/50"}`}>
-                <ShieldAlert className={`h-6 w-6 ${maintenance.is_active ? "text-red-500" : "text-slate-500 dark:text-slate-400"}`} />
+              <div className={`border-2 backdrop-blur-sm p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0 ${
+                maintenance.is_active 
+                  ? "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800/50" 
+                  : "bg-white/80 dark:bg-slate-900/80 border-slate-200 dark:border-slate-700"
+              }`}>
+                <ShieldAlert className={`h-5 w-5 sm:h-6 sm:w-6 ${maintenance.is_active ? "text-red-500" : "text-slate-500 dark:text-slate-400"}`} strokeWidth={2.5} />
               </div>
               <div>
-                <CardTitle className="text-xl sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight uppercase">Maintenance Mode</CardTitle>
-                <CardDescription className="font-bold text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Toggle live user platform lockout</CardDescription>
+                <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight uppercase">Maintenance Mode</CardTitle>
+                <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Toggle live user platform lockout</CardDescription>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="p-6 pt-0 sm:p-8 sm:pt-0 space-y-4">
-            <div className={`border rounded-2xl p-4 space-y-3 ${
+          <CardContent className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 sm:pt-4 space-y-4">
+            <div className={`border-2 rounded-2xl p-3.5 sm:p-4 space-y-2.5 ${
               maintenance.is_active 
                 ? "bg-red-500/10 border-red-500/20" 
-                : "bg-slate-500/5 border-slate-500/15"
+                : "bg-slate-100/60 dark:bg-slate-900/60 border-slate-200 dark:border-slate-700/80"
             }`}>
               <div className="flex items-center justify-between gap-3">
                 <span className={`text-xs font-black uppercase tracking-wider ${
-                  maintenance.is_active ? "text-red-500" : "text-slate-500"
+                  maintenance.is_active ? "text-red-500" : "text-slate-700 dark:text-slate-300"
                 }`}>System Lockout Status</span>
                 <button
                   onClick={handleToggleMaintenanceClick}
                   disabled={saving}
-                  className={`px-4 py-1.5 rounded-full font-black text-[10px] sm:text-xs uppercase tracking-wider transition-all shadow-sm ${
+                  className={`px-3.5 py-1.5 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-wider transition-all shadow-xs cursor-pointer ${
                     maintenance.is_active 
-                      ? "bg-red-600 hover:bg-red-500 text-white" 
-                      : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-300"
+                      ? "bg-red-600 hover:bg-red-500 text-white shadow-[0_2px_0_#991b1b]" 
+                      : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-300 shadow-[0_2px_0_#94a3b8]"
                   }`}
                 >
                   {maintenance.is_active ? "Active" : "Offline"}
                 </button>
               </div>
-              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 leading-relaxed">
+              <p className="text-xs font-medium text-slate-600 dark:text-slate-400 leading-relaxed">
                 When active, all non-admin users will immediately be blocked and redirected to the Maintenance message.
               </p>
             </div>
 
-            <div className="space-y-1.5 pt-2">
-              <Label htmlFor="maintenance-duration" className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300">Estimated Duration (Minutes)</Label>
+            <div className="space-y-2 pt-1">
+              <Label htmlFor="maintenance-duration" className="font-bold text-slate-700 dark:text-slate-300">Estimated Duration (Minutes)</Label>
               <Input
                 id="maintenance-duration"
                 type="number"
@@ -424,37 +430,50 @@ export const AdminSettingsTab: React.FC = () => {
                   });
                 }}
                 placeholder="30"
-                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-red-500 text-xs sm:text-sm"
+                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-red-500 font-bold"
               />
-              <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 leading-tight">
+              <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 leading-tight">
                 Sets the countdown timer displayed on the live Maintenance screen for locked out users.
               </p>
             </div>
 
-            <div className="space-y-1.5 pt-2">
-              <Label htmlFor="maintenance-message-text" className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300">Lockout Page Display Message</Label>
+            <div className="space-y-2 pt-1">
+              <Label htmlFor="maintenance-message-text" className="font-bold text-slate-700 dark:text-slate-300">Lockout Page Display Message</Label>
               <Textarea
                 id="maintenance-message-text"
-                rows={4}
+                rows={3}
                 value={maintenance.message}
                 onChange={(e) => setMaintenance({ ...maintenance, message: e.target.value })}
                 placeholder="Lockout message details..."
-                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-red-500 text-xs sm:text-sm"
+                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-red-500 font-medium resize-none"
               />
             </div>
 
-            <button
-              onClick={handleToggleMaintenanceClick}
-              disabled={saving}
-              className={`w-full inline-flex items-center justify-center gap-2 font-black py-3 rounded-xl hover:-translate-y-0.5 active:translate-y-1 active:shadow-none transition-all uppercase tracking-wider text-xs ${
-                maintenance.is_active 
-                  ? "bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 shadow-[0_4px_0_#94a3b8] dark:shadow-[0_4px_0_#334155]" 
-                  : "bg-red-600 hover:bg-red-500 text-white shadow-[0_4px_0_#991b1b]"
-              }`}
-            >
-              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Power className="h-4 w-4" />}
-              {maintenance.is_active ? "Turn System Online" : "Lock Platform (Enter Maintenance)"}
-            </button>
+            <div className="pt-2">
+              <button
+                onClick={handleToggleMaintenanceClick}
+                disabled={saving}
+                className={`w-full inline-flex items-center justify-center gap-2 font-black py-3 rounded-xl hover:-translate-y-0.5 active:translate-y-1 active:shadow-none transition-all uppercase tracking-wider text-xs cursor-pointer ${
+                  maintenance.is_active 
+                    ? "bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_4px_0_#047857]" 
+                    : "bg-[#d60000] hover:bg-red-500 text-white shadow-[0_4px_0_#991b1b]"
+                }`}
+              >
+                {saving ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : maintenance.is_active ? (
+                  <>
+                    <Power className="h-4 w-4" strokeWidth={2.5} />
+                    Set System Online
+                  </>
+                ) : (
+                  <>
+                    <Power className="h-4 w-4" strokeWidth={2.5} />
+                    Enable Maintenance Mode
+                  </>
+                )}
+              </button>
+            </div>
           </CardContent>
         </Card>
 
