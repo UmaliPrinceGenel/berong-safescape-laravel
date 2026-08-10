@@ -525,15 +525,15 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                             {/* Info Section */}
                                             <CardContent className="p-0 sm:p-5 pl-3 sm:pl-5 flex flex-col justify-between flex-1 min-w-0 py-0.5 sm:py-5">
                                                 <div className="flex flex-col justify-start">
-                                                    <CardTitle className="text-xs sm:text-base font-black text-slate-800 dark:text-white line-clamp-2 sm:min-h-[2.6rem] leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors flex items-start">
+                                                    <CardTitle className="text-xs sm:text-base font-black text-slate-800 dark:text-white line-clamp-2 min-h-[2.25rem] sm:min-h-[2.6rem] leading-tight sm:leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors flex items-center sm:items-start">
                                                         {video.title}
                                                     </CardTitle>
                                                     {video.description ? (
-                                                        <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 line-clamp-2 sm:min-h-[2.25rem] mt-1.5 leading-normal">
+                                                        <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 line-clamp-1 sm:line-clamp-2 min-h-[1rem] sm:min-h-[2.25rem] mt-0.5 sm:mt-1.5 leading-tight sm:leading-normal">
                                                             {video.description}
                                                         </p>
                                                     ) : (
-                                                        <div className="hidden sm:block sm:min-h-[2.25rem] mt-1.5" />
+                                                        <div className="min-h-[1rem] sm:min-h-[2.25rem] mt-0.5 sm:mt-1.5" />
                                                     )}
                                                 </div>
 
