@@ -184,7 +184,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
     useEffect(() => {
         if (selectedVideo) {
             setTimeout(() => {
-                playerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                playerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
             }, 100)
         }
     }, [selectedVideo])
@@ -428,8 +428,8 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
 
                 {/* Video Player */}
                 {selectedVideo && (
-                    <div ref={playerRef} className="max-w-5xl mx-auto mb-8 sm:mb-12">
-                        <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-6 transition-all duration-300 space-y-3.5 sm:space-y-4">
+                    <div ref={playerRef} className="max-w-5xl mx-auto mt-8 sm:mt-12 mb-8 sm:mb-12 scroll-mt-36 sm:scroll-mt-44 pt-2">
+                        <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-6 transition-all duration-300 space-y-3.5 sm:space-y-4">
                             <div className="flex items-start justify-between gap-3">
                                 <div>
                                     <div className="flex items-center gap-2 mb-1">
