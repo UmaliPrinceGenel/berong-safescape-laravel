@@ -177,16 +177,25 @@ export const AdminVideosTab: React.FC<VideosTabProps> = ({
           onReorder={(newOrder) => handleReorderVideos(newOrder as Video[])}
           onDelete={handleDeleteVideo}
           renderContent={(video) => (
-            <div className="flex flex-col">
-              <h4 className="font-semibold text-slate-800 dark:text-white truncate">{video.title}</h4>
-              <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-[10px] font-black uppercase px-2 py-0.5 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-md border border-red-100 dark:border-red-900/50">
+            <div className="flex flex-col gap-1 min-w-0 pr-1">
+              <div className="flex flex-wrap items-center gap-2 mb-0.5">
+                <span className="inline-flex items-center text-[10px] font-black tracking-wider uppercase px-2.5 py-0.5 rounded-lg border shadow-2xs bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-100 dark:border-red-500/20">
                   {video.category}
                 </span>
-                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                  {video.duration}
-                </span>
+                {video.duration && (
+                  <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-bold bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700">
+                    {video.duration}
+                  </span>
+                )}
               </div>
+              <h4 className="font-black text-sm sm:text-base text-slate-800 dark:text-white leading-snug break-words [word-break:break-word]">
+                {video.title}
+              </h4>
+              {video.description && (
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed break-words [word-break:break-word] line-clamp-2 mt-0.5">
+                  {video.description}
+                </p>
+              )}
             </div>
           )}
         />
@@ -198,16 +207,25 @@ export const AdminVideosTab: React.FC<VideosTabProps> = ({
           onReorder={(newOrder) => handleReorderVideos(newOrder as Video[])}
           onDelete={handleDeleteVideo}
           renderContent={(video) => (
-            <div className="flex flex-col">
-              <h4 className="font-semibold text-slate-800 dark:text-white truncate">{video.title}</h4>
-              <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-[10px] font-black uppercase px-2 py-0.5 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-md border border-amber-100 dark:border-amber-900/50">
+            <div className="flex flex-col gap-1 min-w-0 pr-1">
+              <div className="flex flex-wrap items-center gap-2 mb-0.5">
+                <span className="inline-flex items-center text-[10px] font-black tracking-wider uppercase px-2.5 py-0.5 rounded-lg border shadow-2xs bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-500/20">
                   {video.category}
                 </span>
-                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                  {video.duration}
-                </span>
+                {video.duration && (
+                  <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-bold bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700">
+                    {video.duration}
+                  </span>
+                )}
               </div>
+              <h4 className="font-black text-sm sm:text-base text-slate-800 dark:text-white leading-snug break-words [word-break:break-word]">
+                {video.title}
+              </h4>
+              {video.description && (
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed break-words [word-break:break-word] line-clamp-2 mt-0.5">
+                  {video.description}
+                </p>
+              )}
             </div>
           )}
         />
@@ -219,16 +237,25 @@ export const AdminVideosTab: React.FC<VideosTabProps> = ({
           onReorder={(newOrder) => handleReorderVideos(newOrder as Video[])}
           onDelete={handleDeleteVideo}
           renderContent={(video) => (
-            <div className="flex flex-col">
-              <h4 className="font-semibold text-slate-800 dark:text-white truncate">{video.title}</h4>
-              <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-[10px] font-black uppercase px-2 py-0.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-md border border-blue-100 dark:border-blue-900/50">
+            <div className="flex flex-col gap-1 min-w-0 pr-1">
+              <div className="flex flex-wrap items-center gap-2 mb-0.5">
+                <span className="inline-flex items-center text-[10px] font-black tracking-wider uppercase px-2.5 py-0.5 rounded-lg border shadow-2xs bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-500/20">
                   {video.category}
                 </span>
-                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                  {video.duration}
-                </span>
+                {video.duration && (
+                  <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-bold bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700">
+                    {video.duration}
+                  </span>
+                )}
               </div>
+              <h4 className="font-black text-sm sm:text-base text-slate-800 dark:text-white leading-snug break-words [word-break:break-word]">
+                {video.title}
+              </h4>
+              {video.description && (
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed break-words [word-break:break-word] line-clamp-2 mt-0.5">
+                  {video.description}
+                </p>
+              )}
             </div>
           )}
         />

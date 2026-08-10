@@ -117,14 +117,25 @@ export const AdminBlogsTab: React.FC<BlogsTabProps> = ({
 
       <SortableContentList
         title="Current Blog Posts"
-        description={`${blogPosts.length} posts published`}
+        description={`${blogPosts.length} posts published • Drag to reorder`}
         items={blogPosts}
         onReorder={(newOrder) => handleReorderBlogs(newOrder as BlogPost[])}
         onDelete={handleDeleteBlog}
         renderContent={(blog) => (
-          <div className="flex flex-col">
-            <h4 className="font-semibold text-slate-800 dark:text-white truncate">{blog.title}</h4>
-            <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-1">{blog.excerpt}</p>
+          <div className="flex flex-col gap-1 min-w-0 pr-1">
+            <div className="flex flex-wrap items-center gap-2 mb-0.5">
+              <span className="inline-flex items-center text-[10px] font-black tracking-wider uppercase px-2.5 py-0.5 rounded-lg border shadow-2xs bg-cyan-50 dark:bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-100 dark:border-cyan-500/20">
+                {blog.category || "Adult"}
+              </span>
+            </div>
+            <h4 className="font-black text-sm sm:text-base text-slate-800 dark:text-white leading-snug break-words [word-break:break-word]">
+              {blog.title}
+            </h4>
+            {blog.excerpt && (
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed break-words [word-break:break-word] line-clamp-2 mt-0.5">
+                {blog.excerpt}
+              </p>
+            )}
           </div>
         )}
       />

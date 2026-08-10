@@ -59,36 +59,38 @@ function SortableContentItem<T extends SortableItem>({
         <div
             ref={setNodeRef}
             style={style}
-            className={`flex items-start sm:items-center gap-2 sm:gap-3 p-3 sm:p-4 border-2 rounded-2xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm transition-shadow transition-colors duration-200 ${
+            className={`p-4 sm:p-5 border-2 rounded-2xl bg-white dark:bg-slate-900/70 backdrop-blur-sm transition-all duration-200 flex items-start justify-between gap-3 ${
                 isDragging 
-                    ? 'border-red-400 dark:border-red-500 shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)] opacity-95 ring-4 ring-red-100 dark:ring-red-900/30' 
-                    : 'border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-[0_4px_0_#e2e8f0] dark:hover:shadow-[0_4px_0_#0f172a]'
+                    ? 'border-red-400 dark:border-red-500 shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1)] opacity-95 ring-4 ring-red-100 dark:ring-red-900/30' 
+                    : 'border-slate-200 dark:border-slate-700/80 shadow-xs hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600'
             }`}
         >
-            <button
-                {...attributes}
-                {...listeners}
-                className={`touch-none cursor-grab active:cursor-grabbing p-1.5 sm:p-2 rounded-xl transition-all flex items-center justify-center shrink-0 ${
-                    isDragging 
-                        ? 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border-2 border-red-200 dark:border-red-900/50 shadow-inner' 
-                        : 'bg-slate-50 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border-2 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300 shadow-sm hover:shadow-[0_2px_0_#e2e8f0] dark:hover:shadow-[0_2px_0_#0f172a]'
-                }`}
-                aria-label="Drag to reorder"
-            >
-                <GripVertical className="h-4 w-4 sm:h-5 sm:w-5" />
-            </button>
+            <div className="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0">
+                <button
+                    {...attributes}
+                    {...listeners}
+                    className={`touch-none cursor-grab active:cursor-grabbing p-1.5 sm:p-2 rounded-xl transition-all flex items-center justify-center shrink-0 mt-0.5 ${
+                        isDragging 
+                            ? 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border-2 border-red-200 dark:border-red-900/50 shadow-inner' 
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300 shadow-2xs'
+                    }`}
+                    aria-label="Drag to reorder"
+                >
+                    <GripVertical className="h-4 w-4 sm:h-5 sm:w-5" />
+                </button>
 
-            <div className="flex-1 min-w-0">
-                {renderContent(item)}
+                <div className="flex-1 min-w-0">
+                    {renderContent(item)}
+                </div>
             </div>
 
             <button
                 type="button"
                 onClick={() => onDelete(item.id)}
-                className={`ml-1 sm:ml-4 shrink-0 flex items-center justify-center font-extrabold h-9 w-9 sm:h-10 sm:w-10 pb-1 rounded-xl text-sm transition-all ${
+                className={`shrink-0 flex items-center justify-center font-extrabold h-9 w-9 sm:h-10 sm:w-10 rounded-xl text-sm transition-all ${
                     isDragging 
-                        ? 'bg-red-200 text-red-500' // Dim the delete button while dragging
-                        : 'bg-[#d60000] text-white shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b]'
+                        ? 'bg-red-200 text-red-500' 
+                        : 'bg-[#d60000] text-white shadow-[0_3px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_5px_0_#991b1b] active:translate-y-1 active:shadow-none'
                 }`}
                 aria-label="Delete item"
                 disabled={isDragging}
@@ -163,25 +165,29 @@ export function SortableContentList<T extends SortableItem>({
     }
 
     return (
-        <Card className="rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6">
-            <CardHeader className="px-6 pt-6 pb-2">
-                <div className="flex items-center gap-3">
-                    <div className="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 p-2 rounded-xl shadow-sm">
-                        <GripVertical className="h-6 w-6 text-[#d60000]" strokeWidth={2.5} />
-                    </div>
-                    <div>
-                        <CardTitle className="text-2xl font-black text-slate-800 dark:text-white tracking-tight">{title}</CardTitle>
-                        <CardDescription className="text-slate-500 dark:text-slate-400 font-medium mt-1">
-                            {description} • Drag to reorder
-                        </CardDescription>
+        <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6">
+            <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-2">
+                <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
+                            <GripVertical className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
+                        </div>
+                        <div className="min-w-0">
+                            <CardTitle className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight truncate">
+                                {title}
+                            </CardTitle>
+                            <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5 line-clamp-1">
+                                {description}
+                            </CardDescription>
+                        </div>
                     </div>
                 </div>
             </CardHeader>
-            <CardContent className="px-6 pb-6 pt-4">
+            <CardContent className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 sm:pt-4">
                 {localItems.length === 0 ? (
-                    <p className="text-slate-500 font-medium text-center py-8">
-                        No items yet
-                    </p>
+                    <div className="text-center py-10 px-4 bg-white/60 dark:bg-slate-900/40 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800">
+                        <p className="text-slate-500 dark:text-slate-400 font-bold text-sm">No items in collection yet</p>
+                    </div>
                 ) : (
                     <DndContext
                         sensors={sensors}
@@ -192,7 +198,7 @@ export function SortableContentList<T extends SortableItem>({
                             items={localItems.map((item) => item.id)}
                             strategy={verticalListSortingStrategy}
                         >
-                            <div className="space-y-4">
+                            <div className="space-y-3 sm:space-y-4">
                                 {localItems.map((item) => (
                                     <SortableContentItem
                                         key={item.id}
