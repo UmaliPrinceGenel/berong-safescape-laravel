@@ -209,7 +209,7 @@ export default function AnalyticsDashboard({
                     </div>
                     Analytics
                   </h1>
-                  <p className="text-[10px] sm:text-xs text-slate-400 dark:text-slate-500 font-bold mt-1 sm:mt-1.5 tracking-wide uppercase leading-tight">
+                  <p className="text-[10px] sm:text-xs text-slate-400 dark:text-slate-500 font-bold mt-1.5 sm:mt-2 tracking-wide uppercase truncate">
                     Santa Cruz, Laguna • Fire Safety Data
                   </p>
                 </div>
@@ -222,13 +222,13 @@ export default function AnalyticsDashboard({
                     onClick={() => fetchAllData(true)}
                     disabled={refreshing}
                   >
-                    <RefreshCw className={`h-5 w-5 text-slate-700 dark:text-white ${refreshing ? "animate-spin" : ""}`} strokeWidth={2.5} />
+                    <RefreshCw className={`h-6 w-6 text-slate-700 dark:text-white ${refreshing ? "animate-spin" : ""}`} strokeWidth={3} />
                   </Button>
                   <Button 
                     onClick={handleExport}
                     className="h-10 w-10 p-0 rounded-full border-2 border-red-700 dark:border-red-900 border-b-[4px] dark:border-b-[4px] active:border-b-2 active:translate-y-[2px] shadow-sm bg-red-600 hover:bg-red-500 text-white"
                   >
-                    <Download className="h-5 w-5" strokeWidth={2.5} />
+                    <Download className="h-6 w-6" strokeWidth={3} />
                   </Button>
                 </div>
               </div>
@@ -258,45 +258,45 @@ export default function AnalyticsDashboard({
                 {/* Tab Selector Pill — centered on mobile, right aligned on desktop */}
                 <div className="flex bg-[#1c1d22] rounded-[2rem] p-1.5 sm:p-2 shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] border-b-[4px] sm:border-b-[6px] border-[#0a0a0c] w-fit mx-auto sm:ml-auto sm:mr-0 gap-1 overflow-hidden">
                 {/* Left Side: Overview Button */}
-                <button
-                  type="button"
+                <button 
                   onClick={() => setActiveTab('overview')}
-                  className={`font-black uppercase tracking-wider text-xs px-5 py-2 rounded-full transition-all flex items-center gap-2 ${
-                    activeTab === 'overview'
-                      ? "bg-[#ffb703] text-black shadow-[0_3px_0_#fb8500] translate-y-[-1px]"
-                      : "text-slate-400 hover:text-white"
-                  }`}
+                  className={activeTab === 'overview'
+                    ? "bg-yellow-400 border-2 sm:border-[3px] border-white rounded-[1.5rem] shadow-[0_3px_0_0_#ca8a04] sm:shadow-[0_4px_0_0_#ca8a04] px-5 sm:px-6 py-2.5 flex items-center justify-center select-none z-50 transition-transform active:translate-y-[3px] sm:active:translate-y-[4px] active:shadow-none sm:active:shadow-none outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 min-w-[100px] shrink-0"
+                    : "border-2 sm:border-[3px] border-transparent flex items-center px-5 sm:px-6 py-2.5 active:opacity-70 transition-transform outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 select-none justify-center group hover:bg-white/10 rounded-[1.5rem] cursor-pointer min-w-[100px] shrink-0"
+                  }
                 >
-                  Overview
+                   <span className={`font-black tracking-widest uppercase text-[10px] sm:text-xs pt-0.5 whitespace-nowrap drop-shadow-sm ${activeTab === 'overview' ? 'text-slate-900 drop-shadow-none' : 'text-slate-300 group-hover:text-white'}`}>
+                      Overview
+                   </span>
                 </button>
-
-                {/* Right Side: Menu Dropdown for Other Tabs */}
-                <DropdownMenu>
+                
+                {/* Right Side: Dropdown (Text Trigger) */}
+                <DropdownMenu modal={false}>
                   <DropdownMenuTrigger asChild>
-                    <button
-                      type="button"
-                      className={`font-black uppercase tracking-wider text-xs px-5 py-2 rounded-full transition-all flex items-center gap-1.5 ${
-                        activeTab !== 'overview'
-                          ? "bg-[#ffb703] text-black shadow-[0_3px_0_#fb8500] translate-y-[-1px]"
-                          : "text-slate-400 hover:text-white"
-                      }`}
+                    <button 
+                      className={activeTab !== 'overview'
+                        ? "bg-yellow-400 border-2 sm:border-[3px] border-white rounded-[1.5rem] shadow-[0_3px_0_0_#ca8a04] sm:shadow-[0_4px_0_0_#ca8a04] px-4 sm:px-5 py-2.5 flex items-center justify-center gap-1 select-none z-50 transition-transform active:translate-y-[3px] sm:active:translate-y-[4px] active:shadow-none sm:active:shadow-none data-[state=open]:translate-y-[3px] sm:data-[state=open]:translate-y-[4px] data-[state=open]:shadow-none sm:data-[state=open]:shadow-none outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 group min-w-[110px]"
+                        : "border-2 sm:border-[3px] border-transparent flex items-center gap-1 px-4 sm:px-5 py-2.5 active:opacity-70 transition-transform outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 select-none group justify-center hover:bg-white/10 rounded-[1.5rem] cursor-pointer min-w-[110px]"
+                      }
                     >
-                      <span>{activeTab === 'overview' ? 'Menu' : tabLabels[activeTab]}</span>
-                      <ChevronDown className="h-3.5 w-3.5 stroke-[3]" />
+                       <span className={`font-black tracking-widest uppercase text-[10px] sm:text-xs pt-0.5 truncate drop-shadow-sm ${activeTab !== 'overview' ? 'text-slate-900 drop-shadow-none' : 'text-slate-300 group-hover:text-white'}`}>
+                          {activeTab === 'overview' ? 'Menu' : activeTab === 'barangay' ? 'By Barangay' : activeTab === 'demographics' ? 'Demographics' : activeTab === 'knowledge' ? 'Data Gaps' : activeTab === 'schools' ? 'Schools' : activeTab === 'feedback' ? 'Feedback' : 'Menu'}
+                       </span>
+                       <ChevronDown className={`h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-data-[state=open]:rotate-180 drop-shadow-sm shrink-0 ${activeTab !== 'overview' ? 'text-slate-900 drop-shadow-none' : 'text-slate-300 group-hover:text-white'}`} strokeWidth={3} />
                     </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-2 shadow-2xl z-[100]">
-                     <DropdownMenuItem onClick={() => setActiveTab('overview')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:bg-slate-100 dark:focus:bg-slate-700 active:scale-95 active:bg-slate-200 dark:active:bg-slate-600 mb-1 text-slate-700 dark:text-slate-300 outline-none flex items-center justify-between">
-                       Overview
-                       {activeTab === 'overview' && <div className="w-3 h-3 rounded-full bg-yellow-400 border-2 border-yellow-500 shrink-0" />}
-                     </DropdownMenuItem>
+                  <DropdownMenuContent align="end" alignOffset={0} side="bottom" sideOffset={12} avoidCollisions={false} className="w-[180px] sm:w-[220px] rounded-[1.25rem] border-4 border-slate-200 dark:border-slate-700 shadow-[0_8px_0_0_#cbd5e1] dark:shadow-[0_8px_0_0_#0f172a] p-2 font-black uppercase tracking-wider text-[11px] sm:text-sm text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 z-[100] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=top]:slide-in-from-bottom-2">
                      <DropdownMenuItem onClick={() => setActiveTab('barangay')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:bg-slate-100 dark:focus:bg-slate-700 active:scale-95 active:bg-slate-200 dark:active:bg-slate-600 mb-1 text-slate-700 dark:text-slate-300 outline-none flex items-center justify-between">
-                       Barangays
+                       By Barangay
                        {activeTab === 'barangay' && <div className="w-3 h-3 rounded-full bg-yellow-400 border-2 border-yellow-500 shrink-0" />}
                      </DropdownMenuItem>
                      <DropdownMenuItem onClick={() => setActiveTab('demographics')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:bg-slate-100 dark:focus:bg-slate-700 active:scale-95 active:bg-slate-200 dark:active:bg-slate-600 mb-1 text-slate-700 dark:text-slate-300 outline-none flex items-center justify-between">
                        Demographics
                        {activeTab === 'demographics' && <div className="w-3 h-3 rounded-full bg-yellow-400 border-2 border-yellow-500 shrink-0" />}
+                     </DropdownMenuItem>
+                     <DropdownMenuItem onClick={() => setActiveTab('knowledge')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:bg-slate-100 dark:focus:bg-slate-700 active:scale-95 active:bg-slate-200 dark:active:bg-slate-600 mb-1 text-slate-700 dark:text-slate-300 outline-none flex items-center justify-between">
+                       Knowledge Gaps
+                       {activeTab === 'knowledge' && <div className="w-3 h-3 rounded-full bg-yellow-400 border-2 border-yellow-500 shrink-0" />}
                      </DropdownMenuItem>
                      <DropdownMenuItem onClick={() => setActiveTab('schools')} className="py-3 px-3 sm:px-4 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:bg-slate-100 dark:focus:bg-slate-700 active:scale-95 active:bg-slate-200 dark:active:bg-slate-600 mb-1 text-slate-700 dark:text-slate-300 outline-none flex items-center justify-between">
                        Schools
@@ -331,107 +331,103 @@ export default function AnalyticsDashboard({
               <div className="space-y-6">
                 {/* Key Metrics */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-                  <div className="bg-white dark:bg-slate-800/80 backdrop-blur-md rounded-2xl sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 p-3.5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1]">
-                    <div className="flex justify-between items-center mb-2 sm:mb-4 relative z-10 gap-1.5">
-                      <span className="font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] sm:text-xs leading-tight truncate">Total Users</span>
-                      <div className="p-1.5 sm:p-2.5 bg-blue-100/80 dark:bg-blue-900/40 rounded-xl text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 shrink-0">
-                        <Users className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5}/>
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-[6px] sm:border-b-[6px] p-5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a]">
+                    <div className="absolute -right-6 -top-6 w-20 h-20 sm:w-24 sm:h-24 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-2xl group-hover:bg-blue-200 dark:group-hover:bg-blue-900/30 transition-colors"></div>
+                    <div className="flex justify-between items-start mb-2 sm:mb-6 relative z-10">
+                      <span className="font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-tight sm:tracking-wider text-[11px] sm:text-sm leading-tight">Total Users</span>
+                      <div className="p-2 sm:p-3 bg-blue-50 dark:bg-blue-900/30 rounded-xl sm:rounded-2xl text-blue-500 dark:text-blue-400 shadow-sm border sm:border-2 border-blue-100 dark:border-blue-800 shrink-0">
+                        <Users className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5}/>
                       </div>
                     </div>
-                    <div className="relative z-10">
-                      <div className="text-3xl sm:text-5xl font-black text-blue-600 dark:text-blue-400 tracking-tight leading-none">{summary.totalUsers}</div>
-                      <div className="font-bold text-slate-400 dark:text-slate-400 mt-1.5 text-[10px] sm:text-xs flex items-center gap-1">
-                        <span className="bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-md border border-slate-200/60 dark:border-slate-700/60 font-semibold">{summary.profilesCompleted} profiles</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white dark:bg-slate-800/80 backdrop-blur-md rounded-2xl sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 p-3.5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1]">
-                    <div className="flex justify-between items-center mb-2 sm:mb-4 relative z-10 gap-1.5">
-                      <span className="font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] sm:text-xs leading-tight truncate">Pre-Tests Taken</span>
-                      <div className="p-1.5 sm:p-2.5 bg-orange-100/80 dark:bg-orange-900/40 rounded-xl text-orange-600 dark:text-orange-400 border border-orange-200 dark:border-orange-800 shrink-0">
-                        <ClipboardCheck className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5}/>
-                      </div>
-                    </div>
-                    <div className="relative z-10">
-                      <div className="text-3xl sm:text-5xl font-black text-orange-500 dark:text-orange-400 tracking-tight leading-none">{summary.preTestsTaken}</div>
-                      <div className="font-bold text-slate-400 dark:text-slate-400 mt-1.5 text-[10px] sm:text-xs flex items-center gap-1">
-                        <span className="bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded-md border border-orange-200/60 dark:border-orange-800/60 font-semibold">Avg: {formatValue(summary.averagePreTestScore)}/15</span>
-                      </div>
+                    <div className="relative z-10 mt-2 sm:mt-0">
+                      <div className="text-4xl sm:text-5xl font-black text-slate-800 dark:text-white drop-shadow-sm leading-none">{summary.totalUsers}</div>
+                      <p className="font-bold text-slate-400 dark:text-slate-500 mt-1.5 text-[11px] sm:text-sm leading-tight">{summary.profilesCompleted} profiles</p>
                     </div>
                   </div>
 
-                  <div className="bg-white dark:bg-slate-800/80 backdrop-blur-md rounded-2xl sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 p-3.5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1]">
-                    <div className="flex justify-between items-center mb-2 sm:mb-4 relative z-10 gap-1.5">
-                      <span className="font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] sm:text-xs leading-tight truncate">Post-Tests Taken</span>
-                      <div className="p-1.5 sm:p-2.5 bg-emerald-100/80 dark:bg-emerald-900/40 rounded-xl text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 shrink-0">
-                        <Award className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5}/>
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-[6px] sm:border-b-[6px] p-5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a]">
+                    <div className="absolute -right-6 -top-6 w-20 h-20 sm:w-24 sm:h-24 bg-orange-100 dark:bg-orange-900/20 rounded-full blur-2xl group-hover:bg-orange-200 dark:group-hover:bg-orange-900/30 transition-colors"></div>
+                    <div className="flex justify-between items-start mb-2 sm:mb-6 relative z-10">
+                      <span className="font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-tight sm:tracking-wider text-[11px] sm:text-sm leading-tight">Pre-Tests Taken</span>
+                      <div className="p-2 sm:p-3 bg-orange-50 dark:bg-orange-900/30 rounded-xl sm:rounded-2xl text-orange-500 dark:text-orange-400 shadow-sm border sm:border-2 border-orange-100 dark:border-orange-800 shrink-0">
+                        <ClipboardCheck className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5}/>
                       </div>
                     </div>
-                    <div className="relative z-10">
-                      <div className="text-3xl sm:text-5xl font-black text-emerald-500 dark:text-emerald-400 tracking-tight leading-none">{summary.postTestsTaken}</div>
-                      <div className="font-bold text-slate-400 dark:text-slate-400 mt-1.5 text-[10px] sm:text-xs flex items-center gap-1">
-                        <span className="bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-md border border-emerald-200/60 dark:border-emerald-800/60 font-semibold">Avg: {formatValue(summary.averagePostTestScore)}/15</span>
-                      </div>
+                    <div className="relative z-10 mt-2 sm:mt-0">
+                      <div className="text-4xl sm:text-5xl font-black text-slate-800 dark:text-white drop-shadow-sm leading-none">{summary.preTestsTaken}</div>
+                      <p className="font-bold text-slate-400 dark:text-slate-500 mt-1.5 text-[11px] sm:text-sm leading-tight">Avg score: {formatValue(summary.averagePreTestScore)}/15</p>
                     </div>
                   </div>
 
-                  <div className="bg-white dark:bg-slate-800/80 backdrop-blur-md rounded-2xl sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 p-3.5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1]">
-                    <div className="flex justify-between items-center mb-2 sm:mb-4 relative z-10 gap-1.5">
-                      <span className="font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] sm:text-xs leading-tight truncate">Avg Improvement</span>
-                      <div className="p-1.5 sm:p-2.5 bg-red-100/80 dark:bg-red-900/40 rounded-xl text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 shrink-0">
-                        <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5}/>
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-[6px] sm:border-b-[6px] p-5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a]">
+                    <div className="absolute -right-6 -top-6 w-20 h-20 sm:w-24 sm:h-24 bg-emerald-100 dark:bg-emerald-900/20 rounded-full blur-2xl group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/30 transition-colors"></div>
+                    <div className="flex justify-between items-start mb-2 sm:mb-6 relative z-10">
+                      <span className="font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-tight sm:tracking-wider text-[11px] sm:text-sm leading-tight">Post-Tests Taken</span>
+                      <div className="p-2 sm:p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl sm:rounded-2xl text-emerald-500 dark:text-emerald-400 shadow-sm border sm:border-2 border-emerald-100 dark:border-emerald-800 shrink-0">
+                        <Award className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5}/>
                       </div>
                     </div>
-                    <div className="relative z-10">
-                      <div className={`text-3xl sm:text-5xl font-black tracking-tight leading-none ${summary.averageImprovement >= 0 ? "text-green-500 dark:text-green-400" : "text-red-500 dark:text-red-400"}`}>
+                    <div className="relative z-10 mt-2 sm:mt-0">
+                      <div className="text-4xl sm:text-5xl font-black text-slate-800 dark:text-white drop-shadow-sm leading-none">{summary.postTestsTaken}</div>
+                      <p className="font-bold text-slate-400 dark:text-slate-500 mt-1.5 text-[11px] sm:text-sm leading-tight">Avg score: {formatValue(summary.averagePostTestScore)}/15</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-[6px] sm:border-b-[6px] p-5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a]">
+                    <div className="absolute -right-6 -top-6 w-20 h-20 sm:w-24 sm:h-24 bg-red-100 dark:bg-red-900/20 rounded-full blur-2xl group-hover:bg-red-200 dark:group-hover:bg-red-900/30 transition-colors"></div>
+                    <div className="flex justify-between items-start mb-2 sm:mb-6 relative z-10">
+                      <span className="font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-tight sm:tracking-wider text-[11px] sm:text-sm leading-tight">Avg Improv.</span>
+                      <div className="p-2 sm:p-3 bg-red-50 dark:bg-red-900/30 rounded-xl sm:rounded-2xl text-red-500 dark:text-red-400 shadow-sm border sm:border-2 border-red-100 dark:border-red-800 shrink-0">
+                        <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5}/>
+                      </div>
+                    </div>
+                    <div className="relative z-10 mt-2 sm:mt-0">
+                      <div className={`text-4xl sm:text-5xl font-black drop-shadow-sm leading-none ${summary.averageImprovement >= 0 ? "text-green-500 dark:text-green-400" : "text-red-500 dark:text-red-400"}`}>
                         {summary.averageImprovement >= 0 ? "+" : ""}{formatValue(summary.averageImprovement)}
                       </div>
-                      <div className="font-bold text-slate-400 dark:text-slate-400 mt-1.5 text-[10px] sm:text-xs flex items-center gap-1">
-                        <span className="bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-md border border-slate-200/60 dark:border-slate-700/60 font-semibold">points improved</span>
-                      </div>
+                      <p className="font-bold text-slate-400 dark:text-slate-500 mt-1.5 text-[11px] sm:text-sm leading-tight">points improved</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Engagement Stats */}
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-                  <div className="bg-white dark:bg-slate-800/80 backdrop-blur-md rounded-2xl sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 p-3.5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all col-span-2 lg:col-span-1 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1]">
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-[6px] sm:border-b-[6px] p-4 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all col-span-2 lg:col-span-1 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a]">
                     <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-4">
-                      <div className="p-1.5 sm:p-2.5 bg-purple-100/80 dark:bg-purple-900/40 rounded-xl text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-800 shrink-0">
-                        <Target className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5} />
+                      <div className="p-2 sm:p-2.5 bg-purple-100 dark:bg-purple-900/30 rounded-lg sm:rounded-xl text-purple-600 dark:text-purple-400 shadow-sm border sm:border-2 border-purple-200 dark:border-purple-800">
+                        <Target className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
                       </div>
-                      <span className="font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px] sm:text-xs">Total Points</span>
+                      <span className="font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-tight sm:tracking-wider text-[12px] sm:text-sm">Total Points</span>
                     </div>
-                    <div>
-                      <span className="text-3xl sm:text-4xl font-black text-purple-600 dark:text-purple-400 tracking-tight leading-none">{summary.totalEngagementPoints.toLocaleString()}</span>
-                      <p className="font-bold text-slate-400 dark:text-slate-400 mt-1.5 text-[10px] sm:text-xs">Avg {formatValue(summary.avgEngagementPerUser)} per user</p>
+                    <div className="mt-2 sm:mt-0">
+                      <span className="text-3xl sm:text-4xl font-black text-slate-800 dark:text-white drop-shadow-sm leading-none">{summary.totalEngagementPoints.toLocaleString()}</span>
+                      <p className="font-bold text-slate-400 dark:text-slate-500 mt-1 sm:mt-2 text-[11px] sm:text-sm">Avg {formatValue(summary.avgEngagementPerUser)} per user</p>
                     </div>
                   </div>
 
-                  <div className="bg-white dark:bg-slate-800/80 backdrop-blur-md rounded-2xl sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 p-3.5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1]">
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-[6px] sm:border-b-[6px] p-4 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a]">
                     <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-4">
-                      <div className="p-1.5 sm:p-2.5 bg-amber-100/80 dark:bg-amber-900/40 rounded-xl text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800 shrink-0">
-                        <Clock className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5} />
+                      <div className="p-2 sm:p-2.5 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg sm:rounded-xl text-yellow-600 dark:text-yellow-400 shadow-sm border sm:border-2 border-yellow-200 dark:border-yellow-800">
+                        <Clock className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
                       </div>
-                      <span className="font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px] sm:text-xs">Active Today</span>
+                      <span className="font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-tight sm:tracking-wider text-[12px] sm:text-sm">Active Today</span>
                     </div>
-                    <div>
-                      <span className="text-3xl sm:text-4xl font-black text-amber-500 dark:text-amber-400 tracking-tight leading-none">{summary.activeUsersToday}</span>
-                      <p className="font-bold text-slate-400 dark:text-slate-400 mt-1.5 text-[10px] sm:text-xs">activities today</p>
+                    <div className="mt-2 sm:mt-0">
+                      <span className="text-3xl sm:text-4xl font-black text-slate-800 dark:text-white drop-shadow-sm leading-none">{summary.activeUsersToday}</span>
+                      <p className="font-bold text-slate-400 dark:text-slate-500 mt-1 sm:mt-2 text-[11px] sm:text-sm">activities today</p>
                     </div>
                   </div>
 
-                  <div className="bg-white dark:bg-slate-800/80 backdrop-blur-md rounded-2xl sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 p-3.5 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1]">
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-[2rem] border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-[6px] sm:border-b-[6px] p-4 sm:p-6 relative overflow-hidden group hover:-translate-y-1 transition-all shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a]">
                     <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-4">
-                      <div className="p-1.5 sm:p-2.5 bg-teal-100/80 dark:bg-teal-900/40 rounded-xl text-teal-600 dark:text-teal-400 border border-teal-200 dark:border-teal-800 shrink-0">
-                        <Users className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5} />
+                      <div className="p-2 sm:p-2.5 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg sm:rounded-xl text-emerald-600 dark:text-emerald-400 shadow-sm border sm:border-2 border-emerald-200 dark:border-emerald-800">
+                        <Users className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
                       </div>
-                      <span className="font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px] sm:text-xs">This Week</span>
+                      <span className="font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-tight sm:tracking-wider text-[12px] sm:text-sm">This Week</span>
                     </div>
-                    <div>
-                      <span className="text-3xl sm:text-4xl font-black text-teal-600 dark:text-teal-400 tracking-tight leading-none">{summary.activeUsersThisWeek}</span>
-                      <p className="font-bold text-slate-400 dark:text-slate-400 mt-1.5 text-[10px] sm:text-xs">unique users</p>
+                    <div className="mt-2 sm:mt-0">
+                      <span className="text-3xl sm:text-4xl font-black text-slate-800 dark:text-white drop-shadow-sm leading-none">{summary.activeUsersThisWeek}</span>
+                      <p className="font-bold text-slate-400 dark:text-slate-500 mt-1 sm:mt-2 text-[11px] sm:text-sm">unique users</p>
                     </div>
                   </div>
                 </div>
