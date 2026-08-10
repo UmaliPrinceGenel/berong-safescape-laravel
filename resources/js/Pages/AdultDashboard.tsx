@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { router, usePage, Deferred } from '@inertiajs/react';
 import { useAuth } from "@/lib/auth-context"
+import { motion } from "framer-motion"
 import { Navigation } from "@/Components/navigation"
 import { Card, CardContent, CardTitle, CardHeader, CardDescription } from "@/Components/ui/card"
 import { Button } from "@/Components/ui/button"
@@ -486,62 +487,73 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                 <p className="text-slate-500 dark:text-slate-400 text-sm max-w-sm">Please check back later! Videos are added regularly by the administrator.</p>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6">
-                                {videos.map((video: any) => (
-                                    <Card
+                            <motion.div 
+                                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6"
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, ease: "easeOut" }}
+                            >
+                                {videos.map((video: any, idx: number) => (
+                                    <motion.div
                                         key={video.id}
-                                        className="flex flex-row sm:flex-col cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.25rem] sm:rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#0f172a] active:translate-y-0.5 active:shadow-none transition-all duration-300 overflow-hidden p-2.5 sm:p-0 gap-0"
-                                        onClick={() => setSelectedVideo(video)}
+                                        initial={{ opacity: 0, y: 16 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3, delay: idx * 0.05 }}
                                     >
-                                        {/* Thumbnail Box */}
-                                        <div className="relative w-[130px] xs:w-[150px] sm:w-full aspect-video bg-slate-900 rounded-xl sm:rounded-none sm:rounded-t-[1.25rem] overflow-hidden shrink-0 border border-slate-100 dark:border-slate-800 sm:border-none">
-                                            <img
-                                                src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.jpg`}
-                                                alt={video.title}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                                        <Card
+                                            className="flex flex-row sm:flex-col cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.25rem] sm:rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#0f172a] active:translate-y-0.5 active:shadow-none transition-all duration-300 overflow-hidden p-2.5 sm:p-0 gap-0"
+                                            onClick={() => setSelectedVideo(video)}
+                                        >
+                                            {/* Thumbnail Box */}
+                                            <div className="relative w-[130px] xs:w-[150px] sm:w-full aspect-video bg-slate-900 rounded-xl sm:rounded-none sm:rounded-t-[1.25rem] overflow-hidden shrink-0 border border-slate-100 dark:border-slate-800 sm:border-none">
+                                                <img
+                                                    src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.jpg`}
+                                                    alt={video.title}
+                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
 
-                                            {/* Play Icon Overlay */}
-                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
-                                                <div className="w-9 h-9 sm:w-12 sm:h-12 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white/40 transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                                                    <Play className="h-4 w-4 sm:h-5 sm:w-5 ml-0.5" fill="currentColor" />
+                                                {/* Play Icon Overlay */}
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
+                                                    <div className="w-9 h-9 sm:w-12 sm:h-12 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white/40 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                                                        <Play className="h-4 w-4 sm:h-5 sm:w-5 ml-0.5" fill="currentColor" />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        {/* Info Section */}
-                                        <CardContent className="p-0 sm:p-5 pl-3 sm:pl-5 flex flex-col justify-between flex-1 min-w-0 py-0.5 sm:py-5">
-                                            <div>
-                                                <CardTitle className="text-xs sm:text-base font-black text-slate-800 dark:text-white line-clamp-2 leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
-                                                    {video.title}
-                                                </CardTitle>
-                                                {video.description && (
-                                                    <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 line-clamp-1 mt-1 leading-normal">
-                                                        {video.description}
-                                                    </p>
-                                                )}
-                                            </div>
+                                            {/* Info Section */}
+                                            <CardContent className="p-0 sm:p-5 pl-3 sm:pl-5 flex flex-col justify-between flex-1 min-w-0 py-0.5 sm:py-5">
+                                                <div>
+                                                    <CardTitle className="text-xs sm:text-base font-black text-slate-800 dark:text-white line-clamp-2 leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                                                        {video.title}
+                                                    </CardTitle>
+                                                    {video.description && (
+                                                        <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 line-clamp-1 mt-1 leading-normal">
+                                                            {video.description}
+                                                        </p>
+                                                    )}
+                                                </div>
 
-                                            <div className="flex items-center justify-between mt-2 pt-1.5 sm:pt-2.5 sm:border-t border-slate-100 dark:border-slate-800/80">
-                                                {video.duration ? (
-                                                    <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-400 dark:text-slate-500">
-                                                        <Clock className="h-3 w-3 text-orange-500" />
-                                                        {video.duration}
+                                                <div className="flex items-center justify-between mt-2 pt-1.5 sm:pt-2.5 sm:border-t border-slate-100 dark:border-slate-800/80">
+                                                    {video.duration ? (
+                                                        <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-400 dark:text-slate-500">
+                                                            <Clock className="h-3 w-3 text-orange-500" />
+                                                            {video.duration}
+                                                        </span>
+                                                    ) : (
+                                                        <span className="inline-flex items-center rounded-full px-2 py-0.5 font-extrabold bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 text-[9px] tracking-wider uppercase border border-orange-200 dark:border-orange-900/50">
+                                                            Adult Education
+                                                        </span>
+                                                    )}
+                                                    <span className="text-[11px] sm:text-xs font-bold text-slate-500 group-hover:text-orange-500 dark:group-hover:text-orange-400 flex items-center gap-1 transition-colors">
+                                                        Watch <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
                                                     </span>
-                                                ) : (
-                                                    <span className="inline-flex items-center rounded-full px-2 py-0.5 font-extrabold bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 text-[9px] tracking-wider uppercase border border-orange-200 dark:border-orange-900/50">
-                                                        Adult Education
-                                                    </span>
-                                                )}
-                                                <span className="text-[11px] sm:text-xs font-bold text-slate-500 group-hover:text-orange-500 dark:group-hover:text-orange-400 flex items-center gap-1 transition-colors">
-                                                    Watch <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
-                                                </span>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    </motion.div>
                                 ))}
-                            </div>
+                            </motion.div>
                         )}
                     </Deferred>
                 </div>
