@@ -50,7 +50,7 @@ function SortableContentItem<T extends SortableItem>({
     } = useSortable({ id: item.id })
 
     const style = {
-        transform: CSS.Translate.toString(transform),
+        transform: CSS.Transform.toString(transform),
         transition,
         ...(isDragging ? { zIndex: 50, position: 'relative' as const } : {}),
     }
@@ -59,7 +59,7 @@ function SortableContentItem<T extends SortableItem>({
         <div
             ref={setNodeRef}
             style={style}
-            className={`p-4 sm:p-5 border-2 rounded-2xl bg-white dark:bg-slate-900/70 backdrop-blur-sm transition-all duration-200 flex items-start justify-between gap-3 ${
+            className={`p-4 sm:p-5 border-2 rounded-2xl bg-white dark:bg-slate-900/70 backdrop-blur-sm transition-shadow transition-colors duration-200 flex items-start justify-between gap-3 ${
                 isDragging 
                     ? 'border-red-400 dark:border-red-500 shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1)] opacity-95 ring-4 ring-red-100 dark:ring-red-900/30' 
                     : 'border-slate-200 dark:border-slate-700/80 shadow-xs hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600'
@@ -69,7 +69,7 @@ function SortableContentItem<T extends SortableItem>({
                 <button
                     {...attributes}
                     {...listeners}
-                    className={`touch-none cursor-grab active:cursor-grabbing p-1.5 sm:p-2 rounded-xl transition-all flex items-center justify-center shrink-0 mt-0.5 ${
+                    className={`touch-none cursor-grab active:cursor-grabbing p-1.5 sm:p-2 rounded-xl transition-colors flex items-center justify-center shrink-0 mt-0.5 ${
                         isDragging 
                             ? 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border-2 border-red-200 dark:border-red-900/50 shadow-inner' 
                             : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-600 dark:hover:text-slate-300 shadow-2xs'
@@ -132,7 +132,7 @@ export function SortableContentList<T extends SortableItem>({
         }),
         useSensor(TouchSensor, {
             activationConstraint: {
-                delay: 250,
+                delay: 150,
                 tolerance: 5,
             },
         }),
