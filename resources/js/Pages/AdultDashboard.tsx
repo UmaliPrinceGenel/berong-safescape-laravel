@@ -8,7 +8,7 @@ import { Card, CardContent, CardTitle, CardHeader, CardDescription } from "@/Com
 import { Button } from "@/Components/ui/button"
 import { Input } from "@/Components/ui/input"
 import { Alert, AlertDescription } from "@/Components/ui/alert"
-import { Flame, Search, BookOpen, Calendar, User, ArrowRight, AlertCircle, Maximize2, Clock, Play } from "lucide-react"
+import { Flame, Search, BookOpen, Calendar, User, ArrowRight, AlertCircle, Maximize2, Clock, Play, X } from "lucide-react"
 import type { BlogPost } from "@/lib/mock-data"
 import { Link } from '@inertiajs/react';
 import { Footer } from "@/Components/footer"
@@ -305,13 +305,13 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
 
                     {/* Search Bar */}
                     <div className="mb-6 relative group max-w-md w-full">
-                        <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500 group-focus-within:text-orange-500 transition-colors duration-300" />
+                        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500 group-focus-within:text-orange-500 transition-colors duration-300" />
                         <input
                             type="text"
                             placeholder="Search fire safety articles..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-12 py-3.5 rounded-full border-[3px] border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 text-sm text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 transition-all duration-300"
+                            className="w-full pl-11 pr-4 py-3.5 rounded-2xl border-[3px] border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 text-sm font-semibold transition-all duration-300"
                         />
                     </div>
 
@@ -425,45 +425,51 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
 
                 {/* Video Player */}
                 {selectedVideo && (
-                    <div ref={playerRef} className="max-w-5xl mx-auto my-12 scroll-mt-28">
-                        <Card className="bg-white dark:bg-slate-900 rounded-[2.5rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden pt-6 px-6 transition-all duration-300">
-                            <CardHeader className="px-0 pt-0 pb-4">
-                                <div className="flex items-center justify-between">
-                                    <CardTitle className="text-xl sm:text-2xl text-slate-800 dark:text-white font-extrabold">{selectedVideo.title}</CardTitle>
-                                    <Button 
-                                        variant="ghost" 
-                                        size="sm" 
-                                        className="rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
-                                        onClick={() => setSelectedVideo(null)}
-                                    >
-                                        Close Player
-                                    </Button>
-                                </div>
-                                <CardDescription className="text-slate-500 dark:text-slate-400 font-medium mt-1">{selectedVideo.description}</CardDescription>
-                            </CardHeader>
-                            <CardContent className="px-0 pb-6">
-                                <div className="aspect-video bg-black rounded-[2rem] overflow-hidden mb-5 shadow-inner border border-slate-100 dark:border-slate-800/80">
-                                    <div id="youtube-player-container" className="w-full h-full">
-                                        <div id="youtube-player" className="w-full h-full" />
+                    <div ref={playerRef} className="max-w-5xl mx-auto mb-8 sm:mb-12 scroll-mt-28">
+                        <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-6 transition-all duration-300 space-y-3.5 sm:space-y-4">
+                            <div className="flex items-start justify-between gap-3">
+                                <div>
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-black bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 text-[10px] tracking-wider uppercase border border-orange-200 dark:border-orange-900/50">
+                                            NOW PLAYING
+                                        </span>
+                                        {selectedVideo.duration && (
+                                            <span className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 dark:text-slate-400">
+                                                <Clock className="h-3.5 w-3.5 text-orange-500" />
+                                                {selectedVideo.duration}
+                                            </span>
+                                        )}
                                     </div>
+                                    <h3 className="text-base sm:text-2xl font-black text-slate-800 dark:text-white leading-tight">
+                                        {selectedVideo.title}
+                                    </h3>
+                                    {selectedVideo.description && (
+                                        <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                                            {selectedVideo.description}
+                                        </p>
+                                    )}
                                 </div>
-                                <div className="flex items-center gap-4 text-sm font-semibold">
-                                    <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
-                                        <Clock className="h-4 w-4" />
-                                        <span>{selectedVideo.duration || 'Watch Video'}</span>
-                                    </div>
-                                    <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-bold bg-orange-50 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400 text-xs tracking-wide">
-                                        ADULT EDUCATION
-                                    </span>
+                                <button
+                                    onClick={() => setSelectedVideo(null)}
+                                    className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0 cursor-pointer"
+                                    title="Close Player"
+                                >
+                                    <X className="h-5 w-5" strokeWidth={2.5} />
+                                </button>
+                            </div>
+
+                            <div className="aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800">
+                                <div id="youtube-player-container" className="w-full h-full">
+                                    <div id="youtube-player" className="w-full h-full" />
                                 </div>
-                            </CardContent>
+                            </div>
                         </Card>
                     </div>
                 )}
 
                 {/* Videos Section */}
                 <div id="videos-section" className="mt-16 sm:mt-24">
-                    <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-10">
+                    <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-8">
                         <div>
                             <h2 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight">Fire Safety Videos</h2>
                             <p className="text-slate-500 dark:text-slate-400 font-medium text-sm mt-1">Watch educational videos designed to help you prepare for emergency situations.</p>
@@ -480,43 +486,57 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                 <p className="text-slate-500 dark:text-slate-400 text-sm max-w-sm">Please check back later! Videos are added regularly by the administrator.</p>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6">
                                 {videos.map((video: any) => (
                                     <Card
                                         key={video.id}
-                                        className="flex flex-row sm:flex-col cursor-pointer group bg-white/85 dark:bg-slate-800/85 backdrop-blur-md sm:bg-white dark:sm:bg-slate-800 rounded-[1.2rem] sm:rounded-[1.5rem] border border-white/50 dark:border-slate-700/50 sm:border-[3px] sm:border-b-[6px] sm:border-slate-200 dark:sm:border-slate-700 shadow-md sm:shadow-sm sm:hover:translate-y-[-4px] sm:active:translate-y-[2px] transition-all duration-200 h-[110px] xs:h-[120px] sm:h-[420px] items-stretch p-2 sm:p-0 hover:shadow-lg dark:hover:shadow-[0_10px_25px_-5px_rgba(249,115,22,0.15)] mb-2 sm:mb-0"
+                                        className="flex flex-row sm:flex-col cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.25rem] sm:rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#0f172a] active:translate-y-0.5 active:shadow-none transition-all duration-300 overflow-hidden p-2.5 sm:p-0 gap-0"
                                         onClick={() => setSelectedVideo(video)}
                                     >
-                                        <CardHeader className="p-0 w-[160px] xs:w-[180px] sm:w-full shrink-0 flex items-center justify-center relative">
-                                            <div className="w-full aspect-video bg-slate-100 dark:bg-slate-900 overflow-hidden relative rounded-xl sm:rounded-none sm:rounded-t-[1.3rem] shadow-sm border border-slate-200/50 dark:border-slate-700/50 sm:border-none">
-                                                <img
-                                                    src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.jpg`}
-                                                    alt={video.title}
-                                                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                                />
-                                                {/* Premium Play Button Overlay */}
-                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
-                                                    <div className="w-12 h-12 bg-orange-500/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.6)] border-2 border-white/30 transform scale-50 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 ease-out delay-75">
-                                                        <Play className="h-5 w-5 text-white ml-1 drop-shadow-md" fill="currentColor" />
-                                                    </div>
+                                        {/* Thumbnail Box */}
+                                        <div className="relative w-[130px] xs:w-[150px] sm:w-full aspect-video bg-slate-900 rounded-xl sm:rounded-none sm:rounded-t-[1.25rem] overflow-hidden shrink-0 border border-slate-100 dark:border-slate-800 sm:border-none">
+                                            <img
+                                                src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.jpg`}
+                                                alt={video.title}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+
+                                            {/* Play Icon Overlay */}
+                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
+                                                <div className="w-9 h-9 sm:w-12 sm:h-12 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white/40 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                                                    <Play className="h-4 w-4 sm:h-5 sm:w-5 ml-0.5" fill="currentColor" />
                                                 </div>
                                             </div>
-                                        </CardHeader>
-                                        
-                                        <CardContent className="flex flex-col flex-1 py-1 px-3 sm:px-5 sm:pb-5 sm:pt-0 justify-start overflow-hidden">
-                                            <div className="flex justify-between items-start mb-1">
-                                                <CardTitle className="text-[14px] sm:text-[17px] font-extrabold text-slate-900 dark:text-white line-clamp-2 leading-tight group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors pr-2 sm:pr-4">
+                                        </div>
+
+                                        {/* Info Section */}
+                                        <CardContent className="p-0 sm:p-5 pl-3 sm:pl-5 flex flex-col justify-between flex-1 min-w-0 py-0.5 sm:py-5">
+                                            <div>
+                                                <CardTitle className="text-xs sm:text-base font-black text-slate-800 dark:text-white line-clamp-2 leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
                                                     {video.title}
                                                 </CardTitle>
+                                                {video.description && (
+                                                    <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 line-clamp-1 mt-1 leading-normal">
+                                                        {video.description}
+                                                    </p>
+                                                )}
                                             </div>
-                                            
-                                            <p className="text-[11px] sm:text-sm text-slate-500 sm:text-slate-600 dark:text-slate-400 font-medium line-clamp-3 mb-1 sm:mb-4 leading-relaxed mt-1 sm:mt-0">
-                                                {video.description}
-                                            </p>
-                                            
-                                            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 mt-auto pt-2 border-t border-slate-100 dark:border-slate-800">
-                                                <Clock className="h-3.5 w-3.5" />
-                                                <span>{video.duration || 'Watch Video'}</span>
+
+                                            <div className="flex items-center justify-between mt-2 pt-1.5 sm:pt-2.5 sm:border-t border-slate-100 dark:border-slate-800/80">
+                                                {video.duration ? (
+                                                    <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-400 dark:text-slate-500">
+                                                        <Clock className="h-3 w-3 text-orange-500" />
+                                                        {video.duration}
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-flex items-center rounded-full px-2 py-0.5 font-extrabold bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 text-[9px] tracking-wider uppercase border border-orange-200 dark:border-orange-900/50">
+                                                        Adult Education
+                                                    </span>
+                                                )}
+                                                <span className="text-[11px] sm:text-xs font-bold text-slate-500 group-hover:text-orange-500 dark:group-hover:text-orange-400 flex items-center gap-1 transition-colors">
+                                                    Watch <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
+                                                </span>
                                             </div>
                                         </CardContent>
                                     </Card>
