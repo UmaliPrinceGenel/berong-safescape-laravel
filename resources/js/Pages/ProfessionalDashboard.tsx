@@ -11,7 +11,7 @@ import { Badge } from "@/Components/ui/badge"
 import { Button } from "@/Components/ui/button"
 import { Input } from "@/Components/ui/input"
 import { Alert, AlertDescription } from "@/Components/ui/alert"
-import { Trophy, Star, Shield, Zap, Medal, Video, Clock, Search, BookOpen, FileText, AlertCircle, Play, CheckCircle2, GraduationCap, ArrowRight, CircleHelp, Gamepad2 } from "lucide-react"
+import { Trophy, Star, Shield, Zap, Medal, Video, Clock, Search, BookOpen, FileText, AlertCircle, Play, CheckCircle2, GraduationCap, ArrowRight, CircleHelp, Gamepad2, X } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -428,29 +428,45 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
 
                 {/* Video Player */}
                 {selectedVideo && (
-                    <div ref={playerRef} className="max-w-5xl mx-auto mb-12">
-                        <Card className="bg-white dark:bg-slate-900 rounded-[2rem] border-[3px] sm:border-[4px] border-slate-200 dark:border-slate-800 shadow-[0_6px_0_#cbd5e1] sm:shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_6px_0_#0f172a] sm:dark:shadow-[0_8px_0_#0f172a] overflow-hidden pt-6 px-6 transition-all duration-300">
-                        <CardHeader className="px-0 pt-0 pb-4">
-                            <CardTitle className="text-2xl text-slate-800 dark:text-white font-extrabold">{selectedVideo.title}</CardTitle>
-                            <CardDescription className="text-slate-500 dark:text-slate-400 font-medium">{selectedVideo.description}</CardDescription>
-                        </CardHeader>
-                        <CardContent className="px-0 pb-6">
-                            <div className="aspect-video bg-black rounded-2xl overflow-hidden mb-5 shadow-inner border border-slate-100 dark:border-slate-800/80">
+                    <div ref={playerRef} className="max-w-5xl mx-auto mb-8 sm:mb-12">
+                        <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-6 transition-all duration-300 space-y-3.5 sm:space-y-4">
+                            <div className="flex items-start justify-between gap-3">
+                                <div>
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-black bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-[10px] tracking-wider uppercase border border-red-200 dark:border-red-900/50">
+                                            NOW PLAYING
+                                        </span>
+                                        {selectedVideo.duration && (
+                                            <span className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 dark:text-slate-400">
+                                                <Clock className="h-3.5 w-3.5 text-red-500" />
+                                                {selectedVideo.duration}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <h3 className="text-base sm:text-2xl font-black text-slate-800 dark:text-white leading-tight">
+                                        {selectedVideo.title}
+                                    </h3>
+                                    {selectedVideo.description && (
+                                        <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                                            {selectedVideo.description}
+                                        </p>
+                                    )}
+                                </div>
+                                <button
+                                    onClick={() => setSelectedVideo(null)}
+                                    className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0 cursor-pointer"
+                                    title="Close Player"
+                                >
+                                    <X className="h-5 w-5" strokeWidth={2.5} />
+                                </button>
+                            </div>
+
+                            <div className="aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800">
                                 <div id="youtube-player-container" className="w-full h-full">
                                     <div id="youtube-player" className="w-full h-full" />
                                 </div>
                             </div>
-                            <div className="flex items-center gap-4 text-sm font-semibold">
-                                <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
-                                    <Clock className="h-4 w-4" />
-                                    <span>{selectedVideo.duration || 'Watch Video'}</span>
-                                </div>
-                                <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-bold bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs tracking-wide">
-                                    PROFESSIONAL
-                                </span>
-                            </div>
-                        </CardContent>
-                    </Card>
+                        </Card>
                     </div>
                 )}
 
@@ -578,61 +594,67 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                 </CardContent>
                             </Card>
                         ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                                 {filteredVideos.map((video) => (
                                     <Card
                                         key={video.id}
-                                        className="flex flex-row sm:flex-col cursor-pointer group bg-white/85 dark:bg-slate-800/85 backdrop-blur-md sm:bg-white dark:sm:bg-slate-800 rounded-[1.2rem] sm:rounded-[1.5rem] border border-white/50 dark:border-slate-700/50 sm:border-[3px] sm:border-b-[6px] sm:border-slate-200 dark:sm:border-slate-700 shadow-md sm:shadow-sm sm:hover:translate-y-[-4px] sm:active:translate-y-[2px] transition-all duration-200 h-[110px] xs:h-[120px] sm:h-[420px] items-stretch p-2 sm:p-0 hover:shadow-lg dark:hover:shadow-[0_10px_25px_-5px_rgba(239,68,68,0.15)] mb-2 sm:mb-0"
+                                        className="flex flex-col cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_6px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_8px_0_#cbd5e1] dark:hover:shadow-[0_8px_0_#0f172a] active:translate-y-0.5 active:shadow-none transition-all duration-300 overflow-hidden"
                                         onClick={() => handleVideoSelect(video)}
                                     >
-                                        <CardHeader className="p-0 w-[160px] xs:w-[180px] sm:w-full shrink-0 flex items-center justify-center relative">
-                                            <div className="w-full aspect-video bg-slate-100 dark:bg-slate-900 overflow-hidden relative rounded-xl sm:rounded-none sm:rounded-t-[1.3rem] shadow-sm border border-slate-200/50 dark:border-slate-700/50 sm:border-none">
-                                                <img
-                                                    src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.jpg`}
-                                                    alt={video.title}
-                                                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                                />
-                                                {/* Status Badge */}
-                                                <div className="absolute top-2 left-2 z-20 flex flex-col gap-2">
-                                                    {watchedIds.has(video.id.toString()) && (
-                                                        <div className="bg-emerald-500 text-white font-black text-[8px] sm:text-[10px] tracking-widest uppercase px-2 py-1 rounded-full shadow-lg border-2 border-white/20 flex items-center gap-1.5 animate-in zoom-in-95 duration-300">
-                                                            <CheckCircle2 className="h-3 w-3" />
-                                                            Watched
-                                                        </div>
-                                                    )}
-                                                </div>
+                                        <div className="relative w-full aspect-video bg-slate-900 overflow-hidden">
+                                            <img
+                                                src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.jpg`}
+                                                alt={video.title}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
 
-                                                {/* Premium Play Button Overlay */}
-                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
-                                                    <div className="w-12 h-12 bg-red-500/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(239,68,68,0.6)] border-2 border-white/30 transform scale-50 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 ease-out delay-75">
-                                                        <Play className="h-5 w-5 text-white ml-1 drop-shadow-md" fill="currentColor" />
+                                            {/* Status Badge */}
+                                            {watchedIds.has(video.id.toString()) && (
+                                                <div className="absolute top-3 left-3 z-20">
+                                                    <div className="bg-emerald-500/90 backdrop-blur-md text-white font-black text-[10px] tracking-wider uppercase px-2.5 py-1 rounded-full shadow-md border border-white/30 flex items-center gap-1.5">
+                                                        <CheckCircle2 className="h-3.5 w-3.5" />
+                                                        Watched
                                                     </div>
                                                 </div>
-                                                
-                                                {/* Persistent Subtle Gradient at bottom of image for depth */}
-                                                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent pointer-events-none opacity-60 sm:opacity-0 sm:group-hover:opacity-40 transition-opacity duration-300" />
+                                            )}
+
+                                            {/* Duration Badge */}
+                                            {video.duration && (
+                                                <div className="absolute bottom-3 right-3 z-20">
+                                                    <div className="bg-black/70 backdrop-blur-md text-white font-bold text-[10px] sm:text-xs px-2.5 py-1 rounded-lg border border-white/20 flex items-center gap-1">
+                                                        <Clock className="h-3 w-3 text-red-400" />
+                                                        {video.duration}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Play Button Overlay */}
+                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
+                                                <div className="w-12 h-12 bg-[#d60000] text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white/40 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                                                    <Play className="h-5 w-5 ml-0.5" fill="currentColor" />
+                                                </div>
                                             </div>
-                                        </CardHeader>
-                                        <CardContent className="flex flex-col flex-1 py-1 px-3 sm:px-5 sm:pb-5 sm:pt-0 justify-start overflow-hidden">
-                                            <div className="flex justify-between items-start mb-1">
-                                                <CardTitle className="text-[14px] sm:text-[17px] font-bold text-slate-900 dark:text-white line-clamp-2 leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors pr-2 sm:pr-4">
+                                        </div>
+
+                                        <CardContent className="p-4 sm:p-5 flex flex-col justify-between flex-1 space-y-3">
+                                            <div>
+                                                <CardTitle className="text-base sm:text-lg font-black text-slate-800 dark:text-white line-clamp-2 leading-snug group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                                                     {video.title}
                                                 </CardTitle>
+                                                {video.description && (
+                                                    <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 mt-1.5 leading-relaxed">
+                                                        {video.description}
+                                                    </p>
+                                                )}
                                             </div>
-                                            
-                                            <p className="text-[11px] sm:text-sm text-slate-500 sm:text-slate-600 dark:text-slate-400 font-medium line-clamp-3 mb-1 sm:mb-4 leading-relaxed mt-1 sm:mt-0">{video.description}</p>
-                                            
-                                            <div className="hidden sm:flex flex-row items-center justify-between mt-auto gap-1">
-                                                <div className="flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 font-medium">
-                                                    <span className="inline-flex items-center gap-1">
-                                                        <Clock className="h-3.5 w-3.5 text-red-500" />
-                                                        {video.duration}
-                                                    </span>
-                                                </div>
-                                                
-                                                {/* Desktop Professional Badge */}
-                                                <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-black bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-[10px] tracking-widest uppercase border border-red-200 dark:border-red-800">
+
+                                            <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800/80">
+                                                <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-extrabold bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-[10px] tracking-wider uppercase border border-red-200 dark:border-red-900/50">
                                                     Professional
+                                                </span>
+                                                <span className="text-xs font-bold text-slate-500 group-hover:text-red-500 dark:group-hover:text-red-400 flex items-center gap-1 transition-colors">
+                                                    Watch Now <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
                                                 </span>
                                             </div>
                                         </CardContent>
@@ -654,24 +676,25 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                     )}
                 >
                     <h2 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-slate-800 dark:text-white tracking-tight">Additional Resources</h2>
-                    <div className="bg-white dark:bg-slate-900 rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_6px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] sm:dark:shadow-[0_8px_0_#0f172a] transition-all duration-300">
-                        <div className="flex items-start gap-4 sm:gap-6 flex-1 w-full">
-                            <div className="p-3 sm:p-4 bg-white dark:bg-slate-950 rounded-xl sm:rounded-2xl border-2 border-slate-100 dark:border-slate-800 flex items-center justify-center shrink-0 shadow-sm">
-                                <BookOpen className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500" strokeWidth={2.5} />
+                    <div className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 sm:gap-6 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] transition-all duration-300">
+                        <div className="flex items-start gap-3.5 sm:gap-5 flex-1 min-w-0">
+                            <div className="p-3 sm:p-4 bg-blue-500/10 dark:bg-blue-950/40 border-2 border-blue-500/30 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 shadow-sm text-blue-500 dark:text-blue-400">
+                                <BookOpen className="h-6 w-6 sm:h-8 sm:w-8" strokeWidth={2.5} />
                             </div>
-                            <div>
-                                <h3 className="text-base sm:text-xl font-black text-slate-800 dark:text-white mb-1 sm:mb-2">BFP Standard Operating Procedures</h3>
-                                <p className="text-slate-600 dark:text-slate-400 font-medium text-[13px] sm:text-sm md:text-base leading-relaxed">
-                                    Access comprehensive manuals covering firefighting operations, emergency response protocols, and
-                                    safety procedures.
+                            <div className="min-w-0 flex-1">
+                                <h3 className="text-base sm:text-xl font-black text-slate-800 dark:text-white leading-tight mb-1 sm:mb-1.5">
+                                    BFP Standard Operating Procedures
+                                </h3>
+                                <p className="text-slate-500 dark:text-slate-400 font-medium text-xs sm:text-sm md:text-base leading-relaxed">
+                                    Access comprehensive manuals covering firefighting operations, emergency response protocols, and responder safety procedures.
                                 </p>
                             </div>
                         </div>
                         <ManualsDialog>
-                            <Button className="w-full sm:w-auto shrink-0 h-auto bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-650 text-white shadow-[0_4px_0_0_#1e3a8a] sm:shadow-[0_6px_0_0_#1e3a8a] hover:shadow-[0_2px_0_0_#1e3a8a] sm:hover:shadow-[0_4px_0_0_#1e3a8a] active:shadow-none hover:translate-y-[2px] active:translate-y-[4px] sm:active:translate-y-[6px] transition-all rounded-full px-6 py-2.5 sm:px-8 sm:py-3.5 font-black text-sm sm:text-base flex items-center justify-center border-2 border-blue-400 dark:border-blue-500/20">
-                                <FileText className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                            <button className="w-full md:w-auto shrink-0 bg-blue-600 hover:bg-blue-500 text-white font-extrabold px-6 py-3 rounded-xl text-sm sm:text-base shadow-[0_4px_0_#1d4ed8] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#1d4ed8] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 cursor-pointer border-2 border-blue-400/30">
+                                <FileText className="h-4.5 w-4.5 sm:h-5 sm:w-5" strokeWidth={2.5} />
                                 View Manuals
-                            </Button>
+                            </button>
                         </ManualsDialog>
                     </div>
                 </div>
