@@ -31,12 +31,19 @@ export const AdminCarouselTab: React.FC<CarouselTabProps> = ({
           onUploadComplete={(url) => setNewCarousel({ ...newCarousel, url })}
         />
 
-        <Card className="rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-white dark:bg-slate-800/50 backdrop-blur-md transition-all h-full flex flex-col">
-          <CardHeader>
-            <CardTitle className="text-xl font-bold text-slate-800 dark:text-white">Add New Carousel Image</CardTitle>
-            <CardDescription className="text-slate-500 dark:text-slate-400 font-medium">Add images to the dashboard carousel</CardDescription>
+        <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-white dark:bg-slate-800/50 backdrop-blur-md transition-all h-full flex flex-col">
+          <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-3">
+            <div className="flex items-center gap-3">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
+                <Plus className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
+              </div>
+              <div>
+                <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight">Add New Carousel Image</CardTitle>
+                <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Add images to the dashboard carousel</CardDescription>
+              </div>
+            </div>
           </CardHeader>
-          <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
+          <CardContent className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 sm:pt-4 flex-1 flex flex-col justify-between">
             <div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -61,11 +68,11 @@ export const AdminCarouselTab: React.FC<CarouselTabProps> = ({
                 </div>
               </div>
             </div>
-            <div className="flex flex-wrap items-center gap-4 mt-6">
+            <div className="flex flex-wrap items-center gap-4 mt-6 pb-12 sm:pb-0">
               <button
                 type="button"
                 onClick={handleAddCarousel}
-                className="inline-flex items-center justify-center bg-[#d60000] text-white font-extrabold px-6 pb-2.5 pt-3 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all"
+                className="inline-flex items-center justify-center bg-[#d60000] hover:bg-red-500 text-white font-extrabold px-6 pb-2.5 pt-3 rounded-xl text-sm shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all cursor-pointer"
               >
                 <Plus className="h-5 w-5 mr-2" strokeWidth={2.5} />
                 Add Image

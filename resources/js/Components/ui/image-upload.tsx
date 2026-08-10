@@ -133,55 +133,57 @@ export function ImageUpload({
   };
 
   return (
-    <Card className="rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 backdrop-blur-md shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden transition-all h-full flex flex-col">
-      <CardHeader className="relative">
-        <div className="flex flex-col gap-1">
-          <CardTitle className="text-xl font-bold text-slate-800 dark:text-white">{title}</CardTitle>
-          <CardDescription className="text-xs text-slate-500 dark:text-slate-400">{description}</CardDescription>
-          {recommendedResolution && (
-            <p className="text-[10px] font-bold text-red-500/80 dark:text-red-400/80 uppercase tracking-wider mt-1">
-              Recommended: {recommendedResolution}
-            </p>
+    <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 backdrop-blur-md shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden transition-all h-full flex flex-col">
+      <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-3">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2.5">
+          <div className="flex flex-col gap-1 min-w-0">
+            <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white leading-tight">{title}</CardTitle>
+            <CardDescription className="text-xs text-slate-500 dark:text-slate-400 font-medium">{description}</CardDescription>
+            {recommendedResolution && (
+              <p className="text-[10px] font-bold text-red-500 dark:text-red-400 uppercase tracking-wider mt-0.5">
+                Recommended: {recommendedResolution}
+              </p>
+            )}
+          </div>
+
+          {imageDimensions && (
+            <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider shadow-2xs self-start shrink-0 ${
+              imageDimensions.w < minWidth ? 'bg-amber-50 text-amber-600 border border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800' : 'bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800'
+            }`}>
+              {imageDimensions.w < minWidth && <AlertCircle className="h-3.5 w-3.5 shrink-0" />}
+              <span>{imageDimensions.w} × {imageDimensions.h}PX</span>
+            </div>
           )}
         </div>
-        
-        {imageDimensions && (
-          <div className={`absolute top-6 right-6 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 shadow-inner ${
-            imageDimensions.w < minWidth ? 'bg-amber-50 text-amber-600 border border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800' : 'bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800'
-          }`}>
-            {imageDimensions.w < minWidth && <AlertCircle className="h-3.5 w-3.5" />}
-            {imageDimensions.w} × {imageDimensions.h}PX
-          </div>
-        )}
       </CardHeader>
 
-      <CardContent className="flex-1 flex flex-col pt-0">
+      <CardContent className="flex-1 flex flex-col pt-0 px-4 sm:px-6 pb-5 sm:pb-6">
         {error && (
           <div className="mb-4 px-3 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 rounded-xl text-xs font-medium text-red-600 dark:text-red-400">
             {error}
           </div>
         )}
 
-        <div className="relative flex-1 min-h-[300px]">
+        <div className="relative flex-1 min-h-[260px] sm:min-h-[300px]">
           {!(previewUrl || uploadUrl) ? (
             <div
-              className="absolute inset-0 border-3 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-all duration-300 group/upload bg-slate-50/50 dark:bg-slate-800/30"
+              className="absolute inset-0 border-3 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-all duration-300 group/upload bg-slate-50/50 dark:bg-slate-800/30 p-4"
               onClick={() => fileInputRef.current?.click()}
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => { e.preventDefault(); processFile(e.dataTransfer.files[0]); }}
             >
               <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
-              <div className="p-5 bg-white dark:bg-slate-800 rounded-2xl text-slate-400 group-hover/upload:text-red-500 group-hover/upload:scale-110 transition-all duration-300 shadow-sm border-2 border-transparent group-hover/upload:border-red-100 dark:group-hover/upload:border-red-900">
-                <Upload className="h-8 w-8" strokeWidth={2.5} />
+              <div className="p-4 sm:p-5 bg-white dark:bg-slate-800 rounded-2xl text-slate-400 group-hover/upload:text-red-500 group-hover/upload:scale-110 transition-all duration-300 shadow-sm border-2 border-transparent group-hover/upload:border-red-100 dark:group-hover/upload:border-red-900">
+                <Upload className="h-7 w-7 sm:h-8 sm:w-8" strokeWidth={2.5} />
               </div>
               <div className="text-center space-y-1">
-                <p className="text-sm font-bold text-slate-800 dark:text-white">Click or drag image to upload</p>
+                <p className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">Click or drag image to upload</p>
                 <p className="text-[10px] text-slate-400 font-medium tracking-normal">Max size: 50MB</p>
               </div>
             </div>
           ) : (
-            <div className="flex flex-col h-full gap-4">
-              <div className="relative w-full aspect-video rounded-[2rem] overflow-hidden border-2 border-slate-200 dark:border-slate-800 bg-slate-900 shadow-2xl group/cropper">
+            <div className="flex flex-col h-full gap-3 sm:gap-4">
+              <div className="relative w-full aspect-video rounded-2xl sm:rounded-[2rem] overflow-hidden border-2 border-slate-200 dark:border-slate-800 bg-slate-900 shadow-xl group/cropper">
                 {uploadUrl ? (
                   <img 
                     src={uploadUrl} 
@@ -199,12 +201,11 @@ export function ImageUpload({
                       onCropComplete={onCropComplete}
                       onZoomChange={setZoom}
                       classes={{
-                        containerClassName: "rounded-[2.5rem]",
-                        mediaClassName: "rounded-[2.5rem]",
-                        cropAreaClassName: "rounded-[2.5rem] border-[3px] border-white/80 shadow-[0_0_0_9999em_rgba(15,23,42,0.8)]",
+                        containerClassName: "rounded-2xl sm:rounded-[2.5rem]",
+                        mediaClassName: "rounded-2xl sm:rounded-[2.5rem]",
+                        cropAreaClassName: "rounded-2xl sm:rounded-[2.5rem] border-[3px] border-white/80 shadow-[0_0_0_9999em_rgba(15,23,42,0.8)]",
                       }}
                     />
-                    
                   </div>
                 ) : (
                   <img 
@@ -216,18 +217,18 @@ export function ImageUpload({
                 
                 {uploadUrl && (
                   <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center">
-                    <div className="bg-white/90 dark:bg-slate-900/90 px-6 py-3 rounded-full flex items-center gap-3 text-green-600 font-black shadow-2xl border border-white/20 animate-in zoom-in-90 duration-300">
-                      <Check className="h-6 w-6" strokeWidth={4} />
-                      <span className="uppercase tracking-widest text-sm">Published Successfully</span>
+                    <div className="bg-white/90 dark:bg-slate-900/90 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full flex items-center gap-3 text-green-600 font-black shadow-2xl border border-white/20 animate-in zoom-in-90 duration-300">
+                      <Check className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={4} />
+                      <span className="uppercase tracking-widest text-xs sm:text-sm">Published Successfully</span>
                     </div>
                   </div>
                 )}
               </div>
 
               {!uploadUrl && enableCropping && (
-                <div className="flex items-center justify-center gap-3 sm:gap-4 bg-slate-100 dark:bg-slate-800/80 px-4 sm:px-6 py-3 sm:py-4 rounded-2xl border border-slate-200 dark:border-slate-700 w-full shadow-sm mt-2">
-                  <div className="flex items-center gap-3 sm:gap-4 w-full max-w-[400px]">
-                    <Search className="h-5 w-5 text-slate-500 shrink-0" />
+                <div className="flex items-center justify-between gap-2 sm:gap-4 bg-slate-100 dark:bg-slate-800/80 px-3 sm:px-6 py-2.5 sm:py-3 rounded-2xl border border-slate-200 dark:border-slate-700 w-full shadow-sm">
+                  <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
+                    <Search className="h-4 w-4 sm:h-5 sm:w-5 text-slate-500 shrink-0" />
                     <Slider
                       value={[zoom]}
                       min={1}
@@ -237,44 +238,44 @@ export function ImageUpload({
                       className="w-full cursor-grab active:cursor-grabbing"
                     />
                   </div>
-                  <div className="w-[2px] h-8 bg-slate-300 dark:bg-slate-600 mx-2 shrink-0" />
-                  <div className="flex items-center gap-1.5 sm:gap-2 text-slate-700 dark:text-white font-black text-xs sm:text-sm uppercase tracking-widest shrink-0">
-                    <Move className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-500 dark:text-yellow-400 animate-pulse" />
-                    <span className="hidden sm:inline">Drag to Pan</span>
-                    <span className="sm:hidden">Pan</span>
+                  <div className="w-[1.5px] h-6 bg-slate-300 dark:bg-slate-600 mx-1 sm:mx-2 shrink-0" />
+                  <div className="flex items-center gap-1 sm:gap-2 text-slate-700 dark:text-white font-black text-[10px] sm:text-sm uppercase tracking-wider shrink-0">
+                    <Move className="h-3.5 w-3.5 sm:h-5 sm:w-5 text-yellow-500 dark:text-yellow-400 animate-pulse" />
+                    <span className="hidden xs:inline">Drag to Pan</span>
+                    <span className="xs:hidden">Pan</span>
                   </div>
                 </div>
               )}
 
               {!uploadUrl ? (
-                <div className="flex gap-2 mt-auto">
+                <div className="flex gap-2.5 mt-auto pt-1 w-full">
                   <Button 
                     variant="ghost" 
                     onClick={reset} 
-                    className="w-fit bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-black px-6 pb-2 pt-2.5 rounded-xl text-xs shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#1e293b] hover:bg-slate-300 dark:hover:bg-slate-700 hover:-translate-y-0.5 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#1e293b] active:translate-y-1 active:shadow-none transition-all uppercase tracking-widest"
+                    className="flex-1 sm:flex-initial sm:w-fit bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-black px-4 sm:px-6 pb-2 pt-2.5 rounded-xl text-xs shadow-[0_3px_0_#cbd5e1] dark:shadow-[0_3px_0_#1e293b] hover:bg-slate-300 dark:hover:bg-slate-700 hover:-translate-y-0.5 hover:shadow-[0_5px_0_#cbd5e1] active:translate-y-1 active:shadow-none transition-all uppercase tracking-wider cursor-pointer"
                   >
                     Cancel
                   </Button>
                   <Button 
                     onClick={handleUpload} 
                     disabled={isUploading}
-                    className="w-fit bg-[#d60000] hover:bg-[#d60000] text-white font-black px-6 pb-2 pt-2.5 rounded-xl text-xs shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all uppercase tracking-widest"
+                    className="flex-1 sm:flex-initial sm:w-fit bg-[#d60000] hover:bg-red-500 text-white font-black px-4 sm:px-6 pb-2 pt-2.5 rounded-xl text-xs shadow-[0_3px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_5px_0_#991b1b] active:translate-y-1 active:shadow-none transition-all uppercase tracking-wider cursor-pointer"
                   >
                     {isUploading ? (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center justify-center gap-2">
                         <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                        Processing...
+                        <span>Uploading...</span>
                       </div>
                     ) : (
-                      <>
-                        <Check className="h-4 w-4 mr-2" strokeWidth={3} />
-                        {enableCropping ? 'Apply & Upload' : 'Upload Image'}
-                      </>
+                      <div className="flex items-center justify-center gap-1.5">
+                        <Check className="h-4 w-4 shrink-0" strokeWidth={3} />
+                        <span>{enableCropping ? 'Apply & Upload' : 'Upload Image'}</span>
+                      </div>
                     )}
                   </Button>
                 </div>
               ) : (
-                <Button variant="ghost" onClick={reset} className="w-full rounded-xl h-11 text-slate-500 hover:text-slate-800">
+                <Button variant="ghost" onClick={reset} className="w-full rounded-xl h-11 text-slate-500 hover:text-slate-800 font-bold">
                   <RotateCcw className="h-4 w-4 mr-2" />
                   Upload another image
                 </Button>
