@@ -242,58 +242,98 @@ export const AdminFireCodesTab: React.FC<FireCodesTabProps> = ({
         </CardContent>
       </Card>
 
-      <Card className="rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6">
-        <CardHeader className="px-6 pt-6 pb-2">
-          <div className="flex items-center gap-3">
-            <div className="bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 rounded-xl shadow-sm">
-              <BookOpen className="h-6 w-6 text-[#d60000]" strokeWidth={2.5} />
+      <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6">
+        <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-2">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
+                <BookOpen className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
+              </div>
+              <div className="min-w-0">
+                <CardTitle className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight truncate">
+                  Current Manuals & Fire Codes
+                </CardTitle>
+                <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5 line-clamp-1">
+                  List of all manuals and fire codes registered in the system
+                </CardDescription>
+              </div>
             </div>
-            <div>
-              <CardTitle className="text-2xl font-black text-slate-800 dark:text-white tracking-tight">Current Manuals & Fire Codes</CardTitle>
-              <CardDescription className="text-slate-500 dark:text-slate-400 font-medium mt-1">List of all manuals and fire codes registered in the system</CardDescription>
-            </div>
+            {fireCodeSections.length > 0 && (
+              <span className="hidden sm:inline-flex items-center justify-center bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-black px-2.5 py-1 rounded-full shrink-0">
+                {fireCodeSections.length} {fireCodeSections.length === 1 ? 'file' : 'files'}
+              </span>
+            )}
           </div>
         </CardHeader>
-        <CardContent className="px-6 pb-6 pt-4">
-          <div className="space-y-4">
+        <CardContent className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 sm:pt-4">
+          <div className="space-y-3 sm:space-y-4">
             {fireCodeSections.length === 0 ? (
-              <p className="text-slate-500 font-medium text-center py-8">No manuals or fire codes yet</p>
+              <div className="text-center py-10 px-4 bg-white/60 dark:bg-slate-900/40 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800">
+                <FileText className="h-10 w-10 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
+                <p className="text-slate-500 dark:text-slate-400 font-bold text-sm">No manuals or fire codes uploaded yet</p>
+                <p className="text-slate-400 dark:text-slate-500 text-xs mt-1">Use the form above to add document PDFs.</p>
+              </div>
             ) : (
               fireCodeSections.map((section) => {
                 const colors = getCategoryColors(section.category)
                 return (
-                  <div key={section.id} className="flex items-start justify-between gap-2 sm:gap-3 p-3 sm:p-4 border-2 border-slate-200 dark:border-slate-700 rounded-2xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm shadow-sm hover:shadow-[0_4px_0_#e2e8f0] dark:hover:shadow-[0_4px_0_#0f172a] hover:-translate-y-0.5 transition-all">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-start sm:items-center gap-2 mb-2">
-                        <h4 className="font-bold text-slate-800 dark:text-white w-full sm:w-auto pr-2">{section.title}</h4>
-                        <span className={`text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-md border shadow-sm ${colors.badge}`}>
-                          {section.category || "Policy"}
-                        </span>
-                      </div>
-                      
-                      <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">{section.description || "No description provided."}</p>
-
-                      {section.filename && (
-                        <div className="flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400 font-bold mt-2">
-                          <FileText className="h-3.5 w-3.5" />
-                          <a href={`/modules/bfp_manuals/${section.filename}`} target="_blank" rel="noreferrer" className="hover:underline flex items-center">
-                            {section.filename} <ExternalLink className="h-3 w-3 ml-1" />
-                          </a>
+                  <div 
+                    key={section.id} 
+                    className="p-4 sm:p-5 border-2 border-slate-200 dark:border-slate-700/80 rounded-2xl bg-white dark:bg-slate-900/70 backdrop-blur-sm shadow-xs hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600 transition-all flex flex-col gap-3"
+                  >
+                    {/* Header Row: Category, Title & Action Button */}
+                    <div className="flex items-start justify-between gap-3 w-full">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                          <span className={`inline-flex items-center text-[10px] font-black tracking-wider uppercase px-2.5 py-0.5 rounded-lg border shadow-2xs ${colors.badge}`}>
+                            {section.category || "Policy"}
+                          </span>
                         </div>
-                      )}
-                      
-                      <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-2 font-medium">
-                        Last updated: {new Date(section.updatedAt).toLocaleDateString()}
-                      </p>
+                        <h4 className="font-black text-sm sm:text-base text-slate-800 dark:text-white leading-snug break-words [word-break:break-word]">
+                          {section.title}
+                        </h4>
+                      </div>
+
+                      {/* Red Trash Delete Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteFireCode(section.id)}
+                        className="flex items-center justify-center bg-[#d60000] hover:bg-red-500 text-white font-extrabold h-9 w-9 sm:h-10 sm:w-10 rounded-xl shadow-[0_3px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_5px_0_#991b1b] active:translate-y-1 active:shadow-none transition-all shrink-0 cursor-pointer"
+                        title="Delete manual"
+                        aria-label="Delete manual"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteFireCode(section.id)}
-                      className="ml-2 sm:ml-4 flex items-center justify-center bg-[#d60000] text-white font-extrabold h-9 w-9 sm:h-10 sm:w-10 pb-1 rounded-xl shadow-[0_4px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#991b1b] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] transition-all shrink-0"
-                      aria-label="Delete section"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+
+                    {/* Description */}
+                    {section.description && (
+                      <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed break-words [word-break:break-word] line-clamp-3">
+                        {section.description}
+                      </p>
+                    )}
+
+                    {/* File Attachment & Metadata Bar */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80 mt-1">
+                      {section.filename ? (
+                        <a 
+                          href={`/modules/bfp_manuals/${section.filename}`} 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          className="inline-flex items-center gap-2 max-w-full px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/60 text-blue-700 dark:text-blue-300 text-xs font-bold hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors group/link min-w-0"
+                        >
+                          <FileText className="h-3.5 w-3.5 shrink-0 text-blue-500" />
+                          <span className="truncate max-w-[200px] xs:max-w-[260px] sm:max-w-[380px]">{section.filename}</span>
+                          <ExternalLink className="h-3 w-3 shrink-0 opacity-70 group-hover/link:opacity-100 transition-opacity" />
+                        </a>
+                      ) : (
+                        <span className="text-[11px] text-slate-400 dark:text-slate-500 italic font-medium">No PDF file attached</span>
+                      )}
+
+                      <span className="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 font-bold ml-auto">
+                        Updated: {new Date(section.updatedAt).toLocaleDateString()}
+                      </span>
+                    </div>
                   </div>
                 )
               })

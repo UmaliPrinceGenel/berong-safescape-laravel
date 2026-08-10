@@ -143,9 +143,12 @@ export interface FireCodesTabProps extends AdminTabProps {
   fireCodeSections: FireCodeSection[]
   newFireCode: {
     title: string
-    sectionNum: string
-    content: string
-    parentSectionId: string
+    category?: string
+    description?: string
+    filename?: string
+    sectionNum?: string
+    content?: string
+    parentSectionId?: string
   }
   setNewFireCode: (val: any) => void
   handleAddFireCode: () => void
