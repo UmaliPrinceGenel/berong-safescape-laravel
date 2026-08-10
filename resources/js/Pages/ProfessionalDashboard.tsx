@@ -598,7 +598,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                 {filteredVideos.map((video) => (
                                     <Card
                                         key={video.id}
-                                        className="flex flex-col cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_6px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_8px_0_#cbd5e1] dark:hover:shadow-[0_8px_0_#0f172a] active:translate-y-0.5 active:shadow-none transition-all duration-300 overflow-hidden"
+                                        className="flex flex-col cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_6px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_8px_0_#cbd5e1] dark:hover:shadow-[0_8px_0_#0f172a] active:translate-y-0.5 active:shadow-none transition-all duration-300 overflow-hidden py-0 px-0 gap-0"
                                         onClick={() => handleVideoSelect(video)}
                                     >
                                         <div className="relative w-full aspect-video bg-slate-900 overflow-hidden">
@@ -649,7 +649,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                 )}
                                             </div>
 
-                                            <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800/80">
+                                            <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 dark:border-slate-800/80">
                                                 <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-extrabold bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-[10px] tracking-wider uppercase border border-red-200 dark:border-red-900/50">
                                                     Professional
                                                 </span>

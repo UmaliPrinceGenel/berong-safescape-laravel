@@ -178,7 +178,7 @@ export function ManualsDialog({ children }: { children: React.ReactNode }) {
         </div>
 
         {/* Outer content container with standard fixed height and internal scroll to keep modal size constant */}
-        <div className="space-y-3 pt-1 h-[280px] sm:h-[360px] overflow-y-auto pr-1 sm:pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200 dark:[&::-webkit-scrollbar-thumb]:bg-slate-800 [&::-webkit-scrollbar-thumb]:rounded-full flex flex-col justify-start">
+        <div className="space-y-3 pt-1 h-[340px] sm:h-[400px] overflow-y-auto pr-1 sm:pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200 dark:[&::-webkit-scrollbar-thumb]:bg-slate-800 [&::-webkit-scrollbar-thumb]:rounded-full flex flex-col justify-start">
           {loading ? (
             <div className="flex flex-col items-center justify-center flex-1 py-8">
               <Loader2 className="h-7 w-7 animate-spin text-blue-600 mb-2" />
@@ -191,48 +191,46 @@ export function ManualsDialog({ children }: { children: React.ReactNode }) {
               <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold">No registered entries for this category.</p>
             </div>
           ) : (
-            <div className="grid gap-2.5 sm:gap-3.5 animate-in fade-in duration-300">
+            <div className="grid gap-3 sm:gap-3.5 animate-in fade-in duration-300">
               {filteredManuals.map((manual) => {
                 const colors = getCategoryColors(manual.category);
                 return (
-                  <Card key={manual.id} className="bg-white dark:bg-slate-800 rounded-xl border-2 border-b-[4px] border-slate-200 dark:border-slate-700 hover:-translate-y-0.5 hover:border-slate-300 dark:hover:border-slate-600 shadow-sm dark:shadow-[0_4px_0_#0f172a] active:translate-y-[2px] active:border-b-2 transition-all overflow-hidden">
-                    <CardContent className="p-2 sm:p-3 sm:py-3 sm:px-5">
-                      <div className="flex flex-row items-center justify-between gap-3">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1 flex-wrap">
-                            <div className={`p-1 sm:p-1.5 rounded-lg shrink-0 ${colors.iconBg}`}>
-                              <FileText className={`h-3.5 w-3.5 ${colors.iconText}`} />
-                            </div>
-                            <h3 className="font-extrabold text-slate-800 dark:text-white text-[11px] sm:text-base leading-snug truncate max-w-[120px] sm:max-w-none">{manual.title}</h3>
-                            <span className={`inline-flex items-center rounded-full px-1.5 py-0.5 font-bold text-[7px] sm:text-[8px] tracking-wider uppercase border shrink-0 ${colors.badge}`}>
-                              {manual.category}
-                            </span>
-                            {manual.filename && (
-                              <span className="hidden md:inline-block text-[8px] font-bold text-slate-400 dark:text-slate-500 font-mono truncate max-w-[150px]">
-                                {manual.filename}
-                              </span>
-                            )}
+                  <Card key={manual.id} className="bg-white dark:bg-slate-800 rounded-2xl border-2 border-b-[4px] border-slate-200 dark:border-slate-700 hover:-translate-y-0.5 hover:border-slate-300 dark:hover:border-slate-600 shadow-xs dark:shadow-[0_4px_0_#0f172a] transition-all overflow-hidden p-3.5 sm:p-4 py-3.5 sm:py-4 gap-0">
+                    <CardContent className="p-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex-1 min-w-0 space-y-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <div className={`p-1.5 rounded-lg shrink-0 ${colors.iconBg}`}>
+                            <FileText className={`h-4 w-4 ${colors.iconText}`} strokeWidth={2.5} />
                           </div>
-                          <p className="block mt-1 sm:mt-0 text-[9px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium pl-6 sm:pl-7 opacity-85 leading-relaxed line-clamp-2 sm:line-clamp-1">
-                            {manual.description || "No description provided."}
-                          </p>
+                          <h3 className="font-extrabold text-slate-800 dark:text-white text-xs sm:text-base leading-snug line-clamp-2 sm:line-clamp-1 flex-1 min-w-0">{manual.title}</h3>
+                          <span className={`inline-flex items-center rounded-full px-2 py-0.5 font-bold text-[8px] sm:text-[9px] tracking-wider uppercase border shrink-0 ${colors.badge}`}>
+                            {manual.category}
+                          </span>
+                          {manual.filename && (
+                            <span className="hidden md:inline-block text-[8px] font-bold text-slate-400 dark:text-slate-500 font-mono truncate max-w-[150px]">
+                              {manual.filename}
+                            </span>
+                          )}
                         </div>
-                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2 shrink-0">
-                          <button
-                            onClick={() => handleView(manual)}
-                            className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white font-extrabold h-7 sm:h-8.5 px-2 sm:px-4 rounded-lg text-[9px] sm:text-xs shadow-[0_2px_0_#1d4ed8] sm:shadow-[0_2px_0_#2563eb] hover:-translate-y-0.5 hover:shadow-[0_3px_0_#1d4ed8] active:translate-y-0.5 active:shadow-none transition-all outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
-                          >
-                            <Eye className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
-                            View
-                          </button>
-                          <button
-                            onClick={() => handleDownload(manual)}
-                            className="inline-flex items-center justify-center bg-white dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-200 font-extrabold h-7 sm:h-8.5 px-2 sm:px-4 rounded-lg text-[9px] sm:text-xs shadow-[0_2px_0_#cbd5e1] dark:shadow-[0_2px_0_#0f172a] hover:-translate-y-0.5 hover:shadow-[0_3px_0_#cbd5e1] dark:hover:shadow-[0_3px_0_#0f172a] hover:bg-slate-50 dark:hover:bg-slate-600 active:translate-y-0.5 active:shadow-none transition-all outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
-                          >
-                            <Download className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
-                            Save
-                          </button>
-                        </div>
+                        <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium pl-7 leading-relaxed line-clamp-2">
+                          {manual.description || "No description provided."}
+                        </p>
+                      </div>
+                      <div className="flex flex-row items-center justify-end sm:justify-start gap-2 pt-2.5 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-700/60 shrink-0">
+                        <button
+                          onClick={() => handleView(manual)}
+                          className="flex-1 sm:flex-initial inline-flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white font-extrabold h-8.5 px-3.5 sm:px-4 rounded-xl text-xs shadow-[0_2px_0_#1d4ed8] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
+                        >
+                          <Eye className="h-3.5 w-3.5 mr-1.5" strokeWidth={2.5} />
+                          View
+                        </button>
+                        <button
+                          onClick={() => handleDownload(manual)}
+                          className="flex-1 sm:flex-initial inline-flex items-center justify-center bg-slate-100 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-extrabold h-8.5 px-3.5 sm:px-4 rounded-xl text-xs shadow-[0_2px_0_#cbd5e1] dark:shadow-[0_2px_0_#0f172a] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
+                        >
+                          <Download className="h-3.5 w-3.5 mr-1.5" strokeWidth={2.5} />
+                          Save
+                        </button>
                       </div>
                     </CardContent>
                   </Card>
