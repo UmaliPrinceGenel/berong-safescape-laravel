@@ -594,67 +594,66 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                 </CardContent>
                             </Card>
                         ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6">
                                 {filteredVideos.map((video) => (
                                     <Card
                                         key={video.id}
-                                        className="flex flex-col cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_6px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_8px_0_#cbd5e1] dark:hover:shadow-[0_8px_0_#0f172a] active:translate-y-0.5 active:shadow-none transition-all duration-300 overflow-hidden py-0 px-0 gap-0"
+                                        className="flex flex-row sm:flex-col cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.25rem] sm:rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#0f172a] active:translate-y-0.5 active:shadow-none transition-all duration-300 overflow-hidden p-2.5 sm:p-0 gap-0"
                                         onClick={() => handleVideoSelect(video)}
                                     >
-                                        <div className="relative w-full aspect-video bg-slate-900 overflow-hidden">
+                                        {/* Thumbnail Box */}
+                                        <div className="relative w-[130px] xs:w-[150px] sm:w-full aspect-video bg-slate-900 rounded-xl sm:rounded-none sm:rounded-t-[1.25rem] overflow-hidden shrink-0 border border-slate-100 dark:border-slate-800 sm:border-none">
                                             <img
                                                 src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.jpg`}
                                                 alt={video.title}
                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
 
                                             {/* Status Badge */}
                                             {watchedIds.has(video.id.toString()) && (
-                                                <div className="absolute top-3 left-3 z-20">
-                                                    <div className="bg-emerald-500/90 backdrop-blur-md text-white font-black text-[10px] tracking-wider uppercase px-2.5 py-1 rounded-full shadow-md border border-white/30 flex items-center gap-1.5">
-                                                        <CheckCircle2 className="h-3.5 w-3.5" />
+                                                <div className="absolute top-1.5 left-1.5 sm:top-3 sm:left-3 z-20">
+                                                    <div className="bg-emerald-500/90 backdrop-blur-md text-white font-black text-[8px] sm:text-[10px] tracking-wider uppercase px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full shadow-md border border-white/30 flex items-center gap-1">
+                                                        <CheckCircle2 className="h-3 w-3" />
                                                         Watched
                                                     </div>
                                                 </div>
                                             )}
 
-                                            {/* Duration Badge */}
-                                            {video.duration && (
-                                                <div className="absolute bottom-3 right-3 z-20">
-                                                    <div className="bg-black/70 backdrop-blur-md text-white font-bold text-[10px] sm:text-xs px-2.5 py-1 rounded-lg border border-white/20 flex items-center gap-1">
-                                                        <Clock className="h-3 w-3 text-red-400" />
-                                                        {video.duration}
-                                                    </div>
-                                                </div>
-                                            )}
-
-                                            {/* Play Button Overlay */}
+                                            {/* Play Icon Overlay */}
                                             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
-                                                <div className="w-12 h-12 bg-[#d60000] text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white/40 transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                                                    <Play className="h-5 w-5 ml-0.5" fill="currentColor" />
+                                                <div className="w-9 h-9 sm:w-12 sm:h-12 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white/40 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                                                    <Play className="h-4 w-4 sm:h-5 sm:w-5 ml-0.5" fill="currentColor" />
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <CardContent className="p-4 sm:p-5 flex flex-col justify-between flex-1 space-y-3">
+                                        {/* Info Section */}
+                                        <CardContent className="p-0 sm:p-5 pl-3 sm:pl-5 flex flex-col justify-between flex-1 min-w-0 py-0.5 sm:py-5">
                                             <div>
-                                                <CardTitle className="text-base sm:text-lg font-black text-slate-800 dark:text-white line-clamp-2 leading-snug group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                                                <CardTitle className="text-xs sm:text-base font-black text-slate-800 dark:text-white line-clamp-2 leading-snug group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                                                     {video.title}
                                                 </CardTitle>
                                                 {video.description && (
-                                                    <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 mt-1.5 leading-relaxed">
+                                                    <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 line-clamp-1 mt-1 leading-normal">
                                                         {video.description}
                                                     </p>
                                                 )}
                                             </div>
 
-                                            <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 dark:border-slate-800/80">
-                                                <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-extrabold bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-[10px] tracking-wider uppercase border border-red-200 dark:border-red-900/50">
-                                                    Professional
-                                                </span>
-                                                <span className="text-xs font-bold text-slate-500 group-hover:text-red-500 dark:group-hover:text-red-400 flex items-center gap-1 transition-colors">
-                                                    Watch Now <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+                                            <div className="flex items-center justify-between mt-2 pt-1.5 sm:pt-2.5 sm:border-t border-slate-100 dark:border-slate-800/80">
+                                                {video.duration ? (
+                                                    <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-400 dark:text-slate-500">
+                                                        <Clock className="h-3 w-3 text-red-500" />
+                                                        {video.duration}
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-flex items-center rounded-full px-2 py-0.5 font-extrabold bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-[9px] tracking-wider uppercase border border-red-200 dark:border-red-900/50">
+                                                        Professional
+                                                    </span>
+                                                )}
+                                                <span className="text-[11px] sm:text-xs font-bold text-slate-500 group-hover:text-red-500 dark:group-hover:text-red-400 flex items-center gap-1 transition-colors">
+                                                    Watch <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
                                                 </span>
                                             </div>
                                         </CardContent>

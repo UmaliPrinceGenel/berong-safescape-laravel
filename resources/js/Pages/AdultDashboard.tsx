@@ -299,8 +299,12 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                         </Link>
                     </div>
 
+                {/* Blog Grid */}
+                <div id="articles-section">
+                    <h2 className="text-2xl sm:text-3xl font-black mb-4 sm:mb-6 text-slate-800 dark:text-white tracking-tight">Fire Safety Articles</h2>
+
                     {/* Search Bar */}
-                    <div className="mb-10 relative group max-w-md w-full">
+                    <div className="mb-6 relative group max-w-md w-full">
                         <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500 group-focus-within:text-orange-500 transition-colors duration-300" />
                         <input
                             type="text"
@@ -311,9 +315,6 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                         />
                     </div>
 
-                {/* Blog Grid */}
-                <div id="articles-section">
-                    <h2 className="text-2xl sm:text-3xl font-black mb-6 text-slate-800 dark:text-white tracking-tight">Fire Safety Articles</h2>
                     <Deferred data="initialBlogs" fallback={<AdultDashboardSkeleton />}>
                         {filteredBlogs.length === 0 ? (
                             <div className="relative overflow-hidden bg-white dark:bg-slate-800 border-[4px] border-dashed border-slate-300 dark:border-slate-700 rounded-[2rem] p-12 flex flex-col items-center justify-center text-center shadow-sm transition-all duration-300">
