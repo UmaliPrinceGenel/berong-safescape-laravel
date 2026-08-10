@@ -81,6 +81,24 @@ export function Navigation() {
   const { url } = usePage();
   const isDashboard = url === '/';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileNotificationOpen, setMobileNotificationOpen] = useState(false)
+
+  const handleToggleMobileMenu = () => {
+    setMobileMenuOpen(prev => {
+      const next = !prev;
+      if (next) {
+        setMobileNotificationOpen(false);
+      }
+      return next;
+    });
+  };
+
+  const handleMobileNotificationChange = (open: boolean) => {
+    setMobileNotificationOpen(open);
+    if (open) {
+      setMobileMenuOpen(false);
+    }
+  };
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [showAccessibilityModal, setShowAccessibilityModal] = useState(false)
 
@@ -479,7 +497,10 @@ export function Navigation() {
               {/* Notification bell for small mobile only (below sm) */}
               {isAuthenticated && (
                 <div className="sm:hidden relative flex items-center justify-center">
-                  <NotificationPopover />
+                  <NotificationPopover
+                    isOpen={mobileNotificationOpen}
+                    onOpenChange={handleMobileNotificationChange}
+                  />
                 </div>
               )}
 
@@ -501,7 +522,7 @@ export function Navigation() {
                     ? "translate-y-1 shadow-[0_0px_0_#b45309]" 
                     : "shadow-[0_4px_0_#b45309] md:hover:-translate-y-0.5 md:hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-[0_0px_0_#b45309]"
                 }`}
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                onClick={handleToggleMobileMenu}
               >
                 {mobileMenuOpen ? <X className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={3} /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />}
               </button>

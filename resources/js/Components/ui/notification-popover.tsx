@@ -22,7 +22,15 @@ interface Notification {
   resourceId?: number | null;
 }
 
-export function NotificationPopover() {
+interface NotificationPopoverProps {
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
+
+export function NotificationPopover({
+  isOpen: externalIsOpen,
+  onOpenChange: externalOnOpenChange
+}: NotificationPopoverProps = {}) {
   const { user } = useAuth();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(false);
@@ -47,7 +55,20 @@ export function NotificationPopover() {
     return true;
   });
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const isControlled = externalIsOpen !== undefined;
+  const isOpen = isControlled ? externalIsOpen : internalIsOpen;
+
+  const setIsOpen = (openState: boolean | ((prev: boolean) => boolean)) => {
+    const nextOpen = typeof openState === 'function' ? openState(isOpen) : openState;
+    if (externalOnOpenChange) {
+      externalOnOpenChange(nextOpen);
+    }
+    if (!isControlled) {
+      setInternalIsOpen(nextOpen);
+    }
+  };
+
   const [previewNotification, setPreviewNotification] = useState<Notification | null>(null);
   const [welcomeNotification, setWelcomeNotification] = useState<Notification | null>(null);
   const [mounted, setMounted] = useState(false);
