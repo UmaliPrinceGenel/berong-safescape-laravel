@@ -426,18 +426,6 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                     </Link>
                 </div>
 
-                {/* Search Bar */}
-                <div className="mb-10 relative group max-w-md w-full">
-                    <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-red-500 transition-colors duration-300" />
-                    <input
-                        type="text"
-                        placeholder="Search training videos..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-12 py-3.5 rounded-full border-[3px] border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/20 text-sm transition-all duration-300"
-                    />
-                </div>
-
                 {/* Video Player */}
                 {selectedVideo && (
                     <div ref={playerRef} className="max-w-5xl mx-auto mb-12">
@@ -466,23 +454,23 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                     </div>
                 )}
 
-                {/* Video Grid */}
-                <div id="training-videos-section">
-                    <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-10">
-                        <h2 className="text-3xl font-black text-slate-800 dark:text-white tracking-tight">Training Videos</h2>
+                {/* Video Grid Section */}
+                <div id="training-videos-section" className="space-y-6">
+                    <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 sm:gap-6">
+                        <h2 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight">Training Videos</h2>
                         
-                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 w-full xl:w-auto">
-                            {/* Simplified Rank Badge */}
-                            <div className="flex items-center gap-3.5 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex-1 sm:flex-initial min-w-[220px] cursor-default">
-                                <div className={cn("h-10 w-10 rounded-lg border flex items-center justify-center shrink-0", currentRank.bg, currentRank.border, currentRank.color)}>
-                                    <RankIcon className="h-5 w-5" />
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full xl:w-auto">
+                            {/* Professional Rank Card */}
+                            <div className="flex items-center gap-3.5 p-3.5 sm:p-4 rounded-2xl border-[3px] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] flex-1 sm:flex-initial min-w-0 sm:min-w-[240px] cursor-default transition-all">
+                                <div className={cn("h-11 w-11 rounded-xl border-2 flex items-center justify-center shrink-0 shadow-sm", currentRank.bg, currentRank.border, currentRank.color)}>
+                                    <RankIcon className="h-5 w-5" strokeWidth={2.5} />
                                 </div>
-                                <div className="flex flex-col">
-                                    <div className="flex items-center gap-1.5">
-                                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Professional Rank</span>
+                                <div className="flex flex-col min-w-0 flex-1">
+                                    <div className="flex items-center justify-between gap-1">
+                                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">Professional Rank</span>
                                         <Dialog open={showRankGuide} onOpenChange={setShowRankGuide}>
                                             <DialogTrigger asChild>
-                                                <button className="p-0.5 hover:bg-slate-100 dark:hover:bg-slate-850 rounded-full transition-colors group/btn cursor-pointer">
+                                                <button className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors group/btn cursor-pointer">
                                                     <CircleHelp className="h-3.5 w-3.5 text-slate-400 group-hover/btn:text-red-500" />
                                                 </button>
                                             </DialogTrigger>
@@ -535,7 +523,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                 <div className="p-6 pt-0 bg-slate-50 dark:bg-slate-950">
                                                     <button
                                                         onClick={() => setShowRankGuide(false)}
-                                                        className="w-full bg-red-500 hover:bg-red-600 text-white font-black py-4 rounded-2xl border-b-[6px] border-red-800 active:border-b-0 active:translate-y-[6px] transition-all uppercase tracking-widest text-sm shadow-md"
+                                                        className="w-full bg-red-500 hover:bg-red-600 text-white font-black py-4 rounded-2xl border-b-[6px] border-red-800 active:border-b-0 active:translate-y-[6px] transition-all uppercase tracking-widest text-sm shadow-md cursor-pointer"
                                                     >
                                                         Got it, Officer!
                                                     </button>
@@ -543,29 +531,43 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                             </DialogContent>
                                         </Dialog>
                                     </div>
-                                    <span className={`text-[14px] sm:text-[15px] font-bold ${currentRank.color} whitespace-nowrap`}>{currentRank.name}</span>
+                                    <span className={`text-sm sm:text-base font-black ${currentRank.color} truncate`}>{currentRank.name}</span>
                                 </div>
                             </div>
 
-                            {/* Simplified Progress Tracker */}
-                            <div className="flex items-center gap-4 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex-1 sm:flex-initial sm:min-w-[320px] cursor-default">
-                                <div className="h-10 w-10 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50 flex items-center justify-center shrink-0 text-emerald-600 dark:text-emerald-400">
-                                    <GraduationCap className="h-5 w-5" />
+                            {/* Training Progress Card */}
+                            <div className="flex items-center gap-3.5 p-3.5 sm:p-4 rounded-2xl border-[3px] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] flex-1 sm:flex-initial min-w-0 sm:min-w-[280px] cursor-default transition-all">
+                                <div className="h-11 w-11 rounded-xl bg-emerald-500/10 dark:bg-emerald-950/40 border-2 border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-600 dark:text-emerald-400 shadow-sm">
+                                    <GraduationCap className="h-5.5 w-5.5" strokeWidth={2.5} />
                                 </div>
-                                <div className="flex-1 space-y-1.5">
-                                    <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-wider text-slate-450 dark:text-slate-500">
-                                        <span>Training Progress</span>
-                                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">{watchedCount} / {videos.length}</span>
+                                <div className="flex-1 min-w-0 space-y-1.5">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">Training Progress</span>
+                                        <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800/80">
+                                            {watchedCount} / {videos.length}
+                                        </span>
                                     </div>
-                                    <div className="relative h-2 w-full bg-slate-100 dark:bg-slate-800/80 rounded-full overflow-hidden">
+                                    <div className="relative h-2.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden border border-slate-200/60 dark:border-slate-700/60">
                                         <div 
-                                            className="absolute top-0 left-0 h-full bg-emerald-500 transition-all duration-500 ease-out" 
+                                            className="absolute top-0 left-0 h-full bg-emerald-500 rounded-full transition-all duration-500 ease-out shadow-xs" 
                                             style={{ width: `${progressPercent}%` }}
                                         />
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Search Bar - Positioned BELOW Training Progress card (right before video cards) */}
+                    <div className="relative group w-full max-w-md">
+                        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-red-500 transition-colors duration-300" />
+                        <input
+                            type="text"
+                            placeholder="Search training videos..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full pl-11 pr-4 py-3.5 rounded-2xl border-[3px] border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/20 text-sm font-semibold transition-all duration-300"
+                        />
                     </div>
                     <Deferred data="initialVideos" fallback={<VideoSkeleton />}>
                         {filteredVideos.length === 0 ? (
