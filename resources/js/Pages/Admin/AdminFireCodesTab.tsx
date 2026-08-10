@@ -225,7 +225,7 @@ export const AdminFireCodesTab: React.FC<FireCodesTabProps> = ({
             />
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 mt-2 pb-12 sm:pb-0">
+          <div className="flex flex-wrap items-center gap-4 pt-2">
             <button
               type="button"
               onClick={handleAddFireCode}

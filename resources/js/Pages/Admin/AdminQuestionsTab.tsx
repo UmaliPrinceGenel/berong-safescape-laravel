@@ -104,7 +104,7 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
               className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl resize-none"
             />
           </div>
-          <div className="flex flex-wrap items-center gap-4 mt-2 pb-12 sm:pb-0">
+          <div className="flex flex-wrap items-center gap-4 pt-2">
             <button
               type="button"
               onClick={handleAddQuickQuestion}
