@@ -1,3 +1,13 @@
+/**
+ * BFP Berong SafeScape - Interactive Fire Safety E-Learning Platform
+ * Copyright (c) 2026 Bureau of Fire Protection - Sta. Cruz Fire Station, Laguna.
+ * All Rights Reserved.
+ *
+ * This computer software and source code are protected by Philippines and international
+ * copyright laws. Unauthorized reproduction, distribution, or reverse engineering
+ * of this software without explicit permission is strictly prohibited.
+ */
+
 import '../css/app.css';
 import './bootstrap';
 

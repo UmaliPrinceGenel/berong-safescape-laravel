@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * BFP Berong SafeScape - Interactive Fire Safety E-Learning Platform
+ * Copyright (c) 2026 Bureau of Fire Protection - Sta. Cruz Fire Station, Laguna.
+ * All Rights Reserved.
+ *
+ * Module: Web Application Routing Definitions
+ */
+
 use App\Http\Controllers\ProfileController;
 use App\Models\BlogPost;
 use App\Models\KidsModule;
