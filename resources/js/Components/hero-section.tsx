@@ -153,7 +153,7 @@ export function HeroSection() {
                         onClick={() => {
                             document.getElementById("featured-section")?.scrollIntoView({ behavior: "smooth" });
                         }}
-                        className="group px-8 sm:px-10 py-3.5 sm:py-4 bg-gradient-to-r from-red-600 to-orange-500 text-white font-black text-xs sm:text-sm rounded-full shadow-lg hover:shadow-[0_10px_20px_rgba(220,38,38,0.3)] hover:-translate-y-1 active:translate-y-0 transition-all uppercase tracking-[0.15em] flex items-center gap-2"
+                        className="group px-8 sm:px-10 py-3.5 sm:py-4 bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white font-black text-xs sm:text-sm rounded-full border-[3px] border-orange-300 dark:border-orange-400/60 shadow-[0_5px_0_#991b1b] sm:shadow-[0_6px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_7px_0_#991b1b] active:translate-y-1.5 active:shadow-none transition-all duration-150 uppercase tracking-[0.15em] flex items-center gap-2.5 cursor-pointer select-none"
                     >
                         <Flame className="h-4 w-4 sm:h-5 sm:w-5 group-hover:rotate-12 group-hover:scale-110 transition-transform" strokeWidth={2.5} />
                         Get Started

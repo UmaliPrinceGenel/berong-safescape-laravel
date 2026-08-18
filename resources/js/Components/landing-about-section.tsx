@@ -1363,7 +1363,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                         <div className="relative z-10 px-4 sm:px-8">
                             <div className="text-center mb-10 sm:mb-16 shrink-0 w-full">
                                 <div className="mb-6 flex justify-center">
-                                    <span className="bg-red-100 dark:bg-red-950/30 text-red-500 dark:text-red-400 font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full inline-block border border-red-200 dark:border-red-900/30 transition-colors">
+                                    <span className="bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-5 py-1.5 sm:py-2 rounded-full inline-flex items-center border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default">
                                         The Research Team
                                     </span>
                                 </div>
@@ -1399,7 +1399,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                 transition={{ duration: 0.7 }}
                             >
                                 <div className="mb-6 flex justify-center">
-                                    <span className="bg-red-100 dark:bg-red-950/30 text-red-500 dark:text-red-400 font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full inline-block border border-red-200 dark:border-red-900/30 transition-colors">
+                                    <span className="bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-5 py-1.5 sm:py-2 rounded-full inline-flex items-center border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default">
                                         The Research Team
                                     </span>
                                 </div>

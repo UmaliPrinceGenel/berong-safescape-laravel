@@ -273,14 +273,11 @@ export function Navigation() {
                 </div>
 
                 {/* Branding - Compact on mobile */}
-                <div className="min-w-0 shrink">
-                  <p className="text-white font-extrabold text-[13px] leading-none sm:text-[15px] whitespace-nowrap">Berong E-Learning</p>
-                  <h1 className="text-yellow-400 font-bold leading-tight text-[0.625rem] xl:text-xs hidden sm:block truncate">
+                <div className="min-w-0 shrink flex flex-col justify-center">
+                  <p className="text-white font-extrabold text-[13px] leading-tight sm:text-[15px] whitespace-nowrap">Berong E-Learning</p>
+                  <h1 className="text-yellow-400 font-bold leading-tight text-[0.65rem] sm:text-xs hidden sm:block truncate">
                     Fire Safety Education Platform
                   </h1>
-                  <p className="text-white text-[0.5625rem] xl:text-[0.625rem] hidden sm:block opacity-90 uppercase tracking-widest mt-0.5 truncate">
-                    BUREAU OF FIRE PROTECTION STA CRUZ LAGUNA
-                  </p>
                 </div>
               </Link>
             </div>
@@ -310,16 +307,26 @@ export function Navigation() {
               ) : isAuthenticated && accessibleItems.length > 1 && (
                 <DropdownMenu modal={false}>
                   <DropdownMenuTrigger 
-                    className={(!isDashboard && url !== '/login' && url !== '/register' && url !== '/about' && url !== '/profile')
-                      ? "font-extrabold text-sm tracking-wide uppercase px-4 xl:px-5 py-1.5 rounded-full border-[3px] border-white dark:border-slate-200 bg-yellow-400 text-black shadow-[0_4px_0_#b45309] data-[state=closed]:md:hover:-translate-y-0.5 data-[state=closed]:md:hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-none data-[state=open]:translate-y-1 data-[state=open]:shadow-none transition-all duration-200 flex items-center gap-1.5 group outline-none cursor-pointer" 
-                      : "font-extrabold text-sm tracking-wide uppercase text-white md:hover:text-yellow-200 data-[state=open]:text-yellow-400 data-[state=open]:translate-y-0.5 transition-all duration-200 drop-shadow-sm py-1.5 px-2 xl:px-3 flex items-center gap-1.5 whitespace-nowrap outline-none cursor-pointer"
-                    }
+                    className={cn(
+                      "font-extrabold text-sm tracking-wide uppercase flex items-center gap-1.5 outline-none cursor-pointer group transition-all duration-200",
+                      (!isDashboard && url !== '/login' && url !== '/register' && url !== '/about' && url !== '/profile')
+                        ? "px-4 xl:px-5 py-1.5 rounded-full border-[3px] border-white dark:border-slate-200 bg-yellow-400 text-black shadow-[0_4px_0_#b45309] data-[state=closed]:md:hover:-translate-y-0.5 data-[state=closed]:md:hover:shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-none data-[state=open]:translate-y-1 data-[state=open]:shadow-none" 
+                        : "text-white md:hover:text-yellow-200 data-[state=open]:text-yellow-400 drop-shadow-sm py-1.5 px-2 xl:px-3 whitespace-nowrap"
+                    )}
                   >
                     {url.startsWith('/professional') ? 'PROFESSIONAL' :
                      url.startsWith('/adult') ? 'ADULTS' :
                      url.startsWith('/kids') ? 'KIDS' :
                      url.startsWith('/admin') ? 'ADMIN' : 'MENU'}
-                    <ChevronDown className={(!isDashboard && url !== '/login' && url !== '/register' && url !== '/about' && url !== '/profile') ? "h-4 w-4 text-black font-bold transition-transform group-data-[state=open]:rotate-180" : "h-4 w-4 text-white font-bold transition-transform group-data-[state=open]:rotate-180"} strokeWidth={3} />
+                    <ChevronDown 
+                      className={cn(
+                        "h-4 w-4 font-bold transition-transform duration-300 ease-in-out group-data-[state=open]:rotate-180",
+                        (!isDashboard && url !== '/login' && url !== '/register' && url !== '/about' && url !== '/profile')
+                          ? "text-black"
+                          : "text-white group-data-[state=open]:text-yellow-400"
+                      )} 
+                      strokeWidth={3} 
+                    />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 shadow-xl rounded-[14px] p-1.5 z-[100] transition-colors" sideOffset={12}>
                     {user?.permissions.accessProfessional && (
