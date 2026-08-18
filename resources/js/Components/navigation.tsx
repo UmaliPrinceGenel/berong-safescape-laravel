@@ -242,17 +242,17 @@ export function Navigation() {
 
 
       <nav className={cn(
-        "fixed left-1/2 top-4 sm:top-6 z-[80] transition-all duration-300 ease-out h-16 sm:h-[4.5rem] flex items-center rounded-full bg-gradient-to-r from-red-600 to-orange-500 dark:from-red-800 dark:to-orange-700 border border-white/20 dark:border-red-600/20 shadow-xl shadow-red-900/30 w-[95vw] lg:w-max max-w-screen-xl",
+        "fixed left-1/2 top-4 sm:top-6 z-[80] transition-all duration-300 ease-out h-16 sm:h-[4.5rem] flex items-center rounded-full bg-gradient-to-r from-red-600 to-orange-500 dark:from-red-800 dark:to-orange-700 border border-white/20 dark:border-red-600/20 shadow-xl shadow-red-900/30 w-[95vw] lg:w-[92vw] xl:w-full max-w-6xl",
         ((isScrollingDown && !isAssessmentInView) || isMeetDevsInView) ? "-translate-y-[150%] -translate-x-1/2 opacity-0 pointer-events-none" : "translate-y-0 -translate-x-1/2 opacity-100"
       )}>
 
 
       {/* Content Layer - Full opacity */}
       <div className="relative z-10 w-full px-4 sm:px-6 py-2.5 sm:py-3">
-        <div className="flex items-center justify-between w-full lg:gap-4 xl:gap-8 gap-2 sm:gap-4 relative">
+        <div className="flex items-center justify-between w-full relative">
 
           {/* LEFT SECTION: Logo + Branding */}
-          <div className="flex-1 flex justify-start min-w-0">
+          <div className="flex items-center justify-start min-w-0 z-10">
               <Link href="/" className="flex items-center gap-1.5 sm:gap-3 md:hover:opacity-90 transition-opacity cursor-pointer">
                 {/* Logos */}
                 <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
@@ -282,8 +282,8 @@ export function Navigation() {
               </Link>
             </div>
 
-            {/* CENTER SECTION: Navigation Links - Desktop */}
-            <div className="hidden lg:flex flex-none items-center justify-center gap-2 xl:gap-6 px-2">
+            {/* CENTER SECTION: Navigation Links - Desktop (True Dead-Center) */}
+            <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-2 xl:gap-6 px-2 z-20 pointer-events-auto">
               <Link 
                 href="/" 
                 className={isDashboard 
@@ -367,7 +367,7 @@ export function Navigation() {
             </div>
 
             {/* RIGHT SECTION: Time + User Info + Icon Buttons */}
-            <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3">
+            <div className="flex items-center justify-end gap-2 sm:gap-3 z-10 ml-auto">
               {/* Time + User Info Column - Now Stacked Vertical */}
               <div className="hidden xl:flex flex-col items-end justify-center min-w-0">
                 <TimeDisplay />
