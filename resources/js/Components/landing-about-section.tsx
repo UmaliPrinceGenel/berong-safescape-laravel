@@ -523,7 +523,7 @@ function DeveloperTeamCarousel() {
     );
 }
 
-// Animated Team Card Component with 3D Cylinder Spinning Wheel Simulation
+// Animated Team Card Component
 function TeamCard({ member, index, reduceMotion, progress, totalCards = 9 }: { key?: React.Key; member: typeof teamMembers[0]; index: number; reduceMotion: boolean; progress: any; totalCards?: number }) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-50px" });
@@ -532,55 +532,42 @@ function TeamCard({ member, index, reduceMotion, progress, totalCards = 9 }: { k
         return (p - centerProgress) * (totalCards - 1);
     });
 
+    // Perfect circular wheel math (R=4000px, Card+Gap=412px)
+    // We map the full range from -8 to 8 to cover all cards in the carousel
     const inputRange = [
         -8, -7, -6, -5, -4, -3, -2, -1, 0,
          1,  2,  3,  4,  5,  6,  7,  8
     ];
     
-    // Radial wheel tilt (leaning along the circular rim)
-    const cardRotateZ = useTransform(distance, inputRange, [
-        56, 49, 42, 35, 28, 21, 14, 7, 0,
-        -7, -14, -21, -28, -35, -42, -49, -56
-    ]);
-
-    // 3D inward cylindrical face turn (simulates rotating around a 3D wheel/drum)
-    const cardRotateY = useTransform(distance, inputRange, [
-        -30, -26, -22, -18, -14, -10, -6, -3, 0,
-        3, 6, 10, 14, 18, 22, 26, 30
-    ]);
-    
-    // Pure parabolic height drop along wheel curvature
+    // Exact Y translation for the circle edge, enhanced for a deeper arc
     const cardY = useTransform(distance, inputRange, [
-        750, 560, 400, 270, 165, 90, 38, 10, 0,
-        10, 38, 90, 165, 270, 400, 560, 750
+        2200, 1500, 1000, 650, 380, 190, 80, 20, 0,
+        20, 80, 190, 380, 650, 1000, 1500, 2200
     ]);
     
-    // 3D depth in Z space (closer at center, recedes into background on sides)
-    const cardZ = useTransform(distance, inputRange, [
-        -400, -320, -240, -170, -100, -50, -18, 10, 40,
-        10, -18, -50, -100, -170, -240, -320, -400
+    // Enhanced tangent rotation angles for a more dramatic fan effect
+    const cardRotateZ = useTransform(distance, inputRange, [
+        65, 55, 45, 36, 27, 19, 12, 6, 0,
+        -6, -12, -19, -27, -36, -45, -55, -65
     ]);
     
-    // Natural depth scaling
+    // Depth scaling based on cosine of the rotation angle
     const cardScale = useTransform(distance, inputRange, [
-        0.65, 0.7, 0.76, 0.82, 0.88, 0.93, 0.98, 1.03, 1.08,
-        1.03, 0.98, 0.93, 0.88, 0.82, 0.76, 0.7, 0.65
+        0.5, 0.6, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.1,
+        0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.6, 0.5
     ]);
     
-    // Dynamic z-index layering so front cards always sit on top of background wheel cards
-    const cardZIndex = useTransform(distance, (d: number) => {
-        return Math.round(50 - Math.min(Math.abs(d) * 5, 45));
-    });
+
 
     // Avatar dynamic popping
-    const avatarScale = useTransform(distance, [-2, -1, 0, 1, 2], [0.85, 0.95, 1.25, 0.95, 0.85]);
-    const avatarY = useTransform(distance, [-2, -1, 0, 1, 2], [8, 4, -18, 4, 8]);
+    const avatarScale = useTransform(distance, [-2, -1, 0, 1, 2], [0.8, 0.9, 1.25, 0.9, 0.8]);
+    const avatarY = useTransform(distance, [-2, -1, 0, 1, 2], [10, 5, -20, 5, 10]);
     const nameScale = useTransform(distance, [-1, 0, 1], [0.9, 1.1, 0.9]);
     
-    // Opacity falloff for distant cards to enhance depth
+    // New opacity fading for distant cards to enhance the 3D depth illusion
     const cardOpacity = useTransform(distance, inputRange, [
-        0, 0.1, 0.35, 0.65, 0.85, 0.95, 1, 1, 1,
-        1, 1, 0.95, 0.85, 0.65, 0.35, 0.1, 0
+        0, 0, 0.1, 0.3, 0.6, 0.85, 0.95, 1, 1,
+        1, 0.95, 0.85, 0.6, 0.3, 0.1, 0, 0
     ]);
 
     // Enhanced hover animation wrapper
@@ -588,14 +575,10 @@ function TeamCard({ member, index, reduceMotion, progress, totalCards = 9 }: { k
         <motion.div
             style={reduceMotion ? {} : { 
                 y: cardY, 
-                z: cardZ,
-                rotateZ: cardRotateZ, 
-                rotateY: cardRotateY,
+                rotate: cardRotateZ, 
                 scale: cardScale, 
                 opacity: cardOpacity, 
-                zIndex: cardZIndex,
-                transformOrigin: "50% 1200px",
-                transformStyle: "preserve-3d"
+                transformOrigin: "bottom center"
             }}
             className="h-full w-full transform-gpu will-change-transform"
         >
@@ -1432,7 +1415,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                 <motion.div 
                                     ref={carouselRef}
                                     style={{ x: teamX }}
-                                    className="flex gap-6 sm:gap-8 px-[calc(50vw_-_150px)] sm:px-[calc(50vw_-_190px)] py-10 w-max perspective-[1400px] [transform-style:preserve-3d]"
+                                    className="flex gap-6 sm:gap-8 px-[calc(50vw_-_150px)] sm:px-[calc(50vw_-_190px)] py-10 w-max perspective-[1000px]"
                                 >
                                     {teamMembers.map((member, index) => (
                                         <div key={index} className="w-[300px] sm:w-[380px] shrink-0 h-[420px]">
