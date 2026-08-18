@@ -325,8 +325,8 @@ export function FeaturedCards({ serverUser }: { serverUser?: ServerUser | null }
         style={{ willChange: "transform, opacity" }}
         className="text-center mb-10 sm:mb-14"
       >
-        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-red-50 dark:bg-red-500/10 border border-red-200/50 dark:border-red-500/20 mb-6 shadow-sm">
-          <span className="text-[10px] sm:text-xs font-black text-red-600 dark:text-red-400 uppercase tracking-[0.2em]">Choose Your Path</span>
+        <div className="inline-flex items-center gap-2 px-5 py-1.5 sm:py-2 rounded-full bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] mb-6 select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default">
+          <span>Choose Your Path</span>
         </div>
         <h2 className="text-3xl sm:text-5xl font-black text-slate-800 dark:text-white tracking-tight">
           Start Your <span className="text-red-500 drop-shadow-sm">Fire Safety</span> Journey

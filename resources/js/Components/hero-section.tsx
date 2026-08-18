@@ -98,8 +98,8 @@ export function HeroSection() {
                     style={{ willChange: "transform, opacity" }}
                     className="mb-6 sm:mb-8"
                 >
-                    <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] shadow-sm leading-snug">
-                        <Shield className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-red-500" strokeWidth={2.5} />
+                    <span className="inline-flex items-center gap-2 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default leading-snug">
+                        <Shield className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-red-600 dark:text-red-500" strokeWidth={2.5} />
                         <span className="sm:hidden">BFP — Sta. Cruz</span>
                         <span className="hidden sm:inline">Bureau of Fire Protection - Sta. Cruz, Laguna</span>
                     </span>

@@ -911,7 +911,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                     transition={{ duration: 0.4 }}
                                     className="mb-6 flex justify-center lg:justify-start"
                                 >
-                                    <span className="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-5 py-2 rounded-full inline-block border border-red-200/50 dark:border-red-500/20 shadow-sm transition-colors">
+                                    <span className="bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-5 py-1.5 sm:py-2 rounded-full inline-flex items-center border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default">
                                         About SafeScape
                                     </span>
                                 </motion.div>
@@ -1089,7 +1089,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                             viewport={{ once: true }}
                             transition={{ duration: 0.7 }}
                         >
-                            <span className="font-bold text-[10px] sm:text-xs uppercase tracking-widest mb-4 inline-block border border-yellow-500/30 text-yellow-600 dark:text-yellow-400 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-yellow-500/10">
+                            <span className="bg-white dark:bg-slate-900 text-amber-700 dark:text-amber-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-5 py-1.5 sm:py-2 rounded-full inline-flex items-center border-2 border-amber-200 dark:border-amber-900/50 shadow-[0_3px_0_#fcd34d] dark:shadow-[0_3px_0_#78350f] sm:shadow-[0_4px_0_#fcd34d] sm:dark:shadow-[0_4px_0_#78350f] mb-4 select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fcd34d] dark:hover:shadow-[0_5px_0_#78350f] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default">
                                 Collaborative Initiative
                             </span>
                             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-3">
@@ -1208,7 +1208,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
                             <div className="mb-6 flex justify-center">
-                                <span className="bg-yellow-500/20 text-yellow-300 font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full inline-block border border-yellow-500/30 shadow-sm backdrop-blur-sm">
+                                <span className="bg-yellow-400 text-yellow-950 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-5 py-1.5 sm:py-2 rounded-full inline-flex items-center border-2 border-white/90 shadow-[0_3px_0_#b45309] sm:shadow-[0_4px_0_#b45309] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#b45309] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default">
                                     Our Heroes
                                 </span>
                             </div>
