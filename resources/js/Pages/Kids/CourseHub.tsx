@@ -340,64 +340,53 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
         <div className="max-w-6xl mx-auto relative z-10">
 
           {/* ── SafeScape Internal Header ── */}
-          <div className="flex flex-col sm:flex-row items-center justify-between border-b-2 border-blue-200 dark:border-slate-800 pb-4 mb-8 sm:mb-12 gap-4">
-            <div className="flex items-center justify-between w-full sm:w-auto gap-4">
+          <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800 pb-3 mb-6 sm:mb-8 gap-4">
+            <div className="flex items-center justify-between w-full sm:w-auto gap-3">
               <Link
                 href="/kids"
-                className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl text-slate-700 dark:text-slate-200 font-bold hover:text-blue-600 dark:hover:text-blue-400 border-2 border-slate-200 dark:border-slate-700 shadow-sm transition-all text-sm whitespace-nowrap shrink-0"
+                className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl text-slate-700 dark:text-slate-200 font-bold hover:text-blue-600 dark:hover:text-blue-400 border-2 border-slate-200 dark:border-slate-700 shadow-xs transition-all text-xs sm:text-sm whitespace-nowrap shrink-0"
               >
                 <ArrowLeft className="h-4 w-4" />
-                <span className="hidden xs:inline sm:inline">Back <span className="hidden sm:inline">to Dashboard</span></span>
+                <span>Back to Dashboard</span>
               </Link>
               
               <div className="flex items-center gap-2">
                 <Shield className="h-5 w-5 text-[#ff4b3e]" />
-                <div className="flex flex-col sm:flex-row sm:items-center sm:gap-1">
-                  <span className="text-slate-800 dark:text-white font-black text-base sm:text-lg leading-none">SafeScape</span>
-                  <span className="text-slate-500 dark:text-slate-400 font-bold text-xs sm:text-lg sm:opacity-100 opacity-80 sm:before:content-['|'] sm:before:mr-1"> Course Hub</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-slate-800 dark:text-white font-black text-sm sm:text-base leading-none">SafeScape</span>
+                  <span className="text-slate-400 dark:text-slate-500 font-bold text-xs sm:text-sm">| Course Hub</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* ── Hero Section ── */}
-          {completedCount === 5 ? (
-            <div className="flex flex-col items-center text-center mb-10 sm:mb-12 space-y-3 sm:space-y-4 relative">
-              <div className="absolute top-0 right-0 lg:-right-12 text-3xl sm:text-5xl opacity-10 transform rotate-12 pointer-events-none">✨</div>
-              <div className="absolute bottom-4 left-0 lg:-left-12 text-3xl sm:text-5xl opacity-10 transform -rotate-12 pointer-events-none">🔥</div>
-              
-              <span className="inline-block px-3 py-1 bg-emerald-100 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 font-black text-[10px] uppercase tracking-widest rounded-full border border-emerald-200 dark:border-emerald-900/30 shadow-sm">
-                TRAINING COMPLETED
-              </span>
-              <h1 className="text-3xl sm:text-5xl font-black text-primary leading-tight drop-shadow-sm px-2">
-                You are a Fire Safety Hero!
-              </h1>
-              <p className="text-sm sm:text-base font-bold text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed px-4">
-                You did it! You are now an official Fire Safety Hero. You know exactly how to outsmart fire and keep your family safe!
-              </p>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center text-center mb-10 sm:mb-12 space-y-3 sm:space-y-4 relative">
-              <div className="absolute top-0 right-0 lg:-right-12 text-4xl sm:text-6xl opacity-20 transform rotate-12 pointer-events-none">✨</div>
-              <div className="absolute bottom-10 left-0 lg:-left-12 text-4xl sm:text-6xl opacity-20 transform -rotate-12 pointer-events-none">🔥</div>
-              
-              <span className="inline-block px-3 py-1 bg-orange-100 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400 font-black text-[10px] uppercase tracking-widest rounded-full border border-orange-200 dark:border-orange-900/30 shadow-sm">
-                FIRE SAFETY TRAINING COURSE
-              </span>
-              <h1 className="text-3xl sm:text-5xl font-black text-primary leading-tight drop-shadow-sm px-2">
-                Become a Fire Safety Hero!
-              </h1>
-              <p className="text-sm sm:text-base font-bold text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed px-4">
-                Are you ready for an adventure? Complete all 5 fun training missions to learn how to outsmart fire and protect your home!
-              </p>
-            </div>
-          )}
-
-          {/* ── Modules Grid Header ── */}
-          <div className="mb-6 sm:mb-8 text-center">
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white flex items-center justify-center gap-3">
-              <BookOpen className="h-6 w-6 text-blue-500" /> Your Training Modules
-            </h2>
+          {/* ── Unified Section Header ── */}
+          <div className="mb-6 sm:mb-8 text-center flex flex-col items-center space-y-2">
+            {completedCount === 5 ? (
+              <>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 font-black text-[10px] sm:text-xs uppercase tracking-widest rounded-full border border-emerald-200 dark:border-emerald-800/80 shadow-2xs">
+                  <CheckCircle className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" /> All Missions Mastered
+                </span>
+                <h2 className="text-2xl sm:text-4xl font-black text-slate-800 dark:text-white flex items-center justify-center gap-2.5 tracking-tight">
+                  <BookOpen className="h-6 w-6 sm:h-7 sm:w-7 text-blue-500" /> Your Training Modules
+                </h2>
+                <p className="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400 max-w-lg leading-relaxed">
+                  Review your completed lessons below or retake any mission to practice your skills!
+                </p>
+              </>
+            ) : (
+              <>
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 font-black text-[10px] sm:text-xs uppercase tracking-widest rounded-full border border-orange-200 dark:border-orange-800/80 shadow-2xs">
+                  Fire Safety Training Course
+                </span>
+                <h2 className="text-2xl sm:text-4xl font-black text-slate-800 dark:text-white flex items-center justify-center gap-2.5 tracking-tight">
+                  <BookOpen className="h-6 w-6 sm:h-7 sm:w-7 text-blue-500" /> Your Training Modules
+                </h2>
+                <p className="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400 max-w-lg leading-relaxed">
+                  Complete all 5 training missions to learn how to outsmart fire and earn your Hero Certificate!
+                </p>
+              </>
+            )}
           </div>
 
           <Deferred data="initialModules" fallback={
