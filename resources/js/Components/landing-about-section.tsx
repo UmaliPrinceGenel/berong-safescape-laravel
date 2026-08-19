@@ -1193,9 +1193,9 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
             </div>
 
             {/* Meet Your Firefighters Section */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
                 <motion.section
-                    className="py-10 sm:py-14 lg:py-16 bg-gradient-to-br from-orange-600 to-red-700 dark:from-orange-900 dark:to-red-950 text-white relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-xl dark:shadow-md border border-red-500/30 transition-colors duration-500"
+                    className="py-7 sm:py-9 lg:py-10 px-4 sm:px-8 bg-gradient-to-br from-orange-600 to-red-700 dark:from-orange-900 dark:to-red-950 text-white relative overflow-hidden rounded-[1.75rem] sm:rounded-[2.25rem] shadow-xl dark:shadow-md border border-red-500/30 transition-colors duration-500"
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
@@ -1219,30 +1219,30 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                         transition={reduceMotion ? undefined : { duration: 7, repeat: Infinity }}
                     />
 
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center">
+                    <div className="w-full relative z-10 flex flex-col items-center">
                         <motion.div
-                            className="text-center mb-10"
+                            className="text-center mb-6 sm:mb-7"
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
-                            <div className="mb-6 flex justify-center">
-                                <span className="bg-yellow-400 text-yellow-950 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-5 py-1.5 sm:py-2 rounded-full inline-flex items-center border-2 border-white/90 shadow-[0_3px_0_#b45309] sm:shadow-[0_4px_0_#b45309] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#b45309] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default">
+                            <div className="mb-2.5 sm:mb-3 flex justify-center">
+                                <span className="bg-yellow-400 text-yellow-950 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-4 py-1 sm:py-1.5 rounded-full inline-flex items-center border-2 border-white/90 shadow-[0_3px_0_#b45309] select-none hover:-translate-y-0.5 hover:shadow-[0_4px_0_#b45309] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default">
                                     Our Heroes
                                 </span>
                             </div>
                             <FireExtinguishedText 
                                 text="Meet Your Firefighters" 
-                                className="text-3xl sm:text-4xl lg:text-5xl font-black mb-4 drop-shadow-md" 
+                                className="text-2xl sm:text-3xl lg:text-4xl font-black mb-2 drop-shadow-md" 
                             />
-                            <p className="text-orange-100 font-medium max-w-2xl mx-auto text-sm sm:text-base leading-relaxed opacity-90">
+                            <p className="text-orange-100/90 font-medium max-w-xl mx-auto text-xs sm:text-sm leading-relaxed">
                                 The brave men and women of BFP Santa Cruz dedicated to keeping our community safe.
                             </p>
                         </motion.div>
 
                         <motion.div
-                            className="w-full max-w-5xl aspect-[4/3] xs:aspect-[16/10] sm:aspect-video bg-slate-900 rounded-[1.75rem] sm:rounded-[2rem] border border-white/20 dark:border-slate-800 overflow-hidden relative group/slide shadow-2xl cursor-pointer"
+                            className="w-full max-w-4xl aspect-[4/3] xs:aspect-[16/10] sm:aspect-video bg-slate-900 rounded-[1.25rem] sm:rounded-[1.75rem] border border-white/20 dark:border-slate-800 overflow-hidden relative group/slide shadow-2xl cursor-pointer"
                             onClick={() => setIsLightboxOpen(true)}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -1256,13 +1256,13 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                             onMouseLeave={() => setIsHovered(false)}
                         >
                             {/* Slide Display using framer-motion with smooth zoom */}
-                            <div className="absolute inset-0 w-full h-full overflow-hidden bg-slate-950 rounded-[1.75rem] sm:rounded-[2rem]">
+                            <div className="absolute inset-0 w-full h-full overflow-hidden bg-slate-950 rounded-[1.25rem] sm:rounded-[1.75rem]">
                                 <AnimatePresence mode="wait">
                                     <motion.img
                                         key={currentSlide}
                                         src={firefighterSlides[currentSlide].image}
                                         alt={firefighterSlides[currentSlide].title}
-                                        className="w-full h-full object-cover select-none rounded-[1.75rem] sm:rounded-[2rem] transition-transform duration-700 ease-out group-hover/slide:scale-105"
+                                        className="w-full h-full object-cover select-none rounded-[1.25rem] sm:rounded-[1.75rem] transition-transform duration-700 ease-out group-hover/slide:scale-105"
                                         initial={{ opacity: 0, scale: 1.08 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 0.95 }}
@@ -1272,12 +1272,12 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                             </div>
 
                             {/* Gradient Overlay - Bottom Left aligned matching Top Hero Carousel */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-950/40 to-transparent flex flex-col justify-end items-start p-6 pb-8 sm:p-10 sm:pb-12 md:p-12 md:pb-14 pointer-events-none rounded-[1.75rem] sm:rounded-[2rem]">
-                                <div className="relative z-10 text-white w-full max-w-3xl pointer-events-auto">
-                                    <h3 className="text-2xl sm:text-4xl md:text-5xl font-black mb-1.5 sm:mb-2.5 drop-shadow-2xl tracking-tight leading-tight">
+                            <div className="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-950/40 to-transparent flex flex-col justify-end items-start p-5 pb-6 sm:p-8 sm:pb-9 md:p-9 md:pb-10 pointer-events-none rounded-[1.25rem] sm:rounded-[1.75rem]">
+                                <div className="relative z-10 text-white w-full max-w-2xl pointer-events-auto">
+                                    <h3 className="text-xl sm:text-3xl md:text-4xl font-black mb-1 sm:mb-1.5 drop-shadow-2xl tracking-tight leading-tight">
                                         {firefighterSlides[currentSlide].title}
                                     </h3>
-                                    <p className="text-xs sm:text-base md:text-lg font-medium text-gray-200 drop-shadow-md leading-relaxed hidden sm:block">
+                                    <p className="text-xs sm:text-sm md:text-base font-medium text-gray-200 drop-shadow-md leading-relaxed hidden sm:block">
                                         {firefighterSlides[currentSlide].description}
                                     </p>
                                 </div>
@@ -1294,21 +1294,21 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                             {/* Navigation Arrows - Circular White Pills with Dark Chevrons (Matching Top Hero Carousel) */}
                             <button
                                 onClick={prevSlide}
-                                className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center rounded-full bg-white text-slate-900 shadow-xl hover:bg-slate-100 hover:scale-110 active:scale-95 transition-all z-20"
+                                className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white text-slate-900 shadow-xl hover:bg-slate-100 hover:scale-110 active:scale-95 transition-all z-20"
                                 aria-label="Previous slide"
                             >
-                                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={2.5} />
+                                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5} />
                             </button>
                             <button
                                 onClick={nextSlide}
-                                className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center rounded-full bg-white text-slate-900 shadow-xl hover:bg-slate-100 hover:scale-110 active:scale-95 transition-all z-20"
+                                className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white text-slate-900 shadow-xl hover:bg-slate-100 hover:scale-110 active:scale-95 transition-all z-20"
                                 aria-label="Next slide"
                             >
-                                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={2.5} />
+                                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5} />
                             </button>
 
                             {/* Slide Indicator Bars (Bottom Right matching Top Hero Carousel) */}
-                            <div className="absolute bottom-4 right-6 sm:bottom-6 sm:right-8 flex items-center gap-2 z-20">
+                            <div className="absolute bottom-3 right-5 sm:bottom-5 sm:right-7 flex items-center gap-1.5 sm:gap-2 z-20">
                                 {firefighterSlides.map((_, index) => (
                                     <button
                                         key={index}
@@ -1317,10 +1317,10 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                             setCurrentSlide(index);
                                         }}
                                         className={cn(
-                                            "h-2 rounded-full transition-all duration-300",
+                                            "h-1.5 sm:h-2 rounded-full transition-all duration-300",
                                             currentSlide === index 
-                                                ? "w-7 sm:w-8 bg-yellow-400" 
-                                                : "w-2 sm:w-2.5 bg-white/50 hover:bg-white/80"
+                                                ? "w-6 sm:w-7 bg-yellow-400" 
+                                                : "w-1.5 sm:w-2 bg-white/50 hover:bg-white/80"
                                         )}
                                         aria-label={`Go to slide ${index + 1}`}
                                     />
