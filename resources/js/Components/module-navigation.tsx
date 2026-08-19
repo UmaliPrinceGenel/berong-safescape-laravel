@@ -21,12 +21,10 @@ export const ModuleNavigation = ({ currentModule, completedModules }: ModuleNavi
               href={isUnlocked ? `/kids/safescape/${n}` : "#"}
               className={cn(
                 "h-8 w-8 sm:h-10 sm:w-10 rounded-full flex items-center justify-center text-xs sm:text-sm font-black transition-all shrink-0 border-[3px] focus:outline-none",
-                isCompleted
-                  ? isCurrent
-                    ? "bg-green-500 text-white border-yellow-400 dark:border-yellow-500 shadow-[0_4px_0_#166534] -translate-y-0.5 pointer-events-none"
-                    : "bg-green-500 text-white border-white dark:border-slate-200 shadow-[0_3px_0_#166534] hover:-translate-y-0.5 hover:shadow-[0_4px_0_#166534] active:translate-y-1 active:shadow-none"
-                  : isCurrent
-                    ? "bg-[#ff4b3e] text-white border-white dark:border-slate-200 shadow-[0_4px_0_#991b1b] -translate-y-0.5 pointer-events-none"
+                isCurrent
+                  ? "bg-[#d60000] text-white border-white dark:border-slate-200 shadow-[0_4px_0_#991b1b] -translate-y-0.5 pointer-events-none"
+                  : isCompleted
+                    ? "bg-green-500 text-white border-white dark:border-slate-200 shadow-[0_3px_0_#166534] hover:-translate-y-0.5 hover:shadow-[0_4px_0_#166534] active:translate-y-1 active:shadow-none"
                     : isUnlocked
                       ? "bg-white dark:bg-slate-800 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-700 shadow-[0_3px_0_#cbd5e1] dark:shadow-[0_3px_0_#0f172a] hover:-translate-y-0.5 hover:shadow-[0_4px_0_#cbd5e1] dark:hover:shadow-[0_4px_0_#0f172a] hover:text-slate-600 dark:hover:text-slate-300 active:translate-y-1 active:shadow-none"
                       : "bg-slate-100 dark:bg-slate-900 text-slate-300 dark:text-slate-700 border-slate-200 dark:border-slate-800 shadow-none cursor-not-allowed opacity-60"

@@ -512,7 +512,15 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                                     alt={video.title}
                                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                                 />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+
+                                                {/* Duration Badge Overlay */}
+                                                {video.duration && (
+                                                    <div className="absolute bottom-1.5 right-1.5 sm:bottom-2.5 sm:right-2.5 bg-black/80 backdrop-blur-md px-2 py-0.5 rounded-lg text-[10px] sm:text-xs font-extrabold text-white tracking-wider flex items-center gap-1 shadow-md border border-white/10 z-20">
+                                                        <Clock className="h-3 w-3 text-orange-400" />
+                                                        {video.duration}
+                                                    </div>
+                                                )}
 
                                                 {/* Play Icon Overlay */}
                                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
@@ -523,7 +531,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                             </div>
 
                                             {/* Info Section */}
-                                            <CardContent className="p-0 sm:p-5 pl-3 sm:pl-5 flex flex-col justify-between flex-1 min-w-0 py-0.5 sm:py-5">
+                                            <CardContent className="p-0 sm:p-5 pl-3 sm:pl-5 flex flex-col justify-between flex-1 min-w-0 py-0.5 sm:py-4">
                                                 <div className="flex flex-col justify-start">
                                                     <CardTitle className="text-xs sm:text-base font-black text-slate-800 dark:text-white line-clamp-2 min-h-[2.25rem] sm:min-h-[2.6rem] leading-tight sm:leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors flex items-center sm:items-start">
                                                         {video.title}
@@ -537,19 +545,12 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                                     )}
                                                 </div>
 
-                                                <div className="flex items-center justify-between mt-3 pt-1.5 sm:pt-2.5 sm:border-t border-slate-100 dark:border-slate-800/80">
-                                                    {video.duration ? (
-                                                        <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-400 dark:text-slate-500">
-                                                            <Clock className="h-3 w-3 text-orange-500" />
-                                                            {video.duration}
-                                                        </span>
-                                                    ) : (
-                                                        <span className="inline-flex items-center rounded-full px-2 py-0.5 font-extrabold bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 text-[9px] tracking-wider uppercase border border-orange-200 dark:border-orange-900/50">
-                                                            Adult Education
-                                                        </span>
-                                                    )}
-                                                    <span className="text-[11px] sm:text-xs font-bold text-slate-500 group-hover:text-orange-500 dark:group-hover:text-orange-400 flex items-center gap-1 transition-colors">
-                                                        Watch <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
+                                                <div className="flex items-center justify-between mt-3 pt-2 sm:pt-3 border-t border-slate-100 dark:border-slate-800/80">
+                                                    <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-extrabold bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 text-[9px] sm:text-[10px] tracking-wider uppercase border border-orange-200 dark:border-orange-900/50">
+                                                        Adult Safety
+                                                    </span>
+                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl font-extrabold text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 group-hover:bg-orange-500 group-hover:text-white dark:group-hover:bg-orange-500 dark:group-hover:text-white transition-all duration-300 shadow-2xs group-hover:shadow-[0_2px_0_#c2410c] group-hover:-translate-y-0.5">
+                                                        Watch <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform duration-300" strokeWidth={2.5} />
                                                     </span>
                                                 </div>
                                             </CardContent>
