@@ -373,8 +373,7 @@ export function Navigation() {
                 <TimeDisplay />
                 {isAuthenticated && (
                   <div className="flex flex-col items-end whitespace-nowrap mt-0.5">
-                    <p className="text-white font-extrabold text-sm leading-none drop-shadow-sm">{user?.name || 'Admin User'}</p>
-                    <p className="text-yellow-300 text-[0.625rem] font-bold uppercase tracking-widest leading-tight mt-1 drop-shadow-sm opacity-90">{user?.role || 'Admin'}</p>
+                    <p className="text-white font-extrabold text-sm leading-none drop-shadow-sm">{user?.name || 'User'}</p>
                   </div>
                 )}
               </div>
