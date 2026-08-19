@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import { Dialog, DialogContent, DialogTitle } from "@/Components/ui/dialog"
 import { X } from "lucide-react"
 import { Button } from "@/Components/ui/button"
@@ -22,6 +23,17 @@ export function ImageViewerModal({
     imageAlt,
     description
 }: ImageViewerModalProps) {
+    useEffect(() => {
+        if (isOpen) {
+            document.documentElement.classList.add('lightbox-open');
+        } else {
+            document.documentElement.classList.remove('lightbox-open');
+        }
+        return () => {
+            document.documentElement.classList.remove('lightbox-open');
+        };
+    }, [isOpen]);
+
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent 

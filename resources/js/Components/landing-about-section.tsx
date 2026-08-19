@@ -818,6 +818,17 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
     useEffect(() => {
+        if (isLightboxOpen) {
+            document.documentElement.classList.add('lightbox-open');
+        } else {
+            document.documentElement.classList.remove('lightbox-open');
+        }
+        return () => {
+            document.documentElement.classList.remove('lightbox-open');
+        };
+    }, [isLightboxOpen]);
+
+    useEffect(() => {
         if (isHovered) return;
         const interval = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % firefighterSlides.length);
@@ -1336,19 +1347,23 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-10 select-none"
+                                className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-md flex items-center justify-center p-3 sm:p-10 select-none"
                                 onClick={() => setIsLightboxOpen(false)}
                             >
                                 {/* Close Button */}
                                 <button
-                                    className="absolute top-6 right-6 z-[110] w-12 h-12 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full flex items-center justify-center text-white transition-all active:scale-95 hover:scale-105"
-                                    onClick={() => setIsLightboxOpen(false)}
+                                    className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[210] w-10 h-10 sm:w-12 sm:h-12 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full flex items-center justify-center text-white transition-all active:scale-95 hover:scale-105"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setIsLightboxOpen(false);
+                                    }}
+                                    aria-label="Close fullscreen view"
                                 >
-                                    <X className="w-6 h-6" />
+                                    <X className="w-5 h-5 sm:w-6 sm:h-6" />
                                 </button>
 
                                 {/* Lightbox Image & Controls */}
-                                <div className="relative max-w-7xl max-h-[85vh] w-full h-full flex items-center justify-center">
+                                <div className="relative max-w-7xl max-h-[85vh] w-full h-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
                                     <motion.img
                                         key={currentSlide}
                                         src={firefighterSlides[currentSlide].image}
@@ -1358,25 +1373,32 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                         animate={{ scale: 1, opacity: 1 }}
                                         exit={{ scale: 0.95, opacity: 0 }}
                                         transition={{ duration: 0.3 }}
-                                        onClick={() => setIsLightboxOpen(false)}
                                     />
 
                                     {/* Slider Controls */}
                                     <button
-                                        onClick={prevSlide}
-                                        className="absolute left-2 sm:left-4 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all active:scale-90 hover:scale-105 z-20"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            prevSlide(e);
+                                        }}
+                                        className="absolute left-2 sm:left-4 w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all active:scale-90 hover:scale-105 z-20"
+                                        aria-label="Previous image"
                                     >
-                                        <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+                                        <ChevronLeft className="w-5 h-5 sm:w-8 sm:h-8" />
                                     </button>
                                     <button
-                                        onClick={nextSlide}
-                                        className="absolute right-2 sm:right-4 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all active:scale-90 hover:scale-105 z-20"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            nextSlide(e);
+                                        }}
+                                        className="absolute right-2 sm:right-4 w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all active:scale-90 hover:scale-105 z-20"
+                                        aria-label="Next image"
                                     >
-                                        <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
+                                        <ChevronRight className="w-5 h-5 sm:w-8 sm:h-8" />
                                     </button>
 
                                     {/* Caption / Navigation Indicator */}
-                                    <div className="absolute bottom-[-40px] inset-x-0 text-center text-slate-300 font-semibold text-sm">
+                                    <div className="absolute -bottom-8 sm:-bottom-10 inset-x-0 text-center text-slate-300 font-semibold text-xs sm:text-sm px-4 truncate pointer-events-none">
                                         {currentSlide + 1} / {firefighterSlides.length} — {firefighterSlides[currentSlide].title}
                                     </div>
                                 </div>

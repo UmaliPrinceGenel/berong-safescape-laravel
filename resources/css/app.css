@@ -535,3 +535,19 @@ html.meet-devs-in-view .ss-chatbot-window {
   visibility: hidden;
 }
 
+/* Hide floating distraction elements when image lightbox/modal is open */
+html.lightbox-open .ss-chatbot-toggle,
+html.lightbox-open .ss-chatbot-window,
+html.lightbox-open .chatbot-window-container,
+html.lightbox-open .chatbot-berong-image,
+html.lightbox-open .ss-install-shortcut-btn,
+html.lightbox-open .ss-feedback-widget,
+html.lightbox-open [class*="FeedbackWidget"],
+html.lightbox-open [id*="feedback-widget"] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  display: none !important;
+}
+
+
