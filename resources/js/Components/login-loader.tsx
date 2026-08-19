@@ -1,7 +1,9 @@
-'use client';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '@/lib/auth-context';
 import Image from '@/Components/Image';
+import { LottiePlayer } from '@/Components/ui/lottie-player';
+import flameLoaderAnimation from '@/assets/lottie/flame-loader.json';
+
 export function LoginLoader() {
     const { isAuthenticating } = useAuth();
 
@@ -66,6 +68,10 @@ export function LoginLoader() {
                                     priority={true}
                                 />
                             </motion.div>
+                            {/* Floating Lottie Flame micro-badge */}
+                            <div className="absolute -bottom-4 -right-4 w-14 h-14 sm:w-16 sm:h-16 z-20 pointer-events-none filter drop-shadow-lg">
+                                <LottiePlayer animationData={flameLoaderAnimation} loop={true} className="w-full h-full" />
+                            </div>
                         </div>
 
                         {/* Text Content */}

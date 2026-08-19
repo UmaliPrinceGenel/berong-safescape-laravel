@@ -20,6 +20,8 @@ import {
 } from "lucide-react"
 import { Dialog, DialogContent, DialogClose, DialogTitle } from "@/Components/ui/dialog"
 import { useAuth } from "@/lib/auth-context"
+import { LottiePlayer } from "@/Components/ui/lottie-player"
+import trophyBadgeAnimation from "@/assets/lottie/trophy-badge.json"
 
 interface EligibilityData {
     eligible: boolean
@@ -241,8 +243,8 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                                 <div className="absolute bottom-0 left-0 w-40 h-40 bg-orange-950/30 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4 pointer-events-none" />
                                 
-                                <div className="w-13 h-13 sm:w-16 sm:h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-2.5 sm:mb-3 border border-white/30 shadow-[0_8px_24px_rgba(0,0,0,0.15)] relative z-10 shrink-0">
-                                    <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-white drop-shadow-md" strokeWidth={2.5} />
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center mb-1 relative z-10 shrink-0 filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.25)]">
+                                    <LottiePlayer animationData={trophyBadgeAnimation} loop={true} className="w-full h-full" />
                                 </div>
                                 <h3 className="text-xl sm:text-2xl font-black mb-0.5 tracking-tight drop-shadow-sm relative z-10">Final Assessment</h3>
                                 <div className="bg-white/20 px-3 py-0.5 rounded-full border border-white/25 backdrop-blur-sm relative z-10 mt-1 mb-3 sm:mb-4">
