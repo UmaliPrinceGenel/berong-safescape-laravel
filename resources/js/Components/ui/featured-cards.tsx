@@ -103,7 +103,7 @@ function AnimatedFeaturedCard({
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const cardContent = (
-    <div className={`w-full flex flex-col bg-white dark:bg-[#0B1120] rounded-[2rem] overflow-hidden relative transition-all duration-500 border border-slate-200 dark:border-slate-800 shadow-xl ${isRestricted ? 'grayscale opacity-50' : 'group-hover/card:-translate-y-3 group-hover/card:shadow-[0_30px_60px_rgba(0,0,0,0.12)] dark:group-hover/card:shadow-[0_30px_60px_rgba(0,0,0,0.6)] group-hover/card:dark:border-slate-700/80'}`}>
+    <div className={`w-full flex flex-col bg-white dark:bg-[#0B1120] rounded-[1.75rem] sm:rounded-[2rem] overflow-hidden relative transition-all duration-500 border-2 border-slate-200 dark:border-slate-800 shadow-xl ${isRestricted ? 'grayscale opacity-50' : 'group-hover/card:-translate-y-3 group-hover/card:shadow-[0_30px_60px_rgba(0,0,0,0.12)] dark:group-hover/card:shadow-[0_30px_60px_rgba(0,0,0,0.6)] group-hover/card:dark:border-slate-700/80'}`}>
 
       {/* Full Card Hover Overlay */}
       {card.hoverImageUrl && (
@@ -132,10 +132,10 @@ function AnimatedFeaturedCard({
       </div>
 
       {/* Content Area */}
-      <div className="p-5 sm:p-8 flex-1 flex flex-col relative z-30 transition-all duration-500 bg-transparent">
+      <div className="p-6 sm:p-7 md:p-8 flex-1 flex flex-col justify-between relative z-30 transition-all duration-500 bg-transparent">
 
         {/* Floating Icon */}
-        <div className={`absolute -top-8 sm:-top-10 right-6 sm:right-8 h-14 w-14 sm:h-16 sm:w-16 bg-gradient-to-br ${card.gradient} rounded-[1.25rem] sm:rounded-2xl shadow-xl flex items-center justify-center text-white ${isRestricted ? '' : 'group-hover/card:-translate-y-2 group-hover/card:scale-110 group-hover/card:rotate-6'} transition-all duration-500 z-10 border-4 border-white dark:border-[#0B1120]`}>
+        <div className={`absolute -top-8 sm:-top-10 right-6 sm:right-8 h-14 w-14 sm:h-16 sm:w-16 bg-gradient-to-br ${card.gradient} rounded-xl shadow-xl flex items-center justify-center text-white ${isRestricted ? '' : 'group-hover/card:-translate-y-2 group-hover/card:scale-110 group-hover/card:rotate-6'} transition-all duration-500 z-10 border-4 border-white dark:border-[#0B1120]`}>
           {card.icon}
         </div>
 
@@ -210,10 +210,10 @@ function MobileAnimatedCard({
   const isInView = useInView(ref, { once: true, margin: "-40px" });
 
   const cardContent = (
-    <div className={`w-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl p-4 transition-all duration-300 overflow-hidden relative border-2 border-white/60 dark:border-slate-700/60 shadow-[0_4px_15px_rgba(0,0,0,0.06)] dark:shadow-[0_4px_15px_rgba(0,0,0,0.3)] ${isRestricted ? 'grayscale opacity-50' : 'group-hover:-translate-y-1 group-active:translate-y-[2px] group-active:shadow-none'}`}>
+    <div className={`w-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[1.5rem] p-5 sm:p-6 transition-all duration-300 overflow-hidden relative border-2 border-white/60 dark:border-slate-700/60 shadow-[0_4px_15px_rgba(0,0,0,0.06)] dark:shadow-[0_4px_15px_rgba(0,0,0,0.3)] ${isRestricted ? 'grayscale opacity-50' : 'group-hover:-translate-y-1 group-active:translate-y-[2px] group-active:shadow-none'}`}>
       <div className="flex items-center gap-4">
         {/* Icon Section */}
-        <div className={`bg-gradient-to-br ${card.gradient} h-14 w-14 rounded-2xl flex items-center justify-center text-white shadow-lg shrink-0 ${isRestricted ? '' : 'group-hover:scale-105 group-hover:rotate-3'} transition-all duration-300 border border-white/20`}>
+        <div className={`bg-gradient-to-br ${card.gradient} h-14 w-14 rounded-xl flex items-center justify-center text-white shadow-lg shrink-0 ${isRestricted ? '' : 'group-hover:scale-105 group-hover:rotate-3'} transition-all duration-300 border border-white/20`}>
           {card.icon}
         </div>
         {/* Content */}
@@ -224,11 +224,11 @@ function MobileAnimatedCard({
       </div>
       {/* Full Width Mobile Button */}
       {isRestricted ? (
-        <div className="mt-3 w-full bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 font-extrabold text-xs py-2.5 rounded-xl flex items-center justify-center gap-2 tracking-wide uppercase cursor-not-allowed">
+        <div className="mt-4 w-full bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 font-extrabold text-xs py-3 rounded-xl flex items-center justify-center gap-2 tracking-wide uppercase cursor-not-allowed">
           🔒 Locked
         </div>
       ) : (
-        <div className={`mt-3 w-full bg-gradient-to-r ${card.gradient} text-white font-black text-xs py-3 rounded-xl ${card.btnShadow} transition-all group-hover:-translate-y-0.5 ${card.btnShadowHover} group-active:translate-y-[3px] group-active:shadow-none flex items-center justify-center gap-2 tracking-wide uppercase`}>
+        <div className={`mt-4 w-full bg-gradient-to-r ${card.gradient} text-white font-black text-xs py-3 rounded-xl ${card.btnShadow} transition-all group-hover:-translate-y-0.5 ${card.btnShadowHover} group-active:translate-y-[3px] group-active:shadow-none flex items-center justify-center gap-2 tracking-wide uppercase`}>
           {card.btn}
           <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform duration-300" strokeWidth={3} />
         </div>

@@ -34,7 +34,7 @@ export function HeroSection() {
     return (
         <section
             ref={sectionRef}
-            className="relative w-full min-h-[50vh] sm:min-h-[70vh] flex flex-col items-center justify-center overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] mb-8 sm:mb-12"
+            className="relative w-full min-h-[50vh] sm:min-h-[65vh] flex flex-col items-center justify-center overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] border border-slate-200/80 dark:border-slate-800/80 shadow-xl mb-8 sm:mb-12"
         >
             {/* === Animated Background === */}
             <motion.div
@@ -87,7 +87,7 @@ export function HeroSection() {
 
             {/* === Main Content === */}
             <motion.div
-                className="relative z-10 flex flex-col items-center text-center px-4 sm:px-10 py-10 sm:py-24 max-w-4xl mx-auto"
+                className="relative z-10 flex flex-col items-center text-center px-6 sm:px-10 py-12 sm:py-20 md:py-24 max-w-4xl mx-auto"
                 style={{ opacity: contentOpacity, y: contentY, willChange: "transform, opacity" }}
             >
                 {/* Badge */}
@@ -98,7 +98,7 @@ export function HeroSection() {
                     style={{ willChange: "transform, opacity" }}
                     className="mb-6 sm:mb-8"
                 >
-                    <span className="inline-flex items-center gap-2 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default leading-snug">
+                    <span className="inline-flex items-center gap-2 px-5 py-1.5 sm:py-2 rounded-full bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default leading-snug">
                         <Shield className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-red-600 dark:text-red-500" strokeWidth={2.5} />
                         <span className="sm:hidden">BFP — Sta. Cruz</span>
                         <span className="hidden sm:inline">Bureau of Fire Protection - Sta. Cruz, Laguna</span>

@@ -156,7 +156,7 @@ export default function Welcome({ carouselImages }: { carouselImages?: any[] }) 
                 initial={{ scale: 0.9, y: 20 }}
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.9, y: 20 }}
-                className="bg-white dark:bg-slate-900 border-[4px] border-red-500 rounded-[2rem] w-full max-w-sm overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]"
+                className="bg-white dark:bg-slate-900 border-[3px] border-red-500 rounded-[1.75rem] sm:rounded-[2rem] w-full max-w-sm overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]"
               >
                 {/* Modal Header */}
                 <div className="bg-red-500 p-5 text-center relative shrink-0">
@@ -172,10 +172,10 @@ export default function Welcome({ carouselImages }: { carouselImages?: any[] }) 
                 </div>
 
                 {/* Modal Content */}
-                <div className="p-5 flex-grow overflow-y-auto flex flex-col justify-between">
+                <div className="p-5 sm:p-6 flex-grow overflow-y-auto flex flex-col justify-between gap-4">
                   <div className="space-y-4">
                     {/* Image Container */}
-                    <div className="h-[280px] w-full bg-slate-100 dark:bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center p-2 border border-slate-200 dark:border-slate-850">
+                    <div className="h-[280px] w-full bg-slate-100 dark:bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center p-2.5 border border-slate-200 dark:border-slate-850">
                       <img
                         src={tutorialSteps[currentStep].image}
                         alt={tutorialSteps[currentStep].title}
@@ -195,7 +195,7 @@ export default function Welcome({ carouselImages }: { carouselImages?: any[] }) 
                   </div>
 
                   {/* Slide Navigation & Indicators */}
-                  <div className="flex items-center justify-between pt-6 mt-4 border-t border-slate-100 dark:border-slate-800 shrink-0">
+                  <div className="flex items-center justify-between pt-5 mt-2 border-t border-slate-100 dark:border-slate-800 shrink-0">
                     {/* Previous Button */}
                     {currentStep > 0 ? (
                       <button
@@ -224,7 +224,7 @@ export default function Welcome({ carouselImages }: { carouselImages?: any[] }) 
                     ) : (
                       <button
                         onClick={() => setShowShortcutGuide(false)}
-                        className="px-3.5 py-2 bg-red-500 hover:bg-red-600 text-white font-black text-[10px] uppercase tracking-wider rounded-xl transition-colors cursor-pointer"
+                        className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer"
                       >
                         Finish
                       </button>

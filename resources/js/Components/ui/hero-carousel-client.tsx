@@ -45,7 +45,7 @@ export function HeroCarouselClient({ images }: HeroCarouselClientProps) {
                 <CarouselContent>
                     {images.map((image, index) => (
                         <CarouselItem key={image.id}>
-                            <div className="relative isolate w-full aspect-video overflow-hidden rounded-[2.5rem] shadow-2xl border border-gray-200 dark:border-slate-800 group-slide bg-slate-200 dark:bg-slate-800 transition-colors duration-500">
+                            <div className="relative isolate w-full aspect-video overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl border border-gray-200 dark:border-slate-800 group-slide bg-slate-200 dark:bg-slate-800 transition-colors duration-500">
                                 <style dangerouslySetInnerHTML={{ __html: `
                                     .carousel-zoom-image {
                                         transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.33, 1, 0.68, 1) !important;
@@ -63,13 +63,13 @@ export function HeroCarouselClient({ images }: HeroCarouselClientProps) {
                                 />
 
                                 {/* Gradient Overlay - Bottom Left aligned */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent flex flex-col justify-end items-start p-6 pb-12 sm:p-10 sm:pb-16 md:p-14 md:pb-20 pointer-events-none rounded-[2.5rem]">
+                                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent flex flex-col justify-end items-start p-6 pb-10 sm:p-10 sm:pb-14 md:p-12 md:pb-16 pointer-events-none rounded-[2rem] sm:rounded-[2.5rem]">
                                     <div className="relative z-10 text-white w-full max-w-5xl pointer-events-auto">
-                                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-3 sm:mb-5 drop-shadow-2xl tracking-tight leading-tight">
+                                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-3 sm:mb-4 drop-shadow-2xl tracking-tight leading-tight">
                                             {image.title}
                                         </h1>
                                         {image.altText && (
-                                            <p className="text-sm sm:text-lg md:text-xl font-medium text-gray-200 drop-shadow-md max-w-3xl hidden sm:block">
+                                            <p className="text-sm sm:text-base md:text-lg font-medium text-gray-200 drop-shadow-md max-w-3xl hidden sm:block leading-relaxed">
                                                 {image.altText}
                                             </p>
                                         )}
@@ -79,11 +79,11 @@ export function HeroCarouselClient({ images }: HeroCarouselClientProps) {
                                 {/* Transparent Clickable Overlay Button */}
                                 <button
                                     onClick={() => handleImageClick(image)}
-                                    className="absolute inset-0 z-10 w-full h-full cursor-zoom-in bg-transparent transition-colors outline-none focus:ring-2 focus:ring-primary focus:ring-inset rounded-[2.5rem] flex items-center justify-center group/overlay"
+                                    className="absolute inset-0 z-10 w-full h-full cursor-zoom-in bg-transparent transition-colors outline-none focus:ring-2 focus:ring-primary focus:ring-inset rounded-[2rem] sm:rounded-[2.5rem] flex items-center justify-center group/overlay"
                                     aria-label={`View full screen image: ${image.title}`}
                                 >
                                     {/* Center Overlay Hint */}
-                                    <div className="opacity-0 group-hover/overlay:opacity-100 translate-y-4 group-hover/overlay:translate-y-0 transition-all duration-300 bg-slate-900/90 backdrop-blur-md text-white font-bold px-4 py-2 sm:px-6 sm:py-3 rounded-full flex items-center gap-2 shadow-2xl border border-slate-700/50 text-xs sm:text-sm">
+                                    <div className="opacity-0 group-hover/overlay:opacity-100 translate-y-4 group-hover/overlay:translate-y-0 transition-all duration-300 bg-slate-900/90 backdrop-blur-md text-white font-bold px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl flex items-center gap-2 shadow-2xl border border-slate-700/50 text-xs sm:text-sm">
                                         <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5} />
                                         Click to expand
                                     </div>

@@ -315,17 +315,19 @@ function FeatureCard({
                 y: 4,
                 transition: { type: "spring", stiffness: 400, damping: 25 }
             }}
-            className="group bg-white dark:bg-slate-800 rounded-[2rem] sm:rounded-3xl p-5 sm:p-8 shadow-[0_6px_0_#991b1b] sm:shadow-[0_8px_0_#991b1b] dark:shadow-[0_6px_0_#0f172a] sm:dark:shadow-[0_8px_0_#0f172a] hover:shadow-[0_10px_0_#7f1d1d] sm:hover:shadow-[0_12px_0_#7f1d1d] dark:hover:shadow-[0_10px_0_#000] border-[3px] sm:border-[4px] border-white dark:border-slate-700 relative overflow-hidden h-full cursor-pointer"
+            className="group bg-white dark:bg-slate-800 rounded-[1.75rem] sm:rounded-[2rem] p-6 sm:p-7 md:p-8 shadow-[0_6px_0_#991b1b] sm:shadow-[0_8px_0_#991b1b] dark:shadow-[0_6px_0_#0f172a] sm:dark:shadow-[0_8px_0_#0f172a] hover:shadow-[0_10px_0_#7f1d1d] sm:hover:shadow-[0_12px_0_#7f1d1d] dark:hover:shadow-[0_10px_0_#000] border-[3px] border-white dark:border-slate-700 relative overflow-hidden h-full flex flex-col justify-between gap-4 cursor-pointer"
         >
             {/* Playful Background Blob */}
             <div className={`absolute -top-10 -right-10 w-24 h-24 ${feature.color.split(' ')[0]} opacity-10 rounded-full group-hover:scale-150 transition-transform duration-700`} />
             
-            <div className={`${feature.color} w-14 h-14 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:rotate-6 transition-transform duration-300 shadow-inner border-2 border-white/50`}>
-                <feature.icon className="w-7 h-7 sm:w-10 sm:h-10 text-white drop-shadow-sm" strokeWidth={2.5} />
+            <div className={`${feature.color} w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center mb-2 group-hover:rotate-6 transition-transform duration-300 shadow-inner border-2 border-white/50 shrink-0`}>
+                <feature.icon className="w-7 h-7 sm:w-8 sm:h-8 text-white drop-shadow-sm" strokeWidth={2.5} />
             </div>
             
-            <h3 className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white mb-2 sm:mb-3 tracking-tight transition-colors">{feature.title}</h3>
-            <p className="text-xs sm:text-base text-slate-600 dark:text-slate-400 font-bold leading-relaxed transition-colors">{feature.description}</p>
+            <div className="flex-1 flex flex-col justify-between gap-2">
+                <h3 className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight transition-colors">{feature.title}</h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-bold leading-relaxed transition-colors">{feature.description}</p>
+            </div>
         </motion.div>
     );
 }
@@ -360,9 +362,9 @@ const getBorderGlowColor = (colorStr: string) => {
 function StaticTeamCard({ member, index }: { member: typeof teamMembers[0]; index: number }) {
     return (
         <div className="h-full w-full">
-            <div className="group relative bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-3 border border-slate-200 dark:border-slate-700 h-full flex flex-col cursor-pointer transition-all duration-300">
+            <div className="group relative bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[1.75rem] overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 border-2 border-slate-200 dark:border-slate-700 h-full flex flex-col cursor-pointer transition-all duration-300">
                 {/* Gradient Header */}
-                <div className={`h-32 bg-gradient-to-r ${member.color} relative overflow-hidden`}>
+                <div className={`h-28 sm:h-32 bg-gradient-to-r ${member.color} relative overflow-hidden`}>
                     <div className="absolute inset-0 bg-black/20" />
                     {/* Decorative circles */}
                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded-full" />
@@ -370,10 +372,10 @@ function StaticTeamCard({ member, index }: { member: typeof teamMembers[0]; inde
                 </div>
 
                 {/* Profile Image */}
-                <div className="relative -mt-16 flex justify-center">
+                <div className="relative -mt-14 sm:-mt-16 flex justify-center">
                     <div className="relative p-1.5 bg-white dark:bg-slate-800 rounded-full shadow-xl">
                         <div className="absolute inset-0 bg-slate-400 rounded-full opacity-50 group-hover:opacity-75 transition-opacity" />
-                        <div className="relative w-32 h-32 rounded-full border-4 border-white dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900 shadow-xl">
+                        <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900 shadow-xl">
                             <img
                                 src={member.image}
                                 alt={member.name}
@@ -385,15 +387,15 @@ function StaticTeamCard({ member, index }: { member: typeof teamMembers[0]; inde
                 </div>
 
                 {/* Content */}
-                <div className="p-6 pt-4 text-center flex flex-col flex-1">
-                    <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2 transition-colors">{member.name}</h3>
+                <div className="p-5 sm:p-6 pt-3 sm:pt-4 text-center flex flex-col flex-1 gap-3">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white transition-colors">{member.name}</h3>
 
                     {/* Roles */}
-                    <div className="flex flex-wrap justify-center gap-2 mb-4 flex-grow content-start min-h-[70px]">
+                    <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-2 flex-grow content-start min-h-[60px]">
                         {member.roles.map((role, roleIndex) => (
                             <span
                                 key={roleIndex}
-                                className="inline-flex items-center gap-1 px-3 py-1 bg-slate-100 dark:bg-slate-700 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300 h-fit transition-colors"
+                                className="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 dark:bg-slate-700/80 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 h-fit transition-colors"
                             >
                                 {member.roleIcons[roleIndex] && (
                                     <span className="w-3 h-3">
@@ -409,7 +411,7 @@ function StaticTeamCard({ member, index }: { member: typeof teamMembers[0]; inde
                     </div>
 
                     {/* Social Links */}
-                    <div className="flex justify-center gap-3 pt-4 border-t border-slate-100 dark:border-slate-700 mt-auto transition-colors">
+                    <div className="flex justify-center gap-3 pt-3 border-t border-slate-100 dark:border-slate-700/60 mt-auto transition-colors">
                         {member.socials.map((social, socialIndex) => (
                             <a
                                 key={socialIndex}
@@ -421,9 +423,9 @@ function StaticTeamCard({ member, index }: { member: typeof teamMembers[0]; inde
                                 <Button
                                     variant="outline"
                                     size="icon"
-                                    className="h-10 w-10 rounded-full dark:bg-slate-700 dark:border-slate-600 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-300 group-hover/social:scale-110"
+                                    className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl dark:bg-slate-700 dark:border-slate-600 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-300 group-hover/social:scale-110"
                                 >
-                                    <social.icon className="w-5 h-5" />
+                                    <social.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                                 </Button>
                             </a>
                         ))}
@@ -593,10 +595,10 @@ function TeamCard({ member, index, reduceMotion, progress, totalCards = 9 }: { k
                     ease: "easeOut",
                     delay: reduceMotion ? index * 0.05 : 0
                 }}
-                className="group relative bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-3 border border-slate-200 dark:border-slate-700 h-full flex flex-col cursor-pointer transition-all duration-300"
+                className="group relative bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[1.75rem] overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 border-2 border-slate-200 dark:border-slate-700 h-full flex flex-col cursor-pointer transition-all duration-300"
             >
             {/* Gradient Header */}
-            <div className={`h-32 bg-gradient-to-r ${member.color} relative overflow-hidden`}>
+            <div className={`h-28 sm:h-32 bg-gradient-to-r ${member.color} relative overflow-hidden`}>
                 <div className="absolute inset-0 bg-black/20" />
                 {/* Decorative circles */}
                 <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded-full" />
@@ -604,12 +606,12 @@ function TeamCard({ member, index, reduceMotion, progress, totalCards = 9 }: { k
             </div>
 
             {/* Profile Image - Now Animated on Scroll */}
-            <div className="relative -mt-16 flex justify-center">
+            <div className="relative -mt-14 sm:-mt-16 flex justify-center">
                 <div
                     className="relative p-1.5 bg-white dark:bg-slate-800 rounded-full shadow-xl"
                 >
                     <div className={`absolute inset-0 bg-slate-400 rounded-full opacity-50 group-hover:opacity-75 transition-opacity`} />
-                    <div className="relative w-32 h-32 rounded-full border-4 border-white dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900 shadow-xl">
+                    <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900 shadow-xl">
                         <img
                             src={member.image}
                             alt={member.name}
@@ -621,18 +623,18 @@ function TeamCard({ member, index, reduceMotion, progress, totalCards = 9 }: { k
             </div>
 
             {/* Content */}
-            <div className="p-6 pt-4 text-center flex flex-col flex-1">
-                <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2 transition-colors">{member.name}</h3>
+            <div className="p-5 sm:p-6 pt-3 sm:pt-4 text-center flex flex-col flex-1 gap-3">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white transition-colors">{member.name}</h3>
 
                 {/* Roles */}
-                <div className="flex flex-wrap justify-center gap-2 mb-4 flex-grow content-start min-h-[70px]">
+                <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-2 flex-grow content-start min-h-[60px]">
                     {member.roles.map((role, roleIndex) => (
                         <motion.span
                             key={roleIndex}
                             initial={{ opacity: 0, y: 10 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ delay: (reduceMotion ? index * 0.1 : 0) + roleIndex * 0.05 + 0.15 }}
-                            className="inline-flex items-center gap-1 px-3 py-1 bg-slate-100 dark:bg-slate-700 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300 h-fit transition-colors"
+                            className="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 dark:bg-slate-700/80 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 h-fit transition-colors"
                         >
                             {member.roleIcons[roleIndex] && (
                                 <span className="w-3 h-3">
@@ -648,7 +650,7 @@ function TeamCard({ member, index, reduceMotion, progress, totalCards = 9 }: { k
                 </div>
 
                 {/* Social Links */}
-                <div className="flex justify-center gap-3 pt-4 border-t border-slate-100 dark:border-slate-700 mt-auto transition-colors">
+                <div className="flex justify-center gap-3 pt-3 border-t border-slate-100 dark:border-slate-700/60 mt-auto transition-colors">
                     {member.socials.map((social, socialIndex) => (
                         <a
                             key={socialIndex}
@@ -660,9 +662,9 @@ function TeamCard({ member, index, reduceMotion, progress, totalCards = 9 }: { k
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-10 w-10 rounded-full dark:bg-slate-700 dark:border-slate-600 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-300 group-hover/social:scale-110"
+                                className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl dark:bg-slate-700 dark:border-slate-600 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-300 group-hover/social:scale-110"
                             >
-                                <social.icon className="w-5 h-5" />
+                                <social.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                             </Button>
                         </a>
                     ))}
@@ -692,12 +694,12 @@ function PartnershipCard({ children, delay = 0, reduceMotion = false }: { childr
                 scale: 1.02,
                 transition: { duration: 0.15, ease: "easeOut" }
             }}
-            className="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-8 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 h-full flex flex-col transform-gpu will-change-transform relative overflow-hidden group/partner text-slate-800 dark:text-white shadow-sm dark:shadow-none"
+            className="bg-white dark:bg-slate-900 rounded-[1.75rem] sm:rounded-[2rem] p-6 sm:p-7 md:p-8 border-2 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-all duration-300 h-full flex flex-col justify-between gap-4 transform-gpu will-change-transform relative overflow-hidden group/partner text-slate-800 dark:text-white shadow-md"
             style={{ backfaceVisibility: "hidden" }}
         >
             {/* Animated gradient glow on hover */}
-            <div className="absolute -inset-[1px] bg-gradient-to-r from-yellow-500/0 via-yellow-500/20 to-yellow-500/0 opacity-0 group-hover/partner:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
-            <div className="relative z-10 flex flex-col flex-1 h-full">{children}</div>
+            <div className="absolute -inset-[1px] bg-gradient-to-r from-yellow-500/0 via-yellow-500/20 to-yellow-500/0 opacity-0 group-hover/partner:opacity-100 transition-opacity duration-500 rounded-[1.75rem] sm:rounded-[2rem] pointer-events-none" />
+            <div className="relative z-10 flex flex-col justify-between flex-1 h-full gap-4">{children}</div>
         </motion.div>
     );
 }
@@ -1000,7 +1002,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
             {/* Animated Stats Counter Strip */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                 <motion.section
-                    className="py-8 sm:py-12 bg-gradient-to-r from-red-700 via-red-600 to-orange-600 dark:from-red-950 dark:via-red-900 dark:to-orange-900 rounded-[2rem] sm:rounded-[2.5rem] shadow-sm mx-2 sm:mx-0 relative overflow-hidden transition-colors duration-500"
+                    className="py-6 sm:py-8 bg-gradient-to-r from-red-700 via-red-600 to-orange-600 dark:from-red-950 dark:via-red-900 dark:to-orange-900 rounded-[1.75rem] sm:rounded-[2rem] shadow-sm mx-2 sm:mx-0 relative overflow-hidden transition-colors duration-500"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -1027,7 +1029,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
                 <motion.section
                     ref={platformRef}
-                    className="py-10 sm:py-14 bg-red-600 dark:bg-[#0B1120] text-white relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-sm dark:shadow-2xl border border-transparent dark:border-slate-800/80 mx-2 sm:mx-0 transition-colors duration-500 transform-gpu will-change-transform"
+                    className="py-10 sm:py-14 lg:py-16 bg-red-600 dark:bg-[#0B1120] text-white relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-sm dark:shadow-2xl border border-transparent dark:border-slate-800/80 mx-2 sm:mx-0 transition-colors duration-500 transform-gpu will-change-transform"
                     style={{ opacity: platformOpacity, scale: platformScale }}
                 >
                     {/* Modern Glow Effects for Dark Mode */}
@@ -1076,7 +1078,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
                 <motion.section
                     ref={partnershipRef}
-                    className="py-10 sm:py-14 lg:py-16 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden rounded-[2.5rem] shadow-xl dark:shadow-md border border-slate-200 dark:border-transparent transition-colors duration-500 transform-gpu will-change-transform"
+                    className="py-10 sm:py-14 lg:py-16 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-xl dark:shadow-md border border-slate-200 dark:border-transparent transition-colors duration-500 transform-gpu will-change-transform"
                     style={{ opacity: partnershipOpacity, scale: partnershipScale }}
                 >
                     {/* Animated Background decoration */}
@@ -1124,7 +1126,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch" style={{ perspective: 1500 }}>
                             {/* LSPU Card */}
                             <PartnershipCard delay={0} reduceMotion={reduceMotion}>
-                                <div className="flex items-center gap-3 mb-4">
+                                <div className="flex items-center gap-3 mb-2">
                                     <div className="relative w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0">
                                         <img
                                             src="/lspu logo.webp"
@@ -1142,7 +1144,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                     The university provided technological expertise in AI, machine learning, and software development.
                                     Computer Science researchers majoring in Intelligent Systems designed and developed the platform under academic supervision.
                                 </p>
-                                <div className="bg-slate-100 dark:bg-white/5 rounded-lg p-3 border border-slate-200 dark:border-white/10 mt-auto">
+                                <div className="bg-slate-100 dark:bg-white/5 rounded-xl p-4 border border-slate-200 dark:border-white/10 mt-auto">
                                     <div className="flex items-center gap-3">
                                         <GraduationCap className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
                                         <div>
@@ -1156,7 +1158,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
 
                             {/* BFP Card */}
                             <PartnershipCard delay={1} reduceMotion={reduceMotion}>
-                                <div className="flex items-center gap-3 mb-4">
+                                <div className="flex items-center gap-3 mb-2">
                                     <div className="relative w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0">
                                         <img
                                             src="/bfp logo.webp"
@@ -1174,7 +1176,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                     BFP Santa Cruz reached out to LSPU-CCS to find innovative ways to enhance community fire preparedness.
                                     They provided the official knowledge base, including manuals and protocols, used to train the Berong AI chatbot and develop educational modules.
                                 </p>
-                                <div className="bg-slate-100 dark:bg-white/5 rounded-lg p-3 border border-slate-200 dark:border-white/10 mt-auto">
+                                <div className="bg-slate-100 dark:bg-white/5 rounded-xl p-4 border border-slate-200 dark:border-white/10 mt-auto">
                                     <div className="flex items-center gap-3">
                                         <Shield className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
                                         <div>
@@ -1193,7 +1195,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
             {/* Meet Your Firefighters Section */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
                 <motion.section
-                    className="py-10 sm:py-14 bg-gradient-to-br from-orange-600 to-red-700 dark:from-orange-900 dark:to-red-950 text-white relative overflow-hidden rounded-[2.5rem] shadow-xl dark:shadow-md border border-red-500/30 transition-colors duration-500"
+                    className="py-10 sm:py-14 lg:py-16 bg-gradient-to-br from-orange-600 to-red-700 dark:from-orange-900 dark:to-red-950 text-white relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-xl dark:shadow-md border border-red-500/30 transition-colors duration-500"
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
@@ -1240,7 +1242,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                         </motion.div>
 
                         <motion.div
-                            className="w-full max-w-5xl aspect-[4/3] xs:aspect-[16/10] sm:aspect-video bg-slate-900 rounded-[2.5rem] border border-white/20 dark:border-slate-800 overflow-hidden relative group/slide shadow-2xl cursor-pointer"
+                            className="w-full max-w-5xl aspect-[4/3] xs:aspect-[16/10] sm:aspect-video bg-slate-900 rounded-[1.75rem] sm:rounded-[2rem] border border-white/20 dark:border-slate-800 overflow-hidden relative group/slide shadow-2xl cursor-pointer"
                             onClick={() => setIsLightboxOpen(true)}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -1254,13 +1256,13 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                             onMouseLeave={() => setIsHovered(false)}
                         >
                             {/* Slide Display using framer-motion with smooth zoom */}
-                            <div className="absolute inset-0 w-full h-full overflow-hidden bg-slate-950 rounded-[2.5rem]">
+                            <div className="absolute inset-0 w-full h-full overflow-hidden bg-slate-950 rounded-[1.75rem] sm:rounded-[2rem]">
                                 <AnimatePresence mode="wait">
                                     <motion.img
                                         key={currentSlide}
                                         src={firefighterSlides[currentSlide].image}
                                         alt={firefighterSlides[currentSlide].title}
-                                        className="w-full h-full object-cover select-none rounded-[2.5rem] transition-transform duration-700 ease-out group-hover/slide:scale-105"
+                                        className="w-full h-full object-cover select-none rounded-[1.75rem] sm:rounded-[2rem] transition-transform duration-700 ease-out group-hover/slide:scale-105"
                                         initial={{ opacity: 0, scale: 1.08 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 0.95 }}
@@ -1270,7 +1272,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                             </div>
 
                             {/* Gradient Overlay - Bottom Left aligned matching Top Hero Carousel */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-950/40 to-transparent flex flex-col justify-end items-start p-6 pb-8 sm:p-10 sm:pb-12 md:p-12 md:pb-14 pointer-events-none rounded-[2.5rem]">
+                            <div className="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-950/40 to-transparent flex flex-col justify-end items-start p-6 pb-8 sm:p-10 sm:pb-12 md:p-12 md:pb-14 pointer-events-none rounded-[1.75rem] sm:rounded-[2rem]">
                                 <div className="relative z-10 text-white w-full max-w-3xl pointer-events-auto">
                                     <h3 className="text-2xl sm:text-4xl md:text-5xl font-black mb-1.5 sm:mb-2.5 drop-shadow-2xl tracking-tight leading-tight">
                                         {firefighterSlides[currentSlide].title}
@@ -1283,7 +1285,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
 
                             {/* Center Hover "Click to expand" badge matching Top Hero Carousel */}
                             <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-                                <div className="opacity-0 group-hover/slide:opacity-100 translate-y-4 group-hover/slide:translate-y-0 transition-all duration-300 bg-slate-900/90 backdrop-blur-md text-white font-bold px-4 py-2 sm:px-6 sm:py-3 rounded-full flex items-center gap-2 shadow-2xl border border-slate-700/50 text-xs sm:text-sm">
+                                <div className="opacity-0 group-hover/slide:opacity-100 translate-y-4 group-hover/slide:translate-y-0 transition-all duration-300 bg-slate-900/90 backdrop-blur-md text-white font-bold px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl flex items-center gap-2 shadow-2xl border border-slate-700/50 text-xs sm:text-sm">
                                     <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5} />
                                     Click to expand
                                 </div>
