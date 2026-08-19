@@ -16,6 +16,7 @@ import {
 } from "lucide-react"
 import { useAuth } from "@/lib/auth-context"
 import { BARANGAYS_SANTA_CRUZ, ASSESSMENT_CATEGORIES } from "@/lib/constants"
+import { AnalyticsOverviewSkeleton } from "@/Components/dashboard-skeletons"
 
 interface SummaryData {
   totalUsers: number
@@ -327,7 +328,9 @@ export default function AnalyticsDashboard({
 
           {/* Overview Tab */}
           <TabsContent value="overview">
-            {summary && (
+            {loading ? (
+              <AnalyticsOverviewSkeleton />
+            ) : summary ? (
               <div className="space-y-6">
                 {/* Key Metrics */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
@@ -504,7 +507,7 @@ export default function AnalyticsDashboard({
 
                 </div>
               </div>
-            )}
+            ) : null}
           </TabsContent>
 
           {/* Barangay Tab */}

@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Com
 import { Search, Users as UsersIcon, Trash2, ChevronLeft, ChevronRight, Filter, ChevronDown, X, Check } from "lucide-react"
 import { Popover, PopoverTrigger, PopoverContent } from "@/Components/ui/popover"
 import { Checkbox } from "@/Components/ui/checkbox"
+import { UserListSkeleton } from "@/Components/dashboard-skeletons"
 import type { UsersTabProps } from "@/types/admin"
 
 const USERS_PER_PAGE = 20
@@ -31,6 +32,7 @@ const PERMISSION_OPTIONS = [
 ] as const
 
 export const AdminUsersTab: React.FC<UsersTabProps> = ({
+  loading,
   users,
   filteredUsers,
   userSearchQuery,
@@ -269,7 +271,9 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
 
         {/* User List Content */}
         <div className="space-y-4">
-          {paginatedUsers.length === 0 ? (
+          {loading ? (
+            <UserListSkeleton count={6} />
+          ) : paginatedUsers.length === 0 ? (
             <div className="text-center py-12 px-4 bg-white/30 dark:bg-slate-900/30 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700">
               <p className="text-slate-500 dark:text-slate-400 font-bold text-base mb-2">
                 No users found matching your filters.

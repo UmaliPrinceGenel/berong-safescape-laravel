@@ -17,6 +17,7 @@ import {
 } from "lucide-react"
 import { Dialog, DialogContent, DialogClose, DialogTitle } from "@/Components/ui/dialog"
 import { useAuth } from "@/lib/auth-context"
+import { AssessmentCardSkeleton } from "@/Components/dashboard-skeletons"
 
 interface EligibilityData {
     eligible: boolean
@@ -264,9 +265,7 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
                                     </h4>
 
                                     {loading ? (
-                                        <div className="flex items-center text-slate-500 dark:text-slate-400">
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Checking eligibility...
-                                        </div>
+                                        <AssessmentCardSkeleton />
                                     ) : eligibility?.alreadyCompleted ? (
                                         <div className="space-y-4">
                                             <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-emerald-950/20 rounded-xl border border-green-100 dark:border-emerald-900/30 text-green-700 dark:text-emerald-400 transition-colors">

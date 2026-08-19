@@ -18,6 +18,7 @@ import {
   Camera, Mail, Award, Calendar, Sparkles
 } from "lucide-react"
 import { ScoreGauge } from "@/Components/score-gauge"
+import { ScoreCardsSkeleton } from "@/Components/dashboard-skeletons"
 import { cn } from "@/lib/utils"
 
 interface UserScores {
@@ -721,10 +722,7 @@ export default function ProfilePage() {
           </CardHeader>
           <CardContent className="p-4 sm:p-7">
             {scoresLoading ? (
-              <div className="flex flex-col items-center justify-center py-16 gap-3">
-                <Loader2 className="h-10 w-10 animate-spin text-orange-500" strokeWidth={3} />
-                <p className="text-slate-400 font-bold animate-pulse uppercase tracking-widest text-xs">Loading performance data...</p>
-              </div>
+              <ScoreCardsSkeleton />
             ) : scores ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
                 {/* Pre-Test Card */}

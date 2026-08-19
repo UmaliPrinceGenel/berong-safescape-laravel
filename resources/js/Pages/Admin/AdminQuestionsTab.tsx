@@ -5,9 +5,11 @@ import { Input } from "@/Components/ui/input"
 import { Textarea } from "@/Components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select"
 import { Plus, CheckCircle, AlertCircle, HelpCircle, Trash2 } from "lucide-react"
+import { Skeleton } from "@/Components/ui/skeleton"
 import type { QuestionsTabProps } from "@/types/admin"
 
 export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
+  loading,
   quickQuestions,
   newQuickQuestion,
   setNewQuickQuestion,
@@ -156,7 +158,23 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
         {/* List Content */}
         <div>
           <div className="space-y-3 sm:space-y-4">
-            {quickQuestions.length === 0 ? (
+            {loading ? (
+              <div className="space-y-3 animate-pulse">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="p-4 sm:p-5 border-2 border-slate-200 dark:border-slate-700/80 rounded-xl bg-white dark:bg-slate-900/70 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-2">
+                        <Skeleton className="h-4 w-16 rounded bg-slate-200 dark:bg-slate-700" />
+                        <Skeleton className="h-4 w-24 rounded bg-slate-200 dark:bg-slate-700" />
+                      </div>
+                      <Skeleton className="h-8 w-8 rounded-lg bg-slate-200 dark:bg-slate-700" />
+                    </div>
+                    <Skeleton className="h-5 w-3/4 bg-slate-200 dark:bg-slate-700" />
+                    <Skeleton className="h-14 w-full rounded-xl bg-slate-100 dark:bg-slate-800/40" />
+                  </div>
+                ))}
+              </div>
+            ) : quickQuestions.length === 0 ? (
               <div className="text-center py-10 px-4 bg-white/60 dark:bg-slate-900/40 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800">
                 <HelpCircle className="h-10 w-10 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
                 <p className="text-slate-500 dark:text-slate-400 font-bold text-sm">No quick questions added yet</p>

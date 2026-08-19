@@ -59,6 +59,7 @@ export interface AdminInitialData {
 }
 
 export interface AdminTabProps {
+  loading?: boolean
   success: string
   error: string
   setSuccess: (msg: string) => void

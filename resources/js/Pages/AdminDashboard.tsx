@@ -36,12 +36,9 @@ const AdminQuestionsTab = lazy(() => import("./Admin/AdminQuestionsTab").then(m 
 const AdminFireCodesTab = lazy(() => import("./Admin/AdminFireCodesTab").then(m => ({ default: m.AdminFireCodesTab })))
 const AdminSettingsTab = lazy(() => import("./Admin/AdminSettingsTab").then(m => ({ default: m.AdminSettingsTab })))
 
-const TabLoading = () => (
-  <div className="flex flex-col items-center justify-center py-24 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-[2rem] border-2 border-dashed border-slate-200 dark:border-slate-700 animate-pulse">
-    <Loader2 className="h-10 w-10 text-[#d60000] animate-spin mb-4" />
-    <p className="text-slate-500 dark:text-slate-400 font-bold">Synchronizing Terminal Data...</p>
-  </div>
-)
+import { AdminDashboardSkeleton, AdminTableSkeleton } from "@/Components/dashboard-skeletons"
+
+const TabLoading = () => <AdminTableSkeleton rows={5} cols={4} />
 
 import { useAdminData } from "@/hooks/use-admin-data"
 import { normalizeCarouselImage, normalizeBlogPost, normalizeVideo } from "@/lib/admin-utils"
@@ -705,15 +702,11 @@ function AdminDashboard({
   }
 
   if (dataLoading) {
-    return (
-      <div className="flex items-col items-center justify-center h-96 gap-4">
-        <Loader2 className="h-10 w-10 text-[#d60000] animate-spin" />
-        <p className="text-muted-foreground font-bold">Synchronizing Terminal Data...</p>
-      </div>
-    )
+    return <AdminDashboardSkeleton />
   }
 
   const commonProps = {
+    loading: dataLoading,
     success,
     error,
     setSuccess,
