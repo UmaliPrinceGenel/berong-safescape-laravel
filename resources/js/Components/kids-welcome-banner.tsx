@@ -309,15 +309,15 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
                     userAvatar
                   )}
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                    <span className="text-[10px] font-black text-yellow-300/80 uppercase tracking-widest block mb-1">HERO IDENTITY</span>
-                   <h3 className="text-2xl sm:text-4xl font-black text-white leading-none mb-3">{firstName}</h3>
+                   <h3 className="text-2xl sm:text-3xl font-black text-white leading-none mb-3 truncate">Hero {firstName}</h3>
                     <div className="flex flex-wrap gap-2 items-center">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-400 rounded-full text-red-700 font-black text-xs uppercase shadow-md">
-                         <img src={currentRank.image} alt={currentRank.name} className="h-4 w-4 object-contain inline-block" />
-                         Level {Math.floor(badgesFound / 2) + 1}
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-400 border border-yellow-300/80 rounded-full text-red-800 font-black text-xs uppercase shadow-sm">
+                         <img src={currentRank.image} alt={currentRank.name} className="h-3.5 w-3.5 object-contain inline-block" />
+                         <span>Level {Math.floor(badgesFound / 2) + 1}</span>
                       </div>
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white border border-orange-200 rounded-full text-orange-600 font-black text-xs uppercase shadow-md">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 dark:bg-slate-900 border border-orange-200 dark:border-slate-700 rounded-full text-orange-600 dark:text-orange-400 font-black text-xs uppercase shadow-sm">
                          <span>🔥</span>
                          <span>{streak} Day Streak</span>
                       </div>
@@ -389,25 +389,43 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
              </Link>
           </div>
 
-          {/* ── Original High-Impact Motto Tags: Non-Selectable & Ultra-Tight ── */}
+          {/* ── Action Navigation Buttons ── */}
           <div className="flex items-center justify-center gap-2 sm:gap-4 mt-1 sm:mt-2 pb-2 select-none">
-            {/* Play Tag */}
-            <div className="flex items-center gap-1.5 sm:gap-2 px-4 py-1.5 sm:px-8 sm:py-3 bg-emerald-500 rounded-xl sm:rounded-2xl shadow-[0_4px_0_rgb(5,150,105)] border-t border-white/30 text-white transform transition-transform active:translate-y-1 active:shadow-none cursor-default">
-              <Gamepad2 className="h-3 w-3 sm:h-5 sm:w-5" />
-              <span className="text-[10px] sm:text-base font-black uppercase tracking-widest">Play</span>
-            </div>
+            {/* Play Button - Scrolls to Adventures & Games */}
+            <button
+              type="button"
+              onClick={() => {
+                playSound('/sounds/tap.mp3', 'general');
+                const target = document.querySelector('.wood-board') || document.querySelector('main');
+                if (target) {
+                  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}
+              className="flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-8 sm:py-3 bg-emerald-500 hover:bg-emerald-400 rounded-xl sm:rounded-2xl shadow-[0_4px_0_rgb(5,150,105)] hover:shadow-[0_6px_0_rgb(5,150,105)] hover:-translate-y-0.5 active:translate-y-1 active:shadow-none border-t border-white/30 text-white transform transition-all cursor-pointer outline-none"
+            >
+              <Gamepad2 className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="text-xs sm:text-base font-black uppercase tracking-widest">Play</span>
+            </button>
             
-            {/* Learn Tag */}
-            <div className="flex items-center gap-1.5 sm:gap-2 px-4 py-1.5 sm:px-8 sm:py-3 bg-blue-600 rounded-xl sm:rounded-2xl shadow-[0_4px_0_rgb(29,78,216)] border-t border-white/30 text-white transform transition-transform active:translate-y-1 active:shadow-none cursor-default">
-              <BookOpen className="h-3 w-3 sm:h-5 sm:w-5" />
-              <span className="text-[10px] sm:text-base font-black uppercase tracking-widest">Learn</span>
-            </div>
+            {/* Learn Button - Navigates to SafeScape Course */}
+            <Link
+              href="/kids/safescape"
+              onClick={() => playSound('/sounds/tap.mp3', 'general')}
+              className="flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-8 sm:py-3 bg-blue-600 hover:bg-blue-500 rounded-xl sm:rounded-2xl shadow-[0_4px_0_rgb(29,78,216)] hover:shadow-[0_6px_0_rgb(29,78,216)] hover:-translate-y-0.5 active:translate-y-1 active:shadow-none border-t border-white/30 text-white transform transition-all cursor-pointer outline-none"
+            >
+              <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="text-xs sm:text-base font-black uppercase tracking-widest">Learn</span>
+            </Link>
             
-            {/* Win Tag */}
-            <div className="flex items-center gap-1.5 sm:gap-2 px-4 py-1.5 sm:px-8 sm:py-3 bg-yellow-400 rounded-xl sm:rounded-2xl shadow-[0_4px_0_rgb(202,138,4)] border-t border-white/30 text-red-700 transform transition-transform active:translate-y-1 active:shadow-none cursor-default">
-              <Trophy className="h-3 w-3 sm:h-5 sm:w-5" />
-              <span className="text-[10px] sm:text-base font-black uppercase tracking-widest">Win</span>
-            </div>
+            {/* Win Button - Navigates to Badge Hall */}
+            <Link
+              href="/kids/badges"
+              onClick={() => playSound('/sounds/tap.mp3', 'general')}
+              className="flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-8 sm:py-3 bg-yellow-400 hover:bg-yellow-300 rounded-xl sm:rounded-2xl shadow-[0_4px_0_rgb(202,138,4)] hover:shadow-[0_6px_0_rgb(202,138,4)] hover:-translate-y-0.5 active:translate-y-1 active:shadow-none border-t border-white/30 text-red-700 transform transition-all cursor-pointer outline-none"
+            >
+              <Trophy className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="text-xs sm:text-base font-black uppercase tracking-widest">Win</span>
+            </Link>
           </div>
         </div>
       </div>
