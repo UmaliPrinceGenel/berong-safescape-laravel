@@ -157,27 +157,28 @@ export function SortableCarouselList({
     }
 
     return (
-        <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6">
-            <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
-                <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3 min-w-0">
-                        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
-                            <ImageIcon className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
-                        </div>
-                        <div className="min-w-0">
-                            <CardTitle className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight truncate">
-                                Current Carousel Images
-                            </CardTitle>
-                            <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5 line-clamp-1">
-                                {images.length} images in carousel • Drag to reorder
-                            </CardDescription>
-                        </div>
+        <div className="rounded-[1.75rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6 p-6 sm:p-7 md:p-8 flex flex-col gap-5 sm:gap-6">
+            {/* Header Row */}
+            <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                    <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl shadow-sm shrink-0">
+                        <ImageIcon className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
+                    </div>
+                    <div className="min-w-0">
+                        <h3 className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight truncate">
+                            Current Carousel Images
+                        </h3>
+                        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5 line-clamp-1">
+                            {images.length} images in carousel • Drag to reorder
+                        </p>
                     </div>
                 </div>
-            </CardHeader>
-            <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0">
+            </div>
+
+            {/* List Content */}
+            <div>
                 {localImages.length === 0 ? (
-                    <div className="text-center py-10 px-4 bg-white/60 dark:bg-slate-900/40 rounded-xl sm:rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800">
+                    <div className="text-center py-10 px-4 bg-white/60 dark:bg-slate-900/40 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800">
                         <ImageIcon className="h-10 w-10 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
                         <p className="text-slate-500 dark:text-slate-400 font-bold text-sm">No carousel images uploaded yet</p>
                     </div>
@@ -203,7 +204,7 @@ export function SortableCarouselList({
                         </SortableContext>
                     </DndContext>
                 )}
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     )
 }

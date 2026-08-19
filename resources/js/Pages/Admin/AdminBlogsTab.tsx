@@ -34,19 +34,20 @@ export const AdminBlogsTab: React.FC<BlogsTabProps> = ({
           onUploadComplete={(url) => setNewBlog({ ...newBlog, imageUrl: url })}
         />
 
-        <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all">
-          <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
-            <div className="flex items-center gap-3">
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
-                <Plus className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
-              </div>
-              <div>
-                <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight">Add New Blog Post</CardTitle>
-                <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Create educational content for adult and professional sections</CardDescription>
-              </div>
+        <div className="rounded-[1.75rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all h-full flex flex-col p-6 sm:p-7 md:p-8 gap-5 sm:gap-6">
+          {/* Header Row */}
+          <div className="flex items-center gap-3">
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl shadow-sm shrink-0">
+              <Plus className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
             </div>
-          </CardHeader>
-          <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 space-y-4">
+            <div className="min-w-0">
+              <h3 className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight">Add New Blog Post</h3>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Create educational content for adult and professional sections</p>
+            </div>
+          </div>
+
+          {/* Form Content */}
+          <div className="flex-1 flex flex-col justify-between gap-5">
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -56,7 +57,7 @@ export const AdminBlogsTab: React.FC<BlogsTabProps> = ({
                     placeholder="Blog post title"
                     value={newBlog.title}
                     onChange={(e) => setNewBlog({ ...newBlog, title: e.target.value })}
-                    className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl"
+                    className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl font-bold h-11"
                   />
                 </div>
                 <div className="space-y-2">
@@ -65,7 +66,7 @@ export const AdminBlogsTab: React.FC<BlogsTabProps> = ({
                     value={newBlog.category}
                     onValueChange={(value: any) => setNewBlog({ ...newBlog, category: value })}
                   >
-                    <SelectTrigger id="blog-category" className="w-full h-10 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 font-bold text-slate-700 dark:text-white focus:ring-red-500 shadow-sm transition-all hover:border-slate-300">
+                    <SelectTrigger id="blog-category" className="w-full h-11 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 font-bold text-slate-700 dark:text-white focus:ring-red-500 shadow-sm transition-all hover:border-slate-300">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-800 shadow-xl p-1">
@@ -83,7 +84,7 @@ export const AdminBlogsTab: React.FC<BlogsTabProps> = ({
                   placeholder="Short summary for the card"
                   value={newBlog.excerpt}
                   onChange={(e) => setNewBlog({ ...newBlog, excerpt: e.target.value })}
-                  className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl"
+                  className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl font-bold h-11"
                 />
               </div>
               <div className="space-y-2">
@@ -94,11 +95,11 @@ export const AdminBlogsTab: React.FC<BlogsTabProps> = ({
                   rows={4}
                   value={newBlog.content}
                   onChange={(e) => setNewBlog({ ...newBlog, content: e.target.value })}
-                  className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl resize-none"
+                  className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl resize-none font-medium"
                 />
               </div>
             </div>
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-wrap items-center gap-4 pt-2 mt-auto">
               <button
                 type="button"
                 onClick={handleAddBlog}
@@ -118,8 +119,8 @@ export const AdminBlogsTab: React.FC<BlogsTabProps> = ({
                 </div>
               )}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       <SortableContentList

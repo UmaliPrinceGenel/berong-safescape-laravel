@@ -18,19 +18,21 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
 }) => {
   return (
     <div className="space-y-6">
-      <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6">
-        <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
-          <div className="flex items-center gap-3">
-            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
-              <Plus className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
-            </div>
-            <div>
-              <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight">Add New Quick Question</CardTitle>
-              <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Create frequently asked questions for the chatbot</CardDescription>
-            </div>
+      {/* CARD 1: Add New Quick Question */}
+      <div className="rounded-[1.75rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6 p-6 sm:p-7 md:p-8 flex flex-col gap-5 sm:gap-6">
+        {/* Header Row */}
+        <div className="flex items-center gap-3">
+          <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl shadow-sm shrink-0">
+            <Plus className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
           </div>
-        </CardHeader>
-        <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 space-y-4">
+          <div className="min-w-0">
+            <h3 className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight">Add New Quick Question</h3>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Create frequently asked questions for the chatbot</p>
+          </div>
+        </div>
+
+        {/* Form Content */}
+        <div className="flex-1 flex flex-col justify-between gap-5">
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="qq-category" className="font-bold text-slate-700 dark:text-slate-300">Category</Label>
@@ -38,7 +40,7 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
                 value={newQuickQuestion.category}
                 onValueChange={(value) => setNewQuickQuestion({ ...newQuickQuestion, category: value })}
               >
-                <SelectTrigger id="qq-category" className="w-full h-10 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 font-bold text-slate-700 dark:text-white focus:ring-red-500 shadow-sm transition-all hover:border-slate-300">
+                <SelectTrigger id="qq-category" className="w-full h-11 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 font-bold text-slate-700 dark:text-white focus:ring-red-500 shadow-sm transition-all hover:border-slate-300">
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-800 shadow-xl p-1">
@@ -63,7 +65,7 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
                 value={newQuickQuestion.isActive ? "active" : "inactive"}
                 onValueChange={(value) => setNewQuickQuestion({ ...newQuickQuestion, isActive: value === "active" })}
               >
-                <SelectTrigger id="qq-active" className="w-full h-10 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 font-bold text-slate-700 dark:text-white focus:ring-red-500 shadow-sm transition-all hover:border-slate-300">
+                <SelectTrigger id="qq-active" className="w-full h-11 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 font-bold text-slate-700 dark:text-white focus:ring-red-500 shadow-sm transition-all hover:border-slate-300">
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-800 shadow-xl p-1">
@@ -90,7 +92,7 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
               placeholder="Enter the question"
               value={newQuickQuestion.questionText}
               onChange={(e) => setNewQuickQuestion({ ...newQuickQuestion, questionText: e.target.value })}
-              className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl"
+              className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl font-bold h-11"
             />
           </div>
           <div className="space-y-2">
@@ -101,10 +103,10 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
               value={newQuickQuestion.responseText}
               onChange={(e) => setNewQuickQuestion({ ...newQuickQuestion, responseText: e.target.value })}
               rows={4}
-              className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl resize-none"
+              className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl resize-none font-medium"
             />
           </div>
-          <div className="flex flex-wrap items-center gap-4 pt-2">
+          <div className="flex flex-wrap items-center gap-4 pt-2 mt-auto">
             <button
               type="button"
               onClick={handleAddQuickQuestion}
@@ -124,36 +126,38 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
               </div>
             )}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6">
-        <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
-                <HelpCircle className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
-              </div>
-              <div className="min-w-0">
-                <CardTitle className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight truncate">
-                  Current Quick Questions
-                </CardTitle>
-                <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5 line-clamp-1">
-                  {quickQuestions.length} questions in database
-                </CardDescription>
-              </div>
+      {/* CARD 2: Current Quick Questions */}
+      <div className="rounded-[1.75rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6 p-6 sm:p-7 md:p-8 flex flex-col gap-5 sm:gap-6">
+        {/* Header Row */}
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl shadow-sm shrink-0">
+              <HelpCircle className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
             </div>
-            {quickQuestions.length > 0 && (
-              <span className="hidden sm:inline-flex items-center justify-center bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-black px-2.5 py-1 rounded-full shrink-0">
-                {quickQuestions.length} {quickQuestions.length === 1 ? 'question' : 'questions'}
-              </span>
-            )}
+            <div className="min-w-0">
+              <h3 className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight truncate">
+                Current Quick Questions
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5 line-clamp-1">
+                {quickQuestions.length} questions in database
+              </p>
+            </div>
           </div>
-        </CardHeader>
-        <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0">
+          {quickQuestions.length > 0 && (
+            <span className="hidden sm:inline-flex items-center justify-center bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-black px-2.5 py-1 rounded-full shrink-0">
+              {quickQuestions.length} {quickQuestions.length === 1 ? 'question' : 'questions'}
+            </span>
+          )}
+        </div>
+
+        {/* List Content */}
+        <div>
           <div className="space-y-3 sm:space-y-4">
             {quickQuestions.length === 0 ? (
-              <div className="text-center py-10 px-4 bg-white/60 dark:bg-slate-900/40 rounded-xl sm:rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800">
+              <div className="text-center py-10 px-4 bg-white/60 dark:bg-slate-900/40 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800">
                 <HelpCircle className="h-10 w-10 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
                 <p className="text-slate-500 dark:text-slate-400 font-bold text-sm">No quick questions added yet</p>
                 <p className="text-slate-400 dark:text-slate-500 text-xs mt-1">Use the form above to add chatbot quick questions.</p>
@@ -162,7 +166,7 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
               quickQuestions.map((question) => (
                 <div 
                   key={question.id} 
-                  className="p-4 sm:p-5 border-2 border-slate-200 dark:border-slate-700/80 rounded-xl sm:rounded-2xl bg-white dark:bg-slate-900/70 backdrop-blur-sm shadow-xs hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600 transition-all flex flex-col gap-3"
+                  className="p-4 sm:p-5 border-2 border-slate-200 dark:border-slate-700/80 rounded-xl bg-white dark:bg-slate-900/70 backdrop-blur-sm shadow-xs hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600 transition-all flex flex-col gap-3"
                 >
                   {/* Header Row: Category, Status, Question & Delete Button */}
                   <div className="flex items-start justify-between gap-3 w-full">
@@ -202,8 +206,8 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
               ))
             )}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   )
 }

@@ -285,20 +285,21 @@ export const AdminSettingsTab: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         {/* CARD 1: Warning Alerts Settings */}
-        <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-white/90 dark:bg-slate-800/50 backdrop-blur-md transition-all">
-          <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
-            <div className="flex items-center gap-3">
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
-                <Megaphone className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500" strokeWidth={2.5} />
-              </div>
-              <div>
-                <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight uppercase">Warning Banner</CardTitle>
-                <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Alert active users before shutdown</CardDescription>
-              </div>
+        <div className="rounded-[1.75rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-white/90 dark:bg-slate-800/50 backdrop-blur-md transition-all p-6 sm:p-7 md:p-8 flex flex-col gap-5 sm:gap-6">
+          {/* Header Row */}
+          <div className="flex items-center gap-3">
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl shadow-sm shrink-0">
+              <Megaphone className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500" strokeWidth={2.5} />
             </div>
-          </CardHeader>
-          <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 space-y-4">
-            <div className="bg-amber-500/10 dark:bg-amber-950/30 border-2 border-amber-500/20 dark:border-amber-900/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 space-y-2.5">
+            <div>
+              <h3 className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight uppercase">Warning Banner</h3>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Alert active users before shutdown</p>
+            </div>
+          </div>
+
+          {/* Form Content */}
+          <div className="flex-1 flex flex-col justify-between gap-4">
+            <div className="bg-amber-500/10 dark:bg-amber-950/30 border-2 border-amber-500/20 dark:border-amber-900/40 rounded-xl p-3.5 sm:p-4 space-y-2.5">
               <div className="flex items-center justify-between gap-3">
                 <span className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider">Banner Notice Status</span>
                 <button
@@ -334,7 +335,7 @@ export const AdminSettingsTab: React.FC = () => {
                   });
                 }}
                 placeholder="15"
-                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-amber-500 font-bold"
+                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-amber-500 font-bold h-11"
               />
               <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 leading-tight">
                 Sets the countdown timer displayed in the live warning banner before the lockout undergoes.
@@ -353,7 +354,7 @@ export const AdminSettingsTab: React.FC = () => {
               />
             </div>
 
-            <div className="pt-2">
+            <div className="pt-2 mt-auto">
               <button
                 onClick={handleSaveWarningText}
                 disabled={saving}
@@ -363,32 +364,33 @@ export const AdminSettingsTab: React.FC = () => {
                 Save Alert Notice
               </button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* CARD 2: Maintenance Mode settings */}
-        <Card className={`rounded-[1.5rem] sm:rounded-[2rem] border-[3px] shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] transition-all duration-300 bg-white/90 dark:bg-slate-800/50 overflow-hidden ${
+        <div className={`rounded-[1.75rem] sm:rounded-[2rem] border-[3px] shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] transition-all duration-300 bg-white/90 dark:bg-slate-800/50 overflow-hidden p-6 sm:p-7 md:p-8 flex flex-col gap-5 sm:gap-6 ${
           maintenance.is_active 
             ? "border-red-500/50 shadow-red-500/10 dark:border-red-500/30" 
             : "border-slate-200 dark:border-slate-700"
         }`}>
-          <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
-            <div className="flex items-center gap-3">
-              <div className={`border-2 backdrop-blur-sm p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0 ${
-                maintenance.is_active 
-                  ? "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800/50" 
-                  : "bg-white/80 dark:bg-slate-900/80 border-slate-200 dark:border-slate-700"
-              }`}>
-                <ShieldAlert className={`h-5 w-5 sm:h-6 sm:w-6 ${maintenance.is_active ? "text-red-500" : "text-slate-500 dark:text-slate-400"}`} strokeWidth={2.5} />
-              </div>
-              <div>
-                <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight uppercase">Maintenance Mode</CardTitle>
-                <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Toggle live user platform lockout</CardDescription>
-              </div>
+          {/* Header Row */}
+          <div className="flex items-center gap-3">
+            <div className={`border-2 backdrop-blur-sm p-2 sm:p-2.5 rounded-xl shadow-sm shrink-0 ${
+              maintenance.is_active 
+                ? "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800/50" 
+                : "bg-white/80 dark:bg-slate-900/80 border-slate-200 dark:border-slate-700"
+            }`}>
+              <ShieldAlert className={`h-5 w-5 sm:h-6 sm:w-6 ${maintenance.is_active ? "text-red-500" : "text-slate-500 dark:text-slate-400"}`} strokeWidth={2.5} />
             </div>
-          </CardHeader>
-          <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 space-y-4">
-            <div className={`border-2 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 space-y-2.5 ${
+            <div>
+              <h3 className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight uppercase">Maintenance Mode</h3>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Toggle live user platform lockout</p>
+            </div>
+          </div>
+
+          {/* Form Content */}
+          <div className="flex-1 flex flex-col justify-between gap-4">
+            <div className={`border-2 rounded-xl p-3.5 sm:p-4 space-y-2.5 ${
               maintenance.is_active 
                 ? "bg-red-500/10 border-red-500/20" 
                 : "bg-slate-100/60 dark:bg-slate-900/60 border-slate-200 dark:border-slate-700/80"
@@ -430,7 +432,7 @@ export const AdminSettingsTab: React.FC = () => {
                   });
                 }}
                 placeholder="30"
-                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-red-500 font-bold"
+                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900/60 dark:text-white rounded-xl focus-visible:ring-red-500 font-bold h-11"
               />
               <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 leading-tight">
                 Sets the countdown timer displayed on the live Maintenance screen for locked out users.
@@ -449,7 +451,7 @@ export const AdminSettingsTab: React.FC = () => {
               />
             </div>
 
-            <div className="pt-2">
+            <div className="pt-2 mt-auto">
               <button
                 onClick={handleToggleMaintenanceClick}
                 disabled={saving}
@@ -474,8 +476,8 @@ export const AdminSettingsTab: React.FC = () => {
                 )}
               </button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
       </div>
 

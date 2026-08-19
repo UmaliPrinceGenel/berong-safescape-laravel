@@ -104,189 +104,189 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
 
   return (
     <div ref={cardRef} className="scroll-mt-28">
-      <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all">
-        <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
-                <UsersIcon className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
-              </div>
-              <div className="min-w-0">
-                <CardTitle className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight truncate">
-                  System Users
-                </CardTitle>
-                <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5 line-clamp-1">
-                  Manage user roles and access permissions · {permissionFilteredUsers.length} user{permissionFilteredUsers.length !== 1 ? 's' : ''}
-                </CardDescription>
-              </div>
+      <div className="rounded-[1.75rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all p-6 sm:p-7 md:p-8 flex flex-col gap-5 sm:gap-6">
+        {/* Header Row */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl shadow-sm shrink-0">
+              <UsersIcon className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
             </div>
-
-            <div className="grid grid-cols-1 xs:grid-cols-2 lg:flex lg:items-center gap-2 sm:gap-3 w-full lg:w-auto mt-1 lg:mt-0">
-              {/* Permission Multi-Select Filter Popover */}
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button
-                    type="button"
-                    className={`inline-flex items-center justify-between gap-2 h-10 sm:h-11 px-3.5 text-xs sm:text-sm font-extrabold rounded-xl border-2 transition-all backdrop-blur-sm cursor-pointer w-full lg:w-56 shadow-2xs ${
-                      selectedPermissions.length > 0
-                        ? "bg-red-50 dark:bg-red-950/30 border-red-500 text-red-600 dark:text-red-400 ring-2 ring-red-500/20"
-                        : "bg-white dark:bg-slate-900/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 truncate">
-                      <Filter className={`h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 ${selectedPermissions.length > 0 ? "text-[#d60000]" : "text-slate-400 dark:text-slate-500"}`} />
-                      <span className="truncate">
-                        {selectedPermissions.length === 0
-                          ? "All Permissions"
-                          : selectedPermissions.length === 1
-                          ? PERMISSION_OPTIONS.find((p) => p.id === selectedPermissions[0])?.label
-                          : `${selectedPermissions.length} Permissions`}
-                      </span>
-                    </div>
-                    {selectedPermissions.length > 0 ? (
-                      <span className="flex items-center justify-center h-4.5 px-1.5 text-[10px] font-black rounded-full bg-[#d60000] text-white shrink-0">
-                        {selectedPermissions.length}
-                      </span>
-                    ) : (
-                      <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-400 dark:text-slate-500" />
-                    )}
-                  </button>
-                </PopoverTrigger>
-
-                <PopoverContent
-                  align="end"
-                  className="w-72 p-3 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-2xl space-y-3 z-50"
-                >
-                  {/* Popover Header */}
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
-                    <div className="flex items-center gap-2">
-                      <Filter className="h-4 w-4 text-[#d60000]" />
-                      <span className="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                        Filter Permissions
-                      </span>
-                    </div>
-                    {selectedPermissions.length > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => setSelectedPermissions([])}
-                        className="text-xs font-bold text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors cursor-pointer"
-                      >
-                        Clear All
-                      </button>
-                    )}
-                  </div>
-
-                  {/* Match Mode Selector */}
-                  <div className="flex items-center justify-between px-2 py-1 bg-slate-100 dark:bg-slate-800/60 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400">
-                    <span>Match rule:</span>
-                    <div className="flex gap-1">
-                      <button
-                        type="button"
-                        onClick={() => setMatchMode("any")}
-                        className={`px-2 py-0.5 rounded-lg text-[11px] transition-all cursor-pointer ${
-                          matchMode === "any"
-                            ? "bg-white dark:bg-slate-700 text-[#d60000] dark:text-red-400 shadow-xs font-black border border-slate-200 dark:border-slate-600"
-                            : "hover:text-slate-900 dark:hover:text-white"
-                        }`}
-                        title="Show users who have AT LEAST ONE of the checked permissions"
-                      >
-                        ANY (OR)
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setMatchMode("all")}
-                        className={`px-2 py-0.5 rounded-lg text-[11px] transition-all cursor-pointer ${
-                          matchMode === "all"
-                            ? "bg-white dark:bg-slate-700 text-[#d60000] dark:text-red-400 shadow-xs font-black border border-slate-200 dark:border-slate-600"
-                            : "hover:text-slate-900 dark:hover:text-white"
-                        }`}
-                        title="Show users who have ALL of the checked permissions"
-                      >
-                        ALL (AND)
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Checkbox Options */}
-                  <div className="space-y-1.5">
-                    {PERMISSION_OPTIONS.map((option) => {
-                      const isChecked = selectedPermissions.includes(option.id)
-                      const count = permissionCounts[option.id] || 0
-
-                      return (
-                        <div
-                          key={option.id}
-                          onClick={() => togglePermission(option.id)}
-                          className={`flex items-center justify-between p-2 rounded-xl border-2 transition-all cursor-pointer select-none ${
-                            isChecked
-                              ? "bg-red-50/60 dark:bg-red-950/30 border-red-300 dark:border-red-800/60 shadow-xs"
-                              : "bg-transparent border-transparent hover:bg-slate-100 dark:hover:bg-slate-800/50"
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <Checkbox
-                              checked={isChecked}
-                              onCheckedChange={() => togglePermission(option.id)}
-                              className="data-[state=checked]:bg-[#d60000] data-[state=checked]:border-[#d60000]"
-                            />
-                            <span className={`text-xs font-extrabold px-2 py-0.5 rounded-md border ${option.badgeClass}`}>
-                              {option.label}
-                            </span>
-                          </div>
-                          <span className="text-xs font-black text-slate-400 dark:text-slate-500">
-                            {count}
-                          </span>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </PopoverContent>
-              </Popover>
-
-              {/* Search Bar */}
-              <div className="relative group w-full lg:w-64 xl:w-72">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-400 group-focus-within:text-[#d60000] dark:group-focus-within:text-red-400 transition-colors" />
-                <input
-                  type="text"
-                  placeholder="Search users..."
-                  value={userSearchQuery}
-                  onChange={(e) => setUserSearchQuery(e.target.value)}
-                  className="w-full pl-9 sm:pl-10 pr-8 h-10 sm:h-11 text-xs sm:text-sm text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900/80 backdrop-blur-sm focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/20 font-bold transition-all hover:border-slate-300 dark:hover:border-slate-600 shadow-2xs"
-                />
-                {userSearchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => setUserSearchQuery("")}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded-md cursor-pointer"
-                    title="Clear search"
-                  >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
-                )}
-              </div>
+            <div className="min-w-0">
+              <h3 className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight truncate">
+                System Users
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5 line-clamp-1">
+                Manage user roles and access permissions · {permissionFilteredUsers.length} user{permissionFilteredUsers.length !== 1 ? 's' : ''}
+              </p>
             </div>
           </div>
-        </CardHeader>
-        <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0">
-          <div className="space-y-4">
-            {paginatedUsers.length === 0 ? (
-              <div className="text-center py-12 px-4 bg-white/30 dark:bg-slate-900/30 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700">
-                <p className="text-slate-500 dark:text-slate-400 font-bold text-base mb-2">
-                  No users found matching your filters.
-                </p>
-                {(selectedPermissions.length > 0 || userSearchQuery !== "") && (
-                  <button
-                    type="button"
-                    onClick={resetFilters}
-                    className="mt-2 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-black rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 transition-all cursor-pointer"
-                  >
-                    Reset Filters & Search
-                  </button>
-                )}
-              </div>
-            ) : (
-              paginatedUsers.map((u) => (
-                <div key={u.id} className="group p-4 sm:p-5 border-2 border-slate-200 dark:border-slate-700 rounded-2xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm shadow-sm hover:shadow-[0_4px_0_#e2e8f0] dark:hover:shadow-[0_4px_0_#0f172a] hover:-translate-y-0.5 transition-all">
+
+          <div className="grid grid-cols-1 xs:grid-cols-2 lg:flex lg:items-center gap-2 sm:gap-3 w-full lg:w-auto mt-1 lg:mt-0">
+            {/* Permission Multi-Select Filter Popover */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  className={`inline-flex items-center justify-between gap-2 h-10 sm:h-11 px-3.5 text-xs sm:text-sm font-extrabold rounded-xl border-2 transition-all backdrop-blur-sm cursor-pointer w-full lg:w-56 shadow-2xs ${
+                    selectedPermissions.length > 0
+                      ? "bg-red-50 dark:bg-red-950/30 border-red-500 text-red-600 dark:text-red-400 ring-2 ring-red-500/20"
+                      : "bg-white dark:bg-slate-900/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600"
+                  }`}
+                >
+                  <div className="flex items-center gap-2 truncate">
+                    <Filter className={`h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 ${selectedPermissions.length > 0 ? "text-[#d60000]" : "text-slate-400 dark:text-slate-500"}`} />
+                    <span className="truncate">
+                      {selectedPermissions.length === 0
+                        ? "All Permissions"
+                        : selectedPermissions.length === 1
+                        ? PERMISSION_OPTIONS.find((p) => p.id === selectedPermissions[0])?.label
+                        : `${selectedPermissions.length} Permissions`}
+                    </span>
+                  </div>
+                  {selectedPermissions.length > 0 ? (
+                    <span className="flex items-center justify-center h-4.5 px-1.5 text-[10px] font-black rounded-full bg-[#d60000] text-white shrink-0">
+                      {selectedPermissions.length}
+                    </span>
+                  ) : (
+                    <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-400 dark:text-slate-500" />
+                  )}
+                </button>
+              </PopoverTrigger>
+
+              <PopoverContent
+                align="end"
+                className="w-72 p-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-2xl space-y-3 z-50"
+              >
+                {/* Popover Header */}
+                <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <Filter className="h-4 w-4 text-[#d60000]" />
+                    <span className="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                      Filter Permissions
+                    </span>
+                  </div>
+                  {selectedPermissions.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setSelectedPermissions([])}
+                      className="text-xs font-bold text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors cursor-pointer"
+                    >
+                      Clear All
+                    </button>
+                  )}
+                </div>
+
+                {/* Match Mode Selector */}
+                <div className="flex items-center justify-between px-2 py-1 bg-slate-100 dark:bg-slate-800/60 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400">
+                  <span>Match rule:</span>
+                  <div className="flex gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setMatchMode("any")}
+                      className={`px-2 py-0.5 rounded-lg text-[11px] transition-all cursor-pointer ${
+                        matchMode === "any"
+                          ? "bg-white dark:bg-slate-700 text-[#d60000] dark:text-red-400 shadow-xs font-black border border-slate-200 dark:border-slate-600"
+                          : "hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                      title="Show users who have AT LEAST ONE of the checked permissions"
+                    >
+                      ANY (OR)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setMatchMode("all")}
+                      className={`px-2 py-0.5 rounded-lg text-[11px] transition-all cursor-pointer ${
+                        matchMode === "all"
+                          ? "bg-white dark:bg-slate-700 text-[#d60000] dark:text-red-400 shadow-xs font-black border border-slate-200 dark:border-slate-600"
+                          : "hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                      title="Show users who have ALL of the checked permissions"
+                    >
+                      ALL (AND)
+                    </button>
+                  </div>
+                </div>
+
+                {/* Checkbox Options */}
+                <div className="space-y-1.5">
+                  {PERMISSION_OPTIONS.map((option) => {
+                    const isChecked = selectedPermissions.includes(option.id)
+                    const count = permissionCounts[option.id] || 0
+
+                    return (
+                      <div
+                        key={option.id}
+                        onClick={() => togglePermission(option.id)}
+                        className={`flex items-center justify-between p-2 rounded-xl border-2 transition-all cursor-pointer select-none ${
+                          isChecked
+                            ? "bg-red-50/60 dark:bg-red-950/30 border-red-300 dark:border-red-800/60 shadow-xs"
+                            : "bg-transparent border-transparent hover:bg-slate-100 dark:hover:bg-slate-800/50"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <Checkbox
+                            checked={isChecked}
+                            onCheckedChange={() => togglePermission(option.id)}
+                            className="data-[state=checked]:bg-[#d60000] data-[state=checked]:border-[#d60000]"
+                          />
+                          <span className={`text-xs font-extrabold px-2 py-0.5 rounded-md border ${option.badgeClass}`}>
+                            {option.label}
+                          </span>
+                        </div>
+                        <span className="text-xs font-black text-slate-400 dark:text-slate-500">
+                          {count}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </PopoverContent>
+            </Popover>
+
+            {/* Search Bar */}
+            <div className="relative group w-full lg:w-64 xl:w-72">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-400 group-focus-within:text-[#d60000] dark:group-focus-within:text-red-400 transition-colors" />
+              <input
+                type="text"
+                placeholder="Search users..."
+                value={userSearchQuery}
+                onChange={(e) => setUserSearchQuery(e.target.value)}
+                className="w-full pl-9 sm:pl-10 pr-8 h-10 sm:h-11 text-xs sm:text-sm text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900/80 backdrop-blur-sm focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/20 font-bold transition-all hover:border-slate-300 dark:hover:border-slate-600 shadow-2xs"
+              />
+              {userSearchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setUserSearchQuery("")}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded-md cursor-pointer"
+                  title="Clear search"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* User List Content */}
+        <div className="space-y-4">
+          {paginatedUsers.length === 0 ? (
+            <div className="text-center py-12 px-4 bg-white/30 dark:bg-slate-900/30 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700">
+              <p className="text-slate-500 dark:text-slate-400 font-bold text-base mb-2">
+                No users found matching your filters.
+              </p>
+              {(selectedPermissions.length > 0 || userSearchQuery !== "") && (
+                <button
+                  type="button"
+                  onClick={resetFilters}
+                  className="mt-2 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-black rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 transition-all cursor-pointer"
+                >
+                  Reset Filters & Search
+                </button>
+              )}
+            </div>
+          ) : (
+            paginatedUsers.map((u) => (
+              <div key={u.id} className="group p-4 sm:p-5 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm shadow-sm hover:shadow-[0_4px_0_#e2e8f0] dark:hover:shadow-[0_4px_0_#0f172a] hover:-translate-y-0.5 transition-all">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     {/* User Details */}
                     <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0">
@@ -404,8 +404,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
               </button>
             </div>
           )}
-        </CardContent>
-      </Card>
+      </div>
     </div>
   )
 }

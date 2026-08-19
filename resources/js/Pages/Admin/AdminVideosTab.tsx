@@ -20,136 +20,139 @@ export const AdminVideosTab: React.FC<VideosTabProps> = ({
 }) => {
   return (
     <div className="space-y-6">
-      <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6">
-        <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
-          <div className="flex items-center gap-3">
-            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
-              <Plus className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
-            </div>
-            <div>
-              <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight">Add New Video</CardTitle>
-              <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Add YouTube educational videos to different sections</CardDescription>
-            </div>
+      <div className="rounded-[1.75rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6 p-6 sm:p-7 md:p-8 flex flex-col gap-5 sm:gap-6">
+        {/* Header Row */}
+        <div className="flex items-center gap-3">
+          <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl shadow-sm shrink-0">
+            <Plus className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
           </div>
-        </CardHeader>
-        <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 space-y-4">
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="video-title" className="font-bold text-slate-700 dark:text-slate-300">Title</Label>
-              <Input
-                id="video-title"
-                placeholder="Video title"
-                value={newVideo.title}
-                onChange={(e) => setNewVideo({ ...newVideo, title: e.target.value })}
-                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="video-youtubeId" className="font-bold text-slate-700 dark:text-slate-300">YouTube URL or ID</Label>
-              <Input
-                id="video-youtubeId"
-                placeholder="https://youtu.be/... or dQw4w9WgXcQ"
-                value={newVideo.youtubeId}
-                onChange={(e) => {
-                  let val = e.target.value;
-                  const regex = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/|live\/))([^&?\n]+)/;
-                  const match = val.match(regex);
-                  
-                  if (match && match[1]) {
-                    val = match[1];
-                  } else if (val.includes('youtube.com') || val.includes('youtu.be')) {
-                    try {
-                      const url = new URL(val);
-                      if (url.hostname.includes('youtube.com')) {
-                        val = url.searchParams.get('v') || val.split('/').pop() || val;
-                      } else if (url.hostname.includes('youtu.be')) {
-                        val = url.pathname.slice(1);
+          <div className="min-w-0">
+            <h3 className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight">Add New Video</h3>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">Add YouTube educational videos to different sections</p>
+          </div>
+        </div>
+
+        {/* Form Content */}
+        <div className="flex-1 flex flex-col justify-between gap-5">
+          <div className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="video-title" className="font-bold text-slate-700 dark:text-slate-300">Title</Label>
+                <Input
+                  id="video-title"
+                  placeholder="Video title"
+                  value={newVideo.title}
+                  onChange={(e) => setNewVideo({ ...newVideo, title: e.target.value })}
+                  className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl font-bold h-11"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="video-youtubeId" className="font-bold text-slate-700 dark:text-slate-300">YouTube URL or ID</Label>
+                <Input
+                  id="video-youtubeId"
+                  placeholder="https://youtu.be/... or dQw4w9WgXcQ"
+                  value={newVideo.youtubeId}
+                  onChange={(e) => {
+                    let val = e.target.value;
+                    const regex = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/|live\/))([^&?\n]+)/;
+                    const match = val.match(regex);
+                    
+                    if (match && match[1]) {
+                      val = match[1];
+                    } else if (val.includes('youtube.com') || val.includes('youtu.be')) {
+                      try {
+                        const url = new URL(val);
+                        if (url.hostname.includes('youtube.com')) {
+                          val = url.searchParams.get('v') || val.split('/').pop() || val;
+                        } else if (url.hostname.includes('youtu.be')) {
+                          val = url.pathname.slice(1);
+                        }
+                      } catch (e) {
+                        // fallback to original val
                       }
-                    } catch (e) {
-                      // fallback to original val
                     }
-                  }
-                  
-                  if (val.includes('?')) val = val.split('?')[0];
-                  if (val.includes('&')) val = val.split('&')[0];
-                  
-                  setNewVideo({ ...newVideo, youtubeId: val });
-                }}
-                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl"
+                    
+                    if (val.includes('?')) val = val.split('?')[0];
+                    if (val.includes('&')) val = val.split('&')[0];
+                    
+                    setNewVideo({ ...newVideo, youtubeId: val });
+                  }}
+                  className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl font-bold h-11"
+                />
+              </div>
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="video-category" className="font-bold text-slate-700 dark:text-slate-300">Category</Label>
+                <Select
+                  value={newVideo.category}
+                  onValueChange={(value: any) => setNewVideo({ ...newVideo, category: value })}
+                >
+                  <SelectTrigger id="video-category" className="w-full h-11 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 font-bold text-slate-700 dark:text-white focus:ring-red-500 shadow-sm transition-all hover:border-slate-300">
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-800 shadow-xl p-1">
+                    <SelectItem value="kids" className="rounded-lg font-bold text-slate-700 dark:text-slate-300 focus:bg-slate-50 dark:focus:bg-slate-700 focus:text-red-600 dark:focus:text-red-400 transition-colors cursor-pointer py-2.5">
+                      Kids
+                    </SelectItem>
+                    <SelectItem value="professional" className="rounded-lg font-bold text-slate-700 dark:text-slate-300 focus:bg-slate-50 dark:focus:bg-slate-700 focus:text-red-600 dark:focus:text-red-400 transition-colors cursor-pointer py-2.5">
+                      Professional
+                    </SelectItem>
+                    <SelectItem value="adult" className="rounded-lg font-bold text-slate-700 dark:text-slate-300 focus:bg-slate-50 dark:focus:bg-slate-700 focus:text-red-600 dark:focus:text-red-400 transition-colors cursor-pointer py-2.5">
+                      Adult
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="video-duration" className="font-bold text-slate-700 dark:text-slate-300">Duration</Label>
+                <Input
+                  id="video-duration"
+                  placeholder="e.g., 5:30"
+                  value={newVideo.duration}
+                  onChange={(e) => setNewVideo({ ...newVideo, duration: e.target.value })}
+                  className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl font-bold h-11"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="video-active" className="font-bold text-slate-700 dark:text-slate-300">Status</Label>
+                <Select
+                  value={newVideo.isActive ? "active" : "inactive"}
+                  onValueChange={(value) => setNewVideo({ ...newVideo, isActive: value === "active" })}
+                >
+                  <SelectTrigger id="video-active" className="w-full h-11 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 font-bold text-slate-700 dark:text-white focus:ring-red-500 shadow-sm transition-all hover:border-slate-300">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-800 shadow-xl p-1">
+                    <SelectItem value="active" className="rounded-lg font-bold text-slate-700 dark:text-slate-300 focus:bg-slate-50 dark:focus:bg-slate-700 focus:text-red-600 dark:focus:text-red-400 transition-colors cursor-pointer py-2.5">
+                      <div className="flex items-center gap-2">
+                        <div className="h-2 w-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
+                        Active
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="inactive" className="rounded-lg font-bold text-slate-700 dark:text-slate-300 focus:bg-slate-50 dark:focus:bg-slate-700 focus:text-red-600 dark:focus:text-red-400 transition-colors cursor-pointer py-2.5">
+                      <div className="flex items-center gap-2">
+                        <div className="h-2 w-2 rounded-full bg-slate-400" />
+                        Inactive
+                      </div>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="video-description" className="font-bold text-slate-700 dark:text-slate-300">Description</Label>
+              <Textarea
+                id="video-description"
+                placeholder="Short description of the video content"
+                rows={3}
+                value={newVideo.description}
+                onChange={(e) => setNewVideo({ ...newVideo, description: e.target.value })}
+                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl resize-none font-medium"
               />
             </div>
           </div>
-          <div className="grid md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="video-category" className="font-bold text-slate-700 dark:text-slate-300">Category</Label>
-              <Select
-                value={newVideo.category}
-                onValueChange={(value: any) => setNewVideo({ ...newVideo, category: value })}
-              >
-                <SelectTrigger id="video-category" className="w-full h-10 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 font-bold text-slate-700 dark:text-white focus:ring-red-500 shadow-sm transition-all hover:border-slate-300">
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-800 shadow-xl p-1">
-                  <SelectItem value="kids" className="rounded-lg font-bold text-slate-700 dark:text-slate-300 focus:bg-slate-50 dark:focus:bg-slate-700 focus:text-red-600 dark:focus:text-red-400 transition-colors cursor-pointer py-2.5">
-                    Kids
-                  </SelectItem>
-                  <SelectItem value="professional" className="rounded-lg font-bold text-slate-700 dark:text-slate-300 focus:bg-slate-50 dark:focus:bg-slate-700 focus:text-red-600 dark:focus:text-red-400 transition-colors cursor-pointer py-2.5">
-                    Professional
-                  </SelectItem>
-                  <SelectItem value="adult" className="rounded-lg font-bold text-slate-700 dark:text-slate-300 focus:bg-slate-50 dark:focus:bg-slate-700 focus:text-red-600 dark:focus:text-red-400 transition-colors cursor-pointer py-2.5">
-                    Adult
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="video-duration" className="font-bold text-slate-700 dark:text-slate-300">Duration</Label>
-              <Input
-                id="video-duration"
-                placeholder="e.g., 5:30"
-                value={newVideo.duration}
-                onChange={(e) => setNewVideo({ ...newVideo, duration: e.target.value })}
-                className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="video-active" className="font-bold text-slate-700 dark:text-slate-300">Status</Label>
-              <Select
-                value={newVideo.isActive ? "active" : "inactive"}
-                onValueChange={(value) => setNewVideo({ ...newVideo, isActive: value === "active" })}
-              >
-                <SelectTrigger id="video-active" className="w-full h-10 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 font-bold text-slate-700 dark:text-white focus:ring-red-500 shadow-sm transition-all hover:border-slate-300">
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent className="rounded-xl border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-800 shadow-xl p-1">
-                  <SelectItem value="active" className="rounded-lg font-bold text-slate-700 dark:text-slate-300 focus:bg-slate-50 dark:focus:bg-slate-700 focus:text-red-600 dark:focus:text-red-400 transition-colors cursor-pointer py-2.5">
-                    <div className="flex items-center gap-2">
-                      <div className="h-2 w-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
-                      Active
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="inactive" className="rounded-lg font-bold text-slate-700 dark:text-slate-300 focus:bg-slate-50 dark:focus:bg-slate-700 focus:text-red-600 dark:focus:text-red-400 transition-colors cursor-pointer py-2.5">
-                    <div className="flex items-center gap-2">
-                      <div className="h-2 w-2 rounded-full bg-slate-400" />
-                      Inactive
-                    </div>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="video-description" className="font-bold text-slate-700 dark:text-slate-300">Description</Label>
-            <Textarea
-              id="video-description"
-              placeholder="Short description of the video content"
-              rows={3}
-              value={newVideo.description}
-              onChange={(e) => setNewVideo({ ...newVideo, description: e.target.value })}
-              className="border-2 border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus-visible:ring-red-500 rounded-xl resize-none"
-            />
-          </div>
-          <div className="flex flex-wrap items-center gap-4 pt-2">
+          <div className="flex flex-wrap items-center gap-4 pt-2 mt-auto">
             <button
               type="button"
               onClick={handleAddVideo}
@@ -169,8 +172,8 @@ export const AdminVideosTab: React.FC<VideosTabProps> = ({
               </div>
             )}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 gap-6">
         <SortableContentList

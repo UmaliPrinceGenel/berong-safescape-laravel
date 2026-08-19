@@ -731,9 +731,9 @@ function AdminDashboard({
       <LoadingOverlay isLoading={isSubmitting} message={submittingMessage} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-8 relative z-10">
-        <div className="mb-4 sm:mb-6 bg-white/90 dark:bg-slate-800/50 backdrop-blur-md p-5 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] flex items-center justify-between gap-3 sm:gap-4 transition-all">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2.5 sm:p-3 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
+        <div className="mb-6 bg-white/90 dark:bg-slate-800/50 backdrop-blur-md p-6 sm:p-7 md:p-8 rounded-[1.75rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] flex items-center justify-between gap-4 transition-all">
+          <div className="flex items-center gap-3.5 min-w-0">
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2.5 sm:p-3 rounded-xl shadow-sm shrink-0">
               <Shield className="h-6 w-6 sm:h-8 sm:w-8 text-[#d60000] dark:text-red-500" strokeWidth={2.5} />
             </div>
             <div className="min-w-0">
@@ -745,7 +745,7 @@ function AdminDashboard({
           </div>
           <button
             onClick={() => router.visit("/admin/analytics")}
-            className="flex items-center gap-1.5 sm:gap-2 bg-[#ff6b00] hover:bg-[#ea580c] text-white font-extrabold px-3.5 sm:px-6 pb-2 pt-2.5 rounded-xl sm:rounded-2xl text-xs sm:text-base shadow-[0_4px_0_#c2410c] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#c2410c] active:translate-y-1 active:shadow-none transition-all shrink-0 cursor-pointer"
+            className="flex items-center gap-1.5 sm:gap-2 bg-[#ff6b00] hover:bg-[#ea580c] text-white font-extrabold px-4 sm:px-6 pb-2 pt-2.5 rounded-xl text-xs sm:text-base shadow-[0_4px_0_#c2410c] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#c2410c] active:translate-y-1 active:shadow-none transition-all shrink-0 cursor-pointer"
           >
             <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5} />
             <span className="hidden sm:inline">Community Analytics</span>
@@ -753,8 +753,8 @@ function AdminDashboard({
           </button>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 sm:space-y-6">
-          <TabsList className="flex w-full sm:grid sm:grid-cols-7 bg-slate-200/70 dark:bg-slate-800/50 backdrop-blur-md p-2 rounded-[1.5rem] gap-2 shadow-inner h-auto border-2 border-slate-200 dark:border-slate-700 transition-colors">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="flex w-full sm:grid sm:grid-cols-7 bg-slate-200/70 dark:bg-slate-800/50 backdrop-blur-md p-2.5 rounded-[1.5rem] sm:rounded-[1.75rem] gap-2 shadow-inner h-auto border-2 border-slate-200 dark:border-slate-700 transition-colors">
             {[
               { id: "carousel", icon: ImageIcon, label: "Carousel" },
               { id: "blogs", icon: FileText, label: "Blogs" },
