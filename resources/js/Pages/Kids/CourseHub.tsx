@@ -444,7 +444,7 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
                       "relative overflow-hidden rounded-[2rem] flex flex-col transition-all duration-300 bg-white dark:bg-slate-900 group h-full will-change-transform border-[3px]",
                       module.isLocked
                         ? "border-slate-200 dark:border-slate-800 opacity-80 bg-slate-50/50 dark:bg-slate-950/50 shadow-none"
-                        : `${theme.borderClass} ${theme.shadowClass} hover:-translate-y-1.5`
+                        : `${theme.borderClass} ${theme.shadowClass} hover:-translate-y-2 hover:shadow-xl`
                     )}
                   >
                     {/* Background Shadow Number */}
@@ -595,9 +595,9 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
               {/* ── Certificate Card ── */}
               <div
                 className={cn(
-                  "relative rounded-[2rem] flex flex-col transition-all duration-500 overflow-hidden bg-white dark:bg-slate-900 h-full border-[3px] group",
+                  "relative rounded-[2rem] flex flex-col transition-all duration-500 overflow-hidden bg-white dark:bg-slate-900 h-full border-[3px] group will-change-transform",
                   completedCount === 5
-                    ? "border-yellow-400 shadow-xl shadow-yellow-100/40 dark:shadow-yellow-950/20 hover:-translate-y-1.5"
+                    ? "border-yellow-400 shadow-xl shadow-yellow-100/40 dark:shadow-yellow-950/20 hover:-translate-y-2 hover:shadow-2xl"
                     : "border-slate-200 dark:border-slate-800 opacity-80"
                 )}
               >
@@ -612,7 +612,7 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
                   completedCount === 5 ? "bg-yellow-400 border-yellow-300 dark:bg-yellow-500 dark:border-yellow-600" : "bg-slate-50 border-slate-200 dark:bg-slate-950 dark:border-slate-800"
                 )}>
                   <div className="relative z-10">
-                    <Trophy className={cn("h-10 w-10 mb-2", completedCount === 5 ? "text-yellow-900 dark:text-yellow-950" : "text-slate-300 dark:text-slate-600")} />
+                    <Trophy className={cn("h-10 w-10 mb-2", completedCount === 5 ? "text-yellow-950 dark:text-yellow-950" : "text-slate-300 dark:text-slate-600")} />
                     <h4 className={cn("text-2xl sm:text-3xl font-black", completedCount === 5 ? "text-yellow-950" : "text-slate-400 dark:text-slate-600")}>
                       Your Certificate
                     </h4>
@@ -631,8 +631,9 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
                     {completedCount === 5 ? (
                       <Link
                         href="/kids/certificate"
-                        className="w-full flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-red-600 font-black py-4 rounded-2xl text-base border-b-[6px] border-yellow-700 active:border-b-0 active:translate-y-[6px] shadow-lg transition-all uppercase tracking-widest"
+                        className="w-full flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-amber-950 font-black py-4 rounded-2xl text-base border-b-[6px] border-yellow-600 active:border-b-0 active:translate-y-[6px] shadow-lg transition-all uppercase tracking-widest"
                       >
+                        <Trophy className="h-5 w-5 text-amber-900" />
                         View My Certificate
                       </Link>
                     ) : (
