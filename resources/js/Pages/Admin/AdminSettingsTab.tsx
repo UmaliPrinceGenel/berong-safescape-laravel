@@ -286,7 +286,7 @@ export const AdminSettingsTab: React.FC = () => {
         
         {/* CARD 1: Warning Alerts Settings */}
         <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-white/90 dark:bg-slate-800/50 backdrop-blur-md transition-all">
-          <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-3">
+          <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
             <div className="flex items-center gap-3">
               <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
                 <Megaphone className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500" strokeWidth={2.5} />
@@ -297,8 +297,8 @@ export const AdminSettingsTab: React.FC = () => {
               </div>
             </div>
           </CardHeader>
-          <CardContent className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 sm:pt-4 space-y-4">
-            <div className="bg-amber-500/10 dark:bg-amber-950/30 border-2 border-amber-500/20 dark:border-amber-900/40 rounded-2xl p-3.5 sm:p-4 space-y-2.5">
+          <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 space-y-4">
+            <div className="bg-amber-500/10 dark:bg-amber-950/30 border-2 border-amber-500/20 dark:border-amber-900/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 space-y-2.5">
               <div className="flex items-center justify-between gap-3">
                 <span className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider">Banner Notice Status</span>
                 <button
@@ -372,7 +372,7 @@ export const AdminSettingsTab: React.FC = () => {
             ? "border-red-500/50 shadow-red-500/10 dark:border-red-500/30" 
             : "border-slate-200 dark:border-slate-700"
         }`}>
-          <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-3">
+          <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
             <div className="flex items-center gap-3">
               <div className={`border-2 backdrop-blur-sm p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0 ${
                 maintenance.is_active 
@@ -387,8 +387,8 @@ export const AdminSettingsTab: React.FC = () => {
               </div>
             </div>
           </CardHeader>
-          <CardContent className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 sm:pt-4 space-y-4">
-            <div className={`border-2 rounded-2xl p-3.5 sm:p-4 space-y-2.5 ${
+          <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 space-y-4">
+            <div className={`border-2 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 space-y-2.5 ${
               maintenance.is_active 
                 ? "bg-red-500/10 border-red-500/20" 
                 : "bg-slate-100/60 dark:bg-slate-900/60 border-slate-200 dark:border-slate-700/80"

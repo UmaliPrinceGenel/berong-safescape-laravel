@@ -731,7 +731,7 @@ function AdminDashboard({
       <LoadingOverlay isLoading={isSubmitting} message={submittingMessage} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-8 relative z-10">
-        <div className="mb-4 sm:mb-6 bg-white/90 dark:bg-slate-800/50 backdrop-blur-md p-4 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] flex items-center justify-between gap-3 sm:gap-4 transition-all">
+        <div className="mb-4 sm:mb-6 bg-white/90 dark:bg-slate-800/50 backdrop-blur-md p-5 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] flex items-center justify-between gap-3 sm:gap-4 transition-all">
           <div className="flex items-center gap-3 min-w-0">
             <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2.5 sm:p-3 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
               <Shield className="h-6 w-6 sm:h-8 sm:w-8 text-[#d60000] dark:text-red-500" strokeWidth={2.5} />

@@ -51,7 +51,7 @@ function SortableCarouselItem({
         <div
             ref={setNodeRef}
             style={style}
-            className={`p-3 sm:p-4 border-2 rounded-2xl bg-white dark:bg-slate-900/70 backdrop-blur-sm transition-shadow transition-colors duration-200 flex items-center gap-2.5 sm:gap-3.5 w-full ${
+            className={`p-3 sm:p-4 border-2 rounded-xl sm:rounded-2xl bg-white dark:bg-slate-900/70 backdrop-blur-sm transition-shadow transition-colors duration-200 flex items-center gap-2.5 sm:gap-3.5 w-full ${
                 isDragging 
                     ? 'border-red-400 dark:border-red-500 shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1)] opacity-95 ring-4 ring-red-100 dark:ring-red-900/30' 
                     : 'border-slate-200 dark:border-slate-700/80 shadow-xs hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600'
@@ -158,7 +158,7 @@ export function SortableCarouselList({
 
     return (
         <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6">
-            <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-2">
+            <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
                 <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
                         <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
@@ -175,9 +175,9 @@ export function SortableCarouselList({
                     </div>
                 </div>
             </CardHeader>
-            <CardContent className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 sm:pt-4">
+            <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0">
                 {localImages.length === 0 ? (
-                    <div className="text-center py-10 px-4 bg-white/60 dark:bg-slate-900/40 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800">
+                    <div className="text-center py-10 px-4 bg-white/60 dark:bg-slate-900/40 rounded-xl sm:rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800">
                         <ImageIcon className="h-10 w-10 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
                         <p className="text-slate-500 dark:text-slate-400 font-bold text-sm">No carousel images uploaded yet</p>
                     </div>

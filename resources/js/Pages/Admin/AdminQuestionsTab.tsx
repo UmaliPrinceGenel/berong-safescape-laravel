@@ -19,7 +19,7 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
   return (
     <div className="space-y-6">
       <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6">
-        <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-3">
+        <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
           <div className="flex items-center gap-3">
             <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
               <Plus className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
@@ -30,7 +30,7 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
             </div>
           </div>
         </CardHeader>
-        <CardContent className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 sm:pt-4 space-y-4">
+        <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="qq-category" className="font-bold text-slate-700 dark:text-slate-300">Category</Label>
@@ -128,7 +128,7 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
       </Card>
 
       <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all mb-6">
-        <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-2">
+        <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
               <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
@@ -150,10 +150,10 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
             )}
           </div>
         </CardHeader>
-        <CardContent className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 sm:pt-4">
+        <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0">
           <div className="space-y-3 sm:space-y-4">
             {quickQuestions.length === 0 ? (
-              <div className="text-center py-10 px-4 bg-white/60 dark:bg-slate-900/40 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800">
+              <div className="text-center py-10 px-4 bg-white/60 dark:bg-slate-900/40 rounded-xl sm:rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800">
                 <HelpCircle className="h-10 w-10 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
                 <p className="text-slate-500 dark:text-slate-400 font-bold text-sm">No quick questions added yet</p>
                 <p className="text-slate-400 dark:text-slate-500 text-xs mt-1">Use the form above to add chatbot quick questions.</p>
@@ -162,7 +162,7 @@ export const AdminQuestionsTab: React.FC<QuestionsTabProps> = ({
               quickQuestions.map((question) => (
                 <div 
                   key={question.id} 
-                  className="p-4 sm:p-5 border-2 border-slate-200 dark:border-slate-700/80 rounded-2xl bg-white dark:bg-slate-900/70 backdrop-blur-sm shadow-xs hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600 transition-all flex flex-col gap-3"
+                  className="p-4 sm:p-5 border-2 border-slate-200 dark:border-slate-700/80 rounded-xl sm:rounded-2xl bg-white dark:bg-slate-900/70 backdrop-blur-sm shadow-xs hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600 transition-all flex flex-col gap-3"
                 >
                   {/* Header Row: Category, Status, Question & Delete Button */}
                   <div className="flex items-start justify-between gap-3 w-full">

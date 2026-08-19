@@ -134,16 +134,21 @@ export function ImageUpload({
 
   return (
     <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 backdrop-blur-md shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden transition-all h-full flex flex-col">
-      <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-3">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2.5">
-          <div className="flex flex-col gap-1 min-w-0">
-            <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white leading-tight">{title}</CardTitle>
-            <CardDescription className="text-xs text-slate-500 dark:text-slate-400 font-medium">{description}</CardDescription>
-            {recommendedResolution && (
-              <p className="text-[10px] font-bold text-red-500 dark:text-red-400 uppercase tracking-wider mt-0.5">
-                Recommended: {recommendedResolution}
-              </p>
-            )}
+      <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
+              <Upload className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000]" strokeWidth={2.5} />
+            </div>
+            <div className="min-w-0">
+              <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white tracking-tight">{title}</CardTitle>
+              <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">{description}</CardDescription>
+              {recommendedResolution && (
+                <p className="text-[10px] font-bold text-red-500 dark:text-red-400 uppercase tracking-wider mt-0.5">
+                  Recommended: {recommendedResolution}
+                </p>
+              )}
+            </div>
           </div>
 
           {imageDimensions && (
@@ -157,7 +162,7 @@ export function ImageUpload({
         </div>
       </CardHeader>
 
-      <CardContent className="flex-1 flex flex-col pt-0 px-4 sm:px-6 pb-5 sm:pb-6">
+      <CardContent className="flex-1 flex flex-col px-5 sm:px-6 pb-5 sm:pb-6 pt-0">
         {error && (
           <div className="mb-4 px-3 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 rounded-xl text-xs font-medium text-red-600 dark:text-red-400">
             {error}
@@ -167,13 +172,13 @@ export function ImageUpload({
         <div className="relative flex-1 min-h-[260px] sm:min-h-[300px]">
           {!(previewUrl || uploadUrl) ? (
             <div
-              className="absolute inset-0 border-3 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-all duration-300 group/upload bg-slate-50/50 dark:bg-slate-800/30 p-4"
+              className="absolute inset-0 border-3 border-dashed border-slate-200 dark:border-slate-700 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-all duration-300 group/upload bg-slate-50/50 dark:bg-slate-800/30 p-4"
               onClick={() => fileInputRef.current?.click()}
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => { e.preventDefault(); processFile(e.dataTransfer.files[0]); }}
             >
               <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
-              <div className="p-4 sm:p-5 bg-white dark:bg-slate-800 rounded-2xl text-slate-400 group-hover/upload:text-red-500 group-hover/upload:scale-110 transition-all duration-300 shadow-sm border-2 border-transparent group-hover/upload:border-red-100 dark:group-hover/upload:border-red-900">
+              <div className="p-4 sm:p-5 bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl text-slate-400 group-hover/upload:text-red-500 group-hover/upload:scale-110 transition-all duration-300 shadow-sm border-2 border-transparent group-hover/upload:border-red-100 dark:group-hover/upload:border-red-900">
                 <Upload className="h-7 w-7 sm:h-8 sm:w-8" strokeWidth={2.5} />
               </div>
               <div className="text-center space-y-1">
@@ -183,7 +188,7 @@ export function ImageUpload({
             </div>
           ) : (
             <div className="flex flex-col h-full gap-3 sm:gap-4">
-              <div className="relative w-full aspect-video rounded-2xl sm:rounded-[2rem] overflow-hidden border-2 border-slate-200 dark:border-slate-800 bg-slate-900 shadow-xl group/cropper">
+              <div className="relative w-full aspect-video rounded-xl sm:rounded-2xl overflow-hidden border-2 border-slate-200 dark:border-slate-800 bg-slate-900 shadow-xl group/cropper">
                 {uploadUrl ? (
                   <img 
                     src={uploadUrl} 
@@ -201,9 +206,9 @@ export function ImageUpload({
                       onCropComplete={onCropComplete}
                       onZoomChange={setZoom}
                       classes={{
-                        containerClassName: "rounded-2xl sm:rounded-[2.5rem]",
-                        mediaClassName: "rounded-2xl sm:rounded-[2.5rem]",
-                        cropAreaClassName: "rounded-2xl sm:rounded-[2.5rem] border-[3px] border-white/80 shadow-[0_0_0_9999em_rgba(15,23,42,0.8)]",
+                        containerClassName: "rounded-xl sm:rounded-2xl",
+                        mediaClassName: "rounded-xl sm:rounded-2xl",
+                        cropAreaClassName: "rounded-xl sm:rounded-2xl border-[3px] border-white/80 shadow-[0_0_0_9999em_rgba(15,23,42,0.8)]",
                       }}
                     />
                   </div>

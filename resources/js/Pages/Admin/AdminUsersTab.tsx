@@ -105,7 +105,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
   return (
     <div ref={cardRef} className="scroll-mt-28">
       <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all">
-        <CardHeader className="px-4 sm:px-6 pt-5 sm:pt-6 pb-3">
+        <CardHeader className="p-5 sm:p-6 pb-3 sm:pb-4">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4">
             <div className="flex items-center gap-3 min-w-0">
               <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-sm shrink-0">
@@ -267,7 +267,7 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
             </div>
           </div>
         </CardHeader>
-        <CardContent className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 sm:pt-4">
+        <CardContent className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0">
           <div className="space-y-4">
             {paginatedUsers.length === 0 ? (
               <div className="text-center py-12 px-4 bg-white/30 dark:bg-slate-900/30 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700">
