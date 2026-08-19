@@ -1,31 +1,98 @@
-*.log
-.DS_Store
+# ==========================================
+# 1. Environment & Sensitive Credentials
+# ==========================================
 .env
 .env.*
 !.env.example
-!.env.production
-.phpactor.json
-.phpunit.result.cache
-/.fleet
-/.idea
-/.nova
-/.phpunit.cache
-/.vscode
-/.zed
 /auth.json
-/node_modules
-/public/build
+/storage/*.key
+*.pem
+*.key
+
+# ==========================================
+# 2. Package Dependencies
+# ==========================================
+/vendor/
+/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================================
+# 3. Build Artifacts & Dev Server Files
+# ==========================================
+/public/build/
 /public/hot
 /public/storage
-/storage/*.key
-/storage/pail
-/vendor
+
+# ==========================================
+# 4. Storage & Dynamic Application Data
+# ==========================================
+/storage/app/*
+!/storage/app/.gitignore
+!/storage/app/public/
+/storage/app/public/*
+!/storage/app/public/.gitignore
+!/storage/app/public/.htaccess
+
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+
+/storage/logs/*
+!/storage/logs/.gitignore
+/storage/pail/
+*.log
+
+# ==========================================
+# 5. OS & Editor Artifacts
+# ==========================================
+.DS_Store
+Thumbs.db
+Desktop.ini
 Homestead.json
 Homestead.yaml
-Thumbs.db
+
+/.idea/
+/.vscode/
+/.fleet/
+/.nova/
+/.zed/
+.phpactor.json
+*.sublime-project
+*.sublime-workspace
+.phpunit.result.cache
+/.phpunit.cache
+
+# ==========================================
+# 6. Database Dumps, Backups & Datasets
+# ==========================================
+*.sqlite
+*.sqlite3
+*.sql
+*.zip
+*.tar.gz
+database_backup.sql
+bfp_fire_safety_dataset_*.csv
 bfp_fire_safety_dataset_1200.csv
 
-# Local utility and temporary files
+# ==========================================
+# 7. Machine Learning Models & Heavy Artifacts
+# ==========================================
+ml_scripts/bfp_chromadb/
+ml_scripts/bfp_llama3_final/
+*.safetensors
+*.pickle
+*.bin
+
+# ==========================================
+# 8. Local Utility & Temporary Scratch Files
+# ==========================================
 build-error.txt
 composer.phar
 fix.php
@@ -35,11 +102,3 @@ migrate_react.cjs
 q_out.json
 test_scores.php
 /utils/
-
-# Large Machine Learning Files
-ml_scripts/bfp_chromadb/
-ml_scripts/bfp_llama3_final/
-*.safetensors
-*.sqlite3
-*.pickle
-*.bin

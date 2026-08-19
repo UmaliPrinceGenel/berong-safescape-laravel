@@ -1,0 +1,22 @@
+# Prevent execution of any scripts in public uploads directory
+<FilesMatch "(?i)\.(php|phtml|phar|pl|py|cgi|sh|asp|aspx|js|exe|bat|cmd|vbs)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Disable script engines
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+    php_flag engine off
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+Options -Indexes -ExecCGI
