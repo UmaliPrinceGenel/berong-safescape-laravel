@@ -396,9 +396,15 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
               type="button"
               onClick={() => {
                 playSound('/sounds/tap.mp3', 'general');
-                const target = document.querySelector('.wood-board') || document.querySelector('main');
+                const target = document.getElementById('adventure-board') || document.querySelector('.wood-board');
                 if (target) {
-                  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  const navOffset = 80;
+                  const elementPosition = target.getBoundingClientRect().top;
+                  const offsetPosition = elementPosition + window.pageYOffset - navOffset;
+                  window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                  });
                 }
               }}
               className="flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-8 sm:py-3 bg-emerald-500 hover:bg-emerald-400 rounded-xl sm:rounded-2xl shadow-[0_4px_0_rgb(5,150,105)] hover:shadow-[0_6px_0_rgb(5,150,105)] hover:-translate-y-0.5 active:translate-y-1 active:shadow-none border-t border-white/30 text-white transform transition-all cursor-pointer outline-none"

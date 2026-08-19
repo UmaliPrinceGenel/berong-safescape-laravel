@@ -33,10 +33,13 @@ export function ContentGrid({
   const isMap = variant === 'map';
 
   return (
-    <div className={cn(
-      "relative mb-24 max-w-7xl mx-auto",
-      isMap ? "p-0 md:p-12 md:pb-32 md:rounded-[3.5rem] md:bg-[#8b5a2b] dark:md:bg-[#5c3a1b] md:wood-board md:border-[8px] md:border-[#4a2e15] dark:md:border-[#2a1a0c] md:shadow-[0_15px_0_#4a2e15] dark:md:shadow-[0_15px_0_#2a1a0c] overflow-visible transition-colors mt-8 md:mt-24" : "p-0"
-    )}>
+    <div 
+      id="adventure-board"
+      className={cn(
+        "relative mb-24 max-w-7xl mx-auto scroll-mt-24",
+        isMap ? "p-0 md:p-12 md:pb-32 md:rounded-[3.5rem] md:bg-[#8b5a2b] dark:md:bg-[#5c3a1b] md:wood-board md:border-[8px] md:border-[#4a2e15] dark:md:border-[#2a1a0c] md:shadow-[0_15px_0_#4a2e15] dark:md:shadow-[0_15px_0_#2a1a0c] overflow-visible transition-colors mt-8 md:mt-24" : "p-0"
+      )}
+    >
       {/* Adventure Ropes holding the wooden board */}
       {isMap && (
         <>
