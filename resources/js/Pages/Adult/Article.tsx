@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import { Head, Link } from '@inertiajs/react'
 import DashboardLayout from "@/Layouts/DashboardLayout"
 import { ArrowLeft, User, Calendar, Maximize2, X, Flame } from "lucide-react"
+import DOMPurify from "dompurify"
 
 interface BlogArticleProps {
     blog: {
@@ -170,7 +171,7 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                                 prose-strong:font-black prose-strong:text-slate-800 dark:prose-strong:text-white
                                 prose-ul:marker:text-orange-400 dark:prose-ul:marker:text-orange-500 prose-li:font-medium prose-li:text-[13px] sm:prose-li:text-sm md:prose-li:text-base
                                 prose-img:rounded-xl sm:prose-img:rounded-2xl prose-img:shadow-md border-slate-100 dark:border-slate-700"
-                            dangerouslySetInnerHTML={{ __html: blog.content }}
+                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content || '') }}
                         />
                     </div>
                 </article>

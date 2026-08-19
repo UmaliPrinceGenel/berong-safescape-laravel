@@ -12,6 +12,7 @@ use App\Models\UserAnswer;
 use App\Models\EngagementLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -532,16 +533,13 @@ class AdminController extends Controller
     public function uploadImage(Request $request)
     {
         $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:51200', // 50MB max
+            'file' => 'required|file|image|mimes:jpeg,png,jpg,webp,gif|mimetypes:image/jpeg,image/png,image/webp,image/gif|max:15360', // 15MB max
         ]);
+
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             
-            // For now, let's return a Base64 encoded string to match the current frontend handling 
-            // or save to public storage and return the URL. 
-            // The original Node.js version might have been using Base64 or a temporary service.
-            // Let's go with local storage for production readiness.
-            
+            // Store file in non-executable public storage with random hash name
             $path = $file->store('uploads', 'public');
             $url = asset('storage/' . $path);
 
@@ -635,19 +633,38 @@ class AdminController extends Controller
     public function uploadManual(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:pdf|max:102400', // 100MB max
+            'file' => 'required|file|mimes:pdf|mimetypes:application/pdf|max:51200', // 50MB max
         ]);
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-            $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
+
+            // 1. Verify PDF Magic Bytes (%PDF-)
+            $filePath = $file->getRealPath();
+            $header = file_get_contents($filePath, false, null, 0, 4);
+            if ($header !== '%PDF') {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'The uploaded file is not a valid PDF document.'
+                ], 422);
+            }
+
+            // 2. Sanitize filename to prevent directory traversal or script execution
+            $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $cleanSlug = Str::slug($originalName);
+            if (empty($cleanSlug)) {
+                $cleanSlug = 'manual_document';
+            }
+            $cleanSlug = substr($cleanSlug, 0, 50);
+            $filename = time() . '_' . $cleanSlug . '_' . Str::random(8) . '.pdf';
             
-            // Ensure the directory exists
+            // 3. Ensure the destination directory exists
             $destinationPath = public_path('modules/bfp_manuals');
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0755, true);
             }
             
+            // 4. Move file securely
             $file->move($destinationPath, $filename);
 
             return response()->json([
