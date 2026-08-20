@@ -223,19 +223,23 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
             <div className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-slate-300 border border-slate-500 shadow-[inset_0_-1px_2px_rgba(0,0,0,0.5)]"></div>
             <div className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-slate-300 border border-slate-500 shadow-[inset_0_-1px_2px_rgba(0,0,0,0.5)]"></div>
 
-            <div className="w-full relative z-10 flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-8">
-              <div className="flex items-center gap-3 sm:gap-4 flex-1 w-full justify-center sm:justify-start">
-                <div className="h-10 w-10 sm:h-16 sm:w-16 bg-[#4a2e15]/40 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 border-2 border-[#4a2e15]/50 shadow-inner">
-                  <Trophy className="h-5 w-5 sm:h-8 sm:w-8 text-amber-300" />
+            <div className="w-full relative z-10 flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 flex-1 w-full text-center sm:text-left">
+                <div className="h-12 w-12 sm:h-16 sm:w-16 bg-[#4a2e15]/40 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 border-2 border-[#4a2e15]/50 shadow-inner">
+                  <Trophy className="h-6 w-6 sm:h-8 sm:w-8 text-amber-300" />
                 </div>
                 <div className="flex-1 text-center sm:text-left">
-                  <h3 className="text-lg sm:text-2xl font-black text-amber-50 tracking-tight uppercase leading-tight drop-shadow-md">All Modules Complete!</h3>
-                  <p className="text-amber-100 text-[10px] sm:text-sm font-bold mt-0.5 line-clamp-2 sm:line-clamp-none drop-shadow-sm">You've finished all 5 fire safety modules. Take the final Post-Test to earn your certificate!</p>
+                  <h3 className="text-base sm:text-2xl font-black text-amber-50 tracking-tight uppercase leading-tight drop-shadow-md">
+                    All Modules Complete!
+                  </h3>
+                  <p className="text-amber-100 text-xs sm:text-sm font-bold mt-1 drop-shadow-sm leading-relaxed max-w-xl mx-auto sm:mx-0">
+                    You've finished all 5 fire safety modules. Take the final Post-Test to earn your certificate!
+                  </p>
                 </div>
               </div>
               <Link
                 href="/assessment/post-test"
-                className="w-full sm:w-auto bg-amber-100 hover:bg-white text-[#4a2e15] font-black px-6 sm:px-8 py-3 sm:py-4 rounded-xl border-2 border-[#4a2e15] border-b-[4px] active:border-b-2 active:translate-y-[2px] shadow-lg transition-all flex items-center justify-center gap-2 text-xs sm:text-base shrink-0 uppercase tracking-widest"
+                className="w-full sm:w-auto bg-amber-100 hover:bg-white text-[#4a2e15] font-black px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl border-2 border-[#4a2e15] border-b-[4px] active:border-b-2 active:translate-y-[2px] shadow-lg transition-all flex items-center justify-center gap-2 text-xs sm:text-base shrink-0 uppercase tracking-widest"
               >
                 <ClipboardCheck className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600" />
                 Take Post-Test
@@ -280,19 +284,23 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
             <div className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-slate-300 border border-slate-500 shadow-[inset_0_-1px_2px_rgba(0,0,0,0.5)]"></div>
             <div className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-slate-300 border border-slate-500 shadow-[inset_0_-1px_2px_rgba(0,0,0,0.5)]"></div>
 
-            <div className="w-full relative z-10 flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-8">
-              <div className="flex items-center gap-3 sm:gap-4 flex-1 w-full justify-center sm:justify-start">
-                <div className="h-10 w-10 sm:h-16 sm:w-16 bg-[#4a2e15]/40 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 border-2 border-[#4a2e15]/50 shadow-inner">
-                  <CheckCircle className="h-5 w-5 sm:h-10 sm:w-10 text-amber-300" />
+            <div className="w-full relative z-10 flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 flex-1 w-full text-center sm:text-left">
+                <div className="h-12 w-12 sm:h-16 sm:w-16 bg-[#4a2e15]/40 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 border-2 border-[#4a2e15]/50 shadow-inner">
+                  <CheckCircle className="h-6 w-6 sm:h-10 sm:w-10 text-amber-300" />
                 </div>
                 <div className="flex-1 text-center sm:text-left">
-                  <h3 className="text-lg sm:text-2xl font-black text-amber-50 tracking-tight uppercase leading-tight drop-shadow-md">Course Completed!</h3>
-                  <p className="text-amber-100 text-[10px] sm:text-sm font-bold mt-0.5 line-clamp-2 sm:line-clamp-none drop-shadow-sm">You've successfully finished your fire safety training!</p>
+                  <h3 className="text-base sm:text-2xl font-black text-amber-50 tracking-tight uppercase leading-tight drop-shadow-md">
+                    Course Completed!
+                  </h3>
+                  <p className="text-amber-100 text-xs sm:text-sm font-bold mt-1 drop-shadow-sm leading-relaxed max-w-xl mx-auto sm:mx-0">
+                    You've successfully finished your fire safety training!
+                  </p>
                 </div>
               </div>
               <Link
                 href="/kids/certificate"
-                className="w-full sm:w-auto bg-amber-100 hover:bg-white text-[#4a2e15] font-black px-6 sm:px-8 py-3 sm:py-4 rounded-xl border-2 border-[#4a2e15] border-b-[4px] active:border-b-2 active:translate-y-[2px] shadow-lg transition-all flex items-center justify-center gap-2 text-xs sm:text-base shrink-0 uppercase tracking-widest"
+                className="w-full sm:w-auto bg-amber-100 hover:bg-white text-[#4a2e15] font-black px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl border-2 border-[#4a2e15] border-b-[4px] active:border-b-2 active:translate-y-[2px] shadow-lg transition-all flex items-center justify-center gap-2 text-xs sm:text-base shrink-0 uppercase tracking-widest"
               >
                 <Trophy className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600" />
                 View Certificate
