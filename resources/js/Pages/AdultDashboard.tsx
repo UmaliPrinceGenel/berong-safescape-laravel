@@ -177,66 +177,6 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
 
                         {/* EDITH Feature */}
                         <a href="https://edith.bfpscberong.app" target="_blank" rel="noopener noreferrer" className="block group h-full outline-none relative">
-                            {/* FLOATING HOVER PREVIEW WINDOW */}
-                            <div className="hidden sm:block absolute bottom-[105%] left-1/2 -translate-x-1/2 mb-2 w-[305px] sm:w-[350px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl border-2 border-red-100 dark:border-red-500/40 p-3 shadow-2xl shadow-red-100/50 dark:shadow-red-500/25 pointer-events-none opacity-0 scale-95 -translate-y-2 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-300 z-50">
-                                {/* Triangle indicator below preview */}
-                                <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 w-3 h-3 bg-white dark:bg-slate-900 border-r-2 border-b-2 border-red-100 dark:border-red-500/40 rotate-45" />
-                                
-                                {/* Preview indicator */}
-                                <div className="flex items-center justify-between mb-2 px-1">
-                                    <div className="flex items-center gap-1">
-                                        <Flame className="h-3 w-3 text-red-600 dark:text-red-500 shrink-0" strokeWidth={2.5} />
-                                        <span className="text-[9.5px] sm:text-[10px] font-black text-red-600 dark:text-red-400 tracking-wider uppercase">Simulator Preview</span>
-                                    </div>
-                                    <span className="text-[8px] sm:text-[8.5px] font-black text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded-full">Interactive</span>
-                                </div>
-                                
-                                {/* Simulator Frame */}
-                                <div className="relative rounded-xl overflow-hidden aspect-[16/10] bg-slate-50/90 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 shadow-inner">
-                                    <img src="/EDITH Modal.webp" className="w-full h-full object-cover opacity-80" alt="Simulator Preview" />
-                                    
-                                    {/* Animated simulated overlays! */}
-                                    {/* Fire Outbreak Source (Pulsing Fire Dot) */}
-                                    <div className="absolute top-[28%] left-[22%] -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center">
-                                        <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-500/30 animate-ping"></span>
-                                        <span className="absolute inline-flex h-5 w-5 rounded-full bg-red-500/40 animate-pulse"></span>
-                                        <div className="h-2.5 w-2.5 rounded-full bg-red-600 ring-2 ring-white"></div>
-                                    </div>
-                                    <span className="absolute top-[18%] left-[26%] z-20 bg-red-600/90 text-white text-[8px] sm:text-[9px] font-black px-1.5 py-0.5 rounded tracking-wide shadow-sm uppercase animate-pulse">FIRE OUTBREAK</span>
-
-                                    {/* Exit Pathway (Glowing Evacuation Arrow and safe indicator) */}
-                                    <div className="absolute bottom-[25%] right-[20%] z-20 flex items-center gap-1.5 bg-emerald-500/95 text-white text-[8px] sm:text-[9px] font-black px-2 py-0.5 rounded shadow-md tracking-wider uppercase animate-bounce">
-                                        <span className="relative flex h-1.5 w-1.5 shrink-0">
-                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-200"></span>
-                                        </span>
-                                        Safe Exit Egress
-                                    </div>
-
-                                    {/* SVG path to represent glowing escape route */}
-                                    <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" viewBox="0 0 100 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M 30,22 L 55,22 L 55,42 L 72,42" stroke="#10b981" strokeWidth="1.5" strokeDasharray="3,3" className="animate-[dash_2s_linear_infinite]" />
-                                    </svg>
-                                    
-                                    {/* Custom animation stylesheet injection inline */}
-                                    <style>{`
-                                        @keyframes dash {
-                                            to {
-                                                stroke-dashoffset: -20;
-                                            }
-                                        }
-                                    `}</style>
-                                </div>
-                                
-                                {/* Info Box */}
-                                <div className="mt-2 text-left px-1">
-                                    <h4 className="text-[11px] font-black text-slate-800 dark:text-white leading-tight">Floor Plan Escape Routing</h4>
-                                    <p className="text-[9.2px] sm:text-[9.8px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5 leading-normal">
-                                        Map safe paths under custom fire spread vectors. Test exit delays and fire code egress protocols.
-                                    </p>
-                                </div>
-                            </div>
-
                             <div className="relative overflow-hidden bg-white dark:bg-slate-800 rounded-[1.5rem] sm:rounded-[2rem] p-3 sm:p-4 flex items-center gap-3 sm:gap-6 shadow-[0_6px_0_#cbd5e1] dark:shadow-[0_6px_0_#1e293b] sm:shadow-[0_8px_0_#cbd5e1] sm:dark:shadow-[0_8px_0_#1e293b] border-[3px] border-white dark:border-slate-700 h-full hover:translate-y-[2px] active:translate-y-[6px] sm:hover:translate-y-[2px] sm:active:translate-y-[8px] hover:shadow-[0_4px_0_#cbd5e1] dark:hover:shadow-[0_4px_0_#1e293b] sm:hover:shadow-[0_6px_0_#cbd5e1] sm:dark:hover:shadow-[0_6px_0_#1e293b] active:shadow-none transition-all duration-200">
                                 {/* Subtle Background Image */}
                                 <div className="absolute inset-0 z-0 opacity-[0.05] dark:opacity-[0.1] group-hover:opacity-[0.08] dark:group-hover:opacity-[0.15] transition-opacity duration-500">
