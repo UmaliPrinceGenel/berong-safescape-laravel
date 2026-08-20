@@ -361,39 +361,6 @@ function AuthContent() {
           <div className="inline-flex items-center justify-center px-4 sm:px-5 py-1.5 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-full shadow-sm transition-colors">
             <p className="text-[10px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest text-center leading-tight">BFP Sta Cruz Fire Safety Education</p>
           </div>
-
-          {/* Desktop Feature Highlights */}
-          <div className="hidden lg:flex flex-col gap-3 mt-8 w-full max-w-md">
-            <div className="bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800/80 rounded-2xl p-3.5 flex items-center gap-3.5 shadow-sm transition-colors">
-              <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/60 border border-red-200 dark:border-red-900/50 flex items-center justify-center flex-shrink-0">
-                <Flame className="w-5 h-5 text-[#d60000] dark:text-red-400" />
-              </div>
-              <div className="text-left">
-                <p className="text-xs font-bold text-slate-800 dark:text-slate-100">Interactive Safety Drills</p>
-                <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">Master emergency response and fire prevention methods.</p>
-              </div>
-            </div>
-
-            <div className="bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800/80 rounded-2xl p-3.5 flex items-center gap-3.5 shadow-sm transition-colors">
-              <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900/50 flex items-center justify-center flex-shrink-0">
-                <ShieldCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-              </div>
-              <div className="text-left">
-                <p className="text-xs font-bold text-slate-800 dark:text-slate-100">BFP Certified Curriculum</p>
-                <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">Official modules aligned with Bureau of Fire Protection guidelines.</p>
-              </div>
-            </div>
-
-            <div className="bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800/80 rounded-2xl p-3.5 flex items-center gap-3.5 shadow-sm transition-colors">
-              <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-900/50 flex items-center justify-center flex-shrink-0">
-                <Award className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-              </div>
-              <div className="text-left">
-                <p className="text-xs font-bold text-slate-800 dark:text-slate-100">Badges & Achievements</p>
-                <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">Complete quizzes and track your fire safety certifications.</p>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Right Side — Login Card */}
