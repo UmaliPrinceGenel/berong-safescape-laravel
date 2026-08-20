@@ -170,7 +170,7 @@ function AuthContent() {
     if (resetStep === 1) {
       // Step 1: Send verification code
       if (!resetUsername.trim()) {
-        setResetMessage({ type: 'error', text: 'Please enter your username.' })
+        setResetMessage({ type: 'error', text: 'Please enter your username or email address.' })
         return
       }
 
@@ -180,19 +180,23 @@ function AuthContent() {
       try {
         const response = await fetch('/api/auth/reset-password', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
           body: JSON.stringify({ username: resetUsername.trim(), step: 1 }),
         })
-        const result = await response.json()
+        const result = await response.json().catch(() => null)
 
-        if (result.success) {
+        if (response.ok && result?.success) {
           setResetStep(2)
           setResetMessage({ type: 'success', text: result.message })
         } else {
-          setResetMessage({ type: 'error', text: result.error })
+          setResetMessage({ type: 'error', text: result?.error || result?.message || 'Unable to send code. Please try again.' })
         }
       } catch (err) {
-        setResetMessage({ type: 'error', text: 'Something went wrong. Please try again.' })
+        setResetMessage({ type: 'error', text: 'Network connection issue. Please check your connection and try again.' })
       } finally {
         setResetLoading(false)
       }
@@ -209,20 +213,24 @@ function AuthContent() {
       try {
         const response = await fetch('/api/auth/reset-password', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
           body: JSON.stringify({ username: resetUsername.trim(), step: 2, code: resetCode.trim() }),
         })
-        const result = await response.json()
+        const result = await response.json().catch(() => null)
 
-        if (result.success) {
+        if (response.ok && result?.success) {
           setResetToken(result.resetToken)
           setResetStep(3) // Move to new password step
           setResetMessage({ type: 'success', text: result.message })
         } else {
-          setResetMessage({ type: 'error', text: result.error })
+          setResetMessage({ type: 'error', text: result?.error || result?.message || 'Invalid verification code.' })
         }
       } catch (err) {
-        setResetMessage({ type: 'error', text: 'Something went wrong. Please try again.' })
+        setResetMessage({ type: 'error', text: 'Network connection issue. Please try again.' })
       } finally {
         setResetLoading(false)
       }
@@ -244,7 +252,11 @@ function AuthContent() {
       try {
         const response = await fetch('/api/auth/reset-password', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
           body: JSON.stringify({
             username: resetUsername.trim(),
             step: 3,
@@ -253,16 +265,16 @@ function AuthContent() {
             confirmPassword: confirmNewPassword,
           }),
         })
-        const result = await response.json()
+        const result = await response.json().catch(() => null)
 
-        if (result.success) {
+        if (response.ok && result?.success) {
           setResetMessage({ type: 'success', text: result.message })
           setResetStep(4) // Done state
         } else {
-          setResetMessage({ type: 'error', text: result.error })
+          setResetMessage({ type: 'error', text: result?.error || result?.message || 'Unable to reset password.' })
         }
       } catch (err) {
-        setResetMessage({ type: 'error', text: 'Something went wrong. Please try again.' })
+        setResetMessage({ type: 'error', text: 'Network connection issue. Please try again.' })
       } finally {
         setResetLoading(false)
       }
@@ -537,7 +549,7 @@ function AuthContent() {
                   Reset Password
                 </DialogTitle>
                 <DialogDescription className="text-slate-500 dark:text-slate-400 font-bold mt-2 ml-1 text-sm transition-colors">
-                  {resetStep === 1 && 'Enter your username. A verification code will be sent to your email.'}
+                  {resetStep === 1 && 'Enter your username or email address. A verification code will be sent to your email.'}
                   {resetStep === 2 && 'Enter the 6-digit verification code sent to your email.'}
                   {resetStep === 3 && 'Create a strong new password for your account.'}
                   {resetStep === 4 && 'Your password has been changed successfully!'}
@@ -546,13 +558,13 @@ function AuthContent() {
             </div>
 
             <div className="p-6 sm:p-8 space-y-6">
-              {/* Step 1: Username */}
+              {/* Step 1: Username or Email */}
               {resetStep === 1 && (
                 <div className="space-y-3">
-                  <Label htmlFor="reset-username" className="font-black text-slate-700 dark:text-slate-300 ml-1 uppercase tracking-widest text-[10px] transition-colors">Username</Label>
+                  <Label htmlFor="reset-username" className="font-black text-slate-700 dark:text-slate-300 ml-1 uppercase tracking-widest text-[10px] transition-colors">Username or Email</Label>
                   <Input
                     id="reset-username"
-                    placeholder="Enter your username"
+                    placeholder="Enter your username or email"
                     value={resetUsername}
                     onChange={(e) => {
                       setResetUsername(e.target.value)

@@ -43,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('password-reset', function (Request $request) {
-            return Limit::perMinute(5)->by($request->ip());
+            return Limit::perMinute(20)->by($request->ip());
         });
         \Illuminate\Validation\Rules\Password::defaults(function () {
             return \Illuminate\Validation\Rules\Password::min(8)

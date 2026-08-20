@@ -433,15 +433,15 @@ class AuthApiController extends Controller
         $username = trim((string) $request->input('username'));
         $ip = $request->ip();
 
-        if (!$username || strlen($username) > 50) {
-            return response()->json(['success' => false, 'error' => 'Please enter a valid username.'], 400);
+        if (!$username || strlen($username) > 100) {
+            return response()->json(['success' => false, 'error' => 'Please enter a valid username or email address.'], 400);
         }
 
-        // ── Global IP-based rate limiting (5 reset requests per 15 min) ──
+        // ── Global IP-based rate limiting (10 reset requests per 15 min) ──
         $ipRateKey = 'pwd_reset_ip_' . md5($ip);
         $ipAttempts = (int) \Illuminate\Support\Facades\Cache::get($ipRateKey, 0);
 
-        if ($ipAttempts >= 5) {
+        if ($ipAttempts >= 10) {
             \Illuminate\Support\Facades\Log::warning('Password reset rate limit exceeded', [
                 'ip' => $ip, 'username' => $username, 'step' => $step
             ]);
@@ -451,7 +451,13 @@ class AuthApiController extends Controller
             ], 429);
         }
 
-        $user = User::where('username', $username)->first();
+        // Find user by either username (case-insensitive) OR email (case-insensitive)
+        $user = User::whereRaw('LOWER(username) = ?', [strtolower($username)])
+                    ->orWhereRaw('LOWER(email) = ?', [strtolower($username)])
+                    ->first();
+
+        // Use canonical lowercase username (or input) for consistent cache key hashing across steps
+        $canonicalKey = $user ? strtolower($user->username) : strtolower($username);
 
         // ─────────────────────────────────────────────
         // STEP 1 — Request Verification Code
@@ -466,7 +472,7 @@ class AuthApiController extends Controller
                 usleep(random_int(300000, 600000));
                 return response()->json([
                     'success' => true,
-                    'message' => 'If an account with that username exists and has an email address, a verification code has been sent.'
+                    'message' => 'If an account with that username or email exists, a verification code has been sent.'
                 ]);
             }
 
@@ -474,7 +480,7 @@ class AuthApiController extends Controller
             $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
             // Store HMAC-hashed code (not plaintext) + metadata
-            $codeKey = 'pwd_reset_' . hash('sha256', $username);
+            $codeKey = 'pwd_reset_' . hash('sha256', $canonicalKey);
             \Illuminate\Support\Facades\Cache::put($codeKey, [
                 'hash'       => hash_hmac('sha256', $code, config('app.key')),
                 'attempts'   => 0,
@@ -484,24 +490,24 @@ class AuthApiController extends Controller
 
             // Audit log (code visible in log only for local debugging)
             if (app()->environment('local')) {
-                \Illuminate\Support\Facades\Log::info("Password reset code for {$username}: {$code}");
+                \Illuminate\Support\Facades\Log::info("Password reset code for {$user->username}: {$code}");
             }
             \Illuminate\Support\Facades\Log::info('Password reset code requested', [
-                'username' => $username,
+                'username' => $user->username,
                 'email'    => $this->maskEmail($user->email),
                 'ip'       => $ip,
             ]);
 
-            // Send HTML email via Mailable
+            // Send HTML email synchronously via Mailable
             try {
                 \Illuminate\Support\Facades\Mail::to($user->email)
-                    ->send(new \App\Mail\PasswordResetCode($code, $user->name ?? $username, 10));
-            } catch (\Exception $e) {
+                    ->send(new \App\Mail\PasswordResetCode($code, $user->name ?? $user->username, 10));
+            } catch (\Throwable $e) {
                 \Illuminate\Support\Facades\Log::error('Password reset mail failed', [
                     'error' => $e->getMessage(),
-                    'username' => $username,
+                    'username' => $user->username,
                 ]);
-                // Still return success to avoid revealing email configuration issues
+                // Still return success to avoid revealing email configuration issues to client
             }
 
             $maskedEmail = $this->maskEmail($user->email);
@@ -521,7 +527,7 @@ class AuthApiController extends Controller
                 return response()->json(['success' => false, 'error' => 'Please enter a valid 6-digit code.'], 400);
             }
 
-            $codeKey = 'pwd_reset_' . hash('sha256', $username);
+            $codeKey = 'pwd_reset_' . hash('sha256', $canonicalKey);
             $stored = \Illuminate\Support\Facades\Cache::get($codeKey);
 
             if (!$stored) {
@@ -560,11 +566,11 @@ class AuthApiController extends Controller
 
             // Code is valid — generate a one-time reset token for step 3
             $resetToken = bin2hex(random_bytes(32));
-            $tokenKey = 'pwd_reset_token_' . hash('sha256', $username);
+            $tokenKey = 'pwd_reset_token_' . hash('sha256', $canonicalKey);
             \Illuminate\Support\Facades\Cache::put($tokenKey, [
                 'hash' => hash_hmac('sha256', $resetToken, config('app.key')),
                 'ip'   => $ip,
-            ], now()->addMinutes(5));
+            ], now()->addMinutes(15));
 
             // Clear the verification code
             \Illuminate\Support\Facades\Cache::forget($codeKey);
@@ -606,7 +612,7 @@ class AuthApiController extends Controller
             }
 
             // Verify one-time token
-            $tokenKey = 'pwd_reset_token_' . hash('sha256', $username);
+            $tokenKey = 'pwd_reset_token_' . hash('sha256', $canonicalKey);
             $storedToken = \Illuminate\Support\Facades\Cache::get($tokenKey);
 
             if (!$storedToken) {
@@ -645,14 +651,14 @@ class AuthApiController extends Controller
 
             // Audit log
             \Illuminate\Support\Facades\Log::info('Password reset completed', [
-                'username' => $username, 'ip' => $ip,
+                'username' => $user->username, 'ip' => $ip,
             ]);
 
             // Send confirmation email
             try {
                 \Illuminate\Support\Facades\Mail::to($user->email)
-                    ->send(new \App\Mail\PasswordResetSuccess($user->name ?? $username));
-            } catch (\Exception $e) {
+                    ->send(new \App\Mail\PasswordResetSuccess($user->name ?? $user->username));
+            } catch (\Throwable $e) {
                 \Illuminate\Support\Facades\Log::error('Password reset confirmation mail failed', [
                     'error' => $e->getMessage(),
                 ]);
