@@ -195,7 +195,7 @@ export const AdminVideosTab: React.FC<VideosTabProps> = ({
                 )}
               </div>
               {video.description && (
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed break-words [word-break:break-word] line-clamp-3 mt-0.5">
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed break-words [word-break:break-word] line-clamp-2 mt-0.5">
                   {video.description}
                 </p>
               )}
@@ -222,7 +222,7 @@ export const AdminVideosTab: React.FC<VideosTabProps> = ({
                 )}
               </div>
               {video.description && (
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed break-words [word-break:break-word] line-clamp-3 mt-0.5">
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed break-words [word-break:break-word] line-clamp-2 mt-0.5">
                   {video.description}
                 </p>
               )}
@@ -249,7 +249,7 @@ export const AdminVideosTab: React.FC<VideosTabProps> = ({
                 )}
               </div>
               {video.description && (
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed break-words [word-break:break-word] line-clamp-3 mt-0.5">
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed break-words [word-break:break-word] line-clamp-2 mt-0.5">
                   {video.description}
                 </p>
               )}
