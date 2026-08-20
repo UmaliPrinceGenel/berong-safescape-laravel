@@ -344,10 +344,10 @@ function AuthContent() {
         {/* Left Side — Branding & Highlights */}
         <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
           <div className="flex justify-center lg:justify-start gap-3 sm:gap-4 mb-3 sm:mb-6">
-            <div className="h-14 w-14 sm:h-20 sm:w-20 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border-2 border-slate-100 dark:border-slate-800 flex items-center justify-center p-2 flex-shrink-0 transition-colors">
+            <div className="h-14 w-14 sm:h-20 sm:w-20 bg-white dark:bg-slate-900 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.12)] border border-slate-100 dark:border-slate-800 flex items-center justify-center p-2 flex-shrink-0 transition-colors">
               <img src="/bfp-logo-red.webp" alt="BFP Logo" width="72" height="72" className="object-contain w-full h-full" />
             </div>
-            <div className="h-14 w-14 sm:h-20 sm:w-20 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border-2 border-slate-100 dark:border-slate-800 flex items-center justify-center p-2 flex-shrink-0 transition-colors">
+            <div className="h-14 w-14 sm:h-20 sm:w-20 bg-white dark:bg-slate-900 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.12)] border border-slate-100 dark:border-slate-800 flex items-center justify-center p-2 flex-shrink-0 transition-colors">
               <img
                 src="/philippine-flag-seal.webp"
                 alt="Philippine Seal"
@@ -365,7 +365,7 @@ function AuthContent() {
 
         {/* Right Side — Login Card */}
         <div className="w-full max-w-md flex-shrink-0">
-        <Card className="border-2 border-slate-200 dark:border-slate-800 rounded-3xl shadow-xl bg-white dark:bg-slate-900 overflow-hidden relative pb-2 sm:pb-4 mx-auto w-full transition-colors duration-500">
+        <Card className="border-[2px] sm:border-[3px] border-[#fb923c] dark:border-orange-500/60 rounded-3xl sm:rounded-[2.5rem] shadow-2xl bg-white dark:bg-slate-900 overflow-hidden relative pb-2 sm:pb-4 mx-auto w-full transition-colors duration-500">
 
           <CardHeader className="pt-6 sm:pt-8 pb-0 sm:pb-2 relative z-10 px-5 sm:px-8">
             <div className="flex flex-col items-center mb-1 sm:mb-2">
@@ -383,7 +383,7 @@ function AuthContent() {
                   {activeTab === 'login' && (
                     <motion.div
                       layoutId="active-tab"
-                      className="absolute inset-0 bg-[#d60000] dark:bg-red-600 shadow-[0_3px_0_#991b1b] dark:shadow-[0_3px_0_#7f1d1d] rounded-xl -z-10"
+                      className="absolute inset-0 bg-orange-500 dark:bg-orange-500 shadow-[0_3px_0_#c2410c] dark:shadow-[0_3px_0_#9a3412] rounded-xl -z-10"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
                     />
                   )}
@@ -393,7 +393,7 @@ function AuthContent() {
                   {activeTab === 'register' && (
                     <motion.div
                       layoutId="active-tab"
-                      className="absolute inset-0 bg-[#d60000] dark:bg-red-600 shadow-[0_3px_0_#991b1b] dark:shadow-[0_3px_0_#7f1d1d] rounded-xl -z-10"
+                      className="absolute inset-0 bg-orange-500 dark:bg-orange-500 shadow-[0_3px_0_#c2410c] dark:shadow-[0_3px_0_#9a3412] rounded-xl -z-10"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
                     />
                   )}
@@ -449,7 +449,7 @@ function AuthContent() {
                     <div className="flex justify-end pt-1">
                       <button
                         type="button"
-                        className="text-[11px] sm:text-xs font-bold text-slate-500 hover:text-[#d60000] dark:text-slate-400 dark:hover:text-red-400 transition-colors"
+                        className="text-[11px] sm:text-xs font-bold text-slate-500 hover:text-orange-500 dark:text-slate-400 dark:hover:text-orange-400 transition-colors"
                         onClick={() => {
                           setShowResetDialog(true)
                           setResetMessage(null)
@@ -542,8 +542,8 @@ function AuthContent() {
             <div className="bg-slate-50 dark:bg-slate-950 border-b-2 border-slate-100 dark:border-slate-800 p-6 sm:p-8 transition-colors">
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-3 text-2xl font-black text-slate-800 dark:text-white transition-colors">
-                  <div className="bg-red-100 dark:bg-red-950/60 p-2.5 rounded-2xl border border-red-200 dark:border-red-900/50 transition-colors">
-                    <KeyRound className="h-6 w-6 text-[#d60000] dark:text-red-400" strokeWidth={2.5} />
+                  <div className="bg-orange-100 dark:bg-orange-950/60 p-2.5 rounded-2xl border border-orange-200 dark:border-orange-900/50 transition-colors">
+                    <KeyRound className="h-6 w-6 text-orange-600 dark:text-orange-400" strokeWidth={2.5} />
                   </div>
                   Reset Password
                 </DialogTitle>
@@ -570,7 +570,7 @@ function AuthContent() {
                       setResetMessage(null)
                     }}
                     onKeyDown={(e) => { if (e.key === 'Enter') handleResetPassword() }}
-                    className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-6 focus-visible:ring-0 focus-visible:border-[#d60000] dark:focus-visible:border-red-500 font-bold text-slate-700 dark:text-white transition-all"
+                    className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-6 focus-visible:ring-0 focus-visible:border-orange-500 dark:focus-visible:border-orange-500 font-bold text-slate-700 dark:text-white transition-all"
                   />
                 </div>
               )}
@@ -590,7 +590,7 @@ function AuthContent() {
                     onKeyDown={(e) => { if (e.key === 'Enter' && resetCode.length === 6) handleResetPassword() }}
                     maxLength={6}
                     style={{ fontSize: 'clamp(28px, 5vw, 48px)', lineHeight: '1', letterSpacing: 'clamp(0.3em, 2vw, 0.5em)' }}
-                    className="text-center font-mono h-16 sm:h-28 rounded-[1.5rem] border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-800 dark:text-white dark:placeholder:text-slate-700 placeholder:text-slate-300 transition-all focus-visible:ring-0 focus-visible:border-[#d60000] dark:focus-visible:border-red-500 font-bold"
+                    className="text-center font-mono h-16 sm:h-28 rounded-[1.5rem] border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-800 dark:text-white dark:placeholder:text-slate-700 placeholder:text-slate-300 transition-all focus-visible:ring-0 focus-visible:border-orange-500 dark:focus-visible:border-orange-500 font-bold"
                   />
                   <p className="text-[10px] sm:text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Code was sent to your associated email</p>
                 </div>
@@ -608,7 +608,7 @@ function AuthContent() {
                         placeholder="Enter new password"
                         value={newPassword}
                         onChange={(e) => { setNewPassword(e.target.value); setResetMessage(null) }}
-                        className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-5 pr-12 focus-visible:ring-0 focus-visible:border-[#d60000] dark:focus-visible:border-red-500 font-bold text-slate-700 dark:text-white transition-all"
+                        className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-5 pr-12 focus-visible:ring-0 focus-visible:border-orange-500 dark:focus-visible:border-orange-500 font-bold text-slate-700 dark:text-white transition-all"
                       />
                       <button
                         type="button"
@@ -667,7 +667,7 @@ function AuthContent() {
                       value={confirmNewPassword}
                       onChange={(e) => { setConfirmNewPassword(e.target.value); setResetMessage(null) }}
                       onKeyDown={(e) => { if (e.key === 'Enter' && newPassword && confirmNewPassword) handleResetPassword() }}
-                      className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-5 focus-visible:ring-0 focus-visible:border-[#d60000] dark:focus-visible:border-red-500 font-bold text-slate-700 dark:text-white transition-all"
+                      className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-5 focus-visible:ring-0 focus-visible:border-orange-500 dark:focus-visible:border-orange-500 font-bold text-slate-700 dark:text-white transition-all"
                     />
                     {confirmNewPassword && confirmNewPassword !== newPassword && (
                       <p className="text-[10px] font-bold text-red-500 ml-1">Passwords do not match</p>
@@ -728,7 +728,7 @@ function AuthContent() {
                       (resetStep === 2 && resetCode.length !== 6) ||
                       (resetStep === 3 && (!newPassword || !confirmNewPassword || newPassword !== confirmNewPassword || getPasswordStrength(newPassword).passed < 5))
                     }
-                    className="flex-[1.5] bg-[#d60000] hover:bg-[#b80000] dark:bg-red-600 dark:hover:bg-red-700 text-white rounded-2xl h-12 sm:h-14 font-black uppercase tracking-wider shadow-[0_4px_0_#8a0000] dark:shadow-[0_4px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all"
+                    className="flex-[1.5] bg-orange-500 hover:bg-orange-600 text-white rounded-2xl h-12 sm:h-14 font-black uppercase tracking-wider shadow-[0_4px_0_#c2410c] dark:shadow-[0_4px_0_#9a3412] active:translate-y-1 active:shadow-none transition-all"
                   >
                     {resetLoading ? (
                       <Loader2 className="h-5 w-5 animate-spin" />
