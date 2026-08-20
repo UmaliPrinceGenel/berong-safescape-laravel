@@ -45,7 +45,7 @@ class PasswordResetSuccess extends Mailable
     /**
      * Build the email HTML inline.
      */
-    private function buildHtml(): string
+    public function buildHtml(): string
     {
         $name = e($this->userName);
         $time = e(now()->format('M d, Y \a\t h:i A'));

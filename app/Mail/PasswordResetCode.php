@@ -49,7 +49,7 @@ class PasswordResetCode extends Mailable
     /**
      * Build the email HTML inline (no blade dependency).
      */
-    private function buildHtml(): string
+    public function buildHtml(): string
     {
         $code = e($this->code);
         $name = e($this->userName);

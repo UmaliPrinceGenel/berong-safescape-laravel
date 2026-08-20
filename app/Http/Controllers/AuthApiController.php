@@ -498,17 +498,14 @@ class AuthApiController extends Controller
                 'ip'       => $ip,
             ]);
 
-            // Send HTML email synchronously via Mailable
-            try {
-                \Illuminate\Support\Facades\Mail::to($user->email)
-                    ->send(new \App\Mail\PasswordResetCode($code, $user->name ?? $user->username, 10));
-            } catch (\Throwable $e) {
-                \Illuminate\Support\Facades\Log::error('Password reset mail failed', [
-                    'error' => $e->getMessage(),
-                    'username' => $user->username,
-                ]);
-                // Still return success to avoid revealing email configuration issues to client
-            }
+            // Send HTML email via Resend API (direct HTTPS) with SMTP fallback
+            $mailable = new \App\Mail\PasswordResetCode($code, $user->name ?? $user->username, 10);
+            $this->sendEmail(
+                $user->email,
+                'Berong E-Learning — Password Reset Code',
+                $mailable->buildHtml(),
+                $mailable
+            );
 
             $maskedEmail = $this->maskEmail($user->email);
             return response()->json([
@@ -655,14 +652,13 @@ class AuthApiController extends Controller
             ]);
 
             // Send confirmation email
-            try {
-                \Illuminate\Support\Facades\Mail::to($user->email)
-                    ->send(new \App\Mail\PasswordResetSuccess($user->name ?? $user->username));
-            } catch (\Throwable $e) {
-                \Illuminate\Support\Facades\Log::error('Password reset confirmation mail failed', [
-                    'error' => $e->getMessage(),
-                ]);
-            }
+            $successMailable = new \App\Mail\PasswordResetSuccess($user->name ?? $user->username);
+            $this->sendEmail(
+                $user->email,
+                'Password Changed Successfully — SafeScape',
+                $successMailable->buildHtml(),
+                $successMailable
+            );
 
             return response()->json([
                 'success' => true,
@@ -671,6 +667,58 @@ class AuthApiController extends Controller
         }
 
         return response()->json(['success' => false, 'error' => 'Invalid step.'], 400);
+    }
+
+    /**
+     * Send email via Resend HTTPS REST API with fallback to Laravel SMTP Mailer.
+     */
+    private function sendEmail(string $toEmail, string $subject, string $html, $mailableFallback): bool
+    {
+        $resendApiKey = env('RESEND_API_KEY') ?: config('mail.mailers.smtp.password');
+
+        // 1. Direct Resend HTTPS API (bypasses server SMTP socket/firewall blocks on cloud hosting)
+        if ($resendApiKey && str_starts_with($resendApiKey, 're_')) {
+            try {
+                $fromAddress = config('mail.from.address') ?: 'noreply@bfpscberong.app';
+                $fromName = config('mail.from.name') ?: 'SafeScape E-Learning';
+
+                $response = \Illuminate\Support\Facades\Http::timeout(10)
+                    ->withToken($resendApiKey)
+                    ->post('https://api.resend.com/emails', [
+                        'from'    => "{$fromName} <{$fromAddress}>",
+                        'to'      => [$toEmail],
+                        'subject' => $subject,
+                        'html'    => $html,
+                    ]);
+
+                if ($response->successful()) {
+                    \Illuminate\Support\Facades\Log::info("Email sent successfully via Resend API to {$this->maskEmail($toEmail)}", [
+                        'id' => $response->json('id')
+                    ]);
+                    return true;
+                }
+
+                \Illuminate\Support\Facades\Log::warning('Resend API returned non-200 response, trying SMTP fallback', [
+                    'status' => $response->status(),
+                    'body'   => $response->body(),
+                ]);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Resend API call failed, falling back to SMTP: ' . $e->getMessage());
+            }
+        }
+
+        // 2. Standard Laravel Mailer (SMTP fallback)
+        try {
+            \Illuminate\Support\Facades\Mail::to($toEmail)->send($mailableFallback);
+            \Illuminate\Support\Facades\Log::info("Email sent via SMTP fallback to {$this->maskEmail($toEmail)}");
+            return true;
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('SMTP mail sending failed', [
+                'error' => $e->getMessage(),
+                'to'    => $toEmail,
+            ]);
+            return false;
+        }
     }
 
     /**
