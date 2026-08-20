@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Com
 import { Label } from "@/Components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs"
 import { Alert, AlertDescription } from "@/Components/ui/alert"
-import { Shield, AlertCircle, Loader2, KeyRound, Eye, EyeOff, ArrowLeft, CheckCircle2, XCircle, Lock, User, MapPin, Mail, FileText } from "lucide-react"
+import { Shield, AlertCircle, Loader2, KeyRound, Eye, EyeOff, ArrowLeft, CheckCircle2, XCircle, Lock, User, MapPin, Mail, FileText, Flame, Award, ShieldCheck } from "lucide-react"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/Components/ui/dialog"
 import { Link } from '@inertiajs/react';
 import Image from '@/Components/Image';
@@ -340,14 +340,14 @@ function AuthContent() {
         </div>
       )}
 
-      <div className="w-full max-w-5xl z-10 relative flex flex-col lg:flex-row items-center gap-4 sm:gap-8 lg:gap-16 my-auto py-2 sm:py-4">
-        {/* Left Side — Branding */}
+      <div className="w-full max-w-5xl z-10 relative flex flex-col lg:flex-row items-center gap-6 sm:gap-10 lg:gap-16 my-auto py-4 sm:py-8">
+        {/* Left Side — Branding & Highlights */}
         <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
-          <div className="flex justify-center lg:justify-start gap-2 sm:gap-4 mb-2 sm:mb-6">
-            <div className="h-12 w-12 sm:h-20 sm:w-20 bg-white dark:bg-slate-900 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-gray-100 dark:border-slate-800 flex items-center justify-center p-1.5 sm:p-2 flex-shrink-0 transition-colors">
+          <div className="flex justify-center lg:justify-start gap-3 sm:gap-4 mb-3 sm:mb-6">
+            <div className="h-14 w-14 sm:h-20 sm:w-20 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border-2 border-slate-100 dark:border-slate-800 flex items-center justify-center p-2 flex-shrink-0 transition-colors">
               <img src="/bfp-logo-red.webp" alt="BFP Logo" width="72" height="72" className="object-contain w-full h-full" />
             </div>
-            <div className="h-12 w-12 sm:h-20 sm:w-20 bg-white dark:bg-slate-900 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-gray-100 dark:border-slate-800 flex items-center justify-center p-1.5 sm:p-2 flex-shrink-0 transition-colors">
+            <div className="h-14 w-14 sm:h-20 sm:w-20 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border-2 border-slate-100 dark:border-slate-800 flex items-center justify-center p-2 flex-shrink-0 transition-colors">
               <img
                 src="/philippine-flag-seal.webp"
                 alt="Philippine Seal"
@@ -357,45 +357,77 @@ function AuthContent() {
               />
             </div>
           </div>
-          <h1 className="text-3xl sm:text-5xl xl:text-6xl font-extrabold text-[#d60000] dark:text-red-500 mb-1 sm:mb-4 tracking-tight drop-shadow-sm transition-colors">Berong E-Learning</h1>
-          <div className="inline-flex items-center justify-center px-4 sm:px-6 py-1.5 sm:py-2 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-colors">
-            <p className="text-[10px] sm:text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-widest text-center leading-tight">BFP Sta Cruz Fire Safety Education</p>
+          <h1 className="text-3xl sm:text-5xl xl:text-6xl font-black text-[#d60000] dark:text-red-500 mb-2 sm:mb-3 tracking-tight transition-colors">Berong E-Learning</h1>
+          <div className="inline-flex items-center justify-center px-4 sm:px-5 py-1.5 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-full shadow-sm transition-colors">
+            <p className="text-[10px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest text-center leading-tight">BFP Sta Cruz Fire Safety Education</p>
+          </div>
+
+          {/* Desktop Feature Highlights */}
+          <div className="hidden lg:flex flex-col gap-3 mt-8 w-full max-w-md">
+            <div className="bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800/80 rounded-2xl p-3.5 flex items-center gap-3.5 shadow-sm transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/60 border border-red-200 dark:border-red-900/50 flex items-center justify-center flex-shrink-0">
+                <Flame className="w-5 h-5 text-[#d60000] dark:text-red-400" />
+              </div>
+              <div className="text-left">
+                <p className="text-xs font-bold text-slate-800 dark:text-slate-100">Interactive Safety Drills</p>
+                <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">Master emergency response and fire prevention methods.</p>
+              </div>
+            </div>
+
+            <div className="bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800/80 rounded-2xl p-3.5 flex items-center gap-3.5 shadow-sm transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900/50 flex items-center justify-center flex-shrink-0">
+                <ShieldCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div className="text-left">
+                <p className="text-xs font-bold text-slate-800 dark:text-slate-100">BFP Certified Curriculum</p>
+                <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">Official modules aligned with Bureau of Fire Protection guidelines.</p>
+              </div>
+            </div>
+
+            <div className="bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800/80 rounded-2xl p-3.5 flex items-center gap-3.5 shadow-sm transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-900/50 flex items-center justify-center flex-shrink-0">
+                <Award className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+              </div>
+              <div className="text-left">
+                <p className="text-xs font-bold text-slate-800 dark:text-slate-100">Badges & Achievements</p>
+                <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">Complete quizzes and track your fire safety certifications.</p>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Right Side — Login Card */}
         <div className="w-full max-w-md flex-shrink-0">
-        <Card className="border-[2px] sm:border-[3px] border-[#fb923c] dark:border-orange-500/50 rounded-[1.75rem] sm:rounded-[2.5rem] shadow-2xl bg-white dark:bg-slate-900 overflow-hidden relative pb-2 sm:pb-4 mx-auto w-full transition-colors duration-500">
+        <Card className="border-2 border-slate-200 dark:border-slate-800 rounded-3xl shadow-xl bg-white dark:bg-slate-900 overflow-hidden relative pb-2 sm:pb-4 mx-auto w-full transition-colors duration-500">
 
-
-          <CardHeader className="pt-4 sm:pt-8 pb-0 sm:pb-2 relative z-10 px-4 sm:px-6">
-            <div className="flex flex-col items-center mb-0 sm:mb-2">
-              <div className="mx-auto w-8 h-8 sm:w-12 sm:h-12 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-[10px] sm:rounded-2xl flex items-center justify-center mb-1.5 sm:mb-4 transition-colors">
-                <Shield className="h-4 w-4 sm:h-6 sm:w-6 text-[#d60000] dark:text-red-500" />
+          <CardHeader className="pt-6 sm:pt-8 pb-0 sm:pb-2 relative z-10 px-5 sm:px-8">
+            <div className="flex flex-col items-center mb-1 sm:mb-2">
+              <div className="mx-auto w-10 h-10 sm:w-12 sm:h-12 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-2xl flex items-center justify-center mb-2 sm:mb-3 transition-colors">
+                <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-[#d60000] dark:text-red-500" />
               </div>
-              <CardTitle className="text-lg sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight text-center transition-colors">Access your Account</CardTitle>
+              <CardTitle className="text-xl sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight text-center transition-colors">Access your Account</CardTitle>
             </div>
-            <CardDescription className="text-center text-slate-500 dark:text-slate-400 font-medium text-[11px] sm:text-sm transition-colors mt-1 sm:mt-0">Sign in or create an account to access learning materials</CardDescription>
+            <CardDescription className="text-center text-slate-500 dark:text-slate-400 font-medium text-xs sm:text-sm transition-colors mt-1">Sign in or create an account to access learning materials</CardDescription>
           </CardHeader>
           <CardContent className="relative z-10 px-5 sm:px-8">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-slate-100 dark:bg-slate-800 p-1 sm:p-1.5 rounded-xl sm:rounded-2xl h-10 sm:h-14 mb-3 sm:mb-6 transition-colors relative">
-                <TabsTrigger value="login" className="relative z-10 w-full h-full rounded-lg sm:rounded-xl font-extrabold text-slate-400 dark:text-slate-500 text-xs sm:text-sm data-[state=active]:text-white dark:data-[state=active]:text-white data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none border-transparent outline-none transition-colors duration-300">
+              <TabsList className="grid w-full grid-cols-2 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl h-11 sm:h-14 mb-4 sm:mb-6 transition-colors relative border border-slate-200/70 dark:border-slate-700/70">
+                <TabsTrigger value="login" className="relative z-10 w-full h-full rounded-xl font-black text-slate-700 dark:text-slate-200 text-xs sm:text-sm data-[state=active]:text-white dark:data-[state=active]:text-white data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none border-transparent outline-none transition-colors duration-300 hover:text-slate-900 dark:hover:text-white">
                   {activeTab === 'login' && (
                     <motion.div
                       layoutId="active-tab"
-                      className="absolute inset-0 bg-orange-500 dark:bg-orange-500 shadow-[0_3px_0_#c2410c] dark:shadow-[0_3px_0_#9a3412] rounded-lg sm:rounded-xl -z-10"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      className="absolute inset-0 bg-[#d60000] dark:bg-red-600 shadow-[0_3px_0_#991b1b] dark:shadow-[0_3px_0_#7f1d1d] rounded-xl -z-10"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
                     />
                   )}
                   Log In
                 </TabsTrigger>
-                <TabsTrigger value="register" className="relative z-10 w-full h-full rounded-lg sm:rounded-xl font-extrabold text-slate-400 dark:text-slate-500 text-xs sm:text-sm data-[state=active]:text-white dark:data-[state=active]:text-white data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none border-transparent outline-none transition-colors duration-300">
+                <TabsTrigger value="register" className="relative z-10 w-full h-full rounded-xl font-black text-slate-700 dark:text-slate-200 text-xs sm:text-sm data-[state=active]:text-white dark:data-[state=active]:text-white data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none border-transparent outline-none transition-colors duration-300 hover:text-slate-900 dark:hover:text-white">
                   {activeTab === 'register' && (
                     <motion.div
                       layoutId="active-tab"
-                      className="absolute inset-0 bg-orange-500 dark:bg-orange-500 shadow-[0_3px_0_#c2410c] dark:shadow-[0_3px_0_#9a3412] rounded-lg sm:rounded-xl -z-10"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      className="absolute inset-0 bg-[#d60000] dark:bg-red-600 shadow-[0_3px_0_#991b1b] dark:shadow-[0_3px_0_#7f1d1d] rounded-xl -z-10"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
                     />
                   )}
                   Register
@@ -407,7 +439,7 @@ function AuthContent() {
               <TabsContent value="login" className="min-h-[300px] sm:min-h-[340px] flex flex-col justify-center mt-0 animate-in fade-in-0 slide-in-from-left-4 duration-300">
                 <form onSubmit={handleLogin} className="space-y-2 sm:space-y-4">
                   <div className="space-y-1 sm:space-y-1.5">
-                    <Label htmlFor="login-username" className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 ml-1 transition-colors">Username</Label>
+                    <Label htmlFor="login-username" className="text-xs font-black text-slate-700 dark:text-slate-300 ml-1 uppercase tracking-wider transition-colors">Username</Label>
                     <Input
                       id="login-username"
                       type="text"
@@ -416,14 +448,14 @@ function AuthContent() {
                       onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
                       required
                       autoComplete="off"
-                      className="h-11 sm:h-12 rounded-lg sm:rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 sm:px-4 text-sm placeholder:text-slate-400 dark:placeholder:text-slate-600 focus-visible:ring-[#d60000] dark:focus-visible:ring-red-500 focus-visible:border-[#d60000] dark:focus-visible:border-red-500 transition-all font-medium text-slate-800 dark:text-slate-200"
+                      className="h-11 sm:h-12 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 sm:px-4 text-sm placeholder:text-slate-400 dark:placeholder:text-slate-600 focus-visible:ring-0 focus-visible:border-[#d60000] dark:focus-visible:border-red-500 transition-all font-semibold text-slate-800 dark:text-slate-200"
                     />
                     {validationErrors.username && (
-                      <p className="mt-1 text-[11px] sm:text-sm text-red-600">{validationErrors.username}</p>
+                      <p className="mt-1 text-[11px] sm:text-sm font-bold text-red-600">{validationErrors.username}</p>
                     )}
                   </div>
                   <div className="space-y-1 sm:space-y-1.5">
-                    <Label htmlFor="login-password" className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 ml-1 transition-colors">Password</Label>
+                    <Label htmlFor="login-password" className="text-xs font-black text-slate-700 dark:text-slate-300 ml-1 uppercase tracking-wider transition-colors">Password</Label>
                     <div className="relative">
                       <Input
                         id="login-password"
@@ -433,7 +465,7 @@ function AuthContent() {
                         onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                         required
                         autoComplete="new-password"
-                        className="h-11 sm:h-12 rounded-lg sm:rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 sm:px-4 text-sm placeholder:text-slate-400 dark:placeholder:text-slate-600 focus-visible:ring-[#d60000] dark:focus-visible:ring-red-500 focus-visible:border-[#d60000] dark:focus-visible:border-red-500 transition-all pr-10 sm:pr-12 font-medium text-slate-800 dark:text-slate-200"
+                        className="h-11 sm:h-12 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 sm:px-4 text-sm placeholder:text-slate-400 dark:placeholder:text-slate-600 focus-visible:ring-0 focus-visible:border-[#d60000] dark:focus-visible:border-red-500 transition-all pr-10 sm:pr-12 font-semibold text-slate-800 dark:text-slate-200"
                       />
                       <button
                         type="button"
@@ -445,12 +477,12 @@ function AuthContent() {
                       </button>
                     </div>
                     {validationErrors.password && (
-                      <p className="mt-1 text-[11px] sm:text-sm text-red-600">{validationErrors.password}</p>
+                      <p className="mt-1 text-[11px] sm:text-sm font-bold text-red-600">{validationErrors.password}</p>
                     )}
                     <div className="flex justify-end pt-1">
                       <button
                         type="button"
-                        className="text-[11px] sm:text-xs font-semibold text-slate-500 hover:text-orange-500 dark:text-slate-400 dark:hover:text-orange-400 transition-colors"
+                        className="text-[11px] sm:text-xs font-bold text-slate-500 hover:text-[#d60000] dark:text-slate-400 dark:hover:text-red-400 transition-colors"
                         onClick={() => {
                           setShowResetDialog(true)
                           setResetMessage(null)
@@ -469,7 +501,7 @@ function AuthContent() {
                   </div>
 
                   {isSessionExpired && !error && (
-                    <Alert className="rounded-lg sm:rounded-xl py-2 bg-yellow-50 dark:bg-yellow-950/30 border-yellow-200 dark:border-yellow-900/50 text-yellow-700 dark:text-yellow-400">
+                    <Alert className="rounded-xl py-2 bg-yellow-50 dark:bg-yellow-950/30 border-2 border-yellow-200 dark:border-yellow-900/50 text-yellow-700 dark:text-yellow-400">
                       <AlertCircle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
                       <AlertDescription className="text-xs sm:text-sm font-semibold">
                         Your session expired because you logged in on another device. Please sign in again.
@@ -478,16 +510,16 @@ function AuthContent() {
                   )}
 
                   {error && (
-                    <Alert variant="destructive" className="rounded-lg sm:rounded-xl py-2">
+                    <Alert variant="destructive" className="rounded-xl py-2 border-2">
                       <AlertCircle className="h-4 w-4" />
-                      <AlertDescription className="text-xs sm:text-sm">{error}</AlertDescription>
+                      <AlertDescription className="text-xs sm:text-sm font-semibold">{error}</AlertDescription>
                     </Alert>
                   )}
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-[#d60000] dark:bg-red-600 text-white font-extrabold h-12 sm:h-13 rounded-xl sm:rounded-2xl text-sm sm:text-base mt-1 sm:mt-2 shadow-[0_5px_0_#991b1b] dark:shadow-[0_5px_0_#7f1d1d] hover:-translate-y-0.5 hover:shadow-[0_7px_0_#991b1b] dark:hover:shadow-[0_7px_0_#7f1d1d] active:translate-y-1 active:shadow-[0_0px_0_#991b1b] dark:active:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-[0_5px_0_#991b1b]"
+                    className="w-full bg-[#d60000] hover:bg-[#b80000] dark:bg-red-600 dark:hover:bg-red-700 text-white font-extrabold h-12 sm:h-13 rounded-2xl text-sm sm:text-base mt-2 shadow-[0_4px_0_#8a0000] dark:shadow-[0_4px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                   >
                     {loading ? "Signing in..." : "Log In"}
                   </button>
@@ -504,30 +536,30 @@ function AuthContent() {
               </TabsContent>
 
               <TabsContent value="register" className="min-h-[300px] sm:min-h-[340px] flex flex-col justify-center mt-0 animate-in fade-in-0 slide-in-from-right-4 duration-300">
-                <div className="space-y-2 sm:space-y-4 py-1 sm:py-4">
+                <div className="space-y-3 sm:space-y-4 py-2 sm:py-4">
                   <div className="text-center">
-                    <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-white mb-1 sm:mb-2 mt-1 sm:mt-2 tracking-tight transition-colors">Create Your Account</h3>
-                    <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mb-4 sm:mb-6 transition-colors">
+                    <h3 className="text-base sm:text-lg font-black text-slate-800 dark:text-white mb-1 tracking-tight transition-colors">Create Your Account</h3>
+                    <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mb-3 sm:mb-4 transition-colors">
                       Join our fire safety community and help protect Santa Cruz, Laguna
                     </p>
                   </div>
 
                   <button
                     type="button"
-                    className="w-full bg-blue-600 text-white font-extrabold h-12 sm:h-13 rounded-xl sm:rounded-2xl text-sm sm:text-base shadow-[0_5px_0_#1e40af] hover:-translate-y-0.5 hover:shadow-[0_7px_0_#1e40af] active:translate-y-1 active:shadow-[0_0px_0_#1e40af] transition-all"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold h-12 sm:h-13 rounded-2xl text-sm sm:text-base shadow-[0_4px_0_#1e3a8a] active:translate-y-1 active:shadow-none transition-all"
                     onClick={() => setShowRegistrationWizard(true)}
                   >
                     Start Registration
                   </button>
 
-                  <p className="text-[10px] sm:text-[11px] text-center text-slate-400 dark:text-slate-500 font-medium mt-4 sm:mt-6 px-2 sm:px-4 leading-relaxed transition-colors">
+                  <p className="text-[11px] text-center text-slate-400 dark:text-slate-500 font-medium mt-3 px-2 leading-relaxed transition-colors">
                     Registration includes a quick fire safety assessment to personalize your learning experience.
                   </p>
                   
-                  <div className="flex flex-col items-center pt-1 sm:pt-2">
+                  <div className="flex flex-col items-center pt-2">
                     <Link href="/">
-                      <Button variant="ghost" className="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md sm:rounded-lg h-7 sm:h-8 px-2 sm:px-3 transition-colors">
-                        <ArrowLeft className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1.5 text-slate-400 dark:text-slate-500" />
+                      <Button variant="ghost" className="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg h-8 px-3 transition-colors">
+                        <ArrowLeft className="h-3.5 w-3.5 mr-1.5 text-slate-400 dark:text-slate-500" />
                         Back to Dashboard
                       </Button>
                     </Link>
@@ -539,12 +571,12 @@ function AuthContent() {
         </Card>
 
         <Dialog open={showResetDialog} onOpenChange={setShowResetDialog}>
-          <DialogContent className="top-[8%] translate-y-0 sm:top-[50%] sm:translate-y-[-50%] sm:max-w-md bg-white/95 dark:bg-slate-900/90 backdrop-blur-xl rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-2xl p-0 overflow-y-auto max-h-[85dvh] sm:max-h-none transition-all duration-300">
-            <div className="bg-slate-50 dark:bg-slate-950/50 border-b-2 border-slate-100 dark:border-slate-800 p-6 sm:p-8 transition-colors">
+          <DialogContent className="top-[8%] translate-y-0 sm:top-[50%] sm:translate-y-[-50%] sm:max-w-md bg-white dark:bg-slate-900 rounded-3xl border-2 border-slate-200 dark:border-slate-800 shadow-2xl p-0 overflow-y-auto max-h-[85dvh] sm:max-h-none transition-all duration-300">
+            <div className="bg-slate-50 dark:bg-slate-950 border-b-2 border-slate-100 dark:border-slate-800 p-6 sm:p-8 transition-colors">
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-3 text-2xl font-black text-slate-800 dark:text-white transition-colors">
-                  <div className="bg-orange-100 dark:bg-orange-900/30 p-2 rounded-xl transition-colors">
-                    <KeyRound className="h-6 w-6 text-orange-600 dark:text-orange-400" strokeWidth={2.5} />
+                  <div className="bg-red-100 dark:bg-red-950/60 p-2.5 rounded-2xl border border-red-200 dark:border-red-900/50 transition-colors">
+                    <KeyRound className="h-6 w-6 text-[#d60000] dark:text-red-400" strokeWidth={2.5} />
                   </div>
                   Reset Password
                 </DialogTitle>
@@ -571,7 +603,7 @@ function AuthContent() {
                       setResetMessage(null)
                     }}
                     onKeyDown={(e) => { if (e.key === 'Enter') handleResetPassword() }}
-                    className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-6 focus-visible:ring-0 focus-visible:border-orange-500 dark:focus-visible:border-orange-500 font-bold text-slate-700 dark:text-white transition-all"
+                    className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-6 focus-visible:ring-0 focus-visible:border-[#d60000] dark:focus-visible:border-red-500 font-bold text-slate-700 dark:text-white transition-all"
                   />
                 </div>
               )}
@@ -591,7 +623,7 @@ function AuthContent() {
                     onKeyDown={(e) => { if (e.key === 'Enter' && resetCode.length === 6) handleResetPassword() }}
                     maxLength={6}
                     style={{ fontSize: 'clamp(28px, 5vw, 48px)', lineHeight: '1', letterSpacing: 'clamp(0.3em, 2vw, 0.5em)' }}
-                    className="text-center font-mono h-16 sm:h-28 rounded-[1.5rem] border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-800 dark:text-white dark:placeholder:text-slate-700 placeholder:text-slate-300 transition-all focus-visible:ring-0 focus-visible:border-orange-500 dark:focus-visible:border-orange-500 font-bold"
+                    className="text-center font-mono h-16 sm:h-28 rounded-[1.5rem] border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-800 dark:text-white dark:placeholder:text-slate-700 placeholder:text-slate-300 transition-all focus-visible:ring-0 focus-visible:border-[#d60000] dark:focus-visible:border-red-500 font-bold"
                   />
                   <p className="text-[10px] sm:text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Code was sent to your associated email</p>
                 </div>
@@ -609,7 +641,7 @@ function AuthContent() {
                         placeholder="Enter new password"
                         value={newPassword}
                         onChange={(e) => { setNewPassword(e.target.value); setResetMessage(null) }}
-                        className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-5 pr-12 focus-visible:ring-0 focus-visible:border-orange-500 dark:focus-visible:border-orange-500 font-bold text-slate-700 dark:text-white transition-all"
+                        className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-5 pr-12 focus-visible:ring-0 focus-visible:border-[#d60000] dark:focus-visible:border-red-500 font-bold text-slate-700 dark:text-white transition-all"
                       />
                       <button
                         type="button"
@@ -668,7 +700,7 @@ function AuthContent() {
                       value={confirmNewPassword}
                       onChange={(e) => { setConfirmNewPassword(e.target.value); setResetMessage(null) }}
                       onKeyDown={(e) => { if (e.key === 'Enter' && newPassword && confirmNewPassword) handleResetPassword() }}
-                      className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-5 focus-visible:ring-0 focus-visible:border-orange-500 dark:focus-visible:border-orange-500 font-bold text-slate-700 dark:text-white transition-all"
+                      className="rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-5 focus-visible:ring-0 focus-visible:border-[#d60000] dark:focus-visible:border-red-500 font-bold text-slate-700 dark:text-white transition-all"
                     />
                     {confirmNewPassword && confirmNewPassword !== newPassword && (
                       <p className="text-[10px] font-bold text-red-500 ml-1">Passwords do not match</p>
@@ -729,7 +761,7 @@ function AuthContent() {
                       (resetStep === 2 && resetCode.length !== 6) ||
                       (resetStep === 3 && (!newPassword || !confirmNewPassword || newPassword !== confirmNewPassword || getPasswordStrength(newPassword).passed < 5))
                     }
-                    className="flex-[1.5] bg-orange-500 hover:bg-orange-400 text-white rounded-2xl h-12 sm:h-14 font-black uppercase tracking-wider shadow-[0_4px_0_#c2410c] active:translate-y-1 active:shadow-none transition-all"
+                    className="flex-[1.5] bg-[#d60000] hover:bg-[#b80000] dark:bg-red-600 dark:hover:bg-red-700 text-white rounded-2xl h-12 sm:h-14 font-black uppercase tracking-wider shadow-[0_4px_0_#8a0000] dark:shadow-[0_4px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all"
                   >
                     {resetLoading ? (
                       <Loader2 className="h-5 w-5 animate-spin" />
