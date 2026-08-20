@@ -491,11 +491,11 @@ export default function ProfilePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8 relative z-10">
           {/* Profile Information */}
           <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] bg-white dark:bg-slate-900 p-0 overflow-hidden transition-colors flex flex-col h-full">
-            <CardHeader className="bg-slate-50 dark:bg-slate-950/60 border-b-[3px] border-slate-100 dark:border-slate-800 p-5 sm:p-7 transition-colors">
+            <CardHeader className="bg-slate-50 dark:bg-slate-950/60 border-b-[3px] border-slate-100 dark:border-slate-800 px-5 sm:px-7 py-4 sm:py-4.5 transition-colors">
               <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white transition-colors">Profile Information</CardTitle>
               <CardDescription className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 transition-colors">Update your personal information</CardDescription>
             </CardHeader>
-            <CardContent className="p-5 sm:p-7 space-y-6 dark:bg-slate-900 transition-colors flex-1 flex flex-col justify-between">
+            <CardContent className="px-5 sm:px-7 pt-4 sm:pt-5 pb-5 sm:pb-7 space-y-6 dark:bg-slate-900 transition-colors flex-1 flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="profile-name" className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300 ml-1 transition-colors">Full Name</Label>
@@ -560,11 +560,11 @@ export default function ProfilePage() {
 
           {/* Password Management */}
           <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] bg-white dark:bg-slate-900 p-0 overflow-hidden transition-colors flex flex-col h-full">
-            <CardHeader className="bg-slate-50 dark:bg-slate-950/60 border-b-[3px] border-slate-100 dark:border-slate-800 p-5 sm:p-7 transition-colors">
+            <CardHeader className="bg-slate-50 dark:bg-slate-950/60 border-b-[3px] border-slate-100 dark:border-slate-800 px-5 sm:px-7 py-4 sm:py-4.5 transition-colors">
               <CardTitle className="text-lg sm:text-xl font-black text-slate-800 dark:text-white transition-colors">Password Management</CardTitle>
               <CardDescription className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 transition-colors">Change your account password</CardDescription>
             </CardHeader>
-            <CardContent className="p-5 sm:p-7 space-y-6 dark:bg-slate-900 transition-colors flex-1 flex flex-col justify-between">
+            <CardContent className="px-5 sm:px-7 pt-4 sm:pt-5 pb-5 sm:pb-7 space-y-6 dark:bg-slate-900 transition-colors flex-1 flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="current-password" className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300 ml-1 transition-colors">Current Password</Label>
