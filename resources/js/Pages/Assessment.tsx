@@ -7,7 +7,7 @@ import { Button } from "@/Components/ui/button"
 import { Card, CardContent } from "@/Components/ui/card"
 import { Label } from "@/Components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/Components/ui/radio-group"
-import { ArrowLeft, Check, ChevronLeft, ChevronRight, Loader2, Shield, Star } from "lucide-react"
+import { ArrowLeft, Check, ChevronLeft, ChevronRight, Loader2, Shield, Star, Trophy, Flame } from "lucide-react"
 import { motion, AnimatePresence } from 'motion/react'
 import { getScoreRating } from "@/lib/constants"
 import { useAuth } from "@/lib/auth-context"
@@ -61,20 +61,11 @@ export default function Assessment({ type }: AssessmentProps) {
         answersRef.current = answers
     }, [answers])
 
-    // Auto Focus Mode and Fullscreen for Post-Test
+    // Auto Focus Mode for Post-Test
     useEffect(() => {
         if (type === 'postTest' && !loading && questions.length > 0 && !result && !showWarningModal) {
             // Auto enter focus mode
             document.documentElement.classList.add("module-focus-mode")
-            
-            // Auto request fullscreen
-            const enterFullscreen = () => {
-                const docEl = document.documentElement
-                if (docEl.requestFullscreen) {
-                    docEl.requestFullscreen().catch(() => {})
-                }
-            }
-            enterFullscreen()
         }
 
         return () => {
@@ -419,34 +410,34 @@ export default function Assessment({ type }: AssessmentProps) {
         <div className="min-h-[100dvh] bg-background p-3 sm:p-6 lg:p-8 flex flex-col justify-center transition-colors duration-500 selection:bg-orange-500 selection:text-white">
             <Head title={`${title} - SafeScape`} />
             
-            {/* Post-Test Warning Modal */}
+            {/* Post-Test Hero Challenge Modal */}
             {showWarningModal && (
-                <div className="fixed inset-0 z-[300] bg-slate-950/85 backdrop-blur-md overflow-y-auto flex items-center justify-center p-4">
-                    <div className="bg-white dark:bg-slate-900 border-[3px] sm:border-[4px] border-[#ff4b3e] rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-10 max-w-lg w-full text-center shadow-2xl space-y-4 sm:space-y-6 select-none my-auto">
-                        <div className="inline-flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center bg-red-50 dark:bg-red-950/30 rounded-xl sm:rounded-2xl border-2 border-red-100 dark:border-red-900 mb-1 sm:mb-2">
-                            <Shield className="h-6 w-6 sm:h-8 sm:w-8 text-[#ff4b3e]" strokeWidth={2.5} />
+                <div className="fixed inset-0 z-[300] bg-slate-950/80 backdrop-blur-sm overflow-y-auto flex items-center justify-center p-4">
+                    <div className="bg-white dark:bg-slate-900 border-[3px] sm:border-[4px] border-amber-300 dark:border-amber-500/50 rounded-[1.75rem] sm:rounded-[2.25rem] p-6 sm:p-9 max-w-md w-full text-center shadow-[0_12px_0_#fcd34d] dark:shadow-[0_12px_0_#78350f] space-y-4 sm:space-y-5 select-none my-auto transition-colors">
+                        <div className="inline-flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center bg-amber-50 dark:bg-amber-950/40 rounded-2xl sm:rounded-3xl border-[2.5px] border-amber-200 dark:border-amber-800/60 mb-1 shadow-inner">
+                            <Trophy className="h-8 w-8 sm:h-10 sm:w-10 text-amber-500" strokeWidth={2.5} />
                         </div>
                         
-                        <div className="space-y-1 sm:space-y-2">
-                            <h2 className="text-xl sm:text-3xl font-black text-slate-800 dark:text-white uppercase tracking-tight">
-                                Final Post-Test Notice
+                        <div className="space-y-1.5">
+                            <h2 className="text-xl sm:text-2xl font-black text-slate-800 dark:text-white uppercase tracking-tight">
+                                Ready for the Final Challenge?
                             </h2>
-                            <p className="text-[11px] sm:text-sm font-bold text-slate-500 dark:text-slate-400">
-                                Please review these critical rules before beginning your final assessment.
+                            <p className="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400 leading-snug">
+                                Show off what you've learned and earn your official Fire Safety Hero Certificate!
                             </p>
                         </div>
 
-                        <div className="bg-slate-50 dark:bg-slate-950 p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border-2 border-slate-100 dark:border-slate-800 text-left space-y-2.5 sm:space-y-3.5 shadow-inner">
-                            <div className="flex gap-2.5 sm:gap-3">
-                                <span className="text-sm sm:text-lg shrink-0 mt-0.5">⏱️</span>
-                                <p className="text-[11px] sm:text-sm font-bold text-slate-700 dark:text-slate-300 leading-normal">
-                                    <strong className="text-slate-900 dark:text-white">20-Minute Time Limit:</strong> You have exactly 20 minutes to complete the test. Once started, the countdown cannot be paused.
+                        <div className="bg-amber-50/70 dark:bg-slate-950/60 p-4 rounded-2xl border-2 border-amber-100 dark:border-slate-800 text-left space-y-3 shadow-inner">
+                            <div className="flex items-start gap-2.5">
+                                <span className="text-base sm:text-lg shrink-0 mt-0.5">⏱️</span>
+                                <p className="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 leading-snug">
+                                    <strong className="text-slate-900 dark:text-white">Plenty of Time:</strong> You have 20 minutes to answer all 15 questions at your own comfortable pace.
                                 </p>
                             </div>
-                            <div className="flex gap-2.5 sm:gap-3 pt-1 border-t border-slate-100 dark:border-slate-800/80">
-                                <span className="text-sm sm:text-lg shrink-0 mt-0.5">❓</span>
-                                <p className="text-[11px] sm:text-sm font-bold text-[#ff4b3e] dark:text-red-400 leading-normal">
-                                    <strong>Have you thoroughly reviewed</strong> all fire safety lessons and materials before starting?
+                            <div className="flex items-start gap-2.5 pt-2.5 border-t border-amber-200/50 dark:border-slate-800/80">
+                                <span className="text-base sm:text-lg shrink-0 mt-0.5">🌟</span>
+                                <p className="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 leading-snug">
+                                    <strong className="text-slate-900 dark:text-white">No Pressure:</strong> Read each question carefully and pick your best answer. You've got this!
                                 </p>
                             </div>
                         </div>
@@ -454,15 +445,15 @@ export default function Assessment({ type }: AssessmentProps) {
                         <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 pt-1 sm:pt-2">
                             <Button
                                 onClick={() => handleContinue()}
-                                className="flex-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 font-black py-3 sm:py-5 rounded-full border-[2.5px] sm:border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_3px_0_#cbd5e1] sm:shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_3px_0_#0f172a] sm:dark:shadow-[0_4px_0_#0f172a] active:translate-y-[3px] sm:active:translate-y-[4px] active:shadow-none transition-all uppercase tracking-wider text-[11px] sm:text-sm"
+                                className="flex-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 font-black py-3 sm:py-4.5 rounded-2xl border-[2px] sm:border-[2.5px] border-slate-200 dark:border-slate-700 shadow-[0_3px_0_#cbd5e1] dark:shadow-[0_3px_0_#0f172a] active:translate-y-[2px] active:shadow-none transition-all uppercase tracking-wider text-xs sm:text-sm"
                             >
-                                No, Go Back
+                                Review Lessons
                             </Button>
                             <Button
                                 onClick={() => setShowWarningModal(false)}
-                                className="flex-1 bg-[#ff4b3e] hover:bg-[#e03a2f] text-white font-black py-3 sm:py-5 rounded-full border-[2.5px] sm:border-[3px] border-red-700 shadow-[0_3px_0_#b91c1c] sm:shadow-[0_4px_0_#b91c1c] active:translate-y-[3px] sm:active:translate-y-[4px] active:shadow-none transition-all uppercase tracking-wider text-[11px] sm:text-sm flex items-center justify-center gap-1.5"
+                                className="flex-1 bg-orange-500 hover:bg-orange-400 text-white font-black py-3 sm:py-4.5 rounded-2xl border-[2px] sm:border-[2.5px] border-orange-700 shadow-[0_3px_0_#c2410c] active:translate-y-[3px] active:shadow-none transition-all uppercase tracking-wider text-xs sm:text-sm flex items-center justify-center"
                             >
-                                Yes, I am Ready!
+                                Let's Start!
                             </Button>
                         </div>
                     </div>
@@ -607,16 +598,16 @@ export default function Assessment({ type }: AssessmentProps) {
                                 <Button 
                                     onClick={handleSubmit} 
                                     disabled={submitting || answers[questions[currentQuestionIndex].id] === undefined}
-                                    className={`rounded-full font-black px-4 md:px-6 py-2 md:py-5 text-xs md:text-base border-2 transition-all text-white relative h-9 md:h-auto ${
+                                    className={`rounded-full font-black px-4 md:px-5 border-[2px] active:translate-y-[2px] transition-all text-white relative h-9 md:h-10 text-xs md:text-sm ${
                                         answers[questions[currentQuestionIndex].id] === undefined
-                                            ? 'bg-slate-300 dark:bg-slate-700 border-slate-400 dark:border-slate-600 opacity-50 cursor-not-allowed'
-                                            : 'bg-green-500 hover:bg-green-400 dark:bg-emerald-600 dark:hover:bg-emerald-500 border-green-600 dark:border-emerald-700 shadow-[0_3px_0_#16a34a] md:shadow-[0_4px_0_#16a34a] active:shadow-none active:translate-y-[2px] md:active:translate-y-[4px]'
+                                            ? 'bg-slate-300 dark:bg-slate-700 border-slate-400 dark:border-slate-600 opacity-50 cursor-not-allowed shadow-none'
+                                            : 'bg-green-500 hover:bg-green-400 dark:bg-emerald-600 dark:hover:bg-emerald-500 border-green-600 dark:border-emerald-700 shadow-[0_2px_0_#16a34a] dark:shadow-[0_2px_0_#059669] active:shadow-none'
                                     }`}
                                 >
                                     {submitting ? (
-                                        <><Loader2 className="h-4 w-4 md:h-5 md:w-5 animate-spin mr-1 md:mr-2" /> Submitting...</>
+                                        <><Loader2 className="h-4 w-4 md:h-5 md:w-5 animate-spin mr-1" /> Submitting...</>
                                     ) : (
-                                        <><Check className="h-4 w-4 md:h-5 md:w-5 mr-1 md:mr-2" strokeWidth={4} /> Submit</>
+                                        <><Check className="h-4 w-4 md:h-5 md:w-5 mr-1" strokeWidth={4} /> Submit</>
                                     )}
                                 </Button>
                             ) : (
