@@ -7,7 +7,7 @@ import { Button } from "@/Components/ui/button"
 import { Card, CardContent } from "@/Components/ui/card"
 import { Label } from "@/Components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/Components/ui/radio-group"
-import { ArrowLeft, Check, ChevronLeft, ChevronRight, Loader2, Shield, Star, Trophy, Flame } from "lucide-react"
+import { ArrowLeft, Check, ChevronLeft, ChevronRight, Loader2, Shield, Star, Trophy, Flame, Award, Timer, Sparkles } from "lucide-react"
 import { motion, AnimatePresence } from 'motion/react'
 import { getScoreRating } from "@/lib/constants"
 import { useAuth } from "@/lib/auth-context"
@@ -274,82 +274,75 @@ export default function Assessment({ type }: AssessmentProps) {
         const rating = getScoreRating(percentage)
 
         return (
-            <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-6 sm:py-12 px-3 sm:px-4 selection:bg-orange-500 selection:text-white transition-colors duration-500">
+            <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-6 sm:py-12 px-3 sm:px-4 selection:bg-orange-500 selection:text-white transition-colors duration-500 flex items-center justify-center">
                 <Head title={`${title} Results - SafeScape`} />
-                <Card className="w-full max-w-3xl mx-auto border-[3px] sm:border-[4px] border-slate-200 dark:border-slate-800 shadow-[0_6px_0_#e2e8f0] sm:shadow-[0_8px_0_#e2e8f0] dark:shadow-[0_6px_0_#0f172a] sm:dark:shadow-[0_8px_0_#0f172a] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden p-0 bg-white dark:bg-slate-900">
-                    <div className="bg-red-600 p-4 sm:p-6 text-center border-b-[3px] sm:border-b-[5px] border-orange-600 relative overflow-hidden">
-                        {/* Decorative background pattern - hidden on very small screens */}
-                        <div className="absolute inset-0 opacity-10 hidden sm:flex flex-wrap gap-4 pointer-events-none p-4">
-                            {[...Array(12)].map((_, i) => (
-                                <Star key={i} className="w-5 h-5 text-white rotate-12" fill="currentColor" />
-                            ))}
-                        </div>
-                        
+                <Card className="w-full max-w-3xl mx-auto border-[3px] sm:border-[4px] border-orange-200 dark:border-slate-800 shadow-[0_8px_0_#fed7aa] dark:shadow-[0_8px_0_#0f172a] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden p-0 bg-white dark:bg-slate-900 transition-colors">
+                    {/* Header */}
+                    <div className="bg-orange-500 dark:bg-orange-600 p-5 sm:p-7 text-center border-b-[3px] sm:border-b-[4px] border-orange-600 dark:border-orange-700 relative overflow-hidden">
                         <motion.div 
                             initial={{ scale: 0, rotate: -20 }}
                             animate={{ scale: 1, rotate: 0 }}
                             transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                            className="mx-auto w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center mb-2 sm:mb-3 shadow-[0_3px_0_rgba(0,0,0,0.15)] sm:shadow-[0_5px_0_rgba(0,0,0,0.15)] border-[2.5px] sm:border-[4px] border-white relative z-10"
+                            className="mx-auto w-14 h-14 sm:w-16 sm:h-16 bg-white dark:bg-slate-900 rounded-full flex items-center justify-center mb-2.5 sm:mb-3 shadow-[0_3px_0_rgba(0,0,0,0.12)] border-[3px] border-white dark:border-slate-800 relative z-10"
                         >
-                            <Check className="w-6 h-6 sm:w-8 sm:h-8 text-green-500" strokeWidth={5} />
+                            <Trophy className="w-7 h-7 sm:w-8 sm:h-8 text-amber-500" strokeWidth={2.5} />
                         </motion.div>
-                        <h2 className="text-lg sm:text-2xl font-black text-white tracking-tight drop-shadow-md relative z-10 italic uppercase">
-                            Assessment <span className="text-yellow-300">Complete!</span>
+                        <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight drop-shadow-sm uppercase relative z-10">
+                            Assessment Complete
                         </h2>
-                        <p className="text-white/90 text-[9px] sm:text-xs font-black mt-0.5 uppercase tracking-[0.08em] sm:tracking-[0.15em] relative z-10">{title}</p>
+                        <p className="text-orange-100 text-xs sm:text-sm font-black mt-0.5 uppercase tracking-wider relative z-10">{title}</p>
                     </div>
                     
-                    <CardContent className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+                    <CardContent className="p-5 sm:p-7 space-y-5 sm:space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 sm:gap-5 items-stretch">
                             {/* Score Box - 2/5 width */}
-                            <div className="md:col-span-2 text-center p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-[1.25rem] sm:rounded-3xl border-[2.5px] sm:border-[4px] border-slate-100 dark:border-slate-700 shadow-[0_4px_0_#f1f5f9] sm:shadow-[0_6px_0_#f1f5f9] dark:shadow-[0_4px_0_#0f172a] sm:dark:shadow-[0_4px_0_#0f172a] flex flex-col justify-center relative overflow-hidden transition-colors">
-                                {/* Subtle decorative bg */}
-                                <div className="absolute top-0 right-0 w-20 h-20 sm:w-24 sm:h-24 bg-slate-50 dark:bg-slate-700 rounded-full -mr-10 -mt-10 sm:-mr-12 sm:-mt-12"></div>
-                                
-                                <p className="text-[9px] sm:text-[11px] text-slate-400 dark:text-slate-500 font-black tracking-widest uppercase mb-1 sm:mb-2 relative z-10">Final Score</p>
-                                <div className="text-4xl sm:text-6xl font-black mb-1 sm:mb-2 drop-shadow-sm flex items-center justify-center gap-1 relative z-10" style={{ color: rating.color }}>
-                                    {result.score} <span className="text-slate-200 dark:text-slate-700 text-xl sm:text-3xl">/</span> {result.maxScore}
+                            <div className="md:col-span-2 text-center p-5 sm:p-6 bg-amber-50/70 dark:bg-slate-800/80 rounded-2xl sm:rounded-3xl border-2 sm:border-[3px] border-amber-200 dark:border-amber-900/40 shadow-[0_4px_0_#fde68a] dark:shadow-[0_4px_0_#0f172a] flex flex-col justify-center transition-colors">
+                                <p className="text-[10px] sm:text-xs text-amber-800 dark:text-amber-400 font-black tracking-widest uppercase mb-1">Final Score</p>
+                                <div className="text-4xl sm:text-5xl font-black text-slate-800 dark:text-white my-1 tracking-tight flex items-baseline justify-center gap-1.5">
+                                    <span className="text-orange-600 dark:text-orange-400">{result.score}</span>
+                                    <span className="text-xl sm:text-2xl text-slate-400 dark:text-slate-500 font-bold">/ {result.maxScore}</span>
                                 </div>
-                                <div className={`inline-block px-3 sm:px-5 py-0.5 sm:py-1 rounded-full text-xs sm:text-lg font-black uppercase tracking-wider mb-2 border-2 mx-auto relative z-10`} style={{ backgroundColor: `${rating.color}15`, color: rating.color, borderColor: `${rating.color}30` }}>
-                                    {rating.label}
+                                <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider mx-auto my-2 border-2 border-amber-300 dark:border-amber-700 bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300">
+                                    <Award className="w-3.5 h-3.5 shrink-0" strokeWidth={2.5} />
+                                    <span>{rating.label}</span>
                                 </div>
-                                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-bold max-w-[200px] mx-auto leading-tight sm:leading-snug relative z-10">
+                                <p className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-1 leading-snug">
                                     {isPreTest 
-                                        ? "This is your baseline score. Let's start learning!" 
-                                        : "You're a safety hero!"}
+                                        ? "Baseline score recorded. Let's start learning!" 
+                                        : "Congratulations on finishing your fire safety training!"}
                                 </p>
                             </div>
 
                             {/* Feedback Section - 3/5 width */}
                             <div className="md:col-span-3">
                                 {!isPreTest ? (
-                                    <div className="bg-white dark:bg-slate-800 border-[2.5px] sm:border-[4px] border-slate-100 dark:border-slate-700 rounded-[1.25rem] sm:rounded-3xl p-4 sm:p-6 text-center h-full shadow-[0_4px_0_#f1f5f9] sm:shadow-[0_6px_0_#f1f5f9] dark:shadow-[0_4px_0_#0f172a] sm:dark:shadow-[0_4px_0_#0f172a] relative overflow-hidden flex flex-col justify-center transition-colors">
+                                    <div className="bg-slate-50 dark:bg-slate-800/80 border-2 sm:border-[3px] border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-5 sm:p-6 text-center h-full shadow-[0_4px_0_#e2e8f0] dark:shadow-[0_4px_0_#0f172a] flex flex-col justify-center transition-colors">
                                         {feedbackSuccess ? (
-                                            <div className="flex flex-col items-center py-2 sm:py-4">
-                                                <div className="w-10 h-10 sm:w-16 sm:h-16 bg-green-100 dark:bg-emerald-950/30 rounded-full flex items-center justify-center mb-3 border-4 border-green-200 dark:border-emerald-900/30 shadow-inner">
-                                                    <Check className="h-5 w-5 sm:h-8 sm:w-8 text-green-500" strokeWidth={5} />
+                                            <div className="flex flex-col items-center py-2 sm:py-3">
+                                                <div className="w-11 h-11 sm:w-14 sm:h-14 bg-emerald-100 dark:bg-emerald-950/40 rounded-full flex items-center justify-center mb-2.5 border-2 border-emerald-300 dark:border-emerald-700 text-emerald-600 dark:text-emerald-400 shadow-inner">
+                                                    <Check className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={3} />
                                                 </div>
-                                                <h3 className="text-base sm:text-xl font-black text-slate-800 dark:text-white mb-1">Thank You!</h3>
-                                                <p className="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400">Your feedback helps!</p>
+                                                <h3 className="text-base sm:text-lg font-black text-slate-800 dark:text-white mb-0.5">Thank You!</h3>
+                                                <p className="text-xs font-bold text-slate-500 dark:text-slate-400">Your feedback helps improve our safety modules.</p>
                                             </div>
                                         ) : (
                                             <>
-                                                <h3 className="text-base sm:text-xl font-black text-slate-800 dark:text-white mb-1">Help Us Improve</h3>
-                                                <p className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2 sm:mb-3">Rate your Experience</p>
+                                                <h3 className="text-base sm:text-lg font-black text-slate-800 dark:text-white mb-0.5">Help Us Improve</h3>
+                                                <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Rate your experience</p>
                                                 
-                                                <div className="flex justify-center gap-1.5 sm:gap-2 mb-3 sm:mb-4 bg-slate-50 dark:bg-slate-900 py-1.5 sm:py-3 rounded-2xl sm:rounded-3xl border-2 border-slate-100 dark:border-slate-700 w-fit mx-auto px-3 sm:px-6 shadow-inner">
+                                                <div className="flex justify-center gap-2 mb-3 bg-white dark:bg-slate-900 py-2 px-4 rounded-full border-2 border-slate-200 dark:border-slate-700 w-fit mx-auto shadow-inner">
                                                     {[1, 2, 3, 4, 5].map((star) => (
                                                         <button
                                                             key={star}
                                                             onClick={() => !feedbackSubmitting && setFeedbackRating(star)}
                                                             onMouseEnter={() => !feedbackSubmitting && setFeedbackHover(star)}
                                                             onMouseLeave={() => !feedbackSubmitting && setFeedbackHover(0)}
-                                                            className="p-0.5 transition-transform hover:scale-125 hover:-translate-y-1 active:scale-90 outline-none"
+                                                            className="p-0.5 transition-transform hover:scale-125 hover:-translate-y-0.5 active:scale-90 outline-none"
                                                         >
                                                             <Star 
-                                                                className={`h-5 w-5 sm:h-8 sm:h-8 transition-colors ${
+                                                                className={`h-5 w-5 sm:h-6 sm:w-6 transition-colors ${
                                                                     (feedbackHover || feedbackRating) >= star 
-                                                                        ? "text-yellow-400 fill-yellow-400 drop-shadow-sm" 
+                                                                        ? "text-amber-400 fill-amber-400 drop-shadow-sm" 
                                                                         : "text-slate-200 dark:text-slate-700 fill-slate-100 dark:fill-slate-800"
                                                                 }`} 
                                                             />
@@ -358,11 +351,11 @@ export default function Assessment({ type }: AssessmentProps) {
                                                 </div>
                                                 
                                                 {feedbackRating > 0 && (
-                                                    <div className="mt-2 space-y-2 sm:space-y-3 animate-in fade-in slide-in-from-top-4 duration-300">
+                                                    <div className="mt-2 space-y-2.5 animate-in fade-in slide-in-from-top-3 duration-300">
                                                         <textarea
-                                                            className="w-full text-xs sm:text-sm bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl p-2.5 sm:p-3 focus:outline-none focus:border-blue-400 focus:bg-white dark:focus:bg-slate-800 transition-all resize-none font-bold text-slate-700 dark:text-slate-300 placeholder:text-slate-300 dark:placeholder:text-slate-600 shadow-inner"
+                                                            className="w-full text-xs sm:text-sm bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl p-2.5 sm:p-3 focus:outline-none focus:border-orange-500 dark:focus:border-orange-500 transition-all resize-none font-bold text-slate-700 dark:text-slate-300 placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-inner"
                                                             rows={1}
-                                                            placeholder="Any thoughts?"
+                                                            placeholder="Share your thoughts (optional)..."
                                                             value={feedbackComment}
                                                             onChange={(e) => setFeedbackComment(e.target.value)}
                                                             disabled={feedbackSubmitting}
@@ -370,9 +363,9 @@ export default function Assessment({ type }: AssessmentProps) {
                                                         <Button 
                                                             onClick={handleFeedbackSubmit}
                                                             disabled={feedbackSubmitting}
-                                                            className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-full font-black text-xs sm:text-sm py-2.5 sm:py-5 shadow-[0_3px_0_#1e40af] sm:shadow-[0_5px_0_#1e40af] active:translate-y-[3px] sm:active:translate-y-[5px] active:shadow-none transition-all flex items-center justify-center gap-2 border-[2px] sm:border-[3px] border-blue-700"
+                                                            className="w-full bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-xs sm:text-sm py-2.5 border-2 border-orange-600 shadow-[0_3px_0_#c2410c] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2"
                                                         >
-                                                            {feedbackSubmitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Submit"}
+                                                            {feedbackSubmitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Submit Feedback"}
                                                         </Button>
                                                     </div>
                                                 )}
@@ -380,24 +373,25 @@ export default function Assessment({ type }: AssessmentProps) {
                                         )}
                                     </div>
                                 ) : (
-                                    <div className="bg-blue-50 dark:bg-blue-900/20 border-[2.5px] sm:border-[4px] border-blue-100 dark:border-blue-800 rounded-[1.25rem] sm:rounded-3xl p-4 sm:p-6 text-center h-full shadow-[0_4px_0_#dbeafe] sm:shadow-[0_6px_0_#dbeafe] dark:shadow-[0_4px_0_#0f172a] sm:dark:shadow-[0_4px_0_#0f172a] flex flex-col justify-center items-center text-blue-800 dark:text-blue-300 transition-colors">
-                                        <div className="w-10 h-10 sm:w-14 sm:h-14 bg-blue-100 dark:bg-blue-800 rounded-full flex items-center justify-center mb-2 sm:mb-3">
-                                            <Shield className="w-5 h-5 sm:w-7 sm:h-7 text-blue-500" />
+                                    <div className="bg-orange-50/70 dark:bg-orange-950/20 border-2 sm:border-[3px] border-orange-200 dark:border-orange-900/40 rounded-2xl sm:rounded-3xl p-5 sm:p-6 text-center h-full shadow-[0_4px_0_#fed7aa] dark:shadow-[0_4px_0_#0f172a] flex flex-col justify-center items-center text-orange-950 dark:text-orange-200 transition-colors">
+                                        <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/40 rounded-full flex items-center justify-center mb-2.5 border-2 border-orange-300 dark:border-orange-700 text-orange-600">
+                                            <Shield className="w-6 h-6 text-orange-500" strokeWidth={2.5} />
                                         </div>
-                                        <h3 className="text-base sm:text-xl font-black mb-1 italic">Ready to Learn?</h3>
-                                        <p className="text-xs sm:text-sm font-bold opacity-80 leading-tight">Complete modules and earn your badge!</p>
+                                        <h3 className="text-base sm:text-lg font-black mb-1">Ready to Learn?</h3>
+                                        <p className="text-xs sm:text-sm font-bold opacity-80 leading-snug max-w-xs">Complete your interactive missions to become a certified Fire Safety Hero.</p>
                                     </div>
                                 )}
                             </div>
                         </div>
 
-                        <div className="pt-2 sm:pt-4 max-w-xl mx-auto w-full">
+                        {/* Action Buttons */}
+                        <div className="pt-2 max-w-md mx-auto w-full">
                             <Button 
                                 onClick={handleContinue}
-                                className="w-full bg-yellow-400 hover:bg-yellow-300 text-red-700 font-black py-3 sm:py-5 rounded-full text-sm sm:text-lg border-[2.5px] sm:border-[4px] border-yellow-500 shadow-[0_3px_0_#ca8a04] sm:shadow-[0_6px_0_#ca8a04] active:translate-y-[3px] sm:active:translate-y-[6px] active:shadow-none transition-all flex items-center justify-center gap-2 uppercase tracking-tight"
+                                className="w-full bg-orange-500 hover:bg-orange-400 text-white font-black py-3.5 sm:py-4 rounded-2xl border-2 border-orange-600 shadow-[0_4px_0_#c2410c] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2 text-xs sm:text-sm uppercase tracking-wider"
                             >
-                                {isPreTest ? "Start" : "Return to Dashboard"}
-                                <ChevronRight className="h-4 w-4 sm:h-6 sm:w-6 stroke-[3]" />
+                                {isPreTest ? "Start Learning Missions" : "Return to Dashboard"}
+                                <ChevronRight className="h-4 w-4" />
                             </Button>
                         </div>
                     </CardContent>
@@ -423,19 +417,19 @@ export default function Assessment({ type }: AssessmentProps) {
                                 Ready for the Final Challenge?
                             </h2>
                             <p className="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400 leading-snug">
-                                Show off what you've learned and earn your official Fire Safety Hero Certificate!
+                                Show off what you've learned and complete your final fire safety training!
                             </p>
                         </div>
 
                         <div className="bg-amber-50/70 dark:bg-slate-950/60 p-4 rounded-2xl border-2 border-amber-100 dark:border-slate-800 text-left space-y-3 shadow-inner">
                             <div className="flex items-start gap-2.5">
-                                <span className="text-base sm:text-lg shrink-0 mt-0.5">⏱️</span>
+                                <Timer className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
                                 <p className="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 leading-snug">
                                     <strong className="text-slate-900 dark:text-white">Plenty of Time:</strong> You have 20 minutes to answer all 15 questions at your own comfortable pace.
                                 </p>
                             </div>
                             <div className="flex items-start gap-2.5 pt-2.5 border-t border-amber-200/50 dark:border-slate-800/80">
-                                <span className="text-base sm:text-lg shrink-0 mt-0.5">🌟</span>
+                                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
                                 <p className="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 leading-snug">
                                     <strong className="text-slate-900 dark:text-white">No Pressure:</strong> Read each question carefully and pick your best answer. You've got this!
                                 </p>
