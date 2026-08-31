@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import ReactDOM from "react-dom"
+import ReactDOM, { flushSync } from "react-dom"
 import { Head, Link } from '@inertiajs/react'
 import DashboardLayout from "@/Layouts/DashboardLayout"
 import { ArrowLeft, User, Calendar, Maximize2, X, Flame } from "lucide-react"
@@ -25,6 +25,18 @@ interface BlogArticleProps {
 const BlogArticleClient = ({ blog }: BlogArticleProps) => {
     const [isImageExpanded, setIsImageExpanded] = useState(false);
 
+    const toggleImageExpand = (expand: boolean) => {
+        if (!document.startViewTransition) {
+            setIsImageExpanded(expand);
+            return;
+        }
+        document.startViewTransition(() => {
+            flushSync(() => {
+                setIsImageExpanded(expand);
+            });
+        });
+    };
+
     // Handle both naming conventions just in case
     const dateString = blog.created_at || blog.createdAt;
     const formattedDate = dateString 
@@ -41,11 +53,11 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
             {isImageExpanded && blog.imageUrl && ReactDOM.createPortal(
                 <div 
                     style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 2147483647, background: '#000', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch' }}
-                    onClick={() => setIsImageExpanded(false)}
+                    onClick={() => toggleImageExpand(false)}
                 >
                     <button 
                         style={{ position: 'fixed', top: 16, right: 16, zIndex: 2147483647, background: 'rgba(0,0,0,0.8)', border: '2px solid rgba(255,255,255,0.4)', borderRadius: '50%', padding: 12, color: 'white', cursor: 'pointer', backdropFilter: 'blur(8px)', lineHeight: 0 }}
-                        onClick={(e) => { e.stopPropagation(); setIsImageExpanded(false); }}
+                        onClick={(e) => { e.stopPropagation(); toggleImageExpand(false); }}
                         aria-label="Close fullscreen preview"
                     >
                         <X className="h-6 w-6" strokeWidth={2.5} />
@@ -55,7 +67,7 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                             src={blog.imageUrl} 
                             alt={blog.title} 
                             onClick={(e) => e.stopPropagation()}
-                            style={{ display: 'block', width: '175%', maxWidth: 'none', height: 'auto', flexShrink: 0 }}
+                            style={{ display: 'block', width: '175%', maxWidth: 'none', height: 'auto', flexShrink: 0, viewTransitionName: 'article-image-morph' }}
                         />
                     </div>
                 </div>,
@@ -135,12 +147,13 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                         <div className="px-3 sm:px-8 md:px-9">
                             <div 
                                 className="w-full relative group cursor-zoom-in rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200/90 dark:border-slate-700/90 bg-slate-50 dark:bg-slate-900 shadow-sm transition-all hover:border-orange-500/50 hover:shadow-lg active:scale-[0.995]"
-                                onClick={() => setIsImageExpanded(true)}
+                                onClick={() => toggleImageExpand(true)}
                             >
                                 <img 
                                     src={blog.imageUrl} 
                                     alt={blog.title} 
                                     className="w-full h-auto object-contain rounded-xl sm:rounded-2xl transition-transform duration-300 group-hover:scale-[1.005]"
+                                    style={{ viewTransitionName: 'article-image-morph' }}
                                 />
                                 
                                 {/* Expand Overlay Hint */}
