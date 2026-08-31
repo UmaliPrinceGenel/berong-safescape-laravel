@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import { Play, Lock, CheckCircle, ArrowRight, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Skeleton } from "./ui/skeleton"
+import { preloadKidsPages } from "@/lib/preload-kids-pages"
 
 export interface ContentCardData {
   id: string | number
@@ -367,6 +368,8 @@ export const ContentCard = React.memo(({ content, onClick, isMorphing = false }:
           viewTransitionName: isMorphing ? `kids-card-morph-${content.id}` : 'none'
         }}
         href={content.href}
+        onMouseEnter={() => preloadKidsPages()}
+        onTouchStart={() => preloadKidsPages()}
         onClick={(e) => { if (onClick) onClick(e) }}
         whileHover={{ 
           y: -10,
@@ -396,6 +399,8 @@ export const ContentCard = React.memo(({ content, onClick, isMorphing = false }:
         viewTransitionName: isMorphing ? `kids-card-morph-${content.id}` : 'none'
       }}
       href={content.href}
+      onMouseEnter={() => preloadKidsPages()}
+      onTouchStart={() => preloadKidsPages()}
       onClick={(e) => { if (onClick) onClick(e) }}
       whileHover={{ 
         y: -10,

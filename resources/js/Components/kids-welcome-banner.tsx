@@ -9,6 +9,7 @@ import ReactDOM from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import confetti from 'canvas-confetti'
 import { playSound } from '@/lib/audio'
+import { preloadKidsPages } from '@/lib/preload-kids-pages'
 
 interface KidsWelcomeBannerProps {
   completedModules: number[]
@@ -316,6 +317,8 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
              {/* Card 2: Badges Summary Link */}
              <div 
                onClick={(e) => handleOpenHallClick(e, "/kids/badges")}
+               onMouseEnter={() => preloadKidsPages()}
+               onTouchStart={() => preloadKidsPages()}
                style={{
                  viewTransitionName: isMorphing ? 'badge-hall-card-morph' : 'none'
                }}
@@ -426,6 +429,8 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
             {/* Win Button - Navigates to Badge Hall */}
             <button
               type="button"
+              onMouseEnter={() => preloadKidsPages()}
+              onTouchStart={() => preloadKidsPages()}
               onClick={(e) => handleOpenHallClick(e, "/kids/badges")}
               className="flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-8 sm:py-3 bg-yellow-400 hover:bg-yellow-300 rounded-xl sm:rounded-2xl shadow-[0_4px_0_rgb(202,138,4)] hover:shadow-[0_6px_0_rgb(202,138,4)] hover:-translate-y-0.5 active:translate-y-1 active:shadow-none border-t border-white/30 text-red-700 transform transition-all cursor-pointer outline-none"
             >

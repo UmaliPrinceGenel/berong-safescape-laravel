@@ -18,6 +18,7 @@ import { MinecraftSMP } from "@/Components/MinecraftSMP"
 import { motion, AnimatePresence } from "framer-motion"
 import { BookOpen, Sparkles } from "lucide-react"
 import { playSound } from '@/lib/audio'
+import { preloadKidsPages } from '@/lib/preload-kids-pages'
 
 interface KidsPageProps {
   modules?: any[]
@@ -36,6 +37,9 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
   const [pulseFirstModule, setPulseFirstModule] = useState(false)
 
   useEffect(() => {
+    // Proactively warm destination page bundles in background
+    preloadKidsPages()
+
     const handleResize = () => setIsMobile(window.innerWidth < 768)
     handleResize()
     window.addEventListener('resize', handleResize)
