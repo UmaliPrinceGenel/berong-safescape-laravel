@@ -1,7 +1,7 @@
 "use client"
 
 import { useAuth } from "@/lib/auth-context"
-import { Link } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import { Flame, Trophy, Lock, Shield, Star, Zap, ChevronRight, BadgeCheck, Gamepad2, BookOpen, CircleHelp } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState, useEffect } from "react"
@@ -27,6 +27,26 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
   const firstName = user?.name?.split(' ')[0] || 'Fire Hero'
   
   const [streak, setStreak] = useState(1)
+  const [isMorphing, setIsMorphing] = useState(false)
+
+  const handleOpenHallClick = (e: React.MouseEvent, href: string = '/kids/badges') => {
+    playSound('/sounds/click.mp3', 'general')
+    if (!document.startViewTransition) {
+      router.visit(href)
+      return
+    }
+    e.preventDefault()
+    setIsMorphing(true)
+    requestAnimationFrame(() => {
+      document.startViewTransition(() => {
+        return new Promise<void>((resolve) => {
+          router.visit(href, {
+            onFinish: () => resolve(),
+          })
+        })
+      })
+    })
+  }
 
   useEffect(() => {
     if (!user?.id) return
@@ -326,23 +346,35 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
              </div>
 
              {/* Card 2: Badges Summary Link */}
-             <Link 
-               href="/kids/badges"
-               onClick={() => playSound('/sounds/click.mp3', 'general')}
-               className="bg-white/10 dark:bg-slate-950/40 backdrop-blur-xl rounded-[2rem] p-6 border border-white/20 dark:border-white/5 flex flex-col shadow-2xl hover:bg-white/15 dark:hover:bg-white/10 transition-all group"
+             <div 
+               onClick={(e) => handleOpenHallClick(e, "/kids/badges")}
+               style={{
+                 viewTransitionName: isMorphing ? 'badge-hall-card-morph' : 'none'
+               }}
+               className="bg-white/10 dark:bg-slate-950/40 backdrop-blur-xl rounded-[2rem] p-6 border border-white/20 dark:border-white/5 flex flex-col shadow-2xl hover:bg-white/15 dark:hover:bg-white/10 transition-all group cursor-pointer"
              >
                 <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
+                  <div 
+                    style={{
+                      viewTransitionName: isMorphing ? 'badge-hall-title-morph' : 'none'
+                    }}
+                    className="flex items-center gap-2"
+                  >
                       <Trophy className="h-4 w-4 text-yellow-300" />
                       <span className="text-[10px] font-black text-yellow-300/80 uppercase tracking-widest">Achieved Badges</span>
                   </div>
-                  <div className="px-4 py-1.5 bg-yellow-400 group-hover:bg-yellow-300 rounded-xl text-red-700 font-black text-xs uppercase tracking-wider transition-colors flex items-center gap-2 shadow-lg">
+                  <div className="px-4 py-1.5 bg-yellow-400 group-hover:bg-yellow-300 active:scale-95 rounded-xl text-red-700 font-black text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg">
                     Open Hall
                     <ChevronRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 mb-6">
+                <div 
+                  style={{
+                    viewTransitionName: isMorphing ? 'badge-hall-icon-morph' : 'none'
+                  }}
+                  className="flex items-center gap-3 mb-6"
+                >
                   {(() => {
                     const earnedList = ALL_BADGES.filter(b => isBadgeEarned(b.id, b.moduleNum));
                     const lockedList = ALL_BADGES.filter(b => !isBadgeEarned(b.id, b.moduleNum));
@@ -386,7 +418,7 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
                       ></div>
                   </div>
                 </div>
-             </Link>
+             </div>
           </div>
 
           {/* ── Action Navigation Buttons ── */}
@@ -424,14 +456,14 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
             </Link>
             
             {/* Win Button - Navigates to Badge Hall */}
-            <Link
-              href="/kids/badges"
-              onClick={() => playSound('/sounds/tap.mp3', 'general')}
+            <button
+              type="button"
+              onClick={(e) => handleOpenHallClick(e, "/kids/badges")}
               className="flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-8 sm:py-3 bg-yellow-400 hover:bg-yellow-300 rounded-xl sm:rounded-2xl shadow-[0_4px_0_rgb(202,138,4)] hover:shadow-[0_6px_0_rgb(202,138,4)] hover:-translate-y-0.5 active:translate-y-1 active:shadow-none border-t border-white/30 text-red-700 transform transition-all cursor-pointer outline-none"
             >
               <Trophy className="h-4 w-4 sm:h-5 sm:w-5" />
               <span className="text-xs sm:text-base font-black uppercase tracking-widest">Win</span>
-            </Link>
+            </button>
           </div>
         </div>
       </div>

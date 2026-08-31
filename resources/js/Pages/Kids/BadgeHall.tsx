@@ -78,7 +78,10 @@ const BadgeHallPage = ({ completedModules = [], earnedBadges = [] }: BadgeHallPr
   return (
     <div className="-mt-[104px] sm:-mt-[120px] min-h-[calc(100vh+104px)] sm:min-h-[calc(100vh+120px)] bg-slate-50 dark:bg-slate-950 font-sans flex flex-col text-slate-900 dark:text-white transition-colors duration-500">
       {/* ── High-Impact Hero Header: Optimized for Mobile Readability ── */}
-      <div className="relative pt-[104px] sm:pt-[168px] pb-12 sm:pb-20 px-4 sm:px-10 bg-gradient-to-br from-primary via-red-600 to-rose-700 overflow-hidden shrink-0">
+      <div 
+        style={{ viewTransitionName: 'badge-hall-card-morph' }}
+        className="relative pt-[104px] sm:pt-[168px] pb-12 sm:pb-20 px-4 sm:px-10 bg-gradient-to-br from-primary via-red-600 to-rose-700 overflow-hidden shrink-0"
+      >
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:24px_24px]"></div>
         
         <div className="max-w-7xl mx-auto relative z-10">
@@ -91,12 +94,18 @@ const BadgeHallPage = ({ completedModules = [], earnedBadges = [] }: BadgeHallPr
           </Link>
 
           <div className="flex flex-row items-center gap-6 sm:gap-12">
-            <div className="h-24 w-24 sm:h-44 sm:w-44 bg-white/20 rounded-[2rem] sm:rounded-[3rem] flex items-center justify-center shadow-2xl border-2 sm:border-4 border-white/30 shrink-0 transform -rotate-3 overflow-hidden">
+            <div 
+              style={{ viewTransitionName: 'badge-hall-icon-morph' }}
+              className="h-24 w-24 sm:h-44 sm:w-44 bg-white/20 rounded-[2rem] sm:rounded-[3rem] flex items-center justify-center shadow-2xl border-2 sm:border-4 border-white/30 shrink-0 transform -rotate-3 overflow-hidden"
+            >
                <img src="/badges/badge_hall.webp?v=3" className="h-full w-full object-contain p-2 sm:p-4" alt="Badge Hall" />
             </div>
             
             <div className="text-left flex-1">
-              <div className="flex items-center gap-2 mb-2 sm:mb-4">
+              <div 
+                style={{ viewTransitionName: 'badge-hall-title-morph' }}
+                className="flex items-center gap-2 mb-2 sm:mb-4"
+              >
                 <span className="px-3 py-1 bg-yellow-400 text-red-700 text-[10px] sm:text-xs font-black rounded-full uppercase tracking-widest shadow-lg">Hero Hall</span>
                 <span className="text-yellow-200 font-black text-xs sm:text-base">{earnedCount} / {ALL_BADGES.length}</span>
               </div>
