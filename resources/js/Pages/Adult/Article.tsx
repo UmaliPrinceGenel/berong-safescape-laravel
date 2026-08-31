@@ -39,22 +39,22 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
             {/* Expanded Image Modal Lightbox */}
             {isImageExpanded && blog.imageUrl && (
                 <div 
-                    className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-sm flex items-center justify-center p-2 sm:p-6 cursor-zoom-out animate-in fade-in duration-200 overflow-y-auto"
+                    className="fixed inset-0 z-[99999] bg-black/95 backdrop-blur-md flex flex-col items-center justify-start sm:justify-center p-0 sm:p-6 cursor-zoom-out animate-in fade-in duration-200 overflow-y-auto"
                     onClick={() => setIsImageExpanded(false)}
                 >
                     <button 
-                        className="fixed top-4 right-4 sm:top-6 sm:right-6 text-white/80 hover:text-white hover:bg-white/20 bg-black/50 p-2.5 sm:p-3 rounded-full transition-all active:scale-95 border border-white/20 z-50 shadow-xl"
+                        className="fixed top-4 right-4 sm:top-6 sm:right-6 text-white hover:bg-white/20 bg-black/60 backdrop-blur-md p-3 rounded-full transition-all active:scale-95 border border-white/20 z-[100000] shadow-2xl"
                         onClick={(e) => { e.stopPropagation(); setIsImageExpanded(false); }}
                         title="Close"
                         aria-label="Close fullscreen preview"
                     >
-                        <X className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
+                        <X className="h-6 w-6" strokeWidth={2.5} />
                     </button>
-                    <div className="max-w-full max-h-[92vh] flex items-center justify-center p-1 my-auto">
+                    <div className="w-full max-w-full sm:max-w-4xl min-h-full flex items-center justify-center p-2 sm:p-4 my-auto">
                         <img 
                             src={blog.imageUrl} 
                             alt={blog.title} 
-                            className="max-w-full max-h-[90vh] w-auto h-auto object-contain rounded-xl sm:rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200 ring-2 sm:ring-4 ring-white/10"
+                            className="w-full sm:w-auto h-auto max-h-none sm:max-h-[92vh] object-contain rounded-lg sm:rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200 ring-1 sm:ring-4 ring-white/10"
                         />
                     </div>
                 </div>
@@ -130,24 +130,22 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
 
                     {/* Expandable Image Section */}
                     {blog.imageUrl && (
-                        <div className="px-4 sm:px-8 md:px-9">
+                        <div className="px-3 sm:px-8 md:px-9">
                             <div 
-                                className="w-full relative group cursor-zoom-in rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-700/80 bg-slate-100 dark:bg-slate-900/60 transition-all hover:border-orange-500/40 hover:shadow-lg active:scale-[0.995]"
+                                className="w-full relative group cursor-zoom-in rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200/90 dark:border-slate-700/90 bg-slate-50 dark:bg-slate-900 shadow-sm transition-all hover:border-orange-500/50 hover:shadow-lg active:scale-[0.995]"
                                 onClick={() => setIsImageExpanded(true)}
                             >
-                                <div className="w-full flex items-center justify-center p-2 sm:p-4">
-                                    <img 
-                                        src={blog.imageUrl} 
-                                        alt={blog.title} 
-                                        className="w-full h-auto max-h-[650px] sm:max-h-[800px] object-contain rounded-lg sm:rounded-xl shadow-sm transition-transform duration-300 group-hover:scale-[1.005]"
-                                    />
-                                </div>
+                                <img 
+                                    src={blog.imageUrl} 
+                                    alt={blog.title} 
+                                    className="w-full h-auto object-contain rounded-xl sm:rounded-2xl transition-transform duration-300 group-hover:scale-[1.005]"
+                                />
                                 
                                 {/* Expand Overlay Hint */}
-                                <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-20 transition-all duration-200">
-                                    <div className="bg-slate-900/85 hover:bg-slate-900 text-white font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg text-[11px] sm:text-xs border border-white/20 backdrop-blur-sm">
-                                        <Maximize2 className="h-3 w-3 text-orange-400" />
-                                        <span>Tap to expand</span>
+                                <div className="absolute bottom-2.5 right-2.5 sm:bottom-4 sm:right-4 z-20 transition-all duration-200 pointer-events-none">
+                                    <div className="bg-slate-950/85 text-white font-black px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-xl text-[10px] sm:text-xs border border-white/20 backdrop-blur-md">
+                                        <Maximize2 className="h-3 w-3 text-orange-400" strokeWidth={2.5} />
+                                        <span>Tap to expand full size</span>
                                     </div>
                                 </div>
                             </div>
