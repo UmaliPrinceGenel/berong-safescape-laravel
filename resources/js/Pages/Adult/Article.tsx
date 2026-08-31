@@ -153,7 +153,7 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                                     src={blog.imageUrl} 
                                     alt={blog.title} 
                                     className="w-full h-auto object-contain rounded-xl sm:rounded-2xl transition-transform duration-300 group-hover:scale-[1.005]"
-                                    style={{ viewTransitionName: 'article-image-morph' }}
+                                    style={{ viewTransitionName: isImageExpanded ? 'none' : 'article-image-morph' }}
                                 />
                                 
                                 {/* Expand Overlay Hint */}
