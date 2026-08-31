@@ -154,11 +154,9 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
         }
     }
 
-    // Initialize/Update Player with slight delay for silky smooth animation
+    // Initialize/Update Player
     useEffect(() => {
-        if (!selectedVideo || !isYTReady || !(window as any).YT || !(window as any).YT.Player) return
-
-        const timer = setTimeout(() => {
+        if (selectedVideo && isYTReady && (window as any).YT && (window as any).YT.Player) {
             if (ytPlayerRef.current) {
                 try {
                     ytPlayerRef.current.destroy()
@@ -177,7 +175,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                     width: '100%',
                     height: '100%',
                     playerVars: {
-                        autoplay: 1,
+                        autoplay: 0,
                         rel: 0,
                         modestbranding: 1,
                         enablejsapi: 1,
@@ -192,9 +190,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                     }
                 })
             }
-        }, 120)
-
-        return () => clearTimeout(timer)
+        }
     }, [selectedVideo, isYTReady])
 
     useEffect(() => {
@@ -295,7 +291,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
         setSelectedVideo(video)
         setTimeout(() => {
             playerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }, 280)
+        }, 150)
     }
 
     const handleScrollToManuals = (e: React.MouseEvent) => {
@@ -392,24 +388,47 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                         <motion.div
                             key="professional-video-player"
                             ref={playerRef}
-                            initial={{ opacity: 0, y: -20, scale: 0.98 }}
+                            initial={{ opacity: 0, height: 0, marginTop: 0, marginBottom: 0, scale: 0.96 }}
                             animate={{ 
                                 opacity: 1, 
-                                y: 0, 
+                                height: "auto", 
+                                marginTop: 32, 
+                                marginBottom: 40, 
                                 scale: 1,
-                                transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] }
+                                transition: {
+                                    height: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                                    marginTop: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                                    marginBottom: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                                    opacity: { duration: 0.3, delay: 0.05 },
+                                    scale: { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
+                                }
                             }}
                             exit={{ 
                                 opacity: 0, 
-                                y: -14, 
-                                scale: 0.98,
-                                transition: { duration: 0.2, ease: "easeIn" }
+                                height: 0, 
+                                marginTop: 0, 
+                                marginBottom: 0, 
+                                scale: 0.96,
+                                transition: {
+                                    height: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
+                                    marginTop: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
+                                    marginBottom: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
+                                    opacity: { duration: 0.2 },
+                                    scale: { duration: 0.35, ease: "easeIn" }
+                                }
                             }}
-                            className="max-w-5xl mx-auto my-8 scroll-mt-28 sm:scroll-mt-36"
+                            className="max-w-5xl mx-auto scroll-mt-36 sm:scroll-mt-44 overflow-hidden"
                         >
-                            <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-6 transition-all space-y-3.5 sm:space-y-4 ring-2 ring-red-500/20">
+                            <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-6 transition-all duration-300 space-y-3.5 sm:space-y-4 ring-2 ring-red-500/20">
                                 <div className="flex items-start justify-between gap-3">
-                                    <div className="min-w-0 flex-1">
+                                    <motion.div
+                                        key={selectedVideo.id || selectedVideo.youtubeId}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, y: -8 }}
+                                        transition={{ duration: 0.3, delay: 0.1 }}
+                                        className="min-w-0 flex-1"
+                                    >
                                         <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                                             <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-black bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-[10px] tracking-wider uppercase border border-red-200 dark:border-red-900/50 shadow-sm">
                                                 <span className="relative flex h-2 w-2 mr-1.5">
@@ -433,29 +452,39 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                 {selectedVideo.description}
                                             </p>
                                         )}
-                                    </div>
-                                    <button
+                                    </motion.div>
+                                    <motion.button
+                                        whileHover={{ scale: 1.12, rotate: 90 }}
+                                        whileTap={{ scale: 0.88 }}
                                         onClick={handleClosePlayer}
-                                        className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all shrink-0 cursor-pointer shadow-sm active:scale-90"
+                                        className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0 cursor-pointer shadow-sm active:scale-95"
                                         title="Close Player"
                                         aria-label="Close Player"
                                     >
                                         <X className="h-5 w-5" strokeWidth={2.5} />
-                                    </button>
+                                    </motion.button>
                                 </div>
 
-                                <div className="aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 relative group">
+                                <motion.div 
+                                    initial={{ opacity: 0, scale: 0.98 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.35, delay: 0.15 }}
+                                    className="aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 relative group"
+                                >
                                     <div id="youtube-player-container" className="w-full h-full">
                                         <div id="youtube-player" className="w-full h-full" />
                                     </div>
-                                </div>
+                                </motion.div>
                             </Card>
                         </motion.div>
                     )}
                 </AnimatePresence>
 
                 {/* Video Grid Section */}
-                <div 
+                <motion.div 
+                    layout 
+                    transition={{ duration: 0.48, ease: [0.25, 1, 0.5, 1] }} 
                     id="training-videos-section" 
                     className="space-y-6"
                 >
@@ -618,7 +647,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                             </motion.div>
                         )}
                     </Deferred>
-                </div>
+                </motion.div>
 
                 {/* Resources Section */}
                 <div 
