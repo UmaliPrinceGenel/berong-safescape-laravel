@@ -2,20 +2,13 @@
 
 import { useAuth } from "@/lib/auth-context"
 import { Link, router } from '@inertiajs/react'
-import { Flame, Trophy, Lock, Shield, Star, Zap, ChevronRight, BadgeCheck, Gamepad2, BookOpen, CircleHelp } from "lucide-react"
+import { Flame, Trophy, Lock, Shield, Star, Zap, ChevronRight, BadgeCheck, Gamepad2, BookOpen, CircleHelp, X } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
+import ReactDOM from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import confetti from 'canvas-confetti'
 import { playSound } from '@/lib/audio'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/Components/ui/dialog"
 
 interface KidsWelcomeBannerProps {
   completedModules: number[]
@@ -137,6 +130,17 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
   const [showRankGuide, setShowRankGuide] = useState(false)
   const [showPromotion, setShowPromotion] = useState(false)
   const [promotedRank, setPromotedRank] = useState<any>(null)
+  const currentRankRef = useRef<HTMLDivElement>(null)
+
+  // Auto-scroll to current rank when Hero Rank Guide modal opens
+  useEffect(() => {
+    if (showRankGuide) {
+      const timer = setTimeout(() => {
+        currentRankRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 150)
+      return () => clearTimeout(timer)
+    }
+  }, [showRankGuide])
 
   useEffect(() => {
     if (!user?.id) return
@@ -240,75 +244,30 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
               </h1>
               <div className="flex flex-wrap items-center justify-start sm:justify-center gap-1.5 sm:gap-2.5 text-yellow-50/90 font-black text-[13px] sm:text-xl tracking-tight">
                 <span className="flex items-center gap-1.5 sm:gap-2">
-                  You are a <span className="text-yellow-300 underline underline-offset-4 decoration-yellow-400/50">{currentRank.name}</span> <img src={currentRank.image} alt={currentRank.name} className="h-6 w-6 sm:h-8 sm:w-8 inline-block object-contain drop-shadow" />
+                  You are a{" "}
+                  <button
+                    onClick={() => {
+                      playSound('/sounds/tap.mp3', 'general');
+                      setShowRankGuide(true);
+                    }}
+                    className="text-yellow-300 underline underline-offset-4 decoration-yellow-400/50 hover:text-yellow-200 transition-colors cursor-pointer inline-flex items-center gap-1.5 font-black"
+                  >
+                    {currentRank.name}
+                    <img src={currentRank.image} alt={currentRank.name} className="h-6 w-6 sm:h-8 sm:w-8 inline-block object-contain drop-shadow" />
+                  </button>
                 </span>
                 
-
-                <Dialog open={showRankGuide} onOpenChange={setShowRankGuide}>
-                  <DialogTrigger asChild>
-                    <button 
-                      onClick={() => playSound('/sounds/tap.mp3', 'general')}
-                      className="ml-1 p-1 hover:bg-white/20 rounded-full transition-colors group"
-                    >
-                      <CircleHelp className="h-4 w-4 sm:h-5 sm:w-5 text-white/60 group-hover:text-white" />
-                    </button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-md bg-slate-50 dark:bg-slate-950 border-[4px] border-primary rounded-[2.5rem] p-0 overflow-hidden">
-                     <div className="bg-primary p-6 sm:p-8 text-center relative">
-                        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-                           <Star className="absolute top-4 left-4 h-12 w-12 text-white rotate-12" />
-                           <Trophy className="absolute bottom-4 right-4 h-12 w-12 text-white -rotate-12" />
-                        </div>
-                        <DialogHeader>
-                          <DialogTitle className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tighter mb-2">Hero Rank Guide</DialogTitle>
-                          <DialogDescription className="text-white/80 font-bold text-sm">
-                            Collect badges to level up your Hero Rank!
-                          </DialogDescription>
-                        </DialogHeader>
-                     </div>
-                     
-                     <div className="p-4 sm:p-6 space-y-3">
-                        {RANKS.map((rank, i) => {
-                          const isCurrent = currentRank.name === rank.name
-                          
-                          return (
-                            <div key={i} className={cn(
-                              "relative flex items-center gap-4 p-4 rounded-2xl border-2 transition-all",
-                              isCurrent ? "bg-white dark:bg-slate-900 border-primary shadow-lg scale-[1.02]" : "bg-white/50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800 opacity-70"
-                            )}>
-                               {isCurrent && (
-                                 <div className="absolute -top-2.5 -right-2 bg-primary text-white text-[9px] font-black px-2.5 py-1 rounded-full shadow-md border-2 border-white dark:border-slate-900 uppercase tracking-tight">
-                                    Current
-                                 </div>
-                               )}
-                               <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center shrink-0 border-2 overflow-hidden p-1 bg-white/80 dark:bg-slate-800/80 shadow-sm", rank.color.replace('text-', 'border-'))}>
-                                  <img src={rank.image} alt={rank.name} className="h-full w-full object-contain drop-shadow-sm" />
-                               </div>
-                               <div className="flex-1">
-                                   <div className="flex items-center justify-between">
-                                      <h4 className={cn("font-black text-sm uppercase tracking-tight", rank.color.replace('-400', '-600'), "dark:" + rank.color)}>{rank.name}</h4>
-                                      <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase">{rank.count}+ Badges</span>
-                                   </div>
-                                   <p className="text-[10px] sm:text-xs font-bold text-slate-700 dark:text-slate-400 leading-tight mt-0.5">{rank.desc}</p>
-                               </div>
-                            </div>
-                          )
-                        })}
-                     </div>
-
-                     <div className="p-6 pt-0">
-                        <button 
-                          onClick={() => {
-                            playSound('/sounds/click.mp3', 'general');
-                            setShowRankGuide(false);
-                          }}
-                          className="w-full bg-primary hover:bg-primary/90 text-white font-black py-4 rounded-2xl border-b-[6px] border-red-800 active:border-b-0 active:translate-y-[6px] transition-all uppercase tracking-widest text-sm"
-                        >
-                          Got it, Hero!
-                        </button>
-                     </div>
-                  </DialogContent>
-                </Dialog>
+                <button 
+                  onClick={() => {
+                    playSound('/sounds/tap.mp3', 'general');
+                    setShowRankGuide(true);
+                  }}
+                  className="ml-1 p-1 hover:bg-white/20 rounded-full transition-colors group cursor-pointer"
+                  title="View Hero Rank Guide"
+                  aria-label="View Hero Rank Guide"
+                >
+                  <CircleHelp className="h-4 w-4 sm:h-5 sm:w-5 text-white/60 group-hover:text-white transition-colors" />
+                </button>
               </div>
             </div>
           </div>
@@ -333,10 +292,16 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
                    <span className="text-[10px] font-black text-yellow-300/80 uppercase tracking-widest block mb-1">HERO IDENTITY</span>
                    <h3 className="text-2xl sm:text-3xl font-black text-white leading-none mb-3 truncate">Hero {firstName}</h3>
                     <div className="flex flex-wrap gap-2 items-center">
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-400 border border-yellow-300/80 rounded-full text-red-800 font-black text-xs uppercase shadow-sm">
-                         <img src={currentRank.image} alt={currentRank.name} className="h-3.5 w-3.5 object-contain inline-block" />
-                         <span>Level {Math.floor(badgesFound / 2) + 1}</span>
-                      </div>
+                       <div 
+                         onClick={() => {
+                           playSound('/sounds/tap.mp3', 'general');
+                           setShowRankGuide(true);
+                         }}
+                         className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-400 hover:bg-yellow-300 border border-yellow-300/80 rounded-full text-red-800 font-black text-xs uppercase shadow-sm cursor-pointer transition-all hover:scale-105 active:scale-95"
+                       >
+                          <img src={currentRank.image} alt={currentRank.name} className="h-3.5 w-3.5 object-contain inline-block" />
+                          <span>Level {Math.floor(badgesFound / 2) + 1}</span>
+                       </div>
                       <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/95 dark:bg-slate-900 border border-orange-200 dark:border-slate-700 rounded-full text-orange-600 dark:text-orange-400 font-black text-xs uppercase shadow-sm">
                          <span>🔥</span>
                          <span>{streak} Day Streak</span>
@@ -515,7 +480,125 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      {/* Hero Rank Guide Animated Morph Portal Modal */}
+      {typeof window !== 'undefined' && ReactDOM.createPortal(
+        <AnimatePresence>
+          {showRankGuide && (
+            <div className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-x-hidden overflow-y-auto">
+              {/* Backdrop with smooth fade */}
+              <motion.div
+                key="hero-rank-guide-backdrop"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="fixed inset-0 bg-black/65 backdrop-blur-sm"
+                onClick={() => setShowRankGuide(false)}
+              />
+
+              {/* Modal with spring morph & spacious, highly readable layout matching Professional Rank Guide */}
+              <motion.div
+                key="hero-rank-guide-modal"
+                initial={{ opacity: 0, scale: 0.85, y: 24 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.88, y: 16 }}
+                transition={{ type: "spring", damping: 28, stiffness: 360, mass: 0.8 }}
+                className="relative w-full max-w-[94vw] xs:max-w-md sm:max-w-lg md:max-w-xl max-h-[88vh] sm:max-h-[90vh] bg-white dark:bg-slate-950 border-[3px] sm:border-[4px] border-primary rounded-[1.75rem] sm:rounded-[2.5rem] overflow-hidden shadow-2xl flex flex-col my-auto z-10"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Header */}
+                <div className="bg-primary p-4 xs:p-5 sm:p-7 text-center relative shrink-0">
+                  <button
+                    onClick={() => setShowRankGuide(false)}
+                    className="absolute top-3 right-3 sm:top-4 sm:right-4 h-7 w-7 sm:h-9 sm:w-9 rounded-full bg-black/20 hover:bg-black/35 active:scale-90 text-white flex items-center justify-center transition-all cursor-pointer"
+                    aria-label="Close"
+                  >
+                    <X className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5} />
+                  </button>
+                  <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none overflow-hidden">
+                    <Star className="absolute top-2 left-2 sm:top-4 sm:left-4 h-8 w-8 sm:h-14 sm:w-14 text-white rotate-12" />
+                    <Trophy className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 h-8 w-8 sm:h-14 sm:w-14 text-white -rotate-12" />
+                  </div>
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white uppercase tracking-tighter mb-1 text-center">
+                    Hero Rank Guide
+                  </h3>
+                  <p className="text-white/90 font-bold text-xs sm:text-sm text-center">
+                    Collect badges to level up your Hero Rank!
+                  </p>
+                </div>
+
+                {/* Rank list with transition highlight on current rank */}
+                <div className="p-3 xs:p-4 sm:p-5 space-y-3 sm:space-y-3.5 bg-slate-50 dark:bg-slate-950 overflow-y-auto max-h-[56vh] sm:max-h-[60vh]">
+                  {RANKS.map((rank, i) => {
+                    const isCurrent = currentRank.name === rank.name
+
+                    return (
+                      <motion.div 
+                        key={i}
+                        ref={isCurrent ? currentRankRef : null}
+                        initial={{ opacity: 0, y: isCurrent ? 8 : 14, scale: isCurrent ? 0.95 : 0.98 }}
+                        animate={{ 
+                          opacity: 1, 
+                          y: 0, 
+                          scale: isCurrent ? 1.02 : 1,
+                          transition: { 
+                            delay: isCurrent ? 0.1 : 0.04 * i,
+                            type: "spring",
+                            stiffness: 380,
+                            damping: 24
+                          }
+                        }}
+                        className={cn(
+                          "relative flex items-center gap-3 sm:gap-4 p-3 xs:p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all",
+                          isCurrent 
+                            ? "bg-white dark:bg-slate-900 border-primary shadow-md ring-2 ring-primary/25" 
+                            : "bg-white/85 dark:bg-slate-900/85 border-slate-200 dark:border-slate-800/85 opacity-90 dark:opacity-75"
+                        )}
+                      >
+                        {isCurrent && (
+                          <motion.div 
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.22, type: "spring", bounce: 0.55 }}
+                            className="absolute -top-2.5 -right-1.5 sm:-top-3 sm:-right-2 bg-primary text-white text-[8.5px] sm:text-[9.5px] font-black px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full shadow-md border-2 border-white dark:border-slate-950 uppercase tracking-tight flex items-center gap-1"
+                          >
+                            <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                            Current Rank
+                          </motion.div>
+                        )}
+                        <div className={cn("h-10 w-10 sm:h-13 sm:w-13 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 border-2 overflow-hidden p-1 bg-white/80 dark:bg-slate-800/80 shadow-xs", rank.color.replace('text-', 'border-'))}>
+                          <img src={rank.image} alt={rank.name} className="h-full w-full object-contain drop-shadow-xs" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-1.5 mb-0.5">
+                            <h4 className={cn("font-black text-xs sm:text-base uppercase tracking-tight truncate", rank.color.replace('-400', '-600'), "dark:" + rank.color)}>{rank.name}</h4>
+                            <span className="text-[9.5px] sm:text-xs font-black text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/80 px-2 py-0.5 rounded-md uppercase shrink-0 border border-slate-200/60 dark:border-slate-700/60">{rank.count}+ Badges</span>
+                          </div>
+                          <p className="text-[11px] xs:text-xs sm:text-[13px] font-medium text-slate-600 dark:text-slate-300 leading-relaxed">{rank.desc}</p>
+                        </div>
+                      </motion.div>
+                    )
+                  })}
+                </div>
+
+                {/* Footer Button */}
+                <div className="p-3 xs:p-4 sm:p-5 pt-1.5 sm:pt-2 bg-slate-50 dark:bg-slate-950 shrink-0">
+                  <button
+                    onClick={() => {
+                      playSound('/sounds/click.mp3', 'general');
+                      setShowRankGuide(false);
+                    }}
+                    className="w-full bg-primary hover:bg-primary/90 active:scale-[0.99] text-white font-black py-3 sm:py-4 rounded-xl sm:rounded-2xl border-b-[4px] sm:border-b-[6px] border-red-800 active:border-b-0 active:translate-y-[4px] sm:active:translate-y-[6px] transition-all uppercase tracking-widest text-xs sm:text-sm shadow-md cursor-pointer"
+                  >
+                    Got it, Hero!
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   )
 }
