@@ -127,7 +127,7 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                 {/* Desktop absolute-positioned Back to Articles button (Upper Leftmost corner) */}
                 <div className="hidden lg:block lg:absolute lg:top-1.5 lg:left-4 xl:left-6 z-20">
                     <Link 
-                        href="/adult" 
+                        href="/adult#articles-section" 
                         className="group inline-flex items-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 bg-white dark:bg-slate-800 rounded-full text-slate-700 dark:text-slate-200 font-bold hover:text-slate-900 dark:hover:text-white border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-slate-900 active:border-b-2 active:translate-y-[2px] shadow-sm transition-all text-xs sm:text-sm"
                     >
                         <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform duration-300" strokeWidth={3} />
@@ -138,7 +138,7 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                 {/* Navigation Bar - Mobile/Tablet only to avoid overlaps */}
                 <div className="mb-4 sm:mb-6 flex lg:hidden">
                     <Link 
-                        href="/adult" 
+                        href="/adult#articles-section" 
                         className="group inline-flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-5 sm:py-2.5 bg-white dark:bg-slate-800 rounded-full text-slate-700 dark:text-slate-200 font-bold hover:text-slate-900 dark:hover:text-white border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-slate-900 active:border-b-2 active:translate-y-[2px] shadow-sm transition-all text-xs sm:text-sm"
                     >
                         <ArrowLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4 group-hover:-translate-x-1 transition-transform duration-300" strokeWidth={3} />

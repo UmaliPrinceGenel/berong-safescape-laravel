@@ -83,6 +83,19 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
     const blogs = initialBlogs || []
     const videos = initialVideos || []
 
+    // Smooth scroll to articles section if returning via #articles-section
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.location.hash === '#articles-section') {
+            const timer = setTimeout(() => {
+                const el = document.getElementById('articles-section')
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+            }, 60)
+            return () => clearTimeout(timer)
+        }
+    }, [])
+
     // Load YouTube API
     useEffect(() => {
         if ((window as any).YT && (window as any).YT.Player) {
@@ -271,7 +284,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                     </div>
 
                 {/* Blog Grid */}
-                <div id="articles-section">
+                <div id="articles-section" className="scroll-mt-24 sm:scroll-mt-32">
                     <h2 className="text-2xl sm:text-3xl font-black mb-4 sm:mb-6 text-slate-800 dark:text-white tracking-tight">Fire Safety Articles</h2>
 
                     {/* Search Bar */}
