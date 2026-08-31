@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
+import ReactDOM from "react-dom"
 import { Head, Link } from '@inertiajs/react'
 import DashboardLayout from "@/Layouts/DashboardLayout"
 import { ArrowLeft, User, Calendar, Maximize2, X, Flame } from "lucide-react"
@@ -36,26 +37,29 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
         <div className="min-h-screen selection:bg-red-500 selection:text-white pb-24 relative">
             <Head title={`${blog.title} - SafeScape`} />
             
-            {/* Expanded Image Modal Lightbox */}
-            {isImageExpanded && blog.imageUrl && (
+            {/* Expanded Image Modal Lightbox - rendered via portal to bypass any parent CSS transforms */}
+            {isImageExpanded && blog.imageUrl && ReactDOM.createPortal(
                 <div 
-                    style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 999999, background: 'rgba(0,0,0,0.97)', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch' }}
+                    style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 2147483647, background: 'rgba(0,0,0,0.97)', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch' }}
                     onClick={() => setIsImageExpanded(false)}
                 >
                     <button 
-                        style={{ position: 'fixed', top: 16, right: 16, zIndex: 1000000, background: 'rgba(0,0,0,0.7)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '50%', padding: 12, color: 'white', cursor: 'pointer', backdropFilter: 'blur(8px)' }}
+                        style={{ position: 'fixed', top: 16, right: 16, zIndex: 2147483647, background: 'rgba(0,0,0,0.8)', border: '2px solid rgba(255,255,255,0.4)', borderRadius: '50%', padding: 12, color: 'white', cursor: 'pointer', backdropFilter: 'blur(8px)', lineHeight: 0 }}
                         onClick={(e) => { e.stopPropagation(); setIsImageExpanded(false); }}
                         aria-label="Close fullscreen preview"
                     >
                         <X className="h-6 w-6" strokeWidth={2.5} />
                     </button>
-                    <img 
-                        src={blog.imageUrl} 
-                        alt={blog.title} 
-                        onClick={(e) => e.stopPropagation()}
-                        style={{ display: 'block', width: '100%', height: 'auto' }}
-                    />
-                </div>
+                    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <img 
+                            src={blog.imageUrl} 
+                            alt={blog.title} 
+                            onClick={(e) => e.stopPropagation()}
+                            style={{ display: 'block', width: '100%', height: 'auto' }}
+                        />
+                    </div>
+                </div>,
+                document.body
             )}
 
             {/* Exact same background scaling string as RootLayout.tsx for perfect consistency, but at full opacity */}
