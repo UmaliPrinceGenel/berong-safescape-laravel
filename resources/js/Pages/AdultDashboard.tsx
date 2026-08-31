@@ -382,16 +382,36 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                         <motion.div
                             key="adult-video-player"
                             ref={playerRef}
-                            initial={{ opacity: 0, height: 0, y: -24, scale: 0.97 }}
-                            animate={{ opacity: 1, height: "auto", y: 0, scale: 1 }}
-                            exit={{ opacity: 0, height: 0, y: -20, scale: 0.97 }}
-                            transition={{
-                                duration: 0.45,
-                                ease: [0.16, 1, 0.3, 1],
-                                opacity: { duration: 0.3 },
-                                scale: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
+                            initial={{ opacity: 0, height: 0, marginTop: 0, marginBottom: 0, scale: 0.96 }}
+                            animate={{ 
+                                opacity: 1, 
+                                height: "auto", 
+                                marginTop: 32, 
+                                marginBottom: 40, 
+                                scale: 1,
+                                transition: {
+                                    height: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                                    marginTop: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                                    marginBottom: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                                    opacity: { duration: 0.3, delay: 0.05 },
+                                    scale: { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
+                                }
                             }}
-                            className="max-w-5xl mx-auto mt-8 sm:mt-12 mb-8 sm:mb-12 scroll-mt-36 sm:scroll-mt-44 pt-2 overflow-hidden"
+                            exit={{ 
+                                opacity: 0, 
+                                height: 0, 
+                                marginTop: 0, 
+                                marginBottom: 0, 
+                                scale: 0.96,
+                                transition: {
+                                    height: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
+                                    marginTop: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
+                                    marginBottom: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
+                                    opacity: { duration: 0.2 },
+                                    scale: { duration: 0.35, ease: "easeIn" }
+                                }
+                            }}
+                            className="max-w-5xl mx-auto scroll-mt-36 sm:scroll-mt-44 overflow-hidden"
                         >
                             <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-6 transition-all duration-300 space-y-3.5 sm:space-y-4 ring-2 ring-orange-500/20">
                                 <div className="flex items-start justify-between gap-3">
@@ -399,6 +419,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                         key={selectedVideo.id || selectedVideo.youtubeId}
                                         initial={{ opacity: 0, x: -10 }}
                                         animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, y: -8 }}
                                         transition={{ duration: 0.3, delay: 0.1 }}
                                         className="min-w-0 flex-1"
                                     >
@@ -441,6 +462,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                 <motion.div 
                                     initial={{ opacity: 0, scale: 0.98 }}
                                     animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0 }}
                                     transition={{ duration: 0.35, delay: 0.15 }}
                                     className="aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 relative group"
                                 >
@@ -454,7 +476,12 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                 </AnimatePresence>
 
                 {/* Videos Section */}
-                <div id="videos-section" className="mt-16 sm:mt-24">
+                <motion.div 
+                    layout 
+                    transition={{ duration: 0.48, ease: [0.25, 1, 0.5, 1] }} 
+                    id="videos-section" 
+                    className="mt-16 sm:mt-24"
+                >
                     <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-8">
                         <div>
                             <h2 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight">Fire Safety Videos</h2>
@@ -549,7 +576,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                             </motion.div>
                         )}
                     </Deferred>
-                </div>
+                </motion.div>
             </div>
         </main>
         </>
