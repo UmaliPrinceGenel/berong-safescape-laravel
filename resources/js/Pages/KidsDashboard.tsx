@@ -42,6 +42,44 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // Track and restore scroll position so navigating back to dashboard preserves scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        sessionStorage.setItem('safescape_kids_dashboard_scroll', window.scrollY.toString())
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    const savedScroll = sessionStorage.getItem('safescape_kids_dashboard_scroll')
+    if (savedScroll) {
+      const scrollY = parseInt(savedScroll, 10)
+      if (!isNaN(scrollY) && scrollY > 0) {
+        const restore = () => {
+          window.scrollTo({ top: scrollY, behavior: 'instant' as ScrollBehavior })
+        }
+        restore()
+        requestAnimationFrame(restore)
+        const t1 = setTimeout(restore, 50)
+        const t2 = setTimeout(restore, 150)
+        const t3 = setTimeout(restore, 350)
+        const t4 = setTimeout(restore, 700)
+        return () => {
+          window.removeEventListener('scroll', handleScroll)
+          clearTimeout(t1)
+          clearTimeout(t2)
+          clearTimeout(t3)
+          clearTimeout(t4)
+        }
+      }
+    }
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [progress])
+
   useEffect(() => {
     // Show tutorial only for Kids, on their first visit, when they haven't completed any modules yet
     if (user && (!progress?.completedModules || progress.completedModules.length === 0)) {
@@ -209,6 +247,10 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
     }
 
     playSound('/sounds/tap.mp3', 'general')
+
+    if (window.scrollY > 0) {
+      sessionStorage.setItem('safescape_kids_dashboard_scroll', window.scrollY.toString())
+    }
 
     if (content.href !== "#") {
       if (content.href.startsWith("http")) {

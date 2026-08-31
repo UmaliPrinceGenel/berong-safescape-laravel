@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Head, Link } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import { ArrowLeft, Maximize, RotateCcw } from "lucide-react"
 import axios from "axios"
 import { useAuth } from "@/lib/auth-context"
@@ -57,10 +57,10 @@ export default function RightCall() {
               if (window.history.length > 1) {
                 window.history.back();
               } else {
-                window.location.href = isProfessional ? "/professional" : "/kids/challenges";
+                router.visit(isProfessional ? "/professional" : "/kids");
               }
             }}
-            className="bg-black/50 hover:bg-black/80 text-white p-3 rounded-full transition-all border border-white/20 shadow-xl flex items-center gap-2 group"
+            className="bg-black/50 hover:bg-black/80 text-white p-3 rounded-full transition-all border border-white/20 shadow-xl flex items-center gap-2 group cursor-pointer"
           >
             <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
             <span className="font-bold hidden sm:inline">Exit Game</span>

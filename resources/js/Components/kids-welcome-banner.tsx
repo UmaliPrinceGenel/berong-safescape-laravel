@@ -24,6 +24,9 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
 
   const handleOpenHallClick = (e: React.MouseEvent, href: string = '/kids/badges') => {
     playSound('/sounds/click.mp3', 'general')
+    if (window.scrollY > 0) {
+      sessionStorage.setItem('safescape_kids_dashboard_scroll', window.scrollY.toString())
+    }
     if (!document.startViewTransition) {
       router.visit(href)
       return

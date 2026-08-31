@@ -179,6 +179,39 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
     }
     localStorage.setItem(key, currentCompleted.toString())
   }, [modules, user?.id])
+
+  // Track and restore scroll position on CourseHub
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        sessionStorage.setItem('safescape_course_hub_scroll', window.scrollY.toString())
+      }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    const savedScroll = sessionStorage.getItem('safescape_course_hub_scroll')
+    if (savedScroll) {
+      const scrollY = parseInt(savedScroll, 10)
+      if (!isNaN(scrollY) && scrollY > 0) {
+        const restore = () => {
+          window.scrollTo({ top: scrollY, behavior: 'instant' as ScrollBehavior })
+        }
+        restore()
+        requestAnimationFrame(restore)
+        const t1 = setTimeout(restore, 50)
+        const t2 = setTimeout(restore, 150)
+        const t3 = setTimeout(restore, 350)
+        return () => {
+          window.removeEventListener('scroll', handleScroll)
+          clearTimeout(t1)
+          clearTimeout(t2)
+          clearTimeout(t3)
+        }
+      }
+    }
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [modules])
   
   const completedCount = useMemo(() => modules.filter(m => m.isCompleted).length, [modules])
   const overallProgress = useMemo(() => {

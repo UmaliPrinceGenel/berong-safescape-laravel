@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { ContentGrid } from "@/Components/content-grid"
 import type { ContentCardData } from "@/Components/content-card"
 import DashboardLayout from "@/Layouts/DashboardLayout"
@@ -27,120 +27,128 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-  const [challenges, setChallenges] = useState<ContentCardData[]>([])
-  const [isLoadingContent, setIsLoadingContent] = useState(true)
 
+  const earnedBadgeIds = useMemo(() => {
+    return progress?.earnedBadges?.map(b => b.badge_id) || []
+  }, [progress?.earnedBadges])
+
+  const challenges: ContentCardData[] = useMemo(() => [
+    {
+      id: "activity-1",
+      title: "Fire Safety Quiz",
+      description: "Test your knowledge with fun questions and earn your Quiz Hero badge!",
+      type: "activity",
+      imageUrl: "/fire_safety_quiz.webp",
+      href: "/kids/quiz",
+      difficulty: "medium",
+      category: "activities",
+      isCompleted: earnedBadgeIds.includes('quiz_hero'),
+      badgeImageUrl: "/badges/quiz_hall.webp?v=2",
+      badgeName: "Quiz Hero",
+      badgeHint: "Score 100% on any Fire Safety Quiz."
+    },
+    {
+      id: "activity-2",
+      title: "Memory Game",
+      description: "Match fire safety symbols and tools to sharpen your hero senses!",
+      type: "activity",
+      imageUrl: "/memory_game.webp",
+      href: "/kids/memory-game",
+      difficulty: "easy",
+      category: "activities",
+      isCompleted: earnedBadgeIds.includes('memory_master'),
+      badgeImageUrl: "/badges/memory_hall.webp?v=2",
+      badgeName: "Memory Master",
+      badgeHint: "Finish the Memory Match game with zero mistakes."
+    },
+    {
+      id: "activity-3",
+      title: "The Smoke Crawl",
+      description: "Stay low and find your way out of the smoke-filled maze!",
+      type: "activity",
+      imageUrl: "/smoke_crawl.webp",
+      href: "/kids/smoke-crawl",
+      difficulty: "hard",
+      category: "activities",
+      isCompleted: earnedBadgeIds.includes('smoke_scout'),
+      badgeImageUrl: "/badges/smoke_hall.webp?v=2",
+      badgeName: "Smoke Scout",
+      badgeHint: "Stay low and find your way out of the smoke-filled maze!"
+    },
+    {
+      id: "activity-7",
+      title: "Hot or Not?",
+      description: "Can you spot the difference between safe toys and dangerous tools?",
+      type: "activity",
+      imageUrl: "/hotornot.webp",
+      href: "/kids/hot-or-not",
+      difficulty: "easy",
+      category: "activities",
+      isCompleted: earnedBadgeIds.includes('safety_scout'),
+      badgeImageUrl: "/badges/safety_hall.webp?v=2",
+      badgeName: "Safety Scout",
+      badgeHint: "Correcty identify all hazards in the Hazard House."
+    },
+    {
+      id: "activity-8",
+      title: "Hazard Blitz",
+      description: "Fast-paced action! Neutralize falling hazards before they hit the floor. Watch out for safety gear!",
+      type: "activity",
+      imageUrl: "/hazard_blitz.webp",
+      href: "/kids/hazard-blitz",
+      difficulty: "medium",
+      category: "activities",
+      isCompleted: earnedBadgeIds.includes('hazard_hero'),
+      badgeImageUrl: "/badges/hazard_hall.webp?v=2",
+      badgeName: "Hazard Hero",
+      badgeHint: "Neutralize hazards and reach 500 points in Hazard Blitz."
+    },
+    {
+      id: "activity-9",
+      title: "3D Hazard Hunt",
+      description: "Explore a 3D room, identify dangerous fire hazards, and clear the area before time runs out!",
+      type: "activity",
+      imageUrl: "/hazard_hunt_pr.webp",
+      href: "/game",
+      difficulty: "medium",
+      category: "activities",
+      isCompleted: false,
+      badgeLabel: "Early Access"
+    }
+  ], [earnedBadgeIds])
+
+  // Track and restore scroll position on Challenges page
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoadingContent(true)
-        // Artificial delay to show off the cool skeleton loading
-        await new Promise(resolve => setTimeout(resolve, 1000))
-
-        const earnedBadgeIds = progress?.earnedBadges?.map(b => b.badge_id) || []
-
-        const content: ContentCardData[] = [
-          {
-            id: "activity-1",
-            title: "Fire Safety Quiz",
-            description: "Test your knowledge with fun questions and earn your Quiz Hero badge!",
-            type: "activity",
-            imageUrl: "/fire_safety_quiz.webp",
-            href: "/kids/quiz",
-            difficulty: "medium",
-            category: "activities",
-            isCompleted: earnedBadgeIds.includes('quiz_hero'),
-            badgeImageUrl: "/badges/quiz_hall.webp?v=2",
-            badgeName: "Quiz Hero",
-            badgeHint: "Score 100% on any Fire Safety Quiz."
-          },
-            {
-              id: "activity-2",
-              title: "Memory Game",
-              description: "Match fire safety symbols and tools to sharpen your hero senses!",
-              type: "activity",
-              imageUrl: "/memory_game.webp",
-              href: "/kids/memory-game",
-              difficulty: "easy",
-              category: "activities",
-              isCompleted: earnedBadgeIds.includes('memory_master'),
-              badgeImageUrl: "/badges/memory_hall.webp?v=2",
-              badgeName: "Memory Master",
-              badgeHint: "Finish the Memory Match game with zero mistakes."
-            },
-            {
-              id: "activity-3",
-              title: "The Smoke Crawl",
-              description: "Stay low and find your way out of the smoke-filled maze!",
-              type: "activity",
-              imageUrl: "/smoke_crawl.webp",
-              href: "/kids/smoke-crawl",
-              difficulty: "hard",
-              category: "activities",
-              isCompleted: earnedBadgeIds.includes('smoke_scout'),
-              badgeImageUrl: "/badges/smoke_hall.webp?v=2",
-              badgeName: "Smoke Scout",
-              badgeHint: "Stay low and find your way out of the smoke-filled maze!"
-            },
-            {
-              id: "activity-7",
-              title: "Hot or Not?",
-              description: "Can you spot the difference between safe toys and dangerous tools?",
-              type: "activity",
-              imageUrl: "/hotornot.webp",
-              href: "/kids/hot-or-not",
-              difficulty: "easy",
-              category: "activities",
-              isCompleted: earnedBadgeIds.includes('safety_scout'),
-              badgeImageUrl: "/badges/safety_hall.webp?v=2",
-              badgeName: "Safety Scout",
-              badgeHint: "Correcty identify all hazards in the Hazard House."
-            },
-            {
-              id: "activity-8",
-              title: "Hazard Blitz",
-              description: "Fast-paced action! Neutralize falling hazards before they hit the floor. Watch out for safety gear!",
-              type: "activity",
-              imageUrl: "/hazard_blitz.webp",
-              href: "/kids/hazard-blitz",
-              difficulty: "medium",
-              category: "activities",
-              isCompleted: earnedBadgeIds.includes('hazard_hero'),
-              badgeImageUrl: "/badges/hazard_hall.webp?v=2",
-              badgeName: "Hazard Hero",
-              badgeHint: "Neutralize hazards and reach 500 points in Hazard Blitz."
-            },
-            {
-              id: "activity-9",
-              title: "3D Hazard Hunt",
-              description: "Explore a 3D room, identify dangerous fire hazards, and clear the area before time runs out!",
-              type: "activity",
-              imageUrl: "/hazard_hunt_pr.webp",
-              href: "/game",
-              difficulty: "medium",
-              category: "activities",
-              isCompleted: false,
-              badgeLabel: "Early Access"
-            }
-          ]
-
-        // Preload images to prevent "popping"
-        content.forEach(item => {
-          if (item.imageUrl) {
-            const img = new Image()
-            img.src = item.imageUrl
-          }
-        })
-
-        setChallenges(content)
-      } catch (err) {
-        console.error("Failed to fetch challenges:", err)
-      } finally {
-        setIsLoadingContent(false)
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        sessionStorage.setItem('safescape_challenges_scroll', window.scrollY.toString())
       }
     }
-    fetchData()
-  }, [progress])
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    const savedScroll = sessionStorage.getItem('safescape_challenges_scroll')
+    if (savedScroll) {
+      const scrollY = parseInt(savedScroll, 10)
+      if (!isNaN(scrollY) && scrollY > 0) {
+        const restore = () => {
+          window.scrollTo({ top: scrollY, behavior: 'instant' as ScrollBehavior })
+        }
+        restore()
+        requestAnimationFrame(restore)
+        const t1 = setTimeout(restore, 50)
+        const t2 = setTimeout(restore, 150)
+        const t3 = setTimeout(restore, 350)
+        return () => {
+          window.removeEventListener('scroll', handleScroll)
+          clearTimeout(t1)
+          clearTimeout(t2)
+          clearTimeout(t3)
+        }
+      }
+    }
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <div className="-mt-[104px] sm:-mt-[120px] pt-[88px] sm:pt-[120px] min-h-[calc(100vh+104px)] sm:min-h-[calc(100vh+120px)] relative bg-slate-50 dark:bg-slate-950 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] transition-colors duration-500 font-sans flex flex-col">
@@ -204,8 +212,6 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
             <ContentGrid
               contents={challenges}
               variant="grid"
-              isLoading={isLoadingContent}
-              skeletonCount={6}
               emptyMessage="More challenges coming soon! 🎉"
             />
           </div>
