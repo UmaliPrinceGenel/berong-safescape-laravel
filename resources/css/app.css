@@ -567,4 +567,11 @@ html.lightbox-open [id*="feedback-widget"] {
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Lightbox backdrop transition */
+::view-transition-old(lightbox-backdrop),
+::view-transition-new(lightbox-backdrop) {
+  animation-duration: 0.22s;
+  animation-timing-function: ease-out;
+}
+
 

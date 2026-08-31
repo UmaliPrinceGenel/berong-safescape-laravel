@@ -57,9 +57,55 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
     const { user } = useAuth()
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedVideo, setSelectedVideo] = useState<any>(null)
-    const [activeMorphId, setActiveMorphId] = useState<string | number | null>(null)
+    const getInitialMorphId = () => {
+        if (typeof window === 'undefined') return null;
+        try {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('morphId') || sessionStorage.getItem('morph_article_id');
+        } catch (e) {
+            return null;
+        }
+    };
+
+    const [activeMorphId, setActiveMorphId] = useState<string | number | null>(getInitialMorphId);
+
+    // Scroll restoration & reverse morph cleanup
+    useEffect(() => {
+        if (activeMorphId) {
+            try {
+                const savedScrollY = sessionStorage.getItem('adult_scroll_y');
+                if (savedScrollY !== null) {
+                    window.scrollTo({ top: parseFloat(savedScrollY), behavior: 'instant' as any });
+                } else {
+                    const el = document.getElementById(`article-card-${activeMorphId}`);
+                    if (el) {
+                        el.scrollIntoView({ block: 'center', behavior: 'instant' as any });
+                    }
+                }
+            } catch (err) {}
+
+            const timer = setTimeout(() => {
+                setActiveMorphId(null);
+                try {
+                    sessionStorage.removeItem('morph_article_id');
+                    sessionStorage.removeItem('adult_scroll_y');
+                    if (window.location.search.includes('morphId')) {
+                        const url = new URL(window.location.href);
+                        url.searchParams.delete('morphId');
+                        window.history.replaceState({}, '', url.pathname + (url.search ? url.search : ''));
+                    }
+                } catch (e) {}
+            }, 600);
+            return () => clearTimeout(timer);
+        }
+    }, []);
 
     const handleArticleClick = (e: React.MouseEvent, blogId: string | number, href: string) => {
+        try {
+            sessionStorage.setItem('adult_scroll_y', String(window.scrollY));
+            sessionStorage.setItem('morph_article_id', String(blogId));
+        } catch (err) {}
+
         if (!document.startViewTransition) {
             return;
         }
@@ -324,6 +370,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                 {filteredBlogs.map((blog) => (
                                     <Link 
                                         key={blog.id} 
+                                        id={`article-card-${blog.id}`}
                                         href={`/adult/blog/${blog.id}`} 
                                         onClick={(e) => handleArticleClick(e, blog.id, `/adult/blog/${blog.id}`)}
                                         className="outline-none block w-full group h-full"

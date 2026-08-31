@@ -24,27 +24,55 @@ interface BlogArticleProps {
 
 const BlogArticleClient = ({ blog }: BlogArticleProps) => {
     const [isImageExpanded, setIsImageExpanded] = useState(false);
+    const [isLightboxToggling, setIsLightboxToggling] = useState(false);
 
     const toggleImageExpand = (expand: boolean) => {
+        if (expand) {
+            document.documentElement.classList.add('lightbox-open');
+        } else {
+            document.documentElement.classList.remove('lightbox-open');
+        }
+
         if (!document.startViewTransition) {
             setIsImageExpanded(expand);
             return;
         }
-        document.startViewTransition(() => {
+
+        // Remove card/title view transition names immediately so only the image morphs
+        flushSync(() => {
+            setIsLightboxToggling(true);
+        });
+
+        const transition = document.startViewTransition(() => {
             flushSync(() => {
                 setIsImageExpanded(expand);
             });
         });
+
+        if (transition && transition.finished) {
+            transition.finished.finally(() => {
+                setIsLightboxToggling(false);
+            });
+        } else {
+            setTimeout(() => setIsLightboxToggling(false), 450);
+        }
     };
 
     const handleBackClick = (e: React.MouseEvent) => {
+        try {
+            sessionStorage.setItem('morph_article_id', String(blog.id));
+        } catch (err) {}
+
         if (!document.startViewTransition) {
+            router.visit('/adult', { preserveScroll: true });
             return;
         }
+
         e.preventDefault();
         document.startViewTransition(() => {
             return new Promise<void>((resolve) => {
-                router.visit('/adult', {
+                router.visit(`/adult?morphId=${blog.id}`, {
+                    preserveScroll: true,
                     onFinish: () => resolve(),
                 });
             });
@@ -66,7 +94,19 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
             {/* Expanded Image Modal Lightbox - rendered via portal to bypass any parent CSS transforms */}
             {isImageExpanded && blog.imageUrl && ReactDOM.createPortal(
                 <div 
-                    style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 2147483647, background: '#000', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch' }}
+                    style={{ 
+                        position: 'fixed', 
+                        top: 0, 
+                        left: 0, 
+                        width: '100vw', 
+                        height: '100vh', 
+                        zIndex: 2147483647, 
+                        background: '#000', 
+                        overflowY: 'auto', 
+                        overflowX: 'hidden', 
+                        WebkitOverflowScrolling: 'touch',
+                        viewTransitionName: 'lightbox-backdrop'
+                    }}
                     onClick={() => toggleImageExpand(false)}
                 >
                     <button 
@@ -131,7 +171,7 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
 
                 {/* Main Unified Article Card */}
                 <article 
-                    style={{ viewTransitionName: 'article-card-morph' }}
+                    style={{ viewTransitionName: isImageExpanded || isLightboxToggling ? 'none' : 'article-card-morph' }}
                     className="max-w-3xl mx-auto bg-white dark:bg-slate-800/90 backdrop-blur-md rounded-[1.5rem] sm:rounded-[2rem] shadow-xl dark:shadow-[0_12px_40px_rgba(0,0,0,0.3)] border border-slate-200/60 dark:border-slate-700/50 overflow-hidden transition-all duration-300"
                 >
                     
@@ -142,7 +182,7 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                         </span>
                         
                         <h1 
-                            style={{ viewTransitionName: 'article-hero-title' }}
+                            style={{ viewTransitionName: isImageExpanded || isLightboxToggling ? 'none' : 'article-hero-title' }}
                             className="text-xl sm:text-2xl md:text-3xl font-black text-slate-800 dark:text-white leading-[1.2] tracking-tight mb-3 sm:mb-4 transition-colors"
                         >
                             {blog.title}
