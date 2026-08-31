@@ -332,131 +332,129 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                         />
                     </div>
 
-                    <Deferred data="initialBlogs" fallback={<AdultDashboardSkeleton />}>
-                        {filteredBlogs.length === 0 ? (
-                            <div className="relative overflow-hidden bg-white dark:bg-slate-800 border-[4px] border-dashed border-slate-300 dark:border-slate-700 rounded-[2rem] p-12 flex flex-col items-center justify-center text-center shadow-sm transition-all duration-300">
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-red-100 dark:bg-red-900/20 rounded-full blur-3xl opacity-50 -z-10 transform translate-x-1/2 -translate-y-1/2 transition-colors"></div>
-                                <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-3xl opacity-50 -z-10 transform -translate-x-1/2 translate-y-1/2 transition-colors"></div>
-                                
-                                <div className="bg-slate-100 dark:bg-slate-700 h-20 w-20 rounded-full flex items-center justify-center mb-6 shadow-inner border-[3px] border-white dark:border-slate-600 relative transition-colors">
-                                    <Search className="h-8 w-8 text-slate-400 dark:text-slate-500" strokeWidth={3} />
-                                    {searchQuery && (
-                                        <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-black h-6 w-6 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-600 shadow-sm">
-                                            !
-                                        </div>
-                                    )}
-                                </div>
-                                
-                                <h3 className="text-2xl font-black text-slate-800 dark:text-white mb-2 transition-colors">
-                                    {searchQuery ? "No Matches Found" : "No Articles Available"}
-                                </h3>
-                                <p className="text-slate-500 dark:text-slate-400 font-bold max-w-md mx-auto leading-relaxed transition-colors">
-                                    {searchQuery 
-                                        ? `We couldn't find any articles matching "${searchQuery}". Try adjusting your keywords or browse all articles.` 
-                                        : "There are no articles published at the moment. Please check back later!"}
-                                </p>
-                                
+                    {filteredBlogs.length === 0 ? (
+                        <div className="relative overflow-hidden bg-white dark:bg-slate-800 border-[4px] border-dashed border-slate-300 dark:border-slate-700 rounded-[2rem] p-12 flex flex-col items-center justify-center text-center shadow-sm transition-all duration-300">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-red-100 dark:bg-red-900/20 rounded-full blur-3xl opacity-50 -z-10 transform translate-x-1/2 -translate-y-1/2 transition-colors"></div>
+                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-3xl opacity-50 -z-10 transform -translate-x-1/2 translate-y-1/2 transition-colors"></div>
+                            
+                            <div className="bg-slate-100 dark:bg-slate-700 h-20 w-20 rounded-full flex items-center justify-center mb-6 shadow-inner border-[3px] border-white dark:border-slate-600 relative transition-colors">
+                                <Search className="h-8 w-8 text-slate-400 dark:text-slate-500" strokeWidth={3} />
                                 {searchQuery && (
-                                    <button 
-                                        onClick={() => setSearchQuery("")}
-                                        className="mt-8 inline-flex items-center gap-2 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-black px-6 py-3 rounded-full border-[3px] border-slate-200 dark:border-slate-600 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#1e293b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#1e293b] active:translate-y-1 active:shadow-[0_0px_0_#cbd5e1] transition-all uppercase tracking-wide text-sm"
-                                    >
-                                        Clear Search & View All
-                                    </button>
+                                    <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-black h-6 w-6 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-600 shadow-sm">
+                                        !
+                                    </div>
                                 )}
                             </div>
-                        ) : (
-                            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-                                {filteredBlogs.map((blog) => (
-                                    <Link 
-                                        key={blog.id} 
-                                        id={`article-card-${blog.id}`}
-                                        href={`/adult/blog/${blog.id}`} 
-                                        onClick={(e) => handleArticleClick(e, blog.id, `/adult/blog/${blog.id}`)}
-                                        className="outline-none block w-full group h-full"
+                            
+                            <h3 className="text-2xl font-black text-slate-800 dark:text-white mb-2 transition-colors">
+                                {searchQuery ? "No Matches Found" : "No Articles Available"}
+                            </h3>
+                            <p className="text-slate-500 dark:text-slate-400 font-bold max-w-md mx-auto leading-relaxed transition-colors">
+                                {searchQuery 
+                                    ? `We couldn't find any articles matching "${searchQuery}". Try adjusting your keywords or browse all articles.` 
+                                    : "There are no articles published at the moment. Please check back later!"}
+                            </p>
+                            
+                            {searchQuery && (
+                                <button 
+                                    onClick={() => setSearchQuery("")}
+                                    className="mt-8 inline-flex items-center gap-2 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-black px-6 py-3 rounded-full border-[3px] border-slate-200 dark:border-slate-600 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#1e293b] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#1e293b] active:translate-y-1 active:shadow-[0_0px_0_#cbd5e1] transition-all uppercase tracking-wide text-sm"
+                                >
+                                    Clear Search & View All
+                                </button>
+                            )}
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+                            {filteredBlogs.map((blog) => (
+                                <Link 
+                                    key={blog.id} 
+                                    id={`article-card-${blog.id}`}
+                                    href={`/adult/blog/${blog.id}`} 
+                                    onClick={(e) => handleArticleClick(e, blog.id, `/adult/blog/${blog.id}`)}
+                                    className="outline-none block w-full group h-full"
+                                >
+                                    <div 
+                                        style={{
+                                            viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-card-morph' : 'none'
+                                        }}
+                                        className="flex flex-col h-full bg-white dark:bg-slate-800/90 rounded-xl sm:rounded-[1.75rem] overflow-hidden relative transition-all duration-300 border-[2px] border-slate-100 dark:border-slate-700/80 shadow-[0_2px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3)] group-hover:-translate-y-1.5 group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] dark:group-hover:shadow-[0_12px_32px_rgba(249,115,22,0.15)] group-active:translate-y-0 group-active:shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
                                     >
-                                        <div 
-                                            style={{
-                                                viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-card-morph' : 'none'
-                                            }}
-                                            className="flex flex-col h-full bg-white dark:bg-slate-800/90 rounded-xl sm:rounded-[1.75rem] overflow-hidden relative transition-all duration-300 border-[2px] border-slate-100 dark:border-slate-700/80 shadow-[0_2px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3)] group-hover:-translate-y-1.5 group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] dark:group-hover:shadow-[0_12px_32px_rgba(249,115,22,0.15)] group-active:translate-y-0 group-active:shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
-                                        >
-                                            {/* Image Section */}
-                                            <div className="relative h-28 sm:h-52 shrink-0 w-full overflow-hidden bg-slate-100 dark:bg-slate-900">
-                                                <img
-                                                    src={blog.imageUrl || "/placeholder.svg?height=300&width=400"}
-                                                    alt={blog.title}
-                                                    decoding="async"
-                                                    loading="lazy"
-                                                    style={{
-                                                        viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-hero-image' : 'none'
-                                                    }}
-                                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                                                />
-                                                {/* Bottom Gradient Overlay */}
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent z-[1]" />
-                                                
-                                                {/* Read Time / Date on Image */}
-                                                <div className="absolute bottom-3 left-3 z-[2] flex items-center gap-2">
-                                                    <span className="text-white/90 text-[10px] sm:text-xs font-bold flex items-center gap-1">
-                                                        <Calendar className="h-3 w-3" strokeWidth={2.5} />
-                                                        {new Date((blog as any).created_at || blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            {/* Accent Line */}
-                                            <div className="h-[2px] sm:h-[3px] w-full bg-gradient-to-r from-orange-500 via-red-500 to-orange-400" />
+                                        {/* Image Section */}
+                                        <div className="relative h-28 sm:h-52 shrink-0 w-full overflow-hidden bg-slate-100 dark:bg-slate-900">
+                                            <img
+                                                src={blog.imageUrl || "/placeholder.svg?height=300&width=400"}
+                                                alt={blog.title}
+                                                decoding="async"
+                                                loading="lazy"
+                                                style={{
+                                                    viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-hero-image' : 'none'
+                                                }}
+                                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                                            />
+                                            {/* Bottom Gradient Overlay */}
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent z-[1]" />
                                             
-                                            {/* Content Area */}
-                                            <div className="p-2.5 sm:p-5 flex flex-col flex-1 bg-white dark:bg-slate-800/90 transition-colors">
-                                                <h3 
-                                                    style={{
-                                                        viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-hero-title' : 'none'
-                                                    }}
-                                                    className="font-black text-[11px] sm:text-[1.05rem] text-slate-800 dark:text-white line-clamp-2 mb-1.5 sm:mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors leading-snug tracking-tight"
-                                                >
-                                                    {blog.title}
-                                                </h3>
-                                                
-                                                <p className="text-[10px] sm:text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 sm:line-clamp-3 mb-2.5 sm:mb-5 leading-relaxed flex-1 transition-colors">
-                                                    {blog.excerpt || ''}
-                                                </p>
-                                                
-                                                {/* Footer */}
-                                                <div className="flex items-center justify-between pt-2 sm:pt-4 border-t border-slate-100/80 dark:border-slate-700/40 mt-auto transition-colors">
-                                                    {/* Author */}
-                                                    <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0">
-                                                        <div className="h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-slate-100 dark:bg-slate-900/80 flex items-center justify-center shrink-0 border border-slate-200/50 dark:border-slate-700/50 shadow-inner">
-                                                            <User className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-slate-500 dark:text-slate-400" strokeWidth={2.5} />
-                                                        </div>
-                                                        <div className="flex flex-col min-w-0 leading-none">
-                                                            <span className="hidden sm:inline text-xs font-extrabold text-slate-700 dark:text-slate-300 truncate transition-colors">
-                                                                {typeof blog.author === 'string' ? blog.author : blog.author?.name}
-                                                            </span>
-                                                            <span className="sm:hidden text-[10px] font-extrabold text-slate-600 dark:text-slate-400 truncate transition-colors">
-                                                                {(() => {
-                                                                    const name = typeof blog.author === 'string' ? blog.author : blog.author?.name || '';
-                                                                    return name.length > 10 ? name.split(' ')[0] : name;
-                                                                })()}
-                                                            </span>
-                                                            <span className="text-[8px] sm:text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-0.5">Publisher</span>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    {/* Read More CTA Pill */}
-                                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-slate-50 dark:bg-slate-900/60 group-hover:bg-orange-500 dark:group-hover:bg-orange-600 border border-slate-200/60 dark:border-slate-700/60 group-hover:border-orange-500/20 dark:group-hover:border-orange-600/20 text-slate-600 dark:text-slate-400 group-hover:text-white dark:group-hover:text-white font-extrabold text-[10px] sm:text-xs transition-all duration-300 shadow-sm shrink-0">
-                                                        Read
-                                                        <ArrowRight className="h-2.5 w-2.5 sm:h-3 w-3 group-hover:translate-x-0.5 transition-transform duration-300" strokeWidth={2.5} />
-                                                    </span>
-                                                </div>
+                                            {/* Read Time / Date on Image */}
+                                            <div className="absolute bottom-3 left-3 z-[2] flex items-center gap-2">
+                                                <span className="text-white/90 text-[10px] sm:text-xs font-bold flex items-center gap-1">
+                                                    <Calendar className="h-3 w-3" strokeWidth={2.5} />
+                                                    {new Date((blog as any).created_at || blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                                                </span>
                                             </div>
                                         </div>
-                                    </Link>
-                                ))}
-                            </div>
-                        )}
-                    </Deferred>
+
+                                        {/* Accent Line */}
+                                        <div className="h-[2px] sm:h-[3px] w-full bg-gradient-to-r from-orange-500 via-red-500 to-orange-400" />
+                                        
+                                        {/* Content Area */}
+                                        <div className="p-2.5 sm:p-5 flex flex-col flex-1 bg-white dark:bg-slate-800/90 transition-colors">
+                                            <h3 
+                                                style={{
+                                                    viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-hero-title' : 'none'
+                                                }}
+                                                className="font-black text-[11px] sm:text-[1.05rem] text-slate-800 dark:text-white line-clamp-2 mb-1.5 sm:mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors leading-snug tracking-tight"
+                                            >
+                                                {blog.title}
+                                            </h3>
+                                            
+                                            <p className="text-[10px] sm:text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 sm:line-clamp-3 mb-2.5 sm:mb-5 leading-relaxed flex-1 transition-colors">
+                                                {blog.excerpt || ''}
+                                            </p>
+                                            
+                                            {/* Footer */}
+                                            <div className="flex items-center justify-between pt-2 sm:pt-4 border-t border-slate-100/80 dark:border-slate-700/40 mt-auto transition-colors">
+                                                {/* Author */}
+                                                <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0">
+                                                    <div className="h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-slate-100 dark:bg-slate-900/80 flex items-center justify-center shrink-0 border border-slate-200/50 dark:border-slate-700/50 shadow-inner">
+                                                        <User className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-slate-500 dark:text-slate-400" strokeWidth={2.5} />
+                                                    </div>
+                                                    <div className="flex flex-col min-w-0 leading-none">
+                                                        <span className="hidden sm:inline text-xs font-extrabold text-slate-700 dark:text-slate-300 truncate transition-colors">
+                                                            {typeof blog.author === 'string' ? blog.author : blog.author?.name}
+                                                        </span>
+                                                        <span className="sm:hidden text-[10px] font-extrabold text-slate-600 dark:text-slate-400 truncate transition-colors">
+                                                            {(() => {
+                                                                const name = typeof blog.author === 'string' ? blog.author : blog.author?.name || '';
+                                                                return name.length > 10 ? name.split(' ')[0] : name;
+                                                            })()}
+                                                        </span>
+                                                        <span className="text-[8px] sm:text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-0.5">Publisher</span>
+                                                    </div>
+                                                </div>
+                                                
+                                                {/* Read More CTA Pill */}
+                                                <span className="inline-flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-slate-50 dark:bg-slate-900/60 group-hover:bg-orange-500 dark:group-hover:bg-orange-600 border border-slate-200/60 dark:border-slate-700/60 group-hover:border-orange-500/20 dark:group-hover:border-orange-600/20 text-slate-600 dark:text-slate-400 group-hover:text-white dark:group-hover:text-white font-extrabold text-[10px] sm:text-xs transition-all duration-300 shadow-sm shrink-0">
+                                                    Read
+                                                    <ArrowRight className="h-2.5 w-2.5 sm:h-3 w-3 group-hover:translate-x-0.5 transition-transform duration-300" strokeWidth={2.5} />
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 {/* Video Player with Smooth Animated Expand/Collapse */}

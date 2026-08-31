@@ -235,13 +235,13 @@ Route::get('/maintenance', function () {
     Route::middleware('role:adult,professional')->group(function () {
         Route::get('/adult', function () {
             return Inertia::render('AdultDashboard', [
-                'initialBlogs' => Inertia::defer(fn () => BlogPost::with('author:id,name')
+                'initialBlogs' => BlogPost::with('author:id,name')
                     ->where('isPublished', true)
                     ->select('id', 'title', 'excerpt', 'imageUrl', 'category', 'authorId', 'created_at', 'order')
                     ->orderBy('order', 'asc')
                     ->orderBy('created_at', 'desc')
                     ->take(12)
-                    ->get()),
+                    ->get(),
                 'initialVideos' => Inertia::defer(fn () => \App\Models\Video::where('isActive', true)
                     ->where('category', 'adult')
                     ->select('id', 'title', 'description', 'youtubeId', 'duration', 'category', 'order')
