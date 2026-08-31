@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useRef, useEffect } from "react"
+import ReactDOM from "react-dom"
 import { useAuth } from "@/lib/auth-context"
 import { Link, Deferred } from '@inertiajs/react'
 import { motion, AnimatePresence } from "framer-motion"
@@ -480,76 +481,24 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                         <h2 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight">Training Videos</h2>
                         
                         <div className="grid grid-cols-2 sm:flex sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-4 w-full xl:w-auto">
-                            {/* Professional Rank Card */}
-                            <div className="flex items-center gap-2.5 sm:gap-3.5 p-2.5 xs:p-3 sm:p-4 rounded-2xl border-[3px] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] flex-1 sm:flex-initial min-w-0 sm:min-w-[240px] cursor-default transition-all">
-                                <div className={cn("h-9 w-9 sm:h-11 sm:w-11 rounded-xl border-2 flex items-center justify-center shrink-0 shadow-sm", currentRank.bg, currentRank.border, currentRank.color)}>
+                            {/* Professional Rank Card Trigger */}
+                            <div 
+                                onClick={() => setShowRankGuide(true)}
+                                className="flex items-center gap-2.5 sm:gap-3.5 p-2.5 xs:p-3 sm:p-4 rounded-2xl border-[3px] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] hover:border-red-500/40 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#0f172a] hover:-translate-y-0.5 active:translate-y-1 active:shadow-[0_2px_0_#cbd5e1] flex-1 sm:flex-initial min-w-0 sm:min-w-[240px] cursor-pointer transition-all group/rank"
+                            >
+                                <div className={cn("h-9 w-9 sm:h-11 sm:w-11 rounded-xl border-2 flex items-center justify-center shrink-0 shadow-sm group-hover/rank:scale-105 transition-transform", currentRank.bg, currentRank.border, currentRank.color)}>
                                     <RankIcon className="h-4.5 w-4.5 sm:h-5 sm:w-5" strokeWidth={2.5} />
                                 </div>
                                 <div className="flex flex-col min-w-0 flex-1">
                                     <div className="flex items-center justify-between gap-1">
                                         <span className="text-[9px] xs:text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 truncate">Rank</span>
-                                        <Dialog open={showRankGuide} onOpenChange={setShowRankGuide}>
-                                            <DialogTrigger asChild>
-                                                <button className="p-0.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors group/btn cursor-pointer">
-                                                    <CircleHelp className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-slate-400 group-hover/btn:text-red-500" />
-                                                </button>
-                                            </DialogTrigger>
-                                            <DialogContent className="max-w-md bg-white dark:bg-slate-950 border-[4px] border-red-500 rounded-[2.5rem] p-0 overflow-hidden shadow-2xl">
-                                                <div className="bg-red-500 p-6 sm:p-8 text-center relative">
-                                                    <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-                                                        <Star className="absolute top-4 left-4 h-12 w-12 text-white rotate-12" />
-                                                        <Trophy className="absolute bottom-4 right-4 h-12 w-12 text-white -rotate-12" />
-                                                    </div>
-                                                    <DialogHeader>
-                                                        <DialogTitle className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tighter mb-2 text-center">Professional Rank Guide</DialogTitle>
-                                                        <DialogDescription className="text-white/80 font-bold text-sm text-center">
-                                                            Complete training videos to level up your rank!
-                                                        </DialogDescription>
-                                                    </DialogHeader>
-                                                </div>
-
-                                                <div className="p-4 sm:p-6 space-y-3 bg-slate-50 dark:bg-slate-950">
-                                                    {PROFESSIONAL_RANKS.map((rank, i) => {
-                                                        const Icon = rank.icon
-                                                        const isCurrent = currentRank.name === rank.name
-
-                                                        return (
-                                                            <div key={i} className={cn(
-                                                                "relative flex items-center gap-4 p-4 rounded-2xl border-2 transition-all",
-                                                                isCurrent 
-                                                                    ? "bg-white dark:bg-[#0b1329] border-red-500 shadow-lg scale-[1.02]" 
-                                                                    : "bg-white/80 dark:bg-[#070d19]/80 border-slate-200 dark:border-slate-800/85 opacity-90 dark:opacity-70"
-                                                            )}>
-                                                                {isCurrent && (
-                                                                    <div className="absolute -top-2.5 -right-2 bg-red-500 text-white text-[9px] font-black px-2.5 py-1 rounded-full shadow-md border-2 border-white dark:border-slate-950 uppercase tracking-tight">
-                                                                        Current
-                                                                    </div>
-                                                                )}
-                                                                <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center text-xl shrink-0 border-2", rank.bg, rank.border, rank.color)}>
-                                                                    <Icon className="h-6 w-6" />
-                                                                </div>
-                                                                <div className="flex-1">
-                                                                    <div className="flex items-center justify-between">
-                                                                        <h4 className={cn("font-black text-sm uppercase tracking-tight", rank.color)}>{rank.name}</h4>
-                                                                        <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase">{rank.count}+ Videos</span>
-                                                                    </div>
-                                                                    <p className="text-[10px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 leading-tight mt-0.5">{rank.desc}</p>
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    })}
-                                                </div>
-
-                                                <div className="p-6 pt-0 bg-slate-50 dark:bg-slate-950">
-                                                    <button
-                                                        onClick={() => setShowRankGuide(false)}
-                                                        className="w-full bg-red-500 hover:bg-red-600 text-white font-black py-4 rounded-2xl border-b-[6px] border-red-800 active:border-b-0 active:translate-y-[6px] transition-all uppercase tracking-widest text-sm shadow-md cursor-pointer"
-                                                    >
-                                                        Got it, Officer!
-                                                    </button>
-                                                </div>
-                                            </DialogContent>
-                                        </Dialog>
+                                        <button 
+                                            onClick={(e) => { e.stopPropagation(); setShowRankGuide(true); }}
+                                            className="p-0.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors group/btn cursor-pointer"
+                                            title="View Rank Guide"
+                                        >
+                                            <CircleHelp className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-slate-400 group-hover/btn:text-red-500 group-hover/rank:text-red-500 transition-colors" />
+                                        </button>
                                     </div>
                                     <span className={`text-xs xs:text-sm sm:text-base font-black ${currentRank.color} truncate`}>{currentRank.name}</span>
                                 </div>
@@ -803,6 +752,105 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            {/* Professional Rank Guide Animated Morph Portal Modal */}
+            {typeof window !== 'undefined' && ReactDOM.createPortal(
+                <AnimatePresence>
+                    {showRankGuide && (
+                        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-3.5 sm:p-4 overflow-x-hidden overflow-y-auto">
+                            {/* Backdrop with smooth fade */}
+                            <motion.div
+                                key="rank-guide-backdrop"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.25, ease: "easeOut" }}
+                                className="fixed inset-0 bg-black/65 backdrop-blur-sm"
+                                onClick={() => setShowRankGuide(false)}
+                            />
+
+                            {/* Modal with spring morph & compact mobile layout */}
+                            <motion.div
+                                key="rank-guide-modal"
+                                initial={{ opacity: 0, scale: 0.82, y: 22 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.82, y: 16 }}
+                                transition={{ type: "spring", damping: 28, stiffness: 380, mass: 0.8 }}
+                                className="relative w-full max-w-[85vw] xs:max-w-[320px] sm:max-w-md max-h-[80vh] sm:max-h-[86vh] bg-white dark:bg-slate-950 border-[3px] sm:border-[4px] border-red-500 rounded-[1.75rem] sm:rounded-[2.5rem] overflow-hidden shadow-2xl flex flex-col my-auto z-10"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                {/* Header */}
+                                <div className="bg-red-500 p-3.5 xs:p-4 sm:p-6 text-center relative shrink-0">
+                                    <button
+                                        onClick={() => setShowRankGuide(false)}
+                                        className="absolute top-2.5 right-2.5 sm:top-3.5 sm:right-3.5 h-6 w-6 xs:h-7 xs:w-7 sm:h-8 sm:w-8 rounded-full bg-black/20 hover:bg-black/35 active:scale-90 text-white flex items-center justify-center transition-all cursor-pointer"
+                                        aria-label="Close"
+                                    >
+                                        <X className="h-3.5 w-3.5 sm:h-4 sm:w-4" strokeWidth={2.5} />
+                                    </button>
+                                    <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none overflow-hidden">
+                                        <Star className="absolute top-2 left-2 sm:top-4 sm:left-4 h-7 w-7 sm:h-12 sm:w-12 text-white rotate-12" />
+                                        <Trophy className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 h-7 w-7 sm:h-12 sm:w-12 text-white -rotate-12" />
+                                    </div>
+                                    <h3 className="text-base xs:text-lg sm:text-2xl font-black text-white uppercase tracking-tighter mb-0.5 sm:mb-1 text-center">
+                                        Professional Rank Guide
+                                    </h3>
+                                    <p className="text-white/90 font-bold text-[10px] xs:text-[11px] sm:text-xs text-center">
+                                        Complete training videos to level up your rank!
+                                    </p>
+                                </div>
+
+                                {/* Rank list */}
+                                <div className="p-2.5 xs:p-3 sm:p-4 space-y-2 sm:space-y-2.5 bg-slate-50 dark:bg-slate-950 overflow-y-auto">
+                                    {PROFESSIONAL_RANKS.map((rank, i) => {
+                                        const Icon = rank.icon
+                                        const isCurrent = currentRank.name === rank.name
+
+                                        return (
+                                            <div 
+                                                key={i} 
+                                                className={cn(
+                                                    "relative flex items-center gap-2 xs:gap-2.5 sm:gap-3.5 p-2 xs:p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border-2 transition-all",
+                                                    isCurrent 
+                                                        ? "bg-white dark:bg-[#0b1329] border-red-500 shadow-md scale-[1.01]" 
+                                                        : "bg-white/80 dark:bg-[#070d19]/80 border-slate-200 dark:border-slate-800/85 opacity-90 dark:opacity-70"
+                                                )}
+                                            >
+                                                {isCurrent && (
+                                                    <div className="absolute -top-2 -right-1 sm:-top-2.5 sm:-right-2 bg-red-500 text-white text-[7px] xs:text-[7.5px] sm:text-[8.5px] font-black px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-full shadow-md border border-white dark:border-slate-950 uppercase tracking-tight">
+                                                        Current
+                                                    </div>
+                                                )}
+                                                <div className={cn("h-7 w-7 xs:h-8 xs:w-8 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 border-2", rank.bg, rank.border, rank.color)}>
+                                                    <Icon className="h-3.5 w-3.5 xs:h-4 xs:w-4 sm:h-5 sm:w-5" />
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="flex items-center justify-between gap-1">
+                                                        <h4 className={cn("font-black text-[11px] xs:text-xs sm:text-sm uppercase tracking-tight truncate", rank.color)}>{rank.name}</h4>
+                                                        <span className="text-[8px] xs:text-[8.5px] sm:text-[9.5px] font-black text-slate-500 dark:text-slate-400 uppercase shrink-0">{rank.count}+ Videos</span>
+                                                    </div>
+                                                    <p className="text-[9px] xs:text-[9.5px] sm:text-[11px] font-bold text-slate-600 dark:text-slate-400 leading-tight mt-0.5">{rank.desc}</p>
+                                                </div>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+
+                                {/* Footer Button */}
+                                <div className="p-2.5 xs:p-3 sm:p-4 pt-1 sm:pt-1.5 bg-slate-50 dark:bg-slate-950 shrink-0">
+                                    <button
+                                        onClick={() => setShowRankGuide(false)}
+                                        className="w-full bg-red-500 hover:bg-red-600 active:scale-[0.99] text-white font-black py-2 xs:py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border-b-[3px] sm:border-b-[5px] border-red-800 active:border-b-0 active:translate-y-[3px] sm:active:translate-y-[5px] transition-all uppercase tracking-widest text-[11px] xs:text-xs sm:text-sm shadow-md cursor-pointer"
+                                    >
+                                        Got it, Officer!
+                                    </button>
+                                </div>
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>,
+                document.body
+            )}
         </div>
     )
 }
