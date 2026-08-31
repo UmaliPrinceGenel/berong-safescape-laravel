@@ -480,6 +480,8 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
             </motion.div>
           </motion.div>
         )}
+      </AnimatePresence>
+
       {/* Hero Rank Guide Animated Morph Portal Modal */}
       {typeof window !== 'undefined' && ReactDOM.createPortal(
         <AnimatePresence>
