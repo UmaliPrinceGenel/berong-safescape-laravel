@@ -113,9 +113,11 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
         }
     }, [])
 
-    // Initialize/Update Player
+    // Initialize/Update Player with slight delay for silky smooth animation
     useEffect(() => {
-        if (selectedVideo && isYTReady && (window as any).YT && (window as any).YT.Player) {
+        if (!selectedVideo || !isYTReady || !(window as any).YT || !(window as any).YT.Player) return
+
+        const timer = setTimeout(() => {
             if (ytPlayerRef.current) {
                 try {
                     ytPlayerRef.current.destroy()
@@ -142,7 +144,9 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                     }
                 })
             }
-        }
+        }, 120)
+
+        return () => clearTimeout(timer)
     }, [selectedVideo, isYTReady])
 
     const handleClosePlayer = () => {
@@ -162,7 +166,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
         setSelectedVideo(video)
         setTimeout(() => {
             playerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }, 150)
+        }, 280)
     }
 
     const filteredBlogs = blogs.filter(
@@ -430,47 +434,24 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                         <motion.div
                             key="adult-video-player"
                             ref={playerRef}
-                            initial={{ opacity: 0, height: 0, marginTop: 0, marginBottom: 0, scale: 0.96 }}
+                            initial={{ opacity: 0, y: -20, scale: 0.98 }}
                             animate={{ 
                                 opacity: 1, 
-                                height: "auto", 
-                                marginTop: 32, 
-                                marginBottom: 40, 
+                                y: 0, 
                                 scale: 1,
-                                transition: {
-                                    height: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-                                    marginTop: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-                                    marginBottom: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-                                    opacity: { duration: 0.3, delay: 0.05 },
-                                    scale: { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
-                                }
+                                transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] }
                             }}
                             exit={{ 
                                 opacity: 0, 
-                                height: 0, 
-                                marginTop: 0, 
-                                marginBottom: 0, 
-                                scale: 0.96,
-                                transition: {
-                                    height: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
-                                    marginTop: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
-                                    marginBottom: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
-                                    opacity: { duration: 0.2 },
-                                    scale: { duration: 0.35, ease: "easeIn" }
-                                }
+                                y: -14, 
+                                scale: 0.98,
+                                transition: { duration: 0.2, ease: "easeIn" }
                             }}
-                            className="max-w-5xl mx-auto scroll-mt-36 sm:scroll-mt-44 overflow-hidden"
+                            className="max-w-5xl mx-auto my-8 scroll-mt-28 sm:scroll-mt-36"
                         >
-                            <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-6 transition-all duration-300 space-y-3.5 sm:space-y-4 ring-2 ring-orange-500/20">
+                            <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-6 transition-all space-y-3.5 sm:space-y-4 ring-2 ring-orange-500/20">
                                 <div className="flex items-start justify-between gap-3">
-                                    <motion.div
-                                        key={selectedVideo.id || selectedVideo.youtubeId}
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, y: -8 }}
-                                        transition={{ duration: 0.3, delay: 0.1 }}
-                                        className="min-w-0 flex-1"
-                                    >
+                                    <div className="min-w-0 flex-1">
                                         <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                                             <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-black bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 text-[10px] tracking-wider uppercase border border-orange-200 dark:border-orange-900/50 shadow-sm">
                                                 <span className="relative flex h-2 w-2 mr-1.5">
@@ -494,41 +475,31 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                                 {selectedVideo.description}
                                             </p>
                                         )}
-                                    </motion.div>
-                                    <motion.button
-                                        whileHover={{ scale: 1.12, rotate: 90 }}
-                                        whileTap={{ scale: 0.88 }}
+                                    </div>
+                                    <button
                                         onClick={handleClosePlayer}
-                                        className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0 cursor-pointer shadow-sm active:scale-95"
+                                        className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all shrink-0 cursor-pointer shadow-sm active:scale-90"
                                         title="Close Player"
                                         aria-label="Close Player"
                                     >
                                         <X className="h-5 w-5" strokeWidth={2.5} />
-                                    </motion.button>
+                                    </button>
                                 </div>
 
-                                <motion.div 
-                                    initial={{ opacity: 0, scale: 0.98 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.35, delay: 0.15 }}
-                                    className="aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 relative group"
-                                >
+                                <div className="aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 relative group">
                                     <div id="youtube-player-container" className="w-full h-full">
                                         <div id="youtube-player" className="w-full h-full" />
                                     </div>
-                                </motion.div>
+                                </div>
                             </Card>
                         </motion.div>
                     )}
                 </AnimatePresence>
 
                 {/* Videos Section */}
-                <motion.div 
-                    layout 
-                    transition={{ duration: 0.48, ease: [0.25, 1, 0.5, 1] }} 
+                <div 
                     id="videos-section" 
-                    className="mt-16 sm:mt-24"
+                    className="mt-16 sm:mt-24 space-y-6"
                 >
                     <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-8">
                         <div>
@@ -624,7 +595,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                             </motion.div>
                         )}
                     </Deferred>
-                </motion.div>
+                </div>
             </div>
         </main>
         </>
