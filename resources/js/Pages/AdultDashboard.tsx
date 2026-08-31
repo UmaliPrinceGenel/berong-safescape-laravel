@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { router, usePage, Deferred } from '@inertiajs/react';
 import { useAuth } from "@/lib/auth-context"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Navigation } from "@/Components/navigation"
 import { Card, CardContent, CardTitle, CardHeader, CardDescription } from "@/Components/ui/card"
 import { Button } from "@/Components/ui/button"
@@ -114,13 +114,25 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
         }
     }, [selectedVideo, isYTReady])
 
-    useEffect(() => {
-        if (selectedVideo) {
-            setTimeout(() => {
-                playerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-            }, 100)
+    const handleClosePlayer = () => {
+        if (ytPlayerRef.current) {
+            try {
+                ytPlayerRef.current.stopVideo?.()
+                ytPlayerRef.current.destroy?.()
+            } catch (e) {
+                console.error("Error stopping YT player", e)
+            }
+            ytPlayerRef.current = null
         }
-    }, [selectedVideo])
+        setSelectedVideo(null)
+    }
+
+    const handleSelectVideo = (video: any) => {
+        setSelectedVideo(video)
+        setTimeout(() => {
+            playerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 150)
+    }
 
     const filteredBlogs = blogs.filter(
         (blog) =>
@@ -364,49 +376,82 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                     </Deferred>
                 </div>
 
-                {/* Video Player */}
-                {selectedVideo && (
-                    <div ref={playerRef} className="max-w-5xl mx-auto mt-8 sm:mt-12 mb-8 sm:mb-12 scroll-mt-36 sm:scroll-mt-44 pt-2">
-                        <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-6 transition-all duration-300 space-y-3.5 sm:space-y-4">
-                            <div className="flex items-start justify-between gap-3">
-                                <div>
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-black bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 text-[10px] tracking-wider uppercase border border-orange-200 dark:border-orange-900/50">
-                                            NOW PLAYING
-                                        </span>
-                                        {selectedVideo.duration && (
-                                            <span className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 dark:text-slate-400">
-                                                <Clock className="h-3.5 w-3.5 text-orange-500" />
-                                                {selectedVideo.duration}
+                {/* Video Player with Smooth Animated Expand/Collapse */}
+                <AnimatePresence mode="wait">
+                    {selectedVideo && (
+                        <motion.div
+                            key="adult-video-player"
+                            ref={playerRef}
+                            initial={{ opacity: 0, height: 0, y: -24, scale: 0.97 }}
+                            animate={{ opacity: 1, height: "auto", y: 0, scale: 1 }}
+                            exit={{ opacity: 0, height: 0, y: -20, scale: 0.97 }}
+                            transition={{
+                                duration: 0.45,
+                                ease: [0.16, 1, 0.3, 1],
+                                opacity: { duration: 0.3 },
+                                scale: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
+                            }}
+                            className="max-w-5xl mx-auto mt-8 sm:mt-12 mb-8 sm:mb-12 scroll-mt-36 sm:scroll-mt-44 pt-2 overflow-hidden"
+                        >
+                            <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-6 transition-all duration-300 space-y-3.5 sm:space-y-4 ring-2 ring-orange-500/20">
+                                <div className="flex items-start justify-between gap-3">
+                                    <motion.div
+                                        key={selectedVideo.id || selectedVideo.youtubeId}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.3, delay: 0.1 }}
+                                        className="min-w-0 flex-1"
+                                    >
+                                        <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                                            <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-black bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 text-[10px] tracking-wider uppercase border border-orange-200 dark:border-orange-900/50 shadow-sm">
+                                                <span className="relative flex h-2 w-2 mr-1.5">
+                                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                                                </span>
+                                                NOW PLAYING
                                             </span>
+                                            {selectedVideo.duration && (
+                                                <span className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 dark:text-slate-400">
+                                                    <Clock className="h-3.5 w-3.5 text-orange-500" />
+                                                    {selectedVideo.duration}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <h3 className="text-base sm:text-2xl font-black text-slate-800 dark:text-white leading-tight">
+                                            {selectedVideo.title}
+                                        </h3>
+                                        {selectedVideo.description && (
+                                            <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                                                {selectedVideo.description}
+                                            </p>
                                         )}
-                                    </div>
-                                    <h3 className="text-base sm:text-2xl font-black text-slate-800 dark:text-white leading-tight">
-                                        {selectedVideo.title}
-                                    </h3>
-                                    {selectedVideo.description && (
-                                        <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                                            {selectedVideo.description}
-                                        </p>
-                                    )}
+                                    </motion.div>
+                                    <motion.button
+                                        whileHover={{ scale: 1.12, rotate: 90 }}
+                                        whileTap={{ scale: 0.88 }}
+                                        onClick={handleClosePlayer}
+                                        className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0 cursor-pointer shadow-sm active:scale-95"
+                                        title="Close Player"
+                                        aria-label="Close Player"
+                                    >
+                                        <X className="h-5 w-5" strokeWidth={2.5} />
+                                    </motion.button>
                                 </div>
-                                <button
-                                    onClick={() => setSelectedVideo(null)}
-                                    className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0 cursor-pointer"
-                                    title="Close Player"
-                                >
-                                    <X className="h-5 w-5" strokeWidth={2.5} />
-                                </button>
-                            </div>
 
-                            <div className="aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800">
-                                <div id="youtube-player-container" className="w-full h-full">
-                                    <div id="youtube-player" className="w-full h-full" />
-                                </div>
-                            </div>
-                        </Card>
-                    </div>
-                )}
+                                <motion.div 
+                                    initial={{ opacity: 0, scale: 0.98 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ duration: 0.35, delay: 0.15 }}
+                                    className="aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 relative group"
+                                >
+                                    <div id="youtube-player-container" className="w-full h-full">
+                                        <div id="youtube-player" className="w-full h-full" />
+                                    </div>
+                                </motion.div>
+                            </Card>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Videos Section */}
                 <div id="videos-section" className="mt-16 sm:mt-24">
@@ -442,8 +487,12 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                         className="h-full"
                                     >
                                         <Card
-                                            className="flex flex-row sm:flex-col h-full cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.25rem] sm:rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#0f172a] active:translate-y-0.5 active:shadow-none transition-all duration-300 overflow-hidden p-2.5 sm:p-0 gap-0"
-                                            onClick={() => setSelectedVideo(video)}
+                                            className={`flex flex-row sm:flex-col h-full cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.25rem] sm:rounded-[1.5rem] border-[3px] transition-all duration-300 overflow-hidden p-2.5 sm:p-0 gap-0 ${
+                                                selectedVideo?.id === video.id
+                                                    ? 'border-orange-500 shadow-[0_6px_0_#f97316] ring-2 ring-orange-400/30'
+                                                    : 'border-slate-200 dark:border-slate-800 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#0f172a]'
+                                            } active:translate-y-0.5 active:shadow-none`}
+                                            onClick={() => handleSelectVideo(video)}
                                         >
                                             {/* Thumbnail Box */}
                                             <div className="relative w-[130px] xs:w-[150px] sm:w-full aspect-video bg-slate-900 rounded-xl sm:rounded-none sm:rounded-t-[1.25rem] overflow-hidden shrink-0 border border-slate-100 dark:border-slate-800 sm:border-none">
