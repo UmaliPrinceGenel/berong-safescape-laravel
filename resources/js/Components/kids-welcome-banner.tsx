@@ -21,28 +21,13 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
   const firstName = user?.name?.split(' ')[0] || 'Fire Hero'
   
   const [streak, setStreak] = useState(1)
-  const [isMorphing, setIsMorphing] = useState(false)
 
   const handleOpenHallClick = (e: React.MouseEvent, href: string = '/kids/badges') => {
     playSound('/sounds/click.mp3', 'general')
     if (window.scrollY > 0) {
       sessionStorage.setItem('safescape_kids_dashboard_scroll', window.scrollY.toString())
     }
-    if (!document.startViewTransition) {
-      router.visit(href)
-      return
-    }
-    e.preventDefault()
-    setIsMorphing(true)
-    requestAnimationFrame(() => {
-      document.startViewTransition(() => {
-        return new Promise<void>((resolve) => {
-          router.visit(href, {
-            onFinish: () => resolve(),
-          })
-        })
-      })
-    })
+    router.visit(href)
   }
 
   useEffect(() => {
@@ -319,18 +304,10 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
                onClick={(e) => handleOpenHallClick(e, "/kids/badges")}
                onMouseEnter={() => preloadKidsPages()}
                onTouchStart={() => preloadKidsPages()}
-               style={{
-                 viewTransitionName: isMorphing ? 'badge-hall-card-morph' : 'none'
-               }}
                className="bg-white/10 dark:bg-slate-950/40 backdrop-blur-xl rounded-[2rem] p-6 border border-white/20 dark:border-white/5 flex flex-col shadow-2xl hover:bg-white/15 dark:hover:bg-white/10 transition-all group cursor-pointer"
              >
                 <div className="flex items-center justify-between mb-4">
-                  <div 
-                    style={{
-                      viewTransitionName: isMorphing ? 'badge-hall-title-morph' : 'none'
-                    }}
-                    className="flex items-center gap-2"
-                  >
+                  <div className="flex items-center gap-2">
                       <Trophy className="h-4 w-4 text-yellow-300" />
                       <span className="text-[10px] font-black text-yellow-300/80 uppercase tracking-widest">Achieved Badges</span>
                   </div>
@@ -340,12 +317,7 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
                   </div>
                 </div>
 
-                <div 
-                  style={{
-                    viewTransitionName: isMorphing ? 'badge-hall-icon-morph' : 'none'
-                  }}
-                  className="flex items-center gap-3 mb-6"
-                >
+                <div className="flex items-center gap-3 mb-6">
                   {(() => {
                     const earnedList = ALL_BADGES.filter(b => isBadgeEarned(b.id, b.moduleNum));
                     const lockedList = ALL_BADGES.filter(b => !isBadgeEarned(b.id, b.moduleNum));

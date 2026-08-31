@@ -260,7 +260,7 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
       if (content.href.startsWith("http")) {
         window.open(content.href, '_blank', 'noopener,noreferrer')
       } else {
-        if (!document.startViewTransition) {
+        if (!document.startViewTransition || content.id === "activity-portal") {
           router.visit(content.href)
           return
         }

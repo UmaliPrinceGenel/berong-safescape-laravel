@@ -561,17 +561,6 @@ html.lightbox-open [id*="feedback-widget"] {
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Smooth View Transitions for Badge Hall Morphing */
-::view-transition-old(badge-hall-card-morph),
-::view-transition-new(badge-hall-card-morph),
-::view-transition-old(badge-hall-icon-morph),
-::view-transition-new(badge-hall-icon-morph),
-::view-transition-old(badge-hall-title-morph),
-::view-transition-new(badge-hall-title-morph) {
-  animation-duration: 0.44s;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
 /* Smooth View Transitions for Kids Grid Content Morphing */
 ::view-transition-old(kids-card-morph-safescape-course),
 ::view-transition-new(kids-card-morph-safescape-course),
@@ -596,13 +585,7 @@ html.lightbox-open [id*="feedback-widget"] {
 ::view-transition-old(kids-card-image-escape-room-game),
 ::view-transition-new(kids-card-image-escape-room-game),
 ::view-transition-old(kids-card-title-escape-room-game),
-::view-transition-new(kids-card-title-escape-room-game),
-::view-transition-old(kids-card-morph-activity-portal),
-::view-transition-new(kids-card-morph-activity-portal),
-::view-transition-old(kids-card-image-activity-portal),
-::view-transition-new(kids-card-image-activity-portal),
-::view-transition-old(kids-card-title-activity-portal),
-::view-transition-new(kids-card-title-activity-portal) {
+::view-transition-new(kids-card-title-escape-room-game) {
   animation-duration: 0.44s;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
