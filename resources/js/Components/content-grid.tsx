@@ -7,7 +7,8 @@ import { Skeleton } from "./ui/skeleton"
 interface ContentGridProps {
   contents: ContentCardData[]
   emptyMessage?: string
-  onCardClick?: (content: ContentCardData) => void
+  onCardClick?: (content: ContentCardData, e?: React.MouseEvent) => void
+  activeMorphCardId?: string | number | null
   variant?: 'map' | 'grid'
   isLoading?: boolean
   skeletonCount?: number
@@ -17,6 +18,7 @@ export function ContentGrid({
   contents, 
   emptyMessage = "No content available yet. Check back soon! 🎉", 
   onCardClick,
+  activeMorphCardId = null,
   variant = 'map',
   isLoading = false,
   skeletonCount = 3
@@ -205,7 +207,8 @@ export function ContentGrid({
               {/* Card Content */}
               <ContentCard 
                 content={content} 
-                onClick={() => onCardClick?.(content)}
+                isMorphing={activeMorphCardId === content.id}
+                onClick={(e) => onCardClick?.(content, e)}
               />
             </div>
           ))

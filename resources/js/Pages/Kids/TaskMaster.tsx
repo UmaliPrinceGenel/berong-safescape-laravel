@@ -55,7 +55,10 @@ export default function TaskMaster() {
     <>
       <Head title="Task Master Game" />
       
-      <div className="fixed inset-0 bg-black z-[9999] flex items-center justify-center overflow-hidden touch-none select-none">
+      <div 
+        style={{ viewTransitionName: 'kids-card-morph-video-game' }}
+        className="fixed inset-0 bg-black z-[9999] flex items-center justify-center overflow-hidden touch-none select-none"
+      >
         
         <div className="absolute top-4 left-4 z-[10000] flex items-center gap-3">
           <Link 

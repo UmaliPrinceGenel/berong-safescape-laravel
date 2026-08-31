@@ -36,10 +36,11 @@ export interface ContentCardData {
 
 interface ContentCardProps {
   content: ContentCardData
-  onClick?: () => void
+  onClick?: (e?: React.MouseEvent) => void
+  isMorphing?: boolean
 }
 
-export const ContentCard = React.memo(({ content, onClick }: ContentCardProps) => {
+export const ContentCard = React.memo(({ content, onClick, isMorphing = false }: ContentCardProps) => {
   const [imageError, setImageError] = useState(false)
   const [imageLoading, setImageLoading] = useState(true)
 
@@ -148,7 +149,11 @@ export const ContentCard = React.memo(({ content, onClick }: ContentCardProps) =
         )}
 
         {/* Central Graphic */}
-        <div className={cn(
+        <div 
+          style={{
+            viewTransitionName: isMorphing ? `kids-card-image-${content.id}` : 'none'
+          }}
+          className={cn(
            "absolute inset-0 z-10 transition-all duration-700 flex items-center justify-center",
            !content.isLocked && "group-hover:scale-110",
            content.videoPreviewUrl && "group-hover:opacity-0 group-hover:scale-95"
@@ -203,7 +208,11 @@ export const ContentCard = React.memo(({ content, onClick }: ContentCardProps) =
           "bg-white dark:bg-slate-800/90",
           content.videoPreviewUrl && "group-hover:opacity-0"
         )} />
-        <h3 className={cn(
+        <h3 
+          style={{
+            viewTransitionName: isMorphing ? `kids-card-title-${content.id}` : 'none'
+          }}
+          className={cn(
           "font-black text-[13px] sm:text-xl text-slate-800 dark:text-white leading-tight mb-1 sm:mb-2 transition-colors line-clamp-2 tracking-tight",
           content.videoPreviewUrl ? "group-hover:!text-white group-hover:drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" : "group-hover:text-indigo-600 dark:group-hover:text-indigo-400"
         )}>
@@ -331,7 +340,10 @@ export const ContentCard = React.memo(({ content, onClick }: ContentCardProps) =
     return (
       <motion.div
         id={`content-card-${content.id}`}
-        onClick={(e) => { e.preventDefault(); if (onClick) onClick(); }}
+        style={{
+          viewTransitionName: isMorphing ? `kids-card-morph-${content.id}` : 'none'
+        }}
+        onClick={(e) => { e.preventDefault(); if (onClick) onClick(e); }}
         whileHover={{ scale: 1.01 }}
         className={cn(
           "group relative flex flex-col h-full w-full rounded-2xl sm:rounded-[2.5rem] overflow-hidden bg-white dark:bg-slate-800 transition-all duration-500",
@@ -351,8 +363,11 @@ export const ContentCard = React.memo(({ content, onClick }: ContentCardProps) =
     return (
       <motion.a
         id={`content-card-${content.id}`}
+        style={{
+          viewTransitionName: isMorphing ? `kids-card-morph-${content.id}` : 'none'
+        }}
         href={content.href}
-        onClick={() => { if (onClick) onClick() }}
+        onClick={(e) => { if (onClick) onClick(e) }}
         whileHover={{ 
           y: -10,
           scale: 1.02,
@@ -377,8 +392,11 @@ export const ContentCard = React.memo(({ content, onClick }: ContentCardProps) =
   return (
     <MotionLink
       id={`content-card-${content.id}`}
+      style={{
+        viewTransitionName: isMorphing ? `kids-card-morph-${content.id}` : 'none'
+      }}
       href={content.href}
-      onClick={() => { if (onClick) onClick() }}
+      onClick={(e) => { if (onClick) onClick(e) }}
       whileHover={{ 
         y: -10,
         scale: 1.02,

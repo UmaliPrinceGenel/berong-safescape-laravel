@@ -191,7 +191,9 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
     }))
   }, [rawContent, justUnlockedIds])
 
-  const handleContentClick = (content: ContentCardData) => {
+  const [activeMorphCardId, setActiveMorphCardId] = useState<string | number | null>(null)
+
+  const handleContentClick = (content: ContentCardData, e?: React.MouseEvent) => {
     if (content.isLocked) {
       toast.error("Access Denied!", {
         description: `You must ${content.unlockRequirement?.toLowerCase() || 'complete the requirements'} to unlock ${content.title}!`,
@@ -212,7 +214,27 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
       if (content.href.startsWith("http")) {
         window.open(content.href, '_blank', 'noopener,noreferrer')
       } else {
-        router.visit(content.href)
+        if (!document.startViewTransition) {
+          router.visit(content.href)
+          return
+        }
+
+        if (e) {
+          e.preventDefault()
+        }
+
+        setActiveMorphCardId(content.id)
+        requestAnimationFrame(() => {
+          document.startViewTransition(() => {
+            return new Promise<void>((resolve) => {
+              router.visit(content.href, {
+                onFinish: () => {
+                  resolve()
+                },
+              })
+            })
+          })
+        })
       }
     }
   }
@@ -258,6 +280,7 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
           <Deferred data="progress" fallback={<ContentGridSkeleton count={6} />}>
             <ContentGrid
               contents={allContent}
+              activeMorphCardId={activeMorphCardId}
               onCardClick={handleContentClick}
               emptyMessage="No content available yet. Check back soon! 🎉"
             />

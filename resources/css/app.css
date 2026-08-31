@@ -572,6 +572,41 @@ html.lightbox-open [id*="feedback-widget"] {
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Smooth View Transitions for Kids Grid Content Morphing */
+::view-transition-old(kids-card-morph-safescape-course),
+::view-transition-new(kids-card-morph-safescape-course),
+::view-transition-old(kids-card-image-safescape-course),
+::view-transition-new(kids-card-image-safescape-course),
+::view-transition-old(kids-card-title-safescape-course),
+::view-transition-new(kids-card-title-safescape-course),
+::view-transition-old(kids-card-morph-video-game),
+::view-transition-new(kids-card-morph-video-game),
+::view-transition-old(kids-card-image-video-game),
+::view-transition-new(kids-card-image-video-game),
+::view-transition-old(kids-card-title-video-game),
+::view-transition-new(kids-card-title-video-game),
+::view-transition-old(kids-card-morph-video-portal),
+::view-transition-new(kids-card-morph-video-portal),
+::view-transition-old(kids-card-image-video-portal),
+::view-transition-new(kids-card-image-video-portal),
+::view-transition-old(kids-card-title-video-portal),
+::view-transition-new(kids-card-title-video-portal),
+::view-transition-old(kids-card-morph-escape-room-game),
+::view-transition-new(kids-card-morph-escape-room-game),
+::view-transition-old(kids-card-image-escape-room-game),
+::view-transition-new(kids-card-image-escape-room-game),
+::view-transition-old(kids-card-title-escape-room-game),
+::view-transition-new(kids-card-title-escape-room-game),
+::view-transition-old(kids-card-morph-activity-portal),
+::view-transition-new(kids-card-morph-activity-portal),
+::view-transition-old(kids-card-image-activity-portal),
+::view-transition-new(kids-card-image-activity-portal),
+::view-transition-old(kids-card-title-activity-portal),
+::view-transition-new(kids-card-title-activity-portal) {
+  animation-duration: 0.44s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 0.35s;

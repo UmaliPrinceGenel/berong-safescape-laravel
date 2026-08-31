@@ -163,9 +163,15 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
             {/* Background Glow */}
             <div className="absolute -inset-2 bg-blue-500/10 rounded-[2.5rem] opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
             
-            <div className="relative bg-white dark:bg-slate-800 rounded-[2rem] p-5 sm:p-8 shadow-xl border-2 border-slate-50 dark:border-slate-700 overflow-hidden transition-colors duration-500">
+            <div 
+              style={{ viewTransitionName: 'kids-card-morph-activity-portal' }}
+              className="relative bg-white dark:bg-slate-800 rounded-[2rem] p-5 sm:p-8 shadow-xl border-2 border-slate-50 dark:border-slate-700 overflow-hidden transition-colors duration-500"
+            >
                {/* Decorative floating elements */}
-                <div className="hidden sm:block absolute top-0 right-0 p-8 opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-700">
+                <div 
+                  style={{ viewTransitionName: 'kids-card-image-activity-portal' }}
+                  className="hidden sm:block absolute top-0 right-0 p-8 opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-700"
+                >
                    <img src="/games.webp?v=2" className="h-24 w-24 sm:h-36 sm:w-36 object-contain" alt="" />
                 </div>
                 <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-blue-50 dark:bg-blue-900/20 rounded-full opacity-60"></div>
@@ -179,7 +185,10 @@ const KidsChallengesPage = ({ progress }: ChallengesProps) => {
                   </Link>
                   
                   <div className="flex-1">
-                     <h1 className="text-2xl sm:text-4xl font-black text-slate-800 dark:text-white tracking-tight mb-1 sm:mb-2 uppercase">
+                     <h1 
+                       style={{ viewTransitionName: 'kids-card-title-activity-portal' }}
+                       className="text-2xl sm:text-4xl font-black text-slate-800 dark:text-white tracking-tight mb-1 sm:mb-2 uppercase"
+                     >
                         Mini <span className="text-blue-600 dark:text-blue-400">Games</span>
                      </h1>
                      <p className="text-slate-500 dark:text-slate-400 font-bold text-sm sm:text-base max-w-lg leading-relaxed">
