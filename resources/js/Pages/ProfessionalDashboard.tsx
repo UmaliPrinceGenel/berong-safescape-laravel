@@ -101,7 +101,18 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
     const [highlightManuals, setHighlightManuals] = useState(false)
     const playerRef = useRef<HTMLDivElement>(null)
     const ytPlayerRef = useRef<any>(null)
+    const currentRankRef = useRef<HTMLDivElement>(null)
     const [isYTReady, setIsYTReady] = useState(false)
+
+    // Auto-scroll to current rank when Rank Guide modal opens
+    useEffect(() => {
+        if (showRankGuide) {
+            const timer = setTimeout(() => {
+                currentRankRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            }, 150)
+            return () => clearTimeout(timer)
+        }
+    }, [showRankGuide])
 
     // Sync watchedIds when deferred prop arrives
     useEffect(() => {
@@ -757,7 +768,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
             {typeof window !== 'undefined' && ReactDOM.createPortal(
                 <AnimatePresence>
                     {showRankGuide && (
-                        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-3.5 sm:p-4 overflow-x-hidden overflow-y-auto">
+                        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-x-hidden overflow-y-auto">
                             {/* Backdrop with smooth fade */}
                             <motion.div
                                 key="rank-guide-backdrop"
@@ -769,78 +780,97 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                 onClick={() => setShowRankGuide(false)}
                             />
 
-                            {/* Modal with spring morph & compact mobile layout */}
+                            {/* Modal with spring morph & spacious, highly readable layout */}
                             <motion.div
                                 key="rank-guide-modal"
-                                initial={{ opacity: 0, scale: 0.82, y: 22 }}
+                                initial={{ opacity: 0, scale: 0.85, y: 24 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.82, y: 16 }}
-                                transition={{ type: "spring", damping: 28, stiffness: 380, mass: 0.8 }}
-                                className="relative w-full max-w-[85vw] xs:max-w-[320px] sm:max-w-md max-h-[80vh] sm:max-h-[86vh] bg-white dark:bg-slate-950 border-[3px] sm:border-[4px] border-red-500 rounded-[1.75rem] sm:rounded-[2.5rem] overflow-hidden shadow-2xl flex flex-col my-auto z-10"
+                                exit={{ opacity: 0, scale: 0.88, y: 16 }}
+                                transition={{ type: "spring", damping: 28, stiffness: 360, mass: 0.8 }}
+                                className="relative w-full max-w-[94vw] xs:max-w-md sm:max-w-lg md:max-w-xl max-h-[88vh] sm:max-h-[90vh] bg-white dark:bg-slate-950 border-[3px] sm:border-[4px] border-red-500 rounded-[1.75rem] sm:rounded-[2.5rem] overflow-hidden shadow-2xl flex flex-col my-auto z-10"
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 {/* Header */}
-                                <div className="bg-red-500 p-3.5 xs:p-4 sm:p-6 text-center relative shrink-0">
+                                <div className="bg-red-500 p-4 xs:p-5 sm:p-7 text-center relative shrink-0">
                                     <button
                                         onClick={() => setShowRankGuide(false)}
-                                        className="absolute top-2.5 right-2.5 sm:top-3.5 sm:right-3.5 h-6 w-6 xs:h-7 xs:w-7 sm:h-8 sm:w-8 rounded-full bg-black/20 hover:bg-black/35 active:scale-90 text-white flex items-center justify-center transition-all cursor-pointer"
+                                        className="absolute top-3 right-3 sm:top-4 sm:right-4 h-7 w-7 sm:h-9 sm:w-9 rounded-full bg-black/20 hover:bg-black/35 active:scale-90 text-white flex items-center justify-center transition-all cursor-pointer"
                                         aria-label="Close"
                                     >
-                                        <X className="h-3.5 w-3.5 sm:h-4 sm:w-4" strokeWidth={2.5} />
+                                        <X className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5} />
                                     </button>
                                     <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none overflow-hidden">
-                                        <Star className="absolute top-2 left-2 sm:top-4 sm:left-4 h-7 w-7 sm:h-12 sm:w-12 text-white rotate-12" />
-                                        <Trophy className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 h-7 w-7 sm:h-12 sm:w-12 text-white -rotate-12" />
+                                        <Star className="absolute top-2 left-2 sm:top-4 sm:left-4 h-8 w-8 sm:h-14 sm:w-14 text-white rotate-12" />
+                                        <Trophy className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 h-8 w-8 sm:h-14 sm:w-14 text-white -rotate-12" />
                                     </div>
-                                    <h3 className="text-base xs:text-lg sm:text-2xl font-black text-white uppercase tracking-tighter mb-0.5 sm:mb-1 text-center">
+                                    <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white uppercase tracking-tighter mb-1 text-center">
                                         Professional Rank Guide
                                     </h3>
-                                    <p className="text-white/90 font-bold text-[10px] xs:text-[11px] sm:text-xs text-center">
+                                    <p className="text-white/90 font-bold text-xs sm:text-sm text-center">
                                         Complete training videos to level up your rank!
                                     </p>
                                 </div>
 
-                                {/* Rank list */}
-                                <div className="p-2.5 xs:p-3 sm:p-4 space-y-2 sm:space-y-2.5 bg-slate-50 dark:bg-slate-950 overflow-y-auto">
+                                {/* Rank list with transition highlight on current rank */}
+                                <div className="p-3 xs:p-4 sm:p-5 space-y-3 sm:space-y-3.5 bg-slate-50 dark:bg-slate-950 overflow-y-auto max-h-[56vh] sm:max-h-[60vh]">
                                     {PROFESSIONAL_RANKS.map((rank, i) => {
                                         const Icon = rank.icon
                                         const isCurrent = currentRank.name === rank.name
 
                                         return (
-                                            <div 
-                                                key={i} 
+                                            <motion.div 
+                                                key={i}
+                                                ref={isCurrent ? currentRankRef : null}
+                                                initial={{ opacity: 0, y: isCurrent ? 8 : 14, scale: isCurrent ? 0.95 : 0.98 }}
+                                                animate={{ 
+                                                    opacity: 1, 
+                                                    y: 0, 
+                                                    scale: isCurrent ? 1.02 : 1,
+                                                    transition: { 
+                                                        delay: isCurrent ? 0.1 : 0.04 * i,
+                                                        type: "spring",
+                                                        stiffness: 380,
+                                                        damping: 24
+                                                    }
+                                                }}
                                                 className={cn(
-                                                    "relative flex items-center gap-2 xs:gap-2.5 sm:gap-3.5 p-2 xs:p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border-2 transition-all",
+                                                    "relative flex items-center gap-3 sm:gap-4 p-3 xs:p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all",
                                                     isCurrent 
-                                                        ? "bg-white dark:bg-[#0b1329] border-red-500 shadow-md scale-[1.01]" 
-                                                        : "bg-white/80 dark:bg-[#070d19]/80 border-slate-200 dark:border-slate-800/85 opacity-90 dark:opacity-70"
+                                                        ? "bg-white dark:bg-[#0c152b] border-red-500 shadow-md ring-2 ring-red-500/25" 
+                                                        : "bg-white/85 dark:bg-[#070d19]/85 border-slate-200 dark:border-slate-800/85 opacity-90 dark:opacity-75"
                                                 )}
                                             >
                                                 {isCurrent && (
-                                                    <div className="absolute -top-2 -right-1 sm:-top-2.5 sm:-right-2 bg-red-500 text-white text-[7px] xs:text-[7.5px] sm:text-[8.5px] font-black px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-full shadow-md border border-white dark:border-slate-950 uppercase tracking-tight">
-                                                        Current
-                                                    </div>
+                                                    <motion.div 
+                                                        initial={{ scale: 0 }}
+                                                        animate={{ scale: 1 }}
+                                                        transition={{ delay: 0.22, type: "spring", bounce: 0.55 }}
+                                                        className="absolute -top-2.5 -right-1.5 sm:-top-3 sm:-right-2 bg-red-500 text-white text-[8.5px] sm:text-[9.5px] font-black px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full shadow-md border-2 border-white dark:border-slate-950 uppercase tracking-tight flex items-center gap-1"
+                                                    >
+                                                        <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                                                        Current Rank
+                                                    </motion.div>
                                                 )}
-                                                <div className={cn("h-7 w-7 xs:h-8 xs:w-8 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 border-2", rank.bg, rank.border, rank.color)}>
-                                                    <Icon className="h-3.5 w-3.5 xs:h-4 xs:w-4 sm:h-5 sm:w-5" />
+                                                <div className={cn("h-10 w-10 sm:h-13 sm:w-13 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 border-2 shadow-xs", rank.bg, rank.border, rank.color)}>
+                                                    <Icon className="h-5 w-5 sm:h-6.5 sm:w-6.5" />
                                                 </div>
                                                 <div className="flex-1 min-w-0">
-                                                    <div className="flex items-center justify-between gap-1">
-                                                        <h4 className={cn("font-black text-[11px] xs:text-xs sm:text-sm uppercase tracking-tight truncate", rank.color)}>{rank.name}</h4>
-                                                        <span className="text-[8px] xs:text-[8.5px] sm:text-[9.5px] font-black text-slate-500 dark:text-slate-400 uppercase shrink-0">{rank.count}+ Videos</span>
+                                                    <div className="flex items-center justify-between gap-1.5 mb-0.5">
+                                                        <h4 className={cn("font-black text-xs sm:text-base uppercase tracking-tight truncate", rank.color)}>{rank.name}</h4>
+                                                        <span className="text-[9.5px] sm:text-xs font-black text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/80 px-2 py-0.5 rounded-md uppercase shrink-0 border border-slate-200/60 dark:border-slate-700/60">{rank.count}+ Videos</span>
                                                     </div>
-                                                    <p className="text-[9px] xs:text-[9.5px] sm:text-[11px] font-bold text-slate-600 dark:text-slate-400 leading-tight mt-0.5">{rank.desc}</p>
+                                                    <p className="text-[11px] xs:text-xs sm:text-[13px] font-medium text-slate-600 dark:text-slate-300 leading-relaxed">{rank.desc}</p>
                                                 </div>
-                                            </div>
+                                            </motion.div>
                                         )
                                     })}
                                 </div>
 
                                 {/* Footer Button */}
-                                <div className="p-2.5 xs:p-3 sm:p-4 pt-1 sm:pt-1.5 bg-slate-50 dark:bg-slate-950 shrink-0">
+                                <div className="p-3 xs:p-4 sm:p-5 pt-1.5 sm:pt-2 bg-slate-50 dark:bg-slate-950 shrink-0">
                                     <button
                                         onClick={() => setShowRankGuide(false)}
-                                        className="w-full bg-red-500 hover:bg-red-600 active:scale-[0.99] text-white font-black py-2 xs:py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border-b-[3px] sm:border-b-[5px] border-red-800 active:border-b-0 active:translate-y-[3px] sm:active:translate-y-[5px] transition-all uppercase tracking-widest text-[11px] xs:text-xs sm:text-sm shadow-md cursor-pointer"
+                                        className="w-full bg-red-500 hover:bg-red-600 active:scale-[0.99] text-white font-black py-3 sm:py-4 rounded-xl sm:rounded-2xl border-b-[4px] sm:border-b-[6px] border-red-800 active:border-b-0 active:translate-y-[4px] sm:active:translate-y-[6px] transition-all uppercase tracking-widest text-xs sm:text-sm shadow-md cursor-pointer"
                                     >
                                         Got it, Officer!
                                     </button>
