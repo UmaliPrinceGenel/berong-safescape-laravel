@@ -39,7 +39,7 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
             {/* Expanded Image Modal Lightbox */}
             {isImageExpanded && blog.imageUrl && (
                 <div 
-                    style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 999999, background: 'rgba(0,0,0,0.97)', overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}
+                    style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 999999, background: 'rgba(0,0,0,0.97)', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch' }}
                     onClick={() => setIsImageExpanded(false)}
                 >
                     <button 
@@ -49,14 +49,12 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                     >
                         <X className="h-6 w-6" strokeWidth={2.5} />
                     </button>
-                    <div style={{ width: '100%', minHeight: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
-                        <img 
-                            src={blog.imageUrl} 
-                            alt={blog.title} 
-                            onClick={(e) => e.stopPropagation()}
-                            style={{ display: 'block', width: '100vw', height: 'auto', maxWidth: '100vw', objectFit: 'contain' }}
-                        />
-                    </div>
+                    <img 
+                        src={blog.imageUrl} 
+                        alt={blog.title} 
+                        onClick={(e) => e.stopPropagation()}
+                        style={{ display: 'block', width: '100%', height: 'auto' }}
+                    />
                 </div>
             )}
 
