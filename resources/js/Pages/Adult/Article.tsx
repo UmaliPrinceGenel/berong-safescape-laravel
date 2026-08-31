@@ -39,22 +39,22 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
             {/* Expanded Image Modal Lightbox */}
             {isImageExpanded && blog.imageUrl && (
                 <div 
-                    className="fixed inset-0 z-[99999] bg-black/95 backdrop-blur-md flex flex-col items-center justify-start sm:justify-center p-0 sm:p-6 cursor-zoom-out animate-in fade-in duration-200 overflow-y-auto"
+                    style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 999999, background: 'rgba(0,0,0,0.97)', overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}
                     onClick={() => setIsImageExpanded(false)}
                 >
                     <button 
-                        className="fixed top-4 right-4 sm:top-6 sm:right-6 text-white hover:bg-white/20 bg-black/60 backdrop-blur-md p-3 rounded-full transition-all active:scale-95 border border-white/20 z-[100000] shadow-2xl"
+                        style={{ position: 'fixed', top: 16, right: 16, zIndex: 1000000, background: 'rgba(0,0,0,0.7)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '50%', padding: 12, color: 'white', cursor: 'pointer', backdropFilter: 'blur(8px)' }}
                         onClick={(e) => { e.stopPropagation(); setIsImageExpanded(false); }}
-                        title="Close"
                         aria-label="Close fullscreen preview"
                     >
                         <X className="h-6 w-6" strokeWidth={2.5} />
                     </button>
-                    <div className="w-full max-w-full sm:max-w-4xl min-h-full flex items-center justify-center p-2 sm:p-4 my-auto">
+                    <div style={{ width: '100%', minHeight: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
                         <img 
                             src={blog.imageUrl} 
                             alt={blog.title} 
-                            className="w-full sm:w-auto h-auto max-h-none sm:max-h-[92vh] object-contain rounded-lg sm:rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200 ring-1 sm:ring-4 ring-white/10"
+                            onClick={(e) => e.stopPropagation()}
+                            style={{ display: 'block', width: '100vw', height: 'auto', maxWidth: '100vw', objectFit: 'contain' }}
                         />
                     </div>
                 </div>
