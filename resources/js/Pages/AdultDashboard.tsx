@@ -57,6 +57,24 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
     const { user } = useAuth()
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedVideo, setSelectedVideo] = useState<any>(null)
+    const [activeMorphId, setActiveMorphId] = useState<string | number | null>(null)
+
+    const handleArticleClick = (e: React.MouseEvent, blogId: string | number, href: string) => {
+        if (!document.startViewTransition) {
+            return;
+        }
+        e.preventDefault();
+        setActiveMorphId(blogId);
+        requestAnimationFrame(() => {
+            document.startViewTransition(() => {
+                return new Promise<void>((resolve) => {
+                    router.visit(href, {
+                        onFinish: () => resolve(),
+                    });
+                });
+            });
+        });
+    };
 
     const playerRef = useRef<HTMLDivElement>(null)
     const ytPlayerRef = useRef<any>(null)
@@ -304,8 +322,18 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                         ) : (
                             <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
                                 {filteredBlogs.map((blog) => (
-                                    <Link key={blog.id} href={`/adult/blog/${blog.id}`} className="outline-none block w-full group h-full">
-                                        <div className="flex flex-col h-full bg-white dark:bg-slate-800/90 rounded-xl sm:rounded-[1.75rem] overflow-hidden relative transition-all duration-300 border-[2px] border-slate-100 dark:border-slate-700/80 shadow-[0_2px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3)] group-hover:-translate-y-1.5 group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] dark:group-hover:shadow-[0_12px_32px_rgba(249,115,22,0.15)] group-active:translate-y-0 group-active:shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+                                    <Link 
+                                        key={blog.id} 
+                                        href={`/adult/blog/${blog.id}`} 
+                                        onClick={(e) => handleArticleClick(e, blog.id, `/adult/blog/${blog.id}`)}
+                                        className="outline-none block w-full group h-full"
+                                    >
+                                        <div 
+                                            style={{
+                                                viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-card-morph' : 'none'
+                                            }}
+                                            className="flex flex-col h-full bg-white dark:bg-slate-800/90 rounded-xl sm:rounded-[1.75rem] overflow-hidden relative transition-all duration-300 border-[2px] border-slate-100 dark:border-slate-700/80 shadow-[0_2px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3)] group-hover:-translate-y-1.5 group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] dark:group-hover:shadow-[0_12px_32px_rgba(249,115,22,0.15)] group-active:translate-y-0 group-active:shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
+                                        >
                                             {/* Image Section */}
                                             <div className="relative h-28 sm:h-52 shrink-0 w-full overflow-hidden bg-slate-100 dark:bg-slate-900">
                                                 <img
@@ -313,6 +341,9 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                                     alt={blog.title}
                                                     decoding="async"
                                                     loading="lazy"
+                                                    style={{
+                                                        viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-hero-image' : 'none'
+                                                    }}
                                                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                                                 />
                                                 {/* Bottom Gradient Overlay */}
@@ -332,7 +363,12 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                             
                                             {/* Content Area */}
                                             <div className="p-2.5 sm:p-5 flex flex-col flex-1 bg-white dark:bg-slate-800/90 transition-colors">
-                                                <h3 className="font-black text-[11px] sm:text-[1.05rem] text-slate-800 dark:text-white line-clamp-2 mb-1.5 sm:mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors leading-snug tracking-tight">
+                                                <h3 
+                                                    style={{
+                                                        viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-hero-title' : 'none'
+                                                    }}
+                                                    className="font-black text-[11px] sm:text-[1.05rem] text-slate-800 dark:text-white line-clamp-2 mb-1.5 sm:mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors leading-snug tracking-tight"
+                                                >
                                                     {blog.title}
                                                 </h3>
                                                 

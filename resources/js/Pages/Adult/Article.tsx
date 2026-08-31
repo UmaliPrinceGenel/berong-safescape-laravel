@@ -2,7 +2,7 @@
 
 import React, { useState } from "react"
 import ReactDOM, { flushSync } from "react-dom"
-import { Head, Link } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import DashboardLayout from "@/Layouts/DashboardLayout"
 import { ArrowLeft, User, Calendar, Maximize2, X, Flame } from "lucide-react"
 import DOMPurify from "dompurify"
@@ -37,6 +37,20 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
         });
     };
 
+    const handleBackClick = (e: React.MouseEvent) => {
+        if (!document.startViewTransition) {
+            return;
+        }
+        e.preventDefault();
+        document.startViewTransition(() => {
+            return new Promise<void>((resolve) => {
+                router.visit('/adult', {
+                    onFinish: () => resolve(),
+                });
+            });
+        });
+    };
+
     // Handle both naming conventions just in case
     const dateString = blog.created_at || blog.createdAt;
     const formattedDate = dateString 
@@ -67,7 +81,7 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                             src={blog.imageUrl} 
                             alt={blog.title} 
                             onClick={(e) => e.stopPropagation()}
-                            style={{ display: 'block', width: '175%', maxWidth: 'none', height: 'auto', flexShrink: 0, viewTransitionName: 'article-image-morph' }}
+                            style={{ display: 'block', width: '175%', maxWidth: 'none', height: 'auto', flexShrink: 0, viewTransitionName: 'article-hero-image' }}
                         />
                     </div>
                 </div>,
@@ -95,6 +109,7 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                 <div className="hidden lg:block lg:absolute lg:top-1.5 lg:left-4 xl:left-6 z-20">
                     <Link 
                         href="/adult" 
+                        onClick={handleBackClick}
                         className="group inline-flex items-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 bg-white dark:bg-slate-800 rounded-full text-slate-700 dark:text-slate-200 font-bold hover:text-slate-900 dark:hover:text-white border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-slate-900 active:border-b-2 active:translate-y-[2px] shadow-sm transition-all text-xs sm:text-sm"
                     >
                         <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform duration-300" strokeWidth={3} />
@@ -106,6 +121,7 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                 <div className="mb-4 sm:mb-6 flex lg:hidden">
                     <Link 
                         href="/adult" 
+                        onClick={handleBackClick}
                         className="group inline-flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-5 sm:py-2.5 bg-white dark:bg-slate-800 rounded-full text-slate-700 dark:text-slate-200 font-bold hover:text-slate-900 dark:hover:text-white border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-slate-900 active:border-b-2 active:translate-y-[2px] shadow-sm transition-all text-xs sm:text-sm"
                     >
                         <ArrowLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4 group-hover:-translate-x-1 transition-transform duration-300" strokeWidth={3} />
@@ -114,7 +130,10 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                 </div>
 
                 {/* Main Unified Article Card */}
-                <article className="max-w-3xl mx-auto bg-white dark:bg-slate-800/90 backdrop-blur-md rounded-[1.5rem] sm:rounded-[2rem] shadow-xl dark:shadow-[0_12px_40px_rgba(0,0,0,0.3)] border border-slate-200/60 dark:border-slate-700/50 overflow-hidden transition-all duration-300">
+                <article 
+                    style={{ viewTransitionName: 'article-card-morph' }}
+                    className="max-w-3xl mx-auto bg-white dark:bg-slate-800/90 backdrop-blur-md rounded-[1.5rem] sm:rounded-[2rem] shadow-xl dark:shadow-[0_12px_40px_rgba(0,0,0,0.3)] border border-slate-200/60 dark:border-slate-700/50 overflow-hidden transition-all duration-300"
+                >
                     
                     {/* Header Section */}
                     <div className="p-4 sm:p-8 md:p-9 pb-3 sm:pb-5 bg-white dark:bg-transparent transition-colors">
@@ -122,7 +141,10 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                             Fire Safety Education
                         </span>
                         
-                        <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-800 dark:text-white leading-[1.2] tracking-tight mb-3 sm:mb-4 transition-colors">
+                        <h1 
+                            style={{ viewTransitionName: 'article-hero-title' }}
+                            className="text-xl sm:text-2xl md:text-3xl font-black text-slate-800 dark:text-white leading-[1.2] tracking-tight mb-3 sm:mb-4 transition-colors"
+                        >
                             {blog.title}
                         </h1>
                         
@@ -153,7 +175,7 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                                     src={blog.imageUrl} 
                                     alt={blog.title} 
                                     className="w-full h-auto object-contain rounded-xl sm:rounded-2xl transition-transform duration-300 group-hover:scale-[1.005]"
-                                    style={{ viewTransitionName: isImageExpanded ? 'none' : 'article-image-morph' }}
+                                    style={{ viewTransitionName: isImageExpanded ? 'none' : 'article-hero-image' }}
                                 />
                                 
                                 {/* Expand Overlay Hint */}
