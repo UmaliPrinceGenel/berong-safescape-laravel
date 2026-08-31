@@ -132,22 +132,23 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
 
                     {/* Expandable Image Section */}
                     {blog.imageUrl && (
-                        <div 
-                            className="w-full relative group cursor-zoom-in overflow-hidden transition-all active:scale-[0.995] flex justify-center items-center bg-black rounded-xl sm:rounded-2xl"
-                            style={{ aspectRatio: '3/4' }}
-                            onClick={() => setIsImageExpanded(true)}
-                        >
-                            <img 
-                                src={blog.imageUrl} 
-                                alt={blog.title} 
-                                className="w-[175%] max-w-none flex-shrink-0 h-auto object-cover transition-transform duration-300 group-hover:scale-[1.005]"
-                            />
-                            
-                            {/* Expand Overlay Hint */}
-                            <div className="absolute bottom-2.5 right-2.5 sm:bottom-4 sm:right-4 z-20 transition-all duration-200 pointer-events-none">
-                                <div className="bg-slate-950/85 text-white font-black px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-xl text-[10px] sm:text-xs border border-white/20 backdrop-blur-md">
-                                    <Maximize2 className="h-3 w-3 text-orange-400" strokeWidth={2.5} />
-                                    <span>Tap to expand full size</span>
+                        <div className="px-3 sm:px-8 md:px-9">
+                            <div 
+                                className="w-full relative group cursor-zoom-in rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200/90 dark:border-slate-700/90 bg-slate-50 dark:bg-slate-900 shadow-sm transition-all hover:border-orange-500/50 hover:shadow-lg active:scale-[0.995]"
+                                onClick={() => setIsImageExpanded(true)}
+                            >
+                                <img 
+                                    src={blog.imageUrl} 
+                                    alt={blog.title} 
+                                    className="w-full h-auto object-contain rounded-xl sm:rounded-2xl transition-transform duration-300 group-hover:scale-[1.005]"
+                                />
+                                
+                                {/* Expand Overlay Hint */}
+                                <div className="absolute bottom-2.5 right-2.5 sm:bottom-4 sm:right-4 z-20 transition-all duration-200 pointer-events-none">
+                                    <div className="bg-slate-950/85 text-white font-black px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-xl text-[10px] sm:text-xs border border-white/20 backdrop-blur-md">
+                                        <Maximize2 className="h-3 w-3 text-orange-400" strokeWidth={2.5} />
+                                        <span>Tap to expand full size</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
