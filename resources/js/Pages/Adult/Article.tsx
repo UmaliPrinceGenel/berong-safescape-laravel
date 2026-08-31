@@ -50,12 +50,12 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                     >
                         <X className="h-6 w-6" strokeWidth={2.5} />
                     </button>
-                    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ minHeight: '100vh', width: '100vw', display: 'flex', alignItems: 'center', justifyContent: 'center', overflowX: 'hidden' }}>
                         <img 
                             src={blog.imageUrl} 
                             alt={blog.title} 
                             onClick={(e) => e.stopPropagation()}
-                            style={{ display: 'block', width: '100%', height: 'auto' }}
+                            style={{ display: 'block', width: '175%', maxWidth: 'none', height: 'auto', flexShrink: 0 }}
                         />
                     </div>
                 </div>,
@@ -133,13 +133,14 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                     {/* Expandable Image Section */}
                     {blog.imageUrl && (
                         <div 
-                            className="w-full relative group cursor-zoom-in overflow-hidden transition-all active:scale-[0.995]"
+                            className="w-full relative group cursor-zoom-in overflow-hidden transition-all active:scale-[0.995] flex justify-center items-center bg-black rounded-xl sm:rounded-2xl"
+                            style={{ aspectRatio: '3/4' }}
                             onClick={() => setIsImageExpanded(true)}
                         >
                             <img 
                                 src={blog.imageUrl} 
                                 alt={blog.title} 
-                                className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-[1.005]"
+                                className="w-[175%] max-w-none flex-shrink-0 h-auto object-cover transition-transform duration-300 group-hover:scale-[1.005]"
                             />
                             
                             {/* Expand Overlay Hint */}
