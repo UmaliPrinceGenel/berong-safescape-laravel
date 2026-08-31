@@ -585,7 +585,19 @@ html.lightbox-open [id*="feedback-widget"] {
 ::view-transition-old(kids-card-image-escape-room-game),
 ::view-transition-new(kids-card-image-escape-room-game),
 ::view-transition-old(kids-card-title-escape-room-game),
-::view-transition-new(kids-card-title-escape-room-game) {
+::view-transition-new(kids-card-title-escape-room-game),
+::view-transition-old(mission-prep-modal-morph),
+::view-transition-new(mission-prep-modal-morph),
+::view-transition-old(mission-prep-shield-morph),
+::view-transition-new(mission-prep-shield-morph),
+::view-transition-old(mission-prep-title-morph),
+::view-transition-new(mission-prep-title-morph),
+::view-transition-old(profile-avatar-morph),
+::view-transition-new(profile-avatar-morph),
+::view-transition-old(profile-header-card-morph),
+::view-transition-new(profile-header-card-morph),
+::view-transition-old(profile-banner-morph),
+::view-transition-new(profile-banner-morph) {
   animation-duration: 0.44s;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }

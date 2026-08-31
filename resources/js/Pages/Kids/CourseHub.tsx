@@ -1,8 +1,9 @@
 import React, { useMemo, useEffect, useState } from "react"
-import { Link, Deferred } from '@inertiajs/react'
+import { Link, Deferred, router } from '@inertiajs/react'
 import { ArrowLeft, ArrowRight, BookOpen, Trophy, Shield, CheckCircle, Lock, Flame, ChevronRight, ClipboardCheck } from "lucide-react"
 import { useAuth } from "@/lib/auth-context"
 import { toast } from "sonner"
+import { playSound } from '@/lib/audio'
 import DashboardLayout from "@/Layouts/DashboardLayout"
 import { cn } from "@/lib/utils"
 
@@ -124,6 +125,7 @@ const STATIC_MODULES: ModuleData[] = [
 const CourseHubPage = ({ initialModules }: CourseHubProps) => {
   const { user } = useAuth()
   const [showCertModal, setShowCertModal] = useState(false)
+  const [activeMorphModuleId, setActiveMorphModuleId] = useState<number | null>(null)
   
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -227,6 +229,42 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
     if (modules.length === 0) return 0
     return Math.round((completedCount / modules.length) * 100)
   }, [modules, completedCount])
+
+  const handleModuleClick = (e: React.MouseEvent, module: any) => {
+    if (module.isLocked) {
+      e.preventDefault()
+      toast.error("Module Locked", {
+        description: "You must complete the previous modules to unlock this one!",
+      })
+      return
+    }
+
+    const moduleRoute = `/kids/safescape/${module.dayNumber}`
+    playSound('/sounds/click.mp3', 'general')
+
+    if (window.scrollY > 0) {
+      sessionStorage.setItem('safescape_course_hub_scroll', window.scrollY.toString())
+    }
+
+    if (!document.startViewTransition) {
+      router.visit(moduleRoute)
+      return
+    }
+
+    e.preventDefault()
+    setActiveMorphModuleId(module.dayNumber)
+    requestAnimationFrame(() => {
+      document.startViewTransition(() => {
+        return new Promise<void>((resolve) => {
+          router.visit(moduleRoute, {
+            onFinish: () => {
+              resolve()
+            },
+          })
+        })
+      })
+    })
+  }
 
   // ─────────────────────────────────────────────
   return (
@@ -490,6 +528,9 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
                 return (
                   <div
                     key={module.id}
+                    style={{
+                      viewTransitionName: activeMorphModuleId === module.dayNumber ? 'mission-prep-modal-morph' : 'none'
+                    }}
                     className={cn(
                       "relative overflow-hidden rounded-[2rem] flex flex-col transition-all duration-300 bg-white dark:bg-slate-900 group h-full will-change-transform border-[3px]",
                       module.isLocked
@@ -535,10 +576,15 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
                       </div>
 
                       {/* Title */}
-                      <h4 className={cn(
-                        "text-xl sm:text-2xl font-black mb-3 leading-tight transition-colors duration-300",
-                        module.isLocked ? "text-slate-400 dark:text-slate-600" : "text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400"
-                      )}>
+                      <h4 
+                        style={{
+                          viewTransitionName: activeMorphModuleId === module.dayNumber ? 'mission-prep-title-morph' : 'none'
+                        }}
+                        className={cn(
+                          "text-xl sm:text-2xl font-black mb-3 leading-tight transition-colors duration-300",
+                          module.isLocked ? "text-slate-400 dark:text-slate-600" : "text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400"
+                        )}
+                      >
                         {meta?.title || module.title}
                       </h4>
 
@@ -579,6 +625,9 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
                           {meta && (
                             <div className="relative group/badge flex-shrink-0">
                               <div 
+                                style={{
+                                  viewTransitionName: activeMorphModuleId === module.dayNumber ? 'mission-prep-shield-morph' : 'none'
+                                }}
                                 className={cn(
                                   "flex items-center justify-center shrink-0 w-[52px] h-[52px] rounded-2xl border-[3px] shadow-sm transition-transform group-hover/badge:scale-110 cursor-help",
                                   module.isCompleted 
@@ -605,8 +654,9 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
                             {module.isCompleted ? (
                               <Link
                                 href={moduleRoute}
+                                onClick={(e) => handleModuleClick(e, module)}
                                 className={cn(
-                                  "w-full flex items-center justify-center gap-2 font-black py-3.5 rounded-2xl text-sm border-b-[4px] active:border-b-0 active:translate-y-[4px] shadow-lg transition-all uppercase tracking-wide",
+                                  "w-full flex items-center justify-center gap-2 font-black py-3.5 rounded-2xl text-sm border-b-[4px] active:border-b-0 active:translate-y-[4px] shadow-lg transition-all uppercase tracking-wide cursor-pointer",
                                   theme.buttonClass
                                 )}
                               >
@@ -626,8 +676,9 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
                             ) : (
                               <Link
                                 href={moduleRoute}
+                                onClick={(e) => handleModuleClick(e, module)}
                                 className={cn(
-                                  "w-full flex items-center justify-center gap-2 font-black py-4 rounded-2xl text-base border-b-[6px] active:border-b-0 active:translate-y-[6px] shadow-xl transition-all uppercase tracking-widest",
+                                  "w-full flex items-center justify-center gap-2 font-black py-4 rounded-2xl text-base border-b-[6px] active:border-b-0 active:translate-y-[6px] shadow-xl transition-all uppercase tracking-widest cursor-pointer",
                                   theme.buttonClass
                                 )}
                               >

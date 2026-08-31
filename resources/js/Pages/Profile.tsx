@@ -364,7 +364,10 @@ export default function ProfilePage() {
         <div className="fixed inset-0 pointer-events-none transition-colors duration-500 bg-white dark:bg-slate-950 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px]" />
 
         {/* Header Cover Banner */}
-        <div className="mb-6 sm:mb-8 bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden transition-all relative z-10">
+        <div 
+          style={{ viewTransitionName: 'profile-banner-morph' }}
+          className="mb-6 sm:mb-8 bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden transition-all relative z-10"
+        >
           {/* Cover color band */}
           <div className="h-28 sm:h-36 bg-gradient-to-r from-rose-500 via-orange-500 to-amber-400 dark:from-rose-800 dark:via-orange-850 dark:to-amber-600 relative overflow-hidden">
             {/* Grid pattern overlay */}
@@ -379,6 +382,7 @@ export default function ProfilePage() {
               {/* Avatar Selector Trigger */}
               <button 
                 onClick={() => setShowAvatarModal(true)}
+                style={{ viewTransitionName: 'profile-avatar-morph' }}
                 className="group relative flex items-center justify-center h-24 w-24 sm:h-28 sm:w-28 rounded-full border-4 border-white dark:border-slate-900 bg-white dark:bg-slate-900 shadow-xl hover:border-yellow-400 dark:hover:border-yellow-500 transition-all duration-300 shrink-0 overflow-visible cursor-pointer"
               >
                 <div className="h-full w-full flex items-center justify-center group-hover:scale-105 transition-transform overflow-hidden rounded-full relative bg-slate-50 dark:bg-slate-950">
@@ -409,7 +413,10 @@ export default function ProfilePage() {
               </button>
               
               {/* Profile Name & Email Box */}
-              <div className="w-full md:w-auto flex flex-col justify-center bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border-[2.5px] border-slate-200 dark:border-slate-800 p-4 sm:px-6 sm:py-4 rounded-2xl shadow-sm">
+              <div 
+                style={{ viewTransitionName: 'profile-header-card-morph' }}
+                className="w-full md:w-auto flex flex-col justify-center bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border-[2.5px] border-slate-200 dark:border-slate-800 p-4 sm:px-6 sm:py-4 rounded-2xl shadow-sm"
+              >
                 <div className="flex flex-col sm:flex-row items-center gap-2 mb-1 justify-center md:justify-start">
                   <h1 className="text-xl sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight transition-colors">{profile.name || "Fire Safety Hero"}</h1>
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-red-100 dark:bg-red-950/60 text-[#d60000] dark:text-red-400 text-[10px] font-black uppercase tracking-wider rounded-full border border-red-200 dark:border-red-900/60 transition-colors">

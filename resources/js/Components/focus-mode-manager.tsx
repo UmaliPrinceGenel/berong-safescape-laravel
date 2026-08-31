@@ -211,11 +211,20 @@ export function FocusModeManager() {
       {/* Mode Selection Modal */}
       {showModeSelectionModal && (
         <div className="fixed inset-0 z-[250] bg-slate-950/80 backdrop-blur-md overflow-y-auto flex items-start justify-center p-4 py-8 sm:py-12 animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-slate-900 border-[3px] sm:border-[4px] border-blue-200 dark:border-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-10 max-w-3xl w-full text-center shadow-2xl animate-in zoom-in-95 duration-300 my-auto">
-            <div className="inline-flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center bg-blue-100 dark:bg-blue-900/30 rounded-2xl border-2 border-blue-200 dark:border-blue-800 mb-4 sm:mb-6">
+          <div 
+            style={{ viewTransitionName: 'mission-prep-modal-morph' }}
+            className="bg-white dark:bg-slate-900 border-[3px] sm:border-[4px] border-blue-200 dark:border-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-10 max-w-3xl w-full text-center shadow-2xl animate-in zoom-in-95 duration-300 my-auto"
+          >
+            <div 
+              style={{ viewTransitionName: 'mission-prep-shield-morph' }}
+              className="inline-flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center bg-blue-100 dark:bg-blue-900/30 rounded-2xl border-2 border-blue-200 dark:border-blue-800 mb-4 sm:mb-6"
+            >
               <Shield className="h-6 w-6 sm:h-8 sm:w-8 text-[#ff4b3e]" />
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-800 dark:text-white mb-2 leading-none uppercase tracking-tight">
+            <h2 
+              style={{ viewTransitionName: 'mission-prep-title-morph' }}
+              className="text-2xl sm:text-4xl font-black text-slate-800 dark:text-white mb-2 leading-none uppercase tracking-tight"
+            >
               Prepare Your Mission
             </h2>
             <p className="text-slate-500 dark:text-slate-400 font-bold text-xs sm:text-base mb-6 sm:mb-8 max-w-md mx-auto">

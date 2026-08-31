@@ -17,6 +17,12 @@ export function preloadKidsPages() {
       import('../Pages/Kids/Videos').catch(() => {})
       import('../Pages/Kids/TaskMaster').catch(() => {})
       import('../Pages/Kids/Games/RightCall').catch(() => {})
+      import('../Pages/Kids/ModuleOne').catch(() => {})
+      import('../Pages/Kids/ModuleTwo').catch(() => {})
+      import('../Pages/Kids/ModuleThree').catch(() => {})
+      import('../Pages/Kids/ModuleFour').catch(() => {})
+      import('../Pages/Kids/ModuleFive').catch(() => {})
+      import('../Pages/Profile').catch(() => {})
     } catch (e) {
       // Ignore
     }
@@ -35,6 +41,8 @@ export function preloadKidsPages() {
       '/smoke_crawl.webp',
       '/hotornot.webp',
       '/hazard_blitz.webp',
+      '/standard.webp',
+      '/focus.webp',
     ]
 
     imagesToWarm.forEach(src => {

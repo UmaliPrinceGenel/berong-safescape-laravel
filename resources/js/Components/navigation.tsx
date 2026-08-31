@@ -8,9 +8,10 @@
 
 "use client"
 
-import { Link, usePage } from '@inertiajs/react';
+import { Link, usePage, router } from '@inertiajs/react';
 import { useState, useEffect, useRef } from "react"
 import { useAuth } from "@/lib/auth-context"
+import { playSound } from '@/lib/audio'
 import { useSettings } from "@/lib/settings-context"
 import { Button } from "@/Components/ui/button"
 import { LogOut, User, Menu, X, Home, Users, Briefcase, Baby, Shield, Info, Settings, ChevronDown, ArrowRight, Clock, Sliders, BookOpen, Eye, Focus, Type, Zap, Sun, Moon, ZoomIn, Volume2, Gamepad2, Music, BellRing, Sparkles } from "lucide-react"
@@ -109,6 +110,32 @@ export function Navigation() {
   };
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [showAccessibilityModal, setShowAccessibilityModal] = useState(false)
+  const [isNavigatingToProfile, setIsNavigatingToProfile] = useState(false)
+
+  const handleProfileClick = (e: React.MouseEvent) => {
+    playSound('/sounds/click.mp3', 'general')
+    setMobileMenuOpen(false)
+
+    if (!document.startViewTransition) {
+      router.visit('/profile')
+      return
+    }
+
+    e.preventDefault()
+    setIsNavigatingToProfile(true)
+    requestAnimationFrame(() => {
+      document.startViewTransition(() => {
+        return new Promise<void>((resolve) => {
+          router.visit('/profile', {
+            onFinish: () => {
+              setIsNavigatingToProfile(false)
+              resolve()
+            },
+          })
+        })
+      })
+    })
+  }
 
   const {
     reduceMotion,
@@ -392,7 +419,16 @@ export function Navigation() {
               {isAuthenticated ? (
                 <div className="hidden lg:flex items-center gap-3">
                   <div className="relative group flex items-center">
-                    <Link href="/profile" className="flex items-center justify-center p-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-[#facc15] border-[3px] border-white text-white shadow-[0_4px_0_#ca8a04] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#ca8a04] active:translate-y-1 active:shadow-none transition-all duration-200 active:duration-75 outline-none cursor-pointer">
+                    <Link 
+                      href="/profile" 
+                      onClick={handleProfileClick}
+                      onMouseEnter={() => { import('../Pages/Profile').catch(() => {}) }}
+                      onTouchStart={() => { import('../Pages/Profile').catch(() => {}) }}
+                      style={{
+                        viewTransitionName: isNavigatingToProfile ? 'profile-avatar-morph' : 'none'
+                      }}
+                      className="flex items-center justify-center p-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-[#facc15] border-[3px] border-white text-white shadow-[0_4px_0_#ca8a04] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#ca8a04] active:translate-y-1 active:shadow-none transition-all duration-200 active:duration-75 outline-none cursor-pointer"
+                    >
                       <User className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.5} />
                     </Link>
                     <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/90 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-[9999] pointer-events-none">
@@ -649,8 +685,19 @@ export function Navigation() {
                 
                 <div className="flex items-center justify-between px-6 py-3 pb-2">
                   <div className="flex items-center gap-2.5">
-                    <Link href="/profile" onClick={() => setMobileMenuOpen(false)} className="outline-none">
-                      <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-yellow-400 border-[3px] border-white flex items-center justify-center shadow-[0_3px_0_#b45309] md:hover:-translate-y-0.5 md:hover:shadow-[0_4px_0_#b45309] active:translate-y-0.5 active:shadow-[0_0px_0_#b45309] transition-all cursor-pointer shrink-0">
+                    <Link 
+                      href="/profile" 
+                      onClick={handleProfileClick}
+                      onMouseEnter={() => { import('../Pages/Profile').catch(() => {}) }}
+                      onTouchStart={() => { import('../Pages/Profile').catch(() => {}) }}
+                      className="outline-none"
+                    >
+                      <div 
+                        style={{
+                          viewTransitionName: isNavigatingToProfile ? 'profile-avatar-morph' : 'none'
+                        }}
+                        className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-yellow-400 border-[3px] border-white flex items-center justify-center shadow-[0_3px_0_#b45309] md:hover:-translate-y-0.5 md:hover:shadow-[0_4px_0_#b45309] active:translate-y-0.5 active:shadow-[0_0px_0_#b45309] transition-all cursor-pointer shrink-0"
+                      >
                         <User className="h-5 w-5 sm:h-6 sm:w-6 text-white" strokeWidth={2.5} />
                       </div>
                     </Link>
