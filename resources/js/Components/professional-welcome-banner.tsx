@@ -25,8 +25,8 @@ export function ProfessionalWelcomeBanner() {
                     </span>
                 </div>
 
-                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-800 dark:text-white mb-2 sm:mb-3 tracking-tight drop-shadow-sm dark:drop-shadow-xl transition-colors">
-                    Welcome back, <br className="block sm:hidden" /><span className="text-red-500 dark:text-red-400 drop-shadow-[0_2px_10px_rgba(239,68,68,0.2)] dark:drop-shadow-[0_2px_10px_rgba(244,63,94,0.4)]">{user?.name || 'Officer'}</span>!
+                <h1 className="text-xl xs:text-2xl sm:text-4xl md:text-5xl font-black text-slate-800 dark:text-white mb-2 sm:mb-3 tracking-tight drop-shadow-sm dark:drop-shadow-xl transition-colors">
+                    Welcome back, <span className="text-red-500 dark:text-red-400 drop-shadow-[0_2px_10px_rgba(239,68,68,0.2)] dark:drop-shadow-[0_2px_10px_rgba(244,63,94,0.4)]">{user?.name || 'Officer'}</span>!
                 </h1>
 
                 <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-base md:text-lg max-w-2xl mx-auto mb-5 sm:mb-6 font-medium leading-relaxed px-2 transition-colors">
