@@ -632,11 +632,9 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                     )}
                                                 </div>
 
-                                                <div className="flex items-center justify-between mt-3 pt-2 sm:pt-3 border-t border-slate-100 dark:border-slate-800/80">
-                                                    <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-extrabold bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-[9px] sm:text-[10px] tracking-wider uppercase border border-red-200 dark:border-red-900/50">
-                                                        Professional
-                                                    </span>
-                                                    <span className="inline-flex items-center px-3 py-1 rounded-xl font-extrabold text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 group-hover:bg-[#d60000] group-hover:text-white dark:group-hover:bg-[#d60000] dark:group-hover:text-white transition-all duration-300 shadow-2xs group-hover:shadow-[0_2px_0_#991b1b] group-hover:-translate-y-0.5">
+                                                <div className="mt-3 pt-2 sm:pt-3 border-t border-slate-100 dark:border-slate-800/80">
+                                                    <span className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm bg-red-600 hover:bg-red-500 text-white shadow-[0_3px_0_#991b1b] group-hover:shadow-[0_4px_0_#7f1d1d] group-hover:-translate-y-0.5 group-active:translate-y-0.5 group-active:shadow-none transition-all duration-200 uppercase tracking-wider">
+                                                        <Play className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-current" />
                                                         Watch
                                                     </span>
                                                 </div>

@@ -410,8 +410,9 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                                     </div>
                                                 </div>
                                                 
-                                                {/* Read More CTA Pill */}
-                                                <span className="inline-flex items-center px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-slate-50 dark:bg-slate-900/60 group-hover:bg-orange-500 dark:group-hover:bg-orange-600 border border-slate-200/60 dark:border-slate-700/60 group-hover:border-orange-500/20 dark:group-hover:border-orange-600/20 text-slate-600 dark:text-slate-400 group-hover:text-white dark:group-hover:text-white font-extrabold text-[10px] sm:text-xs transition-all duration-300 shadow-sm shrink-0">
+                                                {/* Read CTA Button */}
+                                                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white font-black text-xs sm:text-sm shadow-[0_3px_0_#c2410c] dark:shadow-[0_3px_0_#9a3412] group-hover:shadow-[0_4px_0_#9a3412] group-hover:-translate-y-0.5 group-active:translate-y-0.5 group-active:shadow-none transition-all duration-200 shrink-0 uppercase tracking-wider">
+                                                    <BookOpen className="h-3.5 w-3.5" strokeWidth={2.5} />
                                                     Read
                                                 </span>
                                             </div>
@@ -608,11 +609,9 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                                     )}
                                                 </div>
 
-                                                <div className="flex items-center justify-between mt-3 pt-2 sm:pt-3 border-t border-slate-100 dark:border-slate-800/80">
-                                                    <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-extrabold bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 text-[9px] sm:text-[10px] tracking-wider uppercase border border-orange-200 dark:border-orange-900/50">
-                                                        Adult Safety
-                                                    </span>
-                                                    <span className="inline-flex items-center px-3 py-1 rounded-xl font-extrabold text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 group-hover:bg-orange-500 group-hover:text-white dark:group-hover:bg-orange-500 dark:group-hover:text-white transition-all duration-300 shadow-2xs group-hover:shadow-[0_2px_0_#c2410c] group-hover:-translate-y-0.5">
+                                                <div className="mt-3 pt-2 sm:pt-3 border-t border-slate-100 dark:border-slate-800/80">
+                                                    <span className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white shadow-[0_3px_0_#c2410c] dark:shadow-[0_3px_0_#9a3412] group-hover:shadow-[0_4px_0_#9a3412] group-hover:-translate-y-0.5 group-active:translate-y-0.5 group-active:shadow-none transition-all duration-200 uppercase tracking-wider">
+                                                        <Play className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-current" />
                                                         Watch
                                                     </span>
                                                 </div>
