@@ -1,7 +1,7 @@
 "use client"
 
 import { useAuth } from "@/lib/auth-context"
-import { Flame, Home, BookOpen } from "lucide-react"
+import { Flame, BookOpen } from "lucide-react"
 
 export function AdultWelcomeBanner() {
     const { user } = useAuth()
@@ -19,12 +19,9 @@ export function AdultWelcomeBanner() {
 
             {/* Main content */}
             <div className="relative z-10 px-4 py-6 sm:px-10 sm:py-10 flex flex-col items-center">
-                {/* Floating Fire Icon & Label */}
-                <div className="flex items-center gap-3 mb-3 sm:mb-5">
-                    <div className="h-10 w-10 sm:h-12 sm:w-12 bg-primary rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg border-2 border-white/20 transform -rotate-3">
-                        <Flame className="h-5 w-5 sm:h-6 sm:w-6 text-white drop-shadow-md" strokeWidth={2.5} />
-                    </div>
-                    <span className="text-slate-800 dark:text-white font-black uppercase tracking-widest text-[10px] sm:text-xs bg-slate-100/50 dark:bg-white/10 px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 backdrop-blur-sm transition-colors">
+                {/* Section Badge */}
+                <div className="mb-3 sm:mb-5">
+                    <span className="text-slate-800 dark:text-white font-black uppercase tracking-widest text-[10px] sm:text-xs bg-slate-100/50 dark:bg-white/10 px-3.5 py-1 rounded-full border border-slate-200 dark:border-white/10 backdrop-blur-sm transition-colors">
                         For Adults
                     </span>
                 </div>
@@ -38,13 +35,13 @@ export function AdultWelcomeBanner() {
                 </p>
 
                 <div className="flex flex-row flex-wrap justify-center gap-2 sm:gap-3 w-full sm:w-auto px-2 sm:px-0">
-                    <span className="inline-flex flex-1 sm:flex-initial items-center justify-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full bg-white dark:bg-white/10 border-[2px] border-slate-200 dark:border-white/20 text-slate-700 dark:text-white text-[10px] sm:text-xs md:text-sm font-black tracking-wide uppercase shadow-sm dark:shadow-xl transition-all hover:bg-slate-50 dark:hover:bg-white/20 whitespace-nowrap">
+                    <span className="inline-flex flex-1 sm:flex-initial items-center justify-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full bg-white dark:bg-white/10 border-[2px] border-slate-200 dark:border-white/20 text-slate-700 dark:text-white text-[10px] sm:text-xs md:text-sm font-black tracking-wide shadow-sm dark:shadow-xl transition-all hover:bg-slate-50 dark:hover:bg-white/20 whitespace-nowrap">
                         <BookOpen className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-orange-500 dark:text-orange-400" strokeWidth={2.5} />
                         Articles
                     </span>
-                    <span className="inline-flex flex-1 sm:flex-initial items-center justify-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full bg-white dark:bg-white/10 border-[2px] border-slate-200 dark:border-white/20 text-slate-700 dark:text-white text-[10px] sm:text-xs md:text-sm font-black tracking-wide uppercase shadow-sm dark:shadow-xl transition-all hover:bg-slate-50 dark:hover:bg-white/20 whitespace-nowrap">
+                    <span className="inline-flex flex-1 sm:flex-initial items-center justify-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full bg-white dark:bg-white/10 border-[2px] border-slate-200 dark:border-white/20 text-slate-700 dark:text-white text-[10px] sm:text-xs md:text-sm font-black tracking-wide shadow-sm dark:shadow-xl transition-all hover:bg-slate-50 dark:hover:bg-white/20 whitespace-nowrap">
                         <Flame className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-red-500 dark:text-red-400" strokeWidth={2.5} />
-                        Simulations
+                        Simulation
                     </span>
                 </div>
             </div>

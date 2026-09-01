@@ -636,8 +636,8 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                     <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-extrabold bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-[9px] sm:text-[10px] tracking-wider uppercase border border-red-200 dark:border-red-900/50">
                                                         Professional
                                                     </span>
-                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl font-extrabold text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 group-hover:bg-[#d60000] group-hover:text-white dark:group-hover:bg-[#d60000] dark:group-hover:text-white transition-all duration-300 shadow-2xs group-hover:shadow-[0_2px_0_#991b1b] group-hover:-translate-y-0.5">
-                                                        Watch <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform duration-300" strokeWidth={2.5} />
+                                                    <span className="inline-flex items-center px-3 py-1 rounded-xl font-extrabold text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 group-hover:bg-[#d60000] group-hover:text-white dark:group-hover:bg-[#d60000] dark:group-hover:text-white transition-all duration-300 shadow-2xs group-hover:shadow-[0_2px_0_#991b1b] group-hover:-translate-y-0.5">
+                                                        Watch
                                                     </span>
                                                 </div>
                                             </CardContent>

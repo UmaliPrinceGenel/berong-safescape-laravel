@@ -411,9 +411,8 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                                 </div>
                                                 
                                                 {/* Read More CTA Pill */}
-                                                <span className="inline-flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-slate-50 dark:bg-slate-900/60 group-hover:bg-orange-500 dark:group-hover:bg-orange-600 border border-slate-200/60 dark:border-slate-700/60 group-hover:border-orange-500/20 dark:group-hover:border-orange-600/20 text-slate-600 dark:text-slate-400 group-hover:text-white dark:group-hover:text-white font-extrabold text-[10px] sm:text-xs transition-all duration-300 shadow-sm shrink-0">
+                                                <span className="inline-flex items-center px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-slate-50 dark:bg-slate-900/60 group-hover:bg-orange-500 dark:group-hover:bg-orange-600 border border-slate-200/60 dark:border-slate-700/60 group-hover:border-orange-500/20 dark:group-hover:border-orange-600/20 text-slate-600 dark:text-slate-400 group-hover:text-white dark:group-hover:text-white font-extrabold text-[10px] sm:text-xs transition-all duration-300 shadow-sm shrink-0">
                                                     Read
-                                                    <ArrowRight className="h-2.5 w-2.5 sm:h-3 w-3 group-hover:translate-x-0.5 transition-transform duration-300" strokeWidth={2.5} />
                                                 </span>
                                             </div>
                                         </div>
@@ -613,8 +612,8 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                                     <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-extrabold bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 text-[9px] sm:text-[10px] tracking-wider uppercase border border-orange-200 dark:border-orange-900/50">
                                                         Adult Safety
                                                     </span>
-                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl font-extrabold text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 group-hover:bg-orange-500 group-hover:text-white dark:group-hover:bg-orange-500 dark:group-hover:text-white transition-all duration-300 shadow-2xs group-hover:shadow-[0_2px_0_#c2410c] group-hover:-translate-y-0.5">
-                                                        Watch <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform duration-300" strokeWidth={2.5} />
+                                                    <span className="inline-flex items-center px-3 py-1 rounded-xl font-extrabold text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 group-hover:bg-orange-500 group-hover:text-white dark:group-hover:bg-orange-500 dark:group-hover:text-white transition-all duration-300 shadow-2xs group-hover:shadow-[0_2px_0_#c2410c] group-hover:-translate-y-0.5">
+                                                        Watch
                                                     </span>
                                                 </div>
                                             </CardContent>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useAuth } from "@/lib/auth-context"
-import { Shield, FileText, CheckCircle, Video, BookOpen, Gamepad2 } from "lucide-react"
+import { BookOpen, Gamepad2 } from "lucide-react"
 
 export function ProfessionalWelcomeBanner() {
     const { user } = useAuth()
@@ -18,12 +18,9 @@ export function ProfessionalWelcomeBanner() {
 
             {/* Main content */}
             <div className="relative z-10 px-4 py-6 sm:px-10 sm:py-10 flex flex-col items-center">
-                {/* Floating Shield Icon & Label */}
-                <div className="flex items-center gap-3 mb-3 sm:mb-5">
-                    <div className="h-10 w-10 sm:h-12 sm:w-12 bg-primary rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg border-2 border-white/20 transform -rotate-3">
-                        <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-white drop-shadow-md" strokeWidth={2.5} />
-                    </div>
-                    <span className="text-slate-800 dark:text-white font-black uppercase tracking-widest text-[10px] sm:text-xs bg-slate-100/50 dark:bg-white/10 px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 backdrop-blur-sm transition-colors">
+                {/* Section Badge */}
+                <div className="mb-3 sm:mb-5">
+                    <span className="text-slate-800 dark:text-white font-black uppercase tracking-widest text-[10px] sm:text-xs bg-slate-100/50 dark:bg-white/10 px-3.5 py-1 rounded-full border border-slate-200 dark:border-white/10 backdrop-blur-sm transition-colors">
                         For Professionals
                     </span>
                 </div>
