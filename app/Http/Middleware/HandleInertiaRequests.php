@@ -31,15 +31,13 @@ class HandleInertiaRequests extends Middleware
     {
         $maintenance = null;
         try {
-            if (\Illuminate\Support\Facades\Schema::hasTable('system_settings')) {
-                $config = \App\Models\SystemSetting::getVal('maintenance_mode');
-                if ($config && !empty($config['warning_active'])) {
-                    $maintenance = [
-                        'warning_message' => $config['warning_message'] ?? 'Notice: The platform will be offline for maintenance soon.',
-                        'is_active' => !empty($config['is_active']),
-                        'scheduled_at' => $config['scheduled_at'] ?? null
-                    ];
-                }
+            $config = \App\Models\SystemSetting::getVal('maintenance_mode');
+            if ($config && !empty($config['warning_active'])) {
+                $maintenance = [
+                    'warning_message' => $config['warning_message'] ?? 'Notice: The platform will be offline for maintenance soon.',
+                    'is_active' => !empty($config['is_active']),
+                    'scheduled_at' => $config['scheduled_at'] ?? null
+                ];
             }
         } catch (\Throwable $e) {
             // Silently fail if DB is down

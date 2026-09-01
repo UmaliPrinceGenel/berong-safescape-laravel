@@ -29,14 +29,8 @@ class SchoolAnalyticsController extends Controller
     {
         // Cache the heavy analytics calculations for 5 minutes
         $data = \Illuminate\Support\Facades\Cache::remember('school_analytics_live', now()->addMinutes(5), function () {
-            $schools = School::where('isActive', true)
-                ->withCount(['users'])
-                ->get();
-
-            // Recalculate live analytics for each school
-            foreach ($schools as $school) {
-                $school->recalculateAnalytics();
-            }
+            // Recalculate live analytics for all schools in 2 fast grouped queries
+            School::recalculateAllAnalytics();
 
             // Reload after recalculation with fresh data, showing only active schools
             $schools = School::where('isActive', true)

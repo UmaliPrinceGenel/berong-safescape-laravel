@@ -1,6 +1,8 @@
 import React, { Suspense, useState, useEffect } from "react";
 import { AuthProvider } from "@/lib/auth-context";
-import { Chatbot } from "@/Components/chatbot";
+
+// Lazy-load the Chatbot to keep the initial page bundle lightweight
+const Chatbot = React.lazy(() => import("@/Components/chatbot").then(m => ({ default: m.Chatbot })));
 import { PageLoader } from "@/Components/page-loader";
 import { LogoutLoader } from "@/Components/logout-loader";
 import { LoginLoader } from "@/Components/login-loader";
@@ -62,7 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return () => clearInterval(timer);
   }, [localAlert]);
 
-  // Real-time polling
+  // Background polling for standing sessions (checks every 25s without duplicate per-route fetches)
   useEffect(() => {
     if (url.startsWith('/maintenance') || url.startsWith('/login') || url.startsWith('/logout')) {
       return;
@@ -74,7 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         if (response.ok) {
           const data = await response.json();
           
-          // 1. If maintenance is active, immediately redirect normal users
+          // 1. If maintenance is active, redirect non-admins
           if (data.is_active) {
             const user = typedProps.auth?.user;
             const isAdmin = user?.role === 'admin' || user?.role?.includes('admin');
@@ -97,17 +99,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }
         }
       } catch (error) {
-        console.error("Failed to fetch maintenance status:", error);
+        // Non-critical network error
       }
     };
 
-    // Initial check
-    checkMaintenanceStatus();
-
-    // Check status every 10 seconds
-    const interval = setInterval(checkMaintenanceStatus, 10000);
+    const interval = setInterval(checkMaintenanceStatus, 25000);
     return () => clearInterval(interval);
-  }, [url, typedProps.auth?.user]);
+  }, []);
 
   return (
     <AuthProvider>
@@ -140,7 +138,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {children}
             </div>
           </ProfileCheckWrapper>
-          {(!isAuthPage && !isMiniGame && !url.startsWith('/maintenance')) && <Chatbot />}
+          {(!isAuthPage && !isMiniGame && !url.startsWith('/maintenance')) && (
+            <Suspense fallback={null}>
+              <Chatbot />
+            </Suspense>
+          )}
           <LoginLoader />
           <LogoutLoader />
           <FocusModeManager />

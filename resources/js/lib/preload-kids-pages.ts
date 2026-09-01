@@ -9,40 +9,22 @@ export function preloadKidsPages() {
   hasPreloaded = true
 
   const runPreload = () => {
-    // 1. Warm page JS chunks in browser cache
+    // 1. Warm primary hub destinations in browser cache during idle time
     try {
-      import('../Pages/Kids/BadgeHall').catch(() => {})
-      import('../Pages/Kids/Challenges').catch(() => {})
       import('../Pages/Kids/CourseHub').catch(() => {})
       import('../Pages/Kids/Videos').catch(() => {})
-      import('../Pages/Kids/TaskMaster').catch(() => {})
-      import('../Pages/Kids/Games/RightCall').catch(() => {})
-      import('../Pages/Kids/ModuleOne').catch(() => {})
-      import('../Pages/Kids/ModuleTwo').catch(() => {})
-      import('../Pages/Kids/ModuleThree').catch(() => {})
-      import('../Pages/Kids/ModuleFour').catch(() => {})
-      import('../Pages/Kids/ModuleFive').catch(() => {})
-      import('../Pages/Profile').catch(() => {})
+      import('../Pages/Kids/Challenges').catch(() => {})
+      import('../Pages/Kids/BadgeHall').catch(() => {})
     } catch (e) {
       // Ignore
     }
 
-    // 2. Warm destination media assets
+    // 2. Warm essential shared assets gracefully
     const imagesToWarm = [
-      '/badges/badge_hall.webp?v=3',
-      '/games.webp?v=2',
-      '/videos.webp?v=2',
-      '/task_master.webp',
-      '/therightcall_kids.webp',
       '/module.webp?v=2',
-      '/edith.webp?v=3',
-      '/fire_safety_quiz.webp',
-      '/memory_game.webp',
-      '/smoke_crawl.webp',
-      '/hotornot.webp',
-      '/hazard_blitz.webp',
-      '/standard.webp',
-      '/focus.webp',
+      '/videos.webp?v=2',
+      '/games.webp?v=2',
+      '/badges/badge_hall.webp?v=3',
     ]
 
     imagesToWarm.forEach(src => {
@@ -52,8 +34,8 @@ export function preloadKidsPages() {
   }
 
   if ('requestIdleCallback' in window) {
-    (window as any).requestIdleCallback(runPreload, { timeout: 1500 })
+    (window as any).requestIdleCallback(runPreload, { timeout: 2500 })
   } else {
-    setTimeout(runPreload, 400)
+    setTimeout(runPreload, 1200)
   }
 }
