@@ -710,6 +710,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
     const prefersReducedMotion = useReducedMotion();
     const [isMobileViewport, setIsMobileViewport] = useState(false);
     const [isLaptopOrSmaller, setIsLaptopOrSmaller] = useState(false);
+    const [heroesReplay, setHeroesReplay] = useState(0);
 
     useEffect(() => {
         if (typeof window === "undefined") return;
@@ -1304,13 +1305,19 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
                             <div className="mb-2.5 sm:mb-3 flex justify-center">
-                                <span className="bg-yellow-400 text-yellow-950 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-4 py-1 sm:py-1.5 rounded-full inline-flex items-center border-2 border-white/90 shadow-[0_3px_0_#b45309] select-none hover:-translate-y-0.5 hover:shadow-[0_4px_0_#b45309] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default">
+                                <button
+                                    type="button"
+                                    onClick={() => setHeroesReplay((prev) => prev + 1)}
+                                    title="Click to reignite & extinguish flames!"
+                                    className="bg-yellow-400 text-yellow-950 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-4 py-1 sm:py-1.5 rounded-full inline-flex items-center border-2 border-white/90 shadow-[0_3px_0_#b45309] select-none hover:-translate-y-0.5 hover:shadow-[0_4px_0_#b45309] hover:bg-yellow-300 active:translate-y-1 active:shadow-none transition-all duration-150 cursor-pointer"
+                                >
                                     Our Heroes
-                                </span>
+                                </button>
                             </div>
                             <FireExtinguishedText 
                                 text="Meet Your Firefighters" 
                                 className="text-2xl sm:text-3xl lg:text-4xl font-black mb-2 drop-shadow-md" 
+                                replayTrigger={heroesReplay}
                             />
                             <p className="text-orange-100/90 font-medium max-w-xl mx-auto text-xs sm:text-sm leading-relaxed">
                                 The brave men and women of BFP Santa Cruz dedicated to keeping our community safe.

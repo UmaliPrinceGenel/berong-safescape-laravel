@@ -7,6 +7,7 @@ import { Sparkles } from "lucide-react";
 interface FireExtinguishedTextProps {
     text: string;
     className?: string;
+    replayTrigger?: number;
 }
 
 // Cartoon Multi-Layer Flame SVG
@@ -253,11 +254,12 @@ function FirefighterNozzle() {
     );
 }
 
-export function FireExtinguishedText({ text, className = "" }: FireExtinguishedTextProps) {
+export function FireExtinguishedText({ text, className = "", replayTrigger }: FireExtinguishedTextProps) {
     const ref = useRef<HTMLHeadingElement>(null);
     const isInView = useInView(ref, { once: true, margin: "-80px" });
     const [state, setState] = useState<"on-fire" | "extinguishing" | "clean">("on-fire");
     const [sprayProgress, setSprayProgress] = useState(0);
+    const isInitialMount = useRef(true);
 
     // Animation trigger logic
     const runExtinguishAnimation = useCallback(() => {
@@ -294,6 +296,25 @@ export function FireExtinguishedText({ text, className = "" }: FireExtinguishedT
 
         return () => clearTimeout(timer);
     }, [isInView, runExtinguishAnimation]);
+
+    // External replay trigger (e.g., clicking "Our Heroes" button)
+    useEffect(() => {
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+            return;
+        }
+
+        if (replayTrigger && replayTrigger > 0) {
+            setState("on-fire");
+            setSprayProgress(0);
+
+            const timer = setTimeout(() => {
+                runExtinguishAnimation();
+            }, 1000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [replayTrigger, runExtinguishAnimation]);
 
     const letters = text.split("");
     const flamePalette = ["#EF4444", "#F97316", "#F59E0B", "#DC2626", "#EA580C"];
