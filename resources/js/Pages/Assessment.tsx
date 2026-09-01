@@ -7,7 +7,7 @@ import { Button } from "@/Components/ui/button"
 import { Card, CardContent } from "@/Components/ui/card"
 import { Label } from "@/Components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/Components/ui/radio-group"
-import { ArrowLeft, Check, ChevronLeft, ChevronRight, Loader2, Shield, Star, Trophy, Flame, Award, Timer, Sparkles } from "lucide-react"
+import { ArrowLeft, Check, ChevronLeft, ChevronRight, Loader2, Shield, Star, Trophy, Flame, Award, Timer, Sparkles, MessageSquare, Rocket } from "lucide-react"
 import { motion, AnimatePresence } from 'motion/react'
 import { getScoreRating } from "@/lib/constants"
 import { useAuth } from "@/lib/auth-context"
@@ -273,129 +273,239 @@ export default function Assessment({ type }: AssessmentProps) {
         const percentage = result.maxScore ? Math.round((result.score! / result.maxScore) * 100) : 0
         const rating = getScoreRating(percentage)
 
+        const getRatingBadgeStyle = (label: string) => {
+            switch(label.toLowerCase()) {
+                case 'excellent':
+                    return 'bg-emerald-500 text-white border-emerald-600 shadow-[0_3px_0_#047857]'
+                case 'very good':
+                    return 'bg-blue-600 text-white border-blue-700 shadow-[0_3px_0_#1d4ed8]'
+                case 'good':
+                    return 'bg-amber-500 text-white border-amber-600 shadow-[0_3px_0_#b45309]'
+                case 'fair':
+                    return 'bg-orange-500 text-white border-orange-600 shadow-[0_3px_0_#c2410c]'
+                default:
+                    return 'bg-rose-500 text-white border-rose-600 shadow-[0_3px_0_#be123c]'
+            }
+        }
+
+        const getFeedbackReaction = (star: number) => {
+            switch (star) {
+                case 5: return "🌟 Outstanding Experience!"
+                case 4: return "👍 Great & Informative!"
+                case 3: return "👌 Good & Helpful"
+                case 2: return "🤔 Could Be Better"
+                case 1: return "⚠️ Needs Improvement"
+                default: return "Tap a star to rate your experience"
+            }
+        }
+
         return (
-            <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-6 sm:py-12 px-3 sm:px-4 selection:bg-orange-500 selection:text-white transition-colors duration-500 flex items-center justify-center">
+            <div className="min-h-screen bg-slate-100/80 dark:bg-slate-950 py-6 sm:py-12 px-3 sm:px-6 selection:bg-orange-500 selection:text-white transition-colors duration-500 flex items-center justify-center">
                 <Head title={`${title} Results - SafeScape`} />
-                <Card className="w-full max-w-3xl mx-auto border-[3px] sm:border-[4px] border-orange-200 dark:border-slate-800 shadow-[0_8px_0_#fed7aa] dark:shadow-[0_8px_0_#0f172a] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden p-0 bg-white dark:bg-slate-900 transition-colors">
-                    {/* Header */}
-                    <div className="bg-orange-500 dark:bg-orange-600 p-5 sm:p-7 text-center border-b-[3px] sm:border-b-[4px] border-orange-600 dark:border-orange-700 relative overflow-hidden">
-                        <motion.div 
-                            initial={{ scale: 0, rotate: -20 }}
-                            animate={{ scale: 1, rotate: 0 }}
-                            transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                            className="mx-auto w-14 h-14 sm:w-16 sm:h-16 bg-white dark:bg-slate-900 rounded-full flex items-center justify-center mb-2.5 sm:mb-3 shadow-[0_3px_0_rgba(0,0,0,0.12)] border-[3px] border-white dark:border-slate-800 relative z-10"
-                        >
-                            <Trophy className="w-7 h-7 sm:w-8 sm:h-8 text-amber-500" strokeWidth={2.5} />
-                        </motion.div>
-                        <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight drop-shadow-sm uppercase relative z-10">
-                            Assessment Complete
-                        </h2>
-                        <p className="text-orange-100 text-xs sm:text-sm font-black mt-0.5 uppercase tracking-wider relative z-10">{title}</p>
+
+                <motion.div 
+                    initial={{ opacity: 0, y: 20, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    className="w-full max-w-3xl mx-auto rounded-[2rem] sm:rounded-[2.5rem] border-[3px] sm:border-[4px] border-slate-900 dark:border-slate-700 shadow-[0_10px_0_#0f172a] dark:shadow-[0_10px_0_#020617] overflow-hidden bg-white dark:bg-slate-900 transition-all flex flex-col"
+                >
+                    {/* Header Banner */}
+                    <div className="relative bg-gradient-to-b from-orange-500 to-amber-500 dark:from-orange-600 dark:to-amber-600 p-6 sm:p-8 text-center border-b-[3px] sm:border-b-[4px] border-slate-900 dark:border-slate-800 overflow-hidden">
+                        {/* Decorative subtle background pattern */}
+                        <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
+
+                        <div className="relative z-10 flex flex-col items-center">
+                            <motion.div 
+                                initial={{ scale: 0, rotate: -20 }}
+                                animate={{ scale: 1, rotate: 0 }}
+                                transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.1 }}
+                                className="w-16 h-16 sm:w-20 sm:h-20 bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl flex items-center justify-center mb-3 sm:mb-4 border-[3px] border-slate-900 dark:border-slate-700 shadow-[0_4px_0_#0f172a] dark:shadow-[0_4px_0_#020617]"
+                            >
+                                <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-amber-500" strokeWidth={2.5} />
+                            </motion.div>
+
+                            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/20 dark:bg-black/25 backdrop-blur-sm text-white text-[11px] sm:text-xs font-black uppercase tracking-[0.18em] border border-white/30 mb-2">
+                                <Sparkles className="w-3.5 h-3.5 text-amber-200" />
+                                <span>{isPreTest ? "Pre-Test Evaluation" : "Post-Test Completed"}</span>
+                            </div>
+
+                            <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight drop-shadow-[0_2px_2px_rgba(0,0,0,0.2)] uppercase">
+                                Assessment Complete!
+                            </h1>
+                            <p className="text-orange-100 text-xs sm:text-sm font-bold mt-1 max-w-md mx-auto">
+                                {isPreTest 
+                                    ? "Your initial baseline knowledge has been recorded."
+                                    : "You've successfully completed your final fire safety evaluation!"}
+                            </p>
+                        </div>
                     </div>
-                    
-                    <CardContent className="p-5 sm:p-7 space-y-5 sm:space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 sm:gap-5 items-stretch">
-                            {/* Score Box - 2/5 width */}
-                            <div className="md:col-span-2 text-center p-5 sm:p-6 bg-amber-50/70 dark:bg-slate-800/80 rounded-2xl sm:rounded-3xl border-2 sm:border-[3px] border-amber-200 dark:border-amber-900/40 shadow-[0_4px_0_#fde68a] dark:shadow-[0_4px_0_#0f172a] flex flex-col justify-center transition-colors">
-                                <p className="text-[10px] sm:text-xs text-amber-800 dark:text-amber-400 font-black tracking-widest uppercase mb-1">Final Score</p>
-                                <div className="text-4xl sm:text-5xl font-black text-slate-800 dark:text-white my-1 tracking-tight flex items-baseline justify-center gap-1.5">
-                                    <span className="text-orange-600 dark:text-orange-400">{result.score}</span>
-                                    <span className="text-xl sm:text-2xl text-slate-400 dark:text-slate-500 font-bold">/ {result.maxScore}</span>
+
+                    {/* Main Content Area */}
+                    <div className="p-5 sm:p-8 space-y-5 sm:space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
+                            
+                            {/* Score Showcase Card (Left on desktop, Top on mobile) */}
+                            <div className="md:col-span-6 bg-amber-50/90 dark:bg-slate-800/80 rounded-[1.75rem] border-[3px] border-amber-300 dark:border-amber-900/50 p-6 flex flex-col justify-between items-center text-center shadow-[0_6px_0_#fcd34d] dark:shadow-[0_6px_0_#0f172a] relative overflow-hidden transition-all">
+                                
+                                <div className="w-full">
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-[10px] sm:text-xs font-black uppercase tracking-wider mb-3">
+                                        <Award className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                                        <span>Final Score</span>
+                                    </div>
+
+                                    {/* Big Score Display */}
+                                    <div className="my-2">
+                                        <div className="flex items-baseline justify-center gap-1.5">
+                                            <span className="text-5xl sm:text-6xl font-black text-slate-900 dark:text-white tracking-tight">
+                                                {result.score}
+                                            </span>
+                                            <span className="text-2xl sm:text-3xl font-extrabold text-slate-400 dark:text-slate-500">
+                                                /{result.maxScore}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* Rating Badge */}
+                                    <div className="my-3">
+                                        <div className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-black uppercase tracking-wider border-2 ${getRatingBadgeStyle(rating.label)}`}>
+                                            <Award className="w-4 h-4 shrink-0" strokeWidth={2.5} />
+                                            <span>{rating.label}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider mx-auto my-2 border-2 border-amber-300 dark:border-amber-700 bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300">
-                                    <Award className="w-3.5 h-3.5 shrink-0" strokeWidth={2.5} />
-                                    <span>{rating.label}</span>
+
+                                {/* Mini Stats Summary Pills */}
+                                <div className="grid grid-cols-2 gap-2.5 w-full mt-4 pt-4 border-t-2 border-amber-200/80 dark:border-slate-700/80">
+                                    <div className="bg-white/80 dark:bg-slate-900/80 rounded-xl p-2.5 border border-amber-200 dark:border-slate-700 text-center">
+                                        <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider">Accuracy</p>
+                                        <p className="text-sm sm:text-base font-black text-slate-800 dark:text-slate-200 mt-0.5">{percentage}%</p>
+                                    </div>
+                                    <div className="bg-white/80 dark:bg-slate-900/80 rounded-xl p-2.5 border border-amber-200 dark:border-slate-700 text-center">
+                                        <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider">XP Earned</p>
+                                        <p className="text-sm sm:text-base font-black text-orange-600 dark:text-orange-400 mt-0.5">+{isPreTest ? 20 : 30} XP</p>
+                                    </div>
                                 </div>
-                                <p className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-1 leading-snug">
+
+                                <p className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-4 leading-relaxed">
                                     {isPreTest 
-                                        ? "Baseline score recorded. Let's start learning!" 
-                                        : "Congratulations on finishing your fire safety training!"}
+                                        ? "Baseline score recorded. Complete learning missions to boost your knowledge!" 
+                                        : "Congratulations on finishing your fire safety training with Berong SafeScape!"}
                                 </p>
                             </div>
 
-                            {/* Feedback Section - 3/5 width */}
-                            <div className="md:col-span-3">
+                            {/* Right Column: Feedback / Learning Mission Card */}
+                            <div className="md:col-span-6 flex flex-col">
                                 {!isPreTest ? (
-                                    <div className="bg-slate-50 dark:bg-slate-800/80 border-2 sm:border-[3px] border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl p-5 sm:p-6 text-center h-full shadow-[0_4px_0_#e2e8f0] dark:shadow-[0_4px_0_#0f172a] flex flex-col justify-center transition-colors">
+                                    <div className="bg-slate-50 dark:bg-slate-800/80 rounded-[1.75rem] border-[3px] border-slate-200 dark:border-slate-700 p-6 flex flex-col justify-between text-center shadow-[0_6px_0_#e2e8f0] dark:shadow-[0_6px_0_#0f172a] h-full transition-all">
                                         {feedbackSuccess ? (
-                                            <div className="flex flex-col items-center py-2 sm:py-3">
-                                                <div className="w-11 h-11 sm:w-14 sm:h-14 bg-emerald-100 dark:bg-emerald-950/40 rounded-full flex items-center justify-center mb-2.5 border-2 border-emerald-300 dark:border-emerald-700 text-emerald-600 dark:text-emerald-400 shadow-inner">
-                                                    <Check className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={3} />
+                                            <div className="flex flex-col items-center justify-center py-6 h-full space-y-3">
+                                                <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/60 rounded-2xl border-2 border-emerald-400 dark:border-emerald-600 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-[0_3px_0_#059669]">
+                                                    <Check className="h-7 w-7" strokeWidth={3} />
                                                 </div>
-                                                <h3 className="text-base sm:text-lg font-black text-slate-800 dark:text-white mb-0.5">Thank You!</h3>
-                                                <p className="text-xs font-bold text-slate-500 dark:text-slate-400">Your feedback helps improve our safety modules.</p>
+                                                <h3 className="text-lg font-black text-slate-800 dark:text-white">Feedback Submitted!</h3>
+                                                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed">
+                                                    Thank you for helping us make Berong SafeScape better for everyone in our community.
+                                                </p>
                                             </div>
                                         ) : (
-                                            <>
-                                                <h3 className="text-base sm:text-lg font-black text-slate-800 dark:text-white mb-0.5">Help Us Improve</h3>
-                                                <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Rate your experience</p>
-                                                
-                                                <div className="flex justify-center gap-2 mb-3 bg-white dark:bg-slate-900 py-2 px-4 rounded-full border-2 border-slate-200 dark:border-slate-700 w-fit mx-auto shadow-inner">
-                                                    {[1, 2, 3, 4, 5].map((star) => (
-                                                        <button
-                                                            key={star}
-                                                            onClick={() => !feedbackSubmitting && setFeedbackRating(star)}
-                                                            onMouseEnter={() => !feedbackSubmitting && setFeedbackHover(star)}
-                                                            onMouseLeave={() => !feedbackSubmitting && setFeedbackHover(0)}
-                                                            className="p-0.5 transition-transform hover:scale-125 hover:-translate-y-0.5 active:scale-90 outline-none"
-                                                        >
-                                                            <Star 
-                                                                className={`h-5 w-5 sm:h-6 sm:w-6 transition-colors ${
-                                                                    (feedbackHover || feedbackRating) >= star 
-                                                                        ? "text-amber-400 fill-amber-400 drop-shadow-sm" 
-                                                                        : "text-slate-200 dark:text-slate-700 fill-slate-100 dark:fill-slate-800"
-                                                                }`} 
-                                                            />
-                                                        </button>
-                                                    ))}
+                                            <div className="flex flex-col h-full justify-between space-y-4">
+                                                <div>
+                                                    <div className="inline-flex items-center gap-1 px-3 py-0.5 rounded-full bg-slate-200/70 dark:bg-slate-700/60 text-slate-700 dark:text-slate-300 text-[10px] font-black uppercase tracking-wider mb-2">
+                                                        <MessageSquare className="w-3 h-3 text-orange-500" />
+                                                        <span>User Feedback</span>
+                                                    </div>
+                                                    <h3 className="text-base sm:text-lg font-black text-slate-800 dark:text-white">Help Us Improve</h3>
+                                                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-0.5">How would you rate this test?</p>
                                                 </div>
-                                                
+
+                                                {/* Interactive 5-Star Row */}
+                                                <div className="space-y-2">
+                                                    <div className="flex justify-center gap-1.5 sm:gap-2 bg-white dark:bg-slate-900 py-2.5 px-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 w-fit mx-auto shadow-inner">
+                                                        {[1, 2, 3, 4, 5].map((star) => {
+                                                            const active = (feedbackHover || feedbackRating) >= star;
+                                                            return (
+                                                                <button
+                                                                    key={star}
+                                                                    type="button"
+                                                                    onClick={() => !feedbackSubmitting && setFeedbackRating(star)}
+                                                                    onMouseEnter={() => !feedbackSubmitting && setFeedbackHover(star)}
+                                                                    onMouseLeave={() => !feedbackSubmitting && setFeedbackHover(0)}
+                                                                    className="p-1 transition-transform hover:scale-125 active:scale-95 outline-none rounded-lg focus-visible:ring-2 focus-visible:ring-orange-500"
+                                                                    aria-label={`Rate ${star} star${star > 1 ? 's' : ''}`}
+                                                                >
+                                                                    <Star 
+                                                                        className={`h-6 w-6 sm:h-7 sm:w-7 transition-all ${
+                                                                            active
+                                                                                ? "text-amber-400 fill-amber-400 drop-shadow-[0_2px_4px_rgba(251,191,36,0.4)]" 
+                                                                                : "text-slate-300 dark:text-slate-600 fill-slate-100 dark:fill-slate-800"
+                                                                        }`} 
+                                                                        strokeWidth={2}
+                                                                    />
+                                                                </button>
+                                                            );
+                                                        })}
+                                                    </div>
+
+                                                    <p className="text-[11px] font-black text-orange-600 dark:text-orange-400 h-4">
+                                                        {getFeedbackReaction(feedbackHover || feedbackRating)}
+                                                    </p>
+                                                </div>
+
+                                                {/* Optional Comments & Submit */}
                                                 {feedbackRating > 0 && (
-                                                    <div className="mt-2 space-y-2.5 animate-in fade-in slide-in-from-top-3 duration-300">
+                                                    <motion.div 
+                                                        initial={{ opacity: 0, height: 0 }}
+                                                        animate={{ opacity: 1, height: "auto" }}
+                                                        className="space-y-2.5 pt-1"
+                                                    >
                                                         <textarea
-                                                            className="w-full text-xs sm:text-sm bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl p-2.5 sm:p-3 focus:outline-none focus:border-orange-500 dark:focus:border-orange-500 transition-all resize-none font-bold text-slate-700 dark:text-slate-300 placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-inner"
-                                                            rows={1}
-                                                            placeholder="Share your thoughts (optional)..."
+                                                            className="w-full text-xs sm:text-sm bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:outline-none focus:border-orange-500 dark:focus:border-orange-500 transition-all resize-none font-bold text-slate-700 dark:text-slate-300 placeholder:text-slate-400 shadow-inner"
+                                                            rows={2}
+                                                            placeholder="Any suggestions for us? (optional)..."
                                                             value={feedbackComment}
                                                             onChange={(e) => setFeedbackComment(e.target.value)}
                                                             disabled={feedbackSubmitting}
                                                         />
                                                         <Button 
+                                                            type="button"
                                                             onClick={handleFeedbackSubmit}
                                                             disabled={feedbackSubmitting}
-                                                            className="w-full bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-xs sm:text-sm py-2.5 border-2 border-orange-600 shadow-[0_3px_0_#c2410c] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2"
+                                                            className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-orange-500 dark:hover:bg-orange-600 text-white rounded-xl font-black text-xs sm:text-sm py-2.5 border-2 border-slate-950 dark:border-orange-600 shadow-[0_3px_0_#0f172a] dark:shadow-[0_3px_0_#c2410c] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2"
                                                         >
                                                             {feedbackSubmitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Submit Feedback"}
                                                         </Button>
-                                                    </div>
+                                                    </motion.div>
                                                 )}
-                                            </>
+                                            </div>
                                         )}
                                     </div>
                                 ) : (
-                                    <div className="bg-orange-50/70 dark:bg-orange-950/20 border-2 sm:border-[3px] border-orange-200 dark:border-orange-900/40 rounded-2xl sm:rounded-3xl p-5 sm:p-6 text-center h-full shadow-[0_4px_0_#fed7aa] dark:shadow-[0_4px_0_#0f172a] flex flex-col justify-center items-center text-orange-950 dark:text-orange-200 transition-colors">
-                                        <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/40 rounded-full flex items-center justify-center mb-2.5 border-2 border-orange-300 dark:border-orange-700 text-orange-600">
-                                            <Shield className="w-6 h-6 text-orange-500" strokeWidth={2.5} />
+                                    <div className="bg-orange-50/80 dark:bg-orange-950/30 rounded-[1.75rem] border-[3px] border-orange-200 dark:border-orange-900/50 p-6 flex flex-col justify-center items-center text-center shadow-[0_6px_0_#fed7aa] dark:shadow-[0_6px_0_#0f172a] h-full transition-all space-y-3">
+                                        <div className="w-14 h-14 bg-white dark:bg-slate-900 rounded-2xl border-2 border-orange-300 dark:border-orange-700 flex items-center justify-center text-orange-500 shadow-[0_3px_0_#f97316]">
+                                            <Rocket className="w-7 h-7 text-orange-500" strokeWidth={2.5} />
                                         </div>
-                                        <h3 className="text-base sm:text-lg font-black mb-1">Ready to Learn?</h3>
-                                        <p className="text-xs sm:text-sm font-bold opacity-80 leading-snug max-w-xs">Complete your interactive missions to become a certified Fire Safety Hero.</p>
+                                        <h3 className="text-lg font-black text-slate-900 dark:text-white">Ready for Safety Missions?</h3>
+                                        <p className="text-xs font-bold text-slate-600 dark:text-slate-400 leading-relaxed max-w-xs">
+                                            Interactive modules, quizzes, and simulations await you. Complete missions to unlock your official certification!
+                                        </p>
                                     </div>
                                 )}
                             </div>
                         </div>
 
-                        {/* Action Buttons */}
-                        <div className="pt-2 max-w-md mx-auto w-full">
+                        {/* Bottom CTA Action Button */}
+                        <div className="pt-2 max-w-lg mx-auto w-full">
                             <Button 
+                                type="button"
                                 onClick={handleContinue}
-                                className="w-full bg-orange-500 hover:bg-orange-400 text-white font-black py-3.5 sm:py-4 rounded-2xl border-2 border-orange-600 shadow-[0_4px_0_#c2410c] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2 text-xs sm:text-sm uppercase tracking-wider"
+                                className="w-full bg-orange-500 hover:bg-orange-400 text-white font-black py-4 sm:py-5 rounded-2xl border-[3px] border-orange-700 shadow-[0_5px_0_#c2410c] hover:shadow-[0_6px_0_#9a3412] hover:-translate-y-0.5 active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2 text-sm sm:text-base uppercase tracking-wider"
                             >
-                                {isPreTest ? "Start Learning Missions" : "Return to Dashboard"}
-                                <ChevronRight className="h-4 w-4" />
+                                <span>{isPreTest ? "Start Learning Missions" : "Return to Dashboard"}</span>
+                                <ChevronRight className="h-5 w-5 stroke-[3]" />
                             </Button>
                         </div>
-                    </CardContent>
-                </Card>
+                    </div>
+                </motion.div>
             </div>
         )
     }

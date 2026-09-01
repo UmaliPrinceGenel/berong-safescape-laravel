@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion, useInView, useReducedMotion } from 'motion/react';
 import { Link } from '@inertiajs/react';
 import { PermissionGuard } from '@/Components/permission-guard';
-import { ArrowRight, Briefcase, Users, Baby, Flame } from 'lucide-react';
+import { Briefcase, Users, Baby, Flame } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
 import { FeaturedCardsSkeleton } from '@/Components/dashboard-skeletons';
 
@@ -228,9 +228,8 @@ function MobileAnimatedCard({
           🔒 Locked
         </div>
       ) : (
-        <div className={`mt-4 w-full bg-gradient-to-r ${card.gradient} text-white font-black text-xs py-3 rounded-xl ${card.btnShadow} transition-all group-hover:-translate-y-0.5 ${card.btnShadowHover} group-active:translate-y-[3px] group-active:shadow-none flex items-center justify-center gap-2 tracking-wide uppercase`}>
+        <div className={`mt-4 w-full bg-gradient-to-r ${card.gradient} text-white font-black text-xs py-3 rounded-xl ${card.btnShadow} transition-all group-hover:-translate-y-0.5 ${card.btnShadowHover} group-active:translate-y-[3px] group-active:shadow-none flex items-center justify-center tracking-wide uppercase`}>
           {card.btn}
-          <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform duration-300" strokeWidth={3} />
         </div>
       )}
     </div>
