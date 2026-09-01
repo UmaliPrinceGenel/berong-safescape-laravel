@@ -392,22 +392,17 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                             {/* Footer */}
                                             <div className="flex items-center justify-between pt-2 sm:pt-4 border-t border-slate-100/80 dark:border-slate-700/40 mt-auto transition-colors">
                                                 {/* Author */}
-                                                <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0">
-                                                    <div className="h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-slate-100 dark:bg-slate-900/80 flex items-center justify-center shrink-0 border border-slate-200/50 dark:border-slate-700/50 shadow-inner">
-                                                        <User className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-slate-500 dark:text-slate-400" strokeWidth={2.5} />
-                                                    </div>
-                                                    <div className="flex flex-col min-w-0 leading-none">
-                                                        <span className="hidden sm:inline text-xs font-extrabold text-slate-700 dark:text-slate-300 truncate transition-colors">
-                                                            {typeof blog.author === 'string' ? blog.author : blog.author?.name}
-                                                        </span>
-                                                        <span className="sm:hidden text-[10px] font-extrabold text-slate-600 dark:text-slate-400 truncate transition-colors">
-                                                            {(() => {
-                                                                const name = typeof blog.author === 'string' ? blog.author : blog.author?.name || '';
-                                                                return name.length > 10 ? name.split(' ')[0] : name;
-                                                            })()}
-                                                        </span>
-                                                        <span className="text-[8px] sm:text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-0.5">Publisher</span>
-                                                    </div>
+                                                <div className="flex flex-col min-w-0 leading-tight">
+                                                    <span className="hidden sm:inline text-xs font-extrabold text-slate-700 dark:text-slate-300 truncate transition-colors">
+                                                        {typeof blog.author === 'string' ? blog.author : blog.author?.name}
+                                                    </span>
+                                                    <span className="sm:hidden text-[10px] font-extrabold text-slate-600 dark:text-slate-400 truncate transition-colors">
+                                                        {(() => {
+                                                            const name = typeof blog.author === 'string' ? blog.author : blog.author?.name || '';
+                                                            return name.length > 10 ? name.split(' ')[0] : name;
+                                                        })()}
+                                                    </span>
+                                                    <span className="text-[8px] sm:text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-0.5">Publisher</span>
                                                 </div>
                                                 
                                                 {/* Read CTA Button */}
@@ -609,9 +604,9 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                                     )}
                                                 </div>
 
-                                                <div className="mt-3 pt-2 sm:pt-3 border-t border-slate-100 dark:border-slate-800/80">
-                                                    <span className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white shadow-[0_3px_0_#c2410c] dark:shadow-[0_3px_0_#9a3412] group-hover:shadow-[0_4px_0_#9a3412] group-hover:-translate-y-0.5 group-active:translate-y-0.5 group-active:shadow-none transition-all duration-200 uppercase tracking-wider">
-                                                        <Play className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-current" />
+                                                <div className="flex items-center justify-end mt-3 pt-2 sm:pt-3 border-t border-slate-100 dark:border-slate-800/80">
+                                                    <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white font-black text-xs sm:text-sm shadow-[0_3px_0_#c2410c] dark:shadow-[0_3px_0_#9a3412] group-hover:shadow-[0_4px_0_#9a3412] group-hover:-translate-y-0.5 group-active:translate-y-0.5 group-active:shadow-none transition-all duration-200 shrink-0 uppercase tracking-wider">
+                                                        <Play className="h-3.5 w-3.5 fill-current" />
                                                         Watch
                                                     </span>
                                                 </div>
