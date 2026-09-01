@@ -466,7 +466,7 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
       {typeof window !== 'undefined' && ReactDOM.createPortal(
         <AnimatePresence>
           {showRankGuide && (
-            <div className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-x-hidden overflow-y-auto">
+            <div className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-x-hidden overflow-y-auto scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {/* Backdrop with smooth fade */}
               <motion.div
                 key="hero-rank-guide-backdrop"
@@ -510,7 +510,7 @@ export function KidsWelcomeBanner({ completedModules = [], earnedBadges = [] }: 
                 </div>
 
                 {/* Rank list with transition highlight on current rank */}
-                <div className="p-3 xs:p-4 sm:p-5 space-y-3 sm:space-y-3.5 bg-slate-50 dark:bg-slate-950 overflow-y-auto max-h-[56vh] sm:max-h-[60vh]">
+                <div className="p-3 xs:p-4 sm:p-5 space-y-3 sm:space-y-3.5 bg-slate-50 dark:bg-slate-950 overflow-y-auto max-h-[56vh] sm:max-h-[60vh] scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                   {RANKS.map((rank, i) => {
                     const isCurrent = currentRank.name === rank.name
 
