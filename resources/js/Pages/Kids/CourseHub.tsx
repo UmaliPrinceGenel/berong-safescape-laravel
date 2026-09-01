@@ -425,10 +425,7 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
           <div className="absolute top-[80%] left-[45%] text-5xl floating-icon" style={{ animationDelay: '4s' }}>🛡️</div>
         </div>
 
-        <div 
-          style={{ viewTransitionName: 'kids-card-morph-safescape-course' }}
-          className="max-w-6xl mx-auto relative z-10"
-        >
+        <div className="max-w-6xl mx-auto relative z-10">
 
           {/* ── SafeScape Internal Header ── */}
           <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800 pb-3 mb-6 sm:mb-8 gap-4">
@@ -442,16 +439,10 @@ const CourseHubPage = ({ initialModules }: CourseHubProps) => {
               </Link>
               
               <div className="flex items-center gap-2">
-                <div 
-                  style={{ viewTransitionName: 'kids-card-image-safescape-course' }}
-                  className="flex items-center justify-center"
-                >
+                <div className="flex items-center justify-center">
                   <Shield className="h-5 w-5 text-[#ff4b3e]" />
                 </div>
-                <div 
-                  style={{ viewTransitionName: 'kids-card-title-safescape-course' }}
-                  className="flex items-center gap-1"
-                >
+                <div className="flex items-center gap-1">
                   <span className="text-slate-800 dark:text-white font-black text-sm sm:text-base leading-none">SafeScape</span>
                   <span className="text-slate-400 dark:text-slate-500 font-bold text-xs sm:text-sm">| Course Hub</span>
                 </div>

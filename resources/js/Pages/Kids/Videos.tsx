@@ -261,15 +261,9 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
             {/* Background Glow */}
             <div className="absolute -inset-2 bg-red-500/10 rounded-[2.5rem] opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
             
-            <div 
-              style={{ viewTransitionName: 'kids-card-morph-video-portal' }}
-              className="relative bg-white dark:bg-slate-800 rounded-[2rem] p-5 sm:p-8 shadow-xl border-2 border-slate-50 dark:border-slate-700 overflow-hidden transition-colors duration-500"
-            >
+            <div className="relative bg-white dark:bg-slate-800 rounded-[2rem] p-5 sm:p-8 shadow-xl border-2 border-slate-50 dark:border-slate-700 overflow-hidden transition-colors duration-500">
                {/* Decorative floating elements */}
-               <div 
-                 style={{ viewTransitionName: 'kids-card-image-video-portal' }}
-                 className="hidden sm:block absolute top-0 right-0 p-8 opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-700"
-               >
+               <div className="hidden sm:block absolute top-0 right-0 p-8 opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-700">
                   <img src="/videos.webp?v=2" className="h-24 w-24 sm:h-36 sm:w-36 object-contain" alt="" />
                </div>
                <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-red-50 dark:bg-red-900/10 rounded-full blur-2xl opacity-60"></div>
@@ -283,10 +277,7 @@ const VideosPage = ({ initialVideos, watchedVideoIds }: VideosPageProps) => {
                   </Link>
                   
                   <div className="flex-1">
-                     <h1 
-                       style={{ viewTransitionName: 'kids-card-title-video-portal' }}
-                       className="text-2xl sm:text-4xl font-black text-slate-800 dark:text-white tracking-tight mb-1 sm:mb-2 uppercase"
-                     >
+                     <h1 className="text-2xl sm:text-4xl font-black text-slate-800 dark:text-white tracking-tight mb-1 sm:mb-2 uppercase">
                         Fire Safety <span className="text-primary">Videos</span>
                      </h1>
                       <p className="text-slate-500 dark:text-slate-400 font-bold text-sm sm:text-base max-w-lg leading-relaxed">
