@@ -27,6 +27,8 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/Components/ui/button";
 import { FireExtinguishedText } from "./fire-extinguished-text";
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/Components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 // Team member data
 const teamMembers = [
@@ -813,6 +815,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
             description: "Instilling fire safety consciousness and prevention awareness in the next generation of youth."
         }
     ];
+    const [carouselApi, setCarouselApi] = useState<CarouselApi>();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -829,21 +832,29 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
     }, [isLightboxOpen]);
 
     useEffect(() => {
-        if (isHovered) return;
-        const interval = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % firefighterSlides.length);
-        }, 5000);
-        return () => clearInterval(interval);
-    }, [isHovered, firefighterSlides.length]);
+        if (!carouselApi) return;
+        setCurrentSlide(carouselApi.selectedScrollSnap());
+        carouselApi.on("select", () => {
+            setCurrentSlide(carouselApi.selectedScrollSnap());
+        });
+    }, [carouselApi]);
 
     const nextSlide = (e?: React.MouseEvent) => {
         e?.stopPropagation();
-        setCurrentSlide((prev) => (prev + 1) % firefighterSlides.length);
+        if (carouselApi) {
+            carouselApi.scrollNext();
+        } else {
+            setCurrentSlide((prev) => (prev + 1) % firefighterSlides.length);
+        }
     };
 
     const prevSlide = (e?: React.MouseEvent) => {
         e?.stopPropagation();
-        setCurrentSlide((prev) => (prev - 1 + firefighterSlides.length) % firefighterSlides.length);
+        if (carouselApi) {
+            carouselApi.scrollPrev();
+        } else {
+            setCurrentSlide((prev) => (prev - 1 + firefighterSlides.length) % firefighterSlides.length);
+        }
     };
 
     useEffect(() => {
@@ -1253,90 +1264,113 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                         </motion.div>
 
                         <motion.div
-                            className="w-full max-w-4xl aspect-[4/3] xs:aspect-[16/10] sm:aspect-video bg-slate-900 rounded-[1.25rem] sm:rounded-[1.75rem] border border-white/20 dark:border-slate-800 overflow-hidden relative group/slide shadow-2xl cursor-pointer"
-                            onClick={() => setIsLightboxOpen(true)}
+                            className="w-full max-w-4xl relative group/slide"
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.7, delay: 0.4 }}
-                            whileHover={reduceMotion ? undefined : {
-                                scale: 1.01,
-                                transition: { duration: 0.3 }
-                            }}
-                            onMouseEnter={() => setIsHovered(true)}
-                            onMouseLeave={() => setIsHovered(false)}
                         >
-                            {/* Slide Display using framer-motion with smooth zoom */}
-                            <div className="absolute inset-0 w-full h-full overflow-hidden bg-slate-950 rounded-[1.25rem] sm:rounded-[1.75rem]">
-                                <AnimatePresence mode="wait">
-                                    <motion.img
-                                        key={currentSlide}
-                                        src={firefighterSlides[currentSlide].image}
-                                        alt={firefighterSlides[currentSlide].title}
-                                        className="w-full h-full object-cover select-none rounded-[1.25rem] sm:rounded-[1.75rem] transition-transform duration-700 ease-out group-hover/slide:scale-105"
-                                        initial={{ opacity: 0, scale: 1.08 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.95 }}
-                                        transition={{ duration: 0.6 }}
-                                    />
-                                </AnimatePresence>
-                            </div>
-
-                            {/* Gradient Overlay - Bottom Left aligned matching Top Hero Carousel */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-950/40 to-transparent flex flex-col justify-end items-start p-5 pb-6 sm:p-8 sm:pb-9 md:p-9 md:pb-10 pointer-events-none rounded-[1.25rem] sm:rounded-[1.75rem]">
-                                <div className="relative z-10 text-white w-full max-w-2xl pointer-events-auto">
-                                    <h3 className="text-xl sm:text-3xl md:text-4xl font-black mb-1 sm:mb-1.5 drop-shadow-2xl tracking-tight leading-tight">
-                                        {firefighterSlides[currentSlide].title}
-                                    </h3>
-                                    <p className="text-xs sm:text-sm md:text-base font-medium text-gray-200 drop-shadow-md leading-relaxed hidden sm:block">
-                                        {firefighterSlides[currentSlide].description}
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Center Hover "Click to expand" badge matching Top Hero Carousel */}
-                            <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-                                <div className="opacity-0 group-hover/slide:opacity-100 translate-y-4 group-hover/slide:translate-y-0 transition-all duration-300 bg-slate-900/90 backdrop-blur-md text-white font-bold px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl flex items-center gap-2 shadow-2xl border border-slate-700/50 text-xs sm:text-sm">
-                                    <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5} />
-                                    Click to expand
-                                </div>
-                            </div>
-
-                            {/* Navigation Arrows - Circular White Pills with Dark Chevrons (Matching Top Hero Carousel) */}
-                            <button
-                                onClick={prevSlide}
-                                className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white text-slate-900 shadow-xl hover:bg-slate-100 hover:scale-110 active:scale-95 transition-all z-20"
-                                aria-label="Previous slide"
+                            <Carousel
+                                setApi={setCarouselApi}
+                                opts={{
+                                    loop: true,
+                                }}
+                                plugins={[
+                                    Autoplay({
+                                        delay: 5000,
+                                        stopOnInteraction: false,
+                                    }),
+                                ]}
+                                className="w-full"
                             >
-                                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5} />
-                            </button>
-                            <button
-                                onClick={nextSlide}
-                                className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white text-slate-900 shadow-xl hover:bg-slate-100 hover:scale-110 active:scale-95 transition-all z-20"
-                                aria-label="Next slide"
-                            >
-                                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5} />
-                            </button>
+                                <CarouselContent>
+                                    {firefighterSlides.map((slide, index) => (
+                                        <CarouselItem key={index}>
+                                            <div
+                                                className="w-full aspect-[4/3] xs:aspect-[16/10] sm:aspect-video bg-slate-900 rounded-[1.25rem] sm:rounded-[1.75rem] border border-white/20 dark:border-slate-800 overflow-hidden relative shadow-2xl cursor-pointer select-none"
+                                                onClick={() => {
+                                                    setCurrentSlide(index);
+                                                    setIsLightboxOpen(true);
+                                                }}
+                                            >
+                                                {/* Slide Image */}
+                                                <div className="absolute inset-0 w-full h-full overflow-hidden bg-slate-950 rounded-[1.25rem] sm:rounded-[1.75rem]">
+                                                    <img
+                                                        src={slide.image}
+                                                        alt={slide.title}
+                                                        className="w-full h-full object-cover select-none rounded-[1.25rem] sm:rounded-[1.75rem] transition-transform duration-700 ease-out group-hover/slide:scale-105"
+                                                    />
+                                                </div>
 
-                            {/* Slide Indicator Bars (Bottom Right matching Top Hero Carousel) */}
-                            <div className="absolute bottom-3 right-5 sm:bottom-5 sm:right-7 flex items-center gap-1.5 sm:gap-2 z-20">
-                                {firefighterSlides.map((_, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setCurrentSlide(index);
-                                        }}
-                                        className={cn(
-                                            "h-1.5 sm:h-2 rounded-full transition-all duration-300",
-                                            currentSlide === index 
-                                                ? "w-6 sm:w-7 bg-yellow-400" 
-                                                : "w-1.5 sm:w-2 bg-white/50 hover:bg-white/80"
-                                        )}
-                                        aria-label={`Go to slide ${index + 1}`}
-                                    />
-                                ))}
-                            </div>
+                                                {/* Gradient Overlay - Bottom Left aligned matching Top Hero Carousel */}
+                                                <div className="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-950/40 to-transparent flex flex-col justify-end items-start p-5 pb-6 sm:p-8 sm:pb-9 md:p-9 md:pb-10 pointer-events-none rounded-[1.25rem] sm:rounded-[1.75rem]">
+                                                    <div className="relative z-10 text-white w-full max-w-2xl pointer-events-auto">
+                                                        <h3 className="text-xl sm:text-3xl md:text-4xl font-black mb-1 sm:mb-1.5 drop-shadow-2xl tracking-tight leading-tight">
+                                                            {slide.title}
+                                                        </h3>
+                                                        <p className="text-xs sm:text-sm md:text-base font-medium text-gray-200 drop-shadow-md leading-relaxed hidden sm:block">
+                                                            {slide.description}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                {/* Center Hover "Click to expand" badge matching Top Hero Carousel */}
+                                                <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+                                                    <div className="opacity-0 group-hover/slide:opacity-100 translate-y-4 group-hover/slide:translate-y-0 transition-all duration-300 bg-slate-900/90 backdrop-blur-md text-white font-bold px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl flex items-center gap-2 shadow-2xl border border-slate-700/50 text-xs sm:text-sm">
+                                                        <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2.5} />
+                                                        Click to expand
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+
+                                {/* Navigation Arrows - Circular White Pills with Dark Chevrons (Matching Top Hero Carousel) */}
+                                <button
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        carouselApi?.scrollPrev();
+                                    }}
+                                    className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white text-slate-900 shadow-xl hover:bg-slate-100 hover:scale-110 active:scale-95 transition-all z-20 cursor-pointer"
+                                    aria-label="Previous slide"
+                                >
+                                    <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5} />
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        carouselApi?.scrollNext();
+                                    }}
+                                    className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white text-slate-900 shadow-xl hover:bg-slate-100 hover:scale-110 active:scale-95 transition-all z-20 cursor-pointer"
+                                    aria-label="Next slide"
+                                >
+                                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5} />
+                                </button>
+
+                                {/* Slide Indicator Bars (Bottom Right matching Top Hero Carousel) */}
+                                <div className="absolute bottom-3 right-5 sm:bottom-5 sm:right-7 flex items-center gap-1.5 sm:gap-2 z-20 pointer-events-auto">
+                                    {firefighterSlides.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                carouselApi?.scrollTo(index);
+                                            }}
+                                            className={cn(
+                                                "h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer",
+                                                currentSlide === index 
+                                                    ? "w-6 sm:w-7 bg-yellow-400" 
+                                                    : "w-1.5 sm:w-2 bg-white/50 hover:bg-white/80"
+                                            )}
+                                            aria-label={`Go to slide ${index + 1}`}
+                                        />
+                                    ))}
+                                </div>
+                            </Carousel>
                         </motion.div>
                     </div>
 

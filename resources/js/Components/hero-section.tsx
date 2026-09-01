@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useReducedMotion, useInView } from "motion/react";
-import { ChevronDown, Flame, Shield } from "lucide-react";
 import Particles from "@/Components/ui/particles";
 
 export function HeroSection() {
@@ -99,7 +98,6 @@ export function HeroSection() {
                     className="mb-6 sm:mb-8"
                 >
                     <span className="inline-flex items-center gap-2 px-5 py-1.5 sm:py-2 rounded-full bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default leading-snug">
-                        <Shield className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-red-600 dark:text-red-500" strokeWidth={2.5} />
                         <span className="sm:hidden">BFP — Sta. Cruz</span>
                         <span className="hidden sm:inline">Bureau of Fire Protection - Sta. Cruz, Laguna</span>
                     </span>
@@ -153,9 +151,8 @@ export function HeroSection() {
                         onClick={() => {
                             document.getElementById("featured-section")?.scrollIntoView({ behavior: "smooth" });
                         }}
-                        className="group px-8 sm:px-10 py-3.5 sm:py-4 bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white font-black text-xs sm:text-sm rounded-full border-[3px] border-orange-300 dark:border-orange-400/60 shadow-[0_5px_0_#991b1b] sm:shadow-[0_6px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_7px_0_#991b1b] active:translate-y-1.5 active:shadow-none transition-all duration-150 uppercase tracking-[0.15em] flex items-center gap-2.5 cursor-pointer select-none"
+                        className="group px-8 sm:px-10 py-3.5 sm:py-4 bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white font-black text-xs sm:text-sm rounded-full border-[3px] border-orange-300 dark:border-orange-400/60 shadow-[0_5px_0_#991b1b] sm:shadow-[0_6px_0_#991b1b] hover:-translate-y-0.5 hover:shadow-[0_7px_0_#991b1b] active:translate-y-1.5 active:shadow-none transition-all duration-150 uppercase tracking-[0.15em] flex items-center justify-center cursor-pointer select-none"
                     >
-                        <Flame className="h-4 w-4 sm:h-5 sm:w-5 group-hover:rotate-12 group-hover:scale-110 transition-transform" strokeWidth={2.5} />
                         Get Started
                     </button>
                 </motion.div>

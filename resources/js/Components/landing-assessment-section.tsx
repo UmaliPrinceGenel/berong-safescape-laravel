@@ -204,7 +204,6 @@ export function LandingAssessmentSection({ serverUser }: LandingAssessmentProps 
                         transition={{ duration: 0.5, delay: 0.15 }}
                         className="inline-flex items-center gap-2 px-5 py-1.5 sm:py-2 rounded-full bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] mb-4 select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default"
                     >
-                        <Trophy className="h-3.5 w-3.5 text-red-600 dark:text-red-500" strokeWidth={2.5} />
                         <span>Certification</span>
                     </motion.div>
                     <motion.h2
