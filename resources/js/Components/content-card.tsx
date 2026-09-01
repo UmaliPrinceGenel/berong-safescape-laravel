@@ -99,23 +99,17 @@ export const ContentCard = React.memo(({ content, onClick, isMorphing = false }:
         <div className={cn("absolute -top-16 -right-16 w-48 h-48 bg-white/20 rounded-full pointer-events-none transition-all duration-700 group-hover:scale-150 hidden sm:block", content.videoPreviewUrl && "group-hover:opacity-0")}></div>
         <div className={cn("absolute -bottom-16 -left-16 w-48 h-48 bg-black/10 rounded-full pointer-events-none hidden sm:block transition-opacity duration-700", content.videoPreviewUrl && "group-hover:opacity-0")}></div>
 
-        {/* Top-Left Indicator: Module or Difficulty */}
-        <div className="absolute top-3 left-3 z-20">
-           {content.type === "module" ? (
-             <div className="relative flex items-center justify-center">
-               <div className="relative bg-gradient-to-b from-yellow-300 to-amber-500 text-amber-950 font-black text-[9px] sm:text-[11px] tracking-[0.2em] uppercase px-3.5 py-1 sm:px-5 sm:py-1.5 rounded-full border-[2px] sm:border-[3px] border-white/90 shadow-[0_4px_12px_rgba(245,158,11,0.4)] flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                 <span className="relative z-10 drop-shadow-sm">MODULE</span>
-               </div>
-             </div>
-           ) : (content.difficulty && content.id !== "activity-portal") ? (
-             <div className={cn(
-               "font-black text-[7px] sm:text-[10px] tracking-widest uppercase px-2 py-1 sm:px-3 sm:py-1 rounded-full border-2 border-white/30 shadow-lg text-white",
-               badgeColors[content.difficulty]
-             )}>
-               {content.difficulty}
-             </div>
-           ) : null}
-         </div>
+        {/* Top-Left Indicator: Difficulty */}
+        {(content.difficulty && content.id !== "activity-portal" && content.type !== "module") ? (
+          <div className="absolute top-3 left-3 z-20">
+            <div className={cn(
+              "font-black text-[7px] sm:text-[10px] tracking-widest uppercase px-2 py-1 sm:px-3 sm:py-1 rounded-full border-2 border-white/30 shadow-lg text-white",
+              badgeColors[content.difficulty]
+            )}>
+              {content.difficulty}
+            </div>
+          </div>
+        ) : null}
         <div className="absolute top-3 right-3 flex flex-col gap-1.5 z-20">
           {content.isNew && (
             <div className="bg-rose-500 text-white font-black text-[7px] sm:text-[10px] tracking-widest uppercase px-2 py-1 sm:px-3 sm:py-1.5 rounded-full shadow-[0_4px_12px_rgba(244,63,94,0.4)] sm:animate-bounce border-2 border-white/40 flex items-center gap-1 sm:gap-1.5 ring-2 ring-rose-500/20">
