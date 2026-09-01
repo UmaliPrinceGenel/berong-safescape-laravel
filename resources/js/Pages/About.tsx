@@ -507,7 +507,6 @@ export default function AboutPage() {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-    const [isBerongFlipped, setIsBerongFlipped] = useState(false);
 
     useEffect(() => {
         if (isLightboxOpen) {
@@ -608,9 +607,12 @@ export default function AboutPage() {
                                     transformPerspective: 1000
                                 }}
                             >
-                                <div className="relative w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 [perspective:1000px]">
+                                <div 
+                                    className="relative w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 group cursor-pointer"
+                                    style={{ perspective: 1200 }}
+                                >
                                     <motion.div
-                                        className="absolute inset-0 bg-red-500/20 rounded-full"
+                                        className="absolute inset-0 bg-red-500/20 rounded-full pointer-events-none"
                                         animate={typeof window !== 'undefined' && window.innerWidth < 640 ? { scale: 1, opacity: 0.2 } : { scale: [1, 1.1, 1], opacity: [0.2, 0.3, 0.2] }}
                                         transition={typeof window !== 'undefined' && window.innerWidth < 640 ? {} : { duration: 3, repeat: Infinity }}
                                     />
@@ -628,16 +630,19 @@ export default function AboutPage() {
                                             y: { duration: 3, repeat: typeof window !== 'undefined' && window.innerWidth < 640 ? 0 : Infinity, ease: "easeInOut" }
                                         }}
                                     >
-                                        <motion.div
-                                            className="relative w-full h-full [transform-style:preserve-3d] cursor-pointer group"
-                                            animate={{ rotateY: isBerongFlipped ? 180 : 0 }}
-                                            transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
-                                            onHoverStart={() => setIsBerongFlipped(true)}
-                                            onHoverEnd={() => setIsBerongFlipped(false)}
-                                            onClick={() => setIsBerongFlipped(prev => !prev)}
+                                        {/* 3D Coin Flip: Stationary outer hover target guarantees zero stutter */}
+                                        <div
+                                            className="relative w-full h-full transition-transform duration-700 ease-out group-hover:[transform:rotateY(180deg)]"
+                                            style={{ transformStyle: "preserve-3d" }}
                                         >
                                             {/* Front Face: Official Circular Logo */}
-                                            <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] flex items-center justify-center">
+                                            <div 
+                                                className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none"
+                                                style={{
+                                                    backfaceVisibility: "hidden",
+                                                    WebkitBackfaceVisibility: "hidden",
+                                                }}
+                                            >
                                                 <Image
                                                     src="/berong-official-logo.webp"
                                                     alt="Berong's E-Learning - Official Logo"
@@ -648,7 +653,14 @@ export default function AboutPage() {
                                             </div>
 
                                             {/* Back Face: Berong Mascot Waving */}
-                                            <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] flex items-center justify-center">
+                                            <div 
+                                                className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none"
+                                                style={{
+                                                    backfaceVisibility: "hidden",
+                                                    WebkitBackfaceVisibility: "hidden",
+                                                    transform: "rotateY(180deg)",
+                                                }}
+                                            >
                                                 <Image
                                                     src="/berong_mascot.png"
                                                     alt="Berong Mascot Waving"
@@ -657,7 +669,7 @@ export default function AboutPage() {
                                                     priority
                                                 />
                                             </div>
-                                        </motion.div>
+                                        </div>
                                     </motion.div>
                                 </div>
                             </motion.div>
