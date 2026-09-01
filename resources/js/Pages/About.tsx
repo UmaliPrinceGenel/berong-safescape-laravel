@@ -507,6 +507,8 @@ export default function AboutPage() {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+    const [isBerongHovered, setIsBerongHovered] = useState(false);
+    const [isBerongToggled, setIsBerongToggled] = useState(false);
 
     useEffect(() => {
         if (isLightboxOpen) {
@@ -608,8 +610,23 @@ export default function AboutPage() {
                                 }}
                             >
                                 <div 
-                                    className="relative w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 group cursor-pointer"
+                                    className="relative w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 cursor-pointer select-none"
                                     style={{ perspective: 1200 }}
+                                    onMouseEnter={() => setIsBerongHovered(true)}
+                                    onMouseLeave={() => {
+                                        setIsBerongHovered(false);
+                                        setIsBerongToggled(false);
+                                    }}
+                                    onClick={() => setIsBerongToggled(prev => !prev)}
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-label="Flip Berong Logo"
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            setIsBerongToggled(prev => !prev);
+                                        }
+                                    }}
                                 >
                                     <motion.div
                                         className="absolute inset-0 bg-red-500/20 rounded-full pointer-events-none"
@@ -617,7 +634,7 @@ export default function AboutPage() {
                                         transition={typeof window !== 'undefined' && window.innerWidth < 640 ? {} : { duration: 3, repeat: Infinity }}
                                     />
                                     <motion.div
-                                        className="relative w-full h-full"
+                                        className="relative w-full h-full pointer-events-none"
                                         initial={{ opacity: 0, scale: 0.8 }}
                                         animate={{
                                             opacity: 1,
@@ -630,9 +647,11 @@ export default function AboutPage() {
                                             y: { duration: 3, repeat: typeof window !== 'undefined' && window.innerWidth < 640 ? 0 : Infinity, ease: "easeInOut" }
                                         }}
                                     >
-                                        {/* 3D Coin Flip: Stationary outer hover target guarantees zero stutter */}
+                                        {/* 3D Coin Flip: Smoothly flips on desktop hover and on mobile tap/click */}
                                         <div
-                                            className="relative w-full h-full transition-transform duration-700 ease-out group-hover:[transform:rotateY(180deg)]"
+                                            className={`relative w-full h-full transition-transform duration-700 ease-out ${
+                                                (isBerongHovered || isBerongToggled) ? '[transform:rotateY(180deg)]' : '[transform:rotateY(0deg)]'
+                                            }`}
                                             style={{ transformStyle: "preserve-3d" }}
                                         >
                                             {/* Front Face: Official Circular Logo */}
