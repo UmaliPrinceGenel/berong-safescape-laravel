@@ -2,7 +2,6 @@ import React, { useState, useMemo, useEffect, useRef } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card"
 import { Search, Users as UsersIcon, Trash2, ChevronLeft, ChevronRight, Filter, ChevronDown, X, Check } from "lucide-react"
 import { Popover, PopoverTrigger, PopoverContent } from "@/Components/ui/popover"
-import { Checkbox } from "@/Components/ui/checkbox"
 import { UserListSkeleton } from "@/Components/dashboard-skeletons"
 import type { UsersTabProps } from "@/types/admin"
 
@@ -210,11 +209,15 @@ export const AdminUsersTab: React.FC<UsersTabProps> = ({
                         }`}
                       >
                         <div className="flex items-center gap-2.5">
-                          <Checkbox
-                            checked={isChecked}
-                            onCheckedChange={() => togglePermission(option.id)}
-                            className="data-[state=checked]:bg-[#d60000] data-[state=checked]:border-[#d60000]"
-                          />
+                          <div
+                            className={`w-4 h-4 rounded-[4px] border flex items-center justify-center transition-all shrink-0 ${
+                              isChecked
+                                ? "bg-[#d60000] border-[#d60000] text-white"
+                                : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800"
+                            }`}
+                          >
+                            {isChecked && <Check className="h-3 w-3 stroke-[3]" />}
+                          </div>
                           <span className={`text-xs font-extrabold px-2 py-0.5 rounded-md border ${option.badgeClass}`}>
                             {option.label}
                           </span>
