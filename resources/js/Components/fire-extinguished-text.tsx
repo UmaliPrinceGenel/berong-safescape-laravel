@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useInView, AnimatePresence } from "motion/react";
-import { Sparkles, RefreshCw } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 interface FireExtinguishedTextProps {
     text: string;
@@ -255,10 +255,9 @@ function FirefighterNozzle() {
 
 export function FireExtinguishedText({ text, className = "" }: FireExtinguishedTextProps) {
     const ref = useRef<HTMLHeadingElement>(null);
-    const isInView = useInView(ref, { once: false, margin: "-80px" });
+    const isInView = useInView(ref, { once: true, margin: "-80px" });
     const [state, setState] = useState<"on-fire" | "extinguishing" | "clean">("on-fire");
     const [sprayProgress, setSprayProgress] = useState(0);
-    const [isReplaying, setIsReplaying] = useState(false);
 
     // Animation trigger logic
     const runExtinguishAnimation = useCallback(() => {
@@ -278,7 +277,6 @@ export function FireExtinguishedText({ text, className = "" }: FireExtinguishedT
                 requestAnimationFrame(animate);
             } else {
                 setState("clean");
-                setIsReplaying(false);
             }
         };
 
@@ -287,7 +285,7 @@ export function FireExtinguishedText({ text, className = "" }: FireExtinguishedT
 
     // Initial scroll trigger
     useEffect(() => {
-        if (!isInView || isReplaying) return;
+        if (!isInView) return;
 
         // Start burning for 1.3s so the viewer notices the flames, then extinguish!
         const timer = setTimeout(() => {
@@ -295,220 +293,188 @@ export function FireExtinguishedText({ text, className = "" }: FireExtinguishedT
         }, 1300);
 
         return () => clearTimeout(timer);
-    }, [isInView, runExtinguishAnimation, isReplaying]);
-
-    // Manual replay trigger
-    const handleReplay = () => {
-        if (state === "extinguishing") return;
-        setIsReplaying(true);
-        setState("on-fire");
-        setSprayProgress(0);
-
-        setTimeout(() => {
-            runExtinguishAnimation();
-        }, 1200);
-    };
+    }, [isInView, runExtinguishAnimation]);
 
     const letters = text.split("");
     const flamePalette = ["#EF4444", "#F97316", "#F59E0B", "#DC2626", "#EA580C"];
 
     return (
-        <div className="relative flex flex-col items-center select-none group/fire">
-            <h2
-                ref={ref}
-                onClick={handleReplay}
-                title={state === "clean" ? "Click to reignite & extinguish again!" : undefined}
-                className={`relative inline-block cursor-pointer transition-transform duration-200 active:scale-98 ${className}`}
-            >
-                {/* Fire Glow Aura behind text */}
-                <AnimatePresence>
-                    {state !== "clean" && (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{
-                                opacity: [0.5, 0.9, 0.6, 0.95, 0.5],
-                                scale: [0.98, 1.05, 0.99, 1.04, 0.98],
-                            }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            transition={{
-                                duration: 0.6,
-                                repeat: Infinity,
-                                repeatType: "mirror",
-                            }}
-                            className="absolute -inset-6 sm:-inset-8 bg-gradient-to-t from-red-600/35 via-orange-500/25 to-yellow-400/20 rounded-3xl blur-xl z-0 pointer-events-none"
-                        />
-                    )}
-                </AnimatePresence>
-
-                {/* Clean State Sparkles Celebration */}
-                {state === "clean" && (
-                    <>
-                        <SparkleStar delay={0.1} />
-                        <SparkleStar delay={0.3} />
-                        <SparkleStar delay={0.5} />
-                        <SparkleStar delay={0.7} />
-                    </>
-                )}
-
-                {/* Sweeping Firefighter Water Jet Nozzle */}
-                {state === "extinguishing" && (
-                    <div
-                        className="absolute top-1/2 -translate-y-1/2 pointer-events-none z-30 transition-all"
-                        style={{
-                            left: `${sprayProgress * 100}%`,
-                            transform: "translate(-85%, -50%)",
+        <h2
+            ref={ref}
+            className={`relative inline-block select-none ${className}`}
+        >
+            {/* Fire Glow Aura behind text */}
+            <AnimatePresence>
+                {state !== "clean" && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{
+                            opacity: [0.5, 0.9, 0.6, 0.95, 0.5],
+                            scale: [0.98, 1.05, 0.99, 1.04, 0.98],
                         }}
-                    >
-                        <FirefighterNozzle />
-                    </div>
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{
+                            duration: 0.6,
+                            repeat: Infinity,
+                            repeatType: "mirror",
+                        }}
+                        className="absolute -inset-6 sm:-inset-8 bg-gradient-to-t from-red-600/35 via-orange-500/25 to-yellow-400/20 rounded-3xl blur-xl z-0 pointer-events-none"
+                    />
                 )}
+            </AnimatePresence>
 
-                {/* Letter Container */}
-                <span className="flex flex-wrap justify-center items-center relative z-10 gap-x-[0.08em]">
-                    {letters.map((char, idx) => {
-                        if (char === " ") {
-                            return <span key={idx} className="w-2.5 sm:w-4" />;
-                        }
-
-                        const charProgress = idx / letters.length;
-                        const isExtinguished =
-                            state === "clean" ||
-                            (state === "extinguishing" && sprayProgress >= charProgress + 0.04);
-                        const isBeingExtinguished =
-                            state === "extinguishing" &&
-                            Math.abs(sprayProgress - charProgress) <= 0.08;
-
-                        const mainColor = flamePalette[idx % flamePalette.length];
-
-                        return (
-                            <span
-                                key={idx}
-                                className="relative inline-flex items-center justify-center overflow-visible"
-                            >
-                                {/* Cartoon Fire Flames on Burning Characters */}
-                                {!isExtinguished && (
-                                    <span className="absolute -top-3 sm:-top-4 left-0 right-0 bottom-0 pointer-events-none z-20 overflow-visible">
-                                        {/* Main Tall Flame */}
-                                        <CartoonFlame
-                                            size={18 + (idx % 3) * 5}
-                                            color={mainColor}
-                                            innerColor="#FBBF24"
-                                            delay={(idx * 0.08) % 0.3}
-                                            duration={0.45 + ((idx * 7) % 5) * 0.06}
-                                            xDrift={(idx % 2 === 0 ? 1 : -1) * (4 + (idx % 4) * 2)}
-                                        />
-
-                                        {/* Secondary Dancing Side Flame */}
-                                        <CartoonFlame
-                                            size={12 + (idx % 2) * 4}
-                                            color="#F97316"
-                                            innerColor="#FDE047"
-                                            delay={0.15 + (idx * 0.05) % 0.25}
-                                            duration={0.4 + ((idx * 3) % 4) * 0.06}
-                                            xDrift={(idx % 2 === 0 ? -1 : 1) * (8 + (idx % 3) * 3)}
-                                        />
-
-                                        {/* Ember Sparks */}
-                                        <EmberSpark delay={(idx * 0.12) % 0.4} />
-                                    </span>
-                                )}
-
-                                {/* Sizzling Steam & Splash Bursts when being hit by Water */}
-                                {isBeingExtinguished && (
-                                    <span className="absolute -top-6 left-0 right-0 bottom-0 pointer-events-none z-25 overflow-visible">
-                                        {/* Puffy Steam Puffs */}
-                                        <CartoonSteam delay={0} xOffset={-8} />
-                                        <CartoonSteam delay={0.06} xOffset={8} />
-                                        <CartoonSteam delay={0.12} xOffset={0} />
-
-                                        {/* Water Splash Particles */}
-                                        {[0, 60, 120, 180, 240, 300].map((angle, sIdx) => (
-                                            <WaterSplashParticle
-                                                key={sIdx}
-                                                angle={angle}
-                                                speed={22 + (sIdx % 3) * 8}
-                                                delay={sIdx * 0.02}
-                                            />
-                                        ))}
-                                    </span>
-                                )}
-
-                                {/* Letter Character */}
-                                <motion.span
-                                    className="inline-block"
-                                    animate={
-                                        isExtinguished
-                                            ? {
-                                                  color: "#ffffff",
-                                                  textShadow:
-                                                      "0 3px 10px rgba(0,0,0,0.6), 0 0 15px rgba(255,255,255,0.4)",
-                                                  scale: isBeingExtinguished
-                                                      ? [1.25, 0.95, 1]
-                                                      : 1,
-                                                  y: 0,
-                                                  rotate: 0,
-                                              }
-                                            : {
-                                                  color: [
-                                                      "#FEF08A",
-                                                      "#F97316",
-                                                      "#EF4444",
-                                                      "#F59E0B",
-                                                      "#FEF08A",
-                                                  ],
-                                                  textShadow: [
-                                                      "0 0 12px rgba(239,68,68,0.9), 0 0 24px rgba(249,115,22,0.7)",
-                                                      "0 0 18px rgba(251,191,36,1), 0 0 30px rgba(245,158,11,0.8)",
-                                                      "0 0 12px rgba(239,68,68,0.9), 0 0 24px rgba(249,115,22,0.7)",
-                                                  ],
-                                                  scale: [1, 1.08, 0.96, 1.05, 1],
-                                                  y: [0, -3, 2, -2, 0],
-                                                  rotate: [
-                                                      0,
-                                                      (idx % 2 === 0 ? 1 : -1) * 3,
-                                                      (idx % 2 === 0 ? -1 : 1) * 2,
-                                                      0,
-                                                  ],
-                                              }
-                                    }
-                                    transition={
-                                        isExtinguished
-                                            ? {
-                                                  duration: 0.4,
-                                                  type: "spring",
-                                                  stiffness: 280,
-                                                  damping: 14,
-                                              }
-                                            : {
-                                                  duration: 0.5 + (idx % 4) * 0.08,
-                                                  repeat: Infinity,
-                                                  repeatType: "mirror",
-                                              }
-                                    }
-                                >
-                                    {char}
-                                </motion.span>
-                            </span>
-                        );
-                    })}
-                </span>
-            </h2>
-
-            {/* Interactive Replay Helper Pill */}
+            {/* Clean State Sparkles Celebration */}
             {state === "clean" && (
-                <motion.button
-                    type="button"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleReplay}
-                    className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950/40 hover:bg-red-950/60 border border-white/20 text-orange-200 hover:text-white text-[11px] font-bold tracking-wide transition-all shadow-sm cursor-pointer"
-                >
-                    <RefreshCw className="w-3 h-3 text-yellow-400" />
-                    <span>Replay extinguish</span>
-                </motion.button>
+                <>
+                    <SparkleStar delay={0.1} />
+                    <SparkleStar delay={0.3} />
+                    <SparkleStar delay={0.5} />
+                    <SparkleStar delay={0.7} />
+                </>
             )}
-        </div>
+
+            {/* Sweeping Firefighter Water Jet Nozzle */}
+            {state === "extinguishing" && (
+                <div
+                    className="absolute top-1/2 -translate-y-1/2 pointer-events-none z-30 transition-all"
+                    style={{
+                        left: `${sprayProgress * 100}%`,
+                        transform: "translate(-85%, -50%)",
+                    }}
+                >
+                    <FirefighterNozzle />
+                </div>
+            )}
+
+            {/* Letter Container */}
+            <span className="flex flex-wrap justify-center items-center relative z-10 gap-x-[0.08em]">
+                {letters.map((char, idx) => {
+                    if (char === " ") {
+                        return <span key={idx} className="w-2.5 sm:w-4" />;
+                    }
+
+                    const charProgress = idx / letters.length;
+                    const isExtinguished =
+                        state === "clean" ||
+                        (state === "extinguishing" && sprayProgress >= charProgress + 0.04);
+                    const isBeingExtinguished =
+                        state === "extinguishing" &&
+                        Math.abs(sprayProgress - charProgress) <= 0.08;
+
+                    const mainColor = flamePalette[idx % flamePalette.length];
+
+                    return (
+                        <span
+                            key={idx}
+                            className="relative inline-flex items-center justify-center overflow-visible"
+                        >
+                            {/* Cartoon Fire Flames on Burning Characters */}
+                            {!isExtinguished && (
+                                <span className="absolute -top-3 sm:-top-4 left-0 right-0 bottom-0 pointer-events-none z-20 overflow-visible">
+                                    {/* Main Tall Flame */}
+                                    <CartoonFlame
+                                        size={18 + (idx % 3) * 5}
+                                        color={mainColor}
+                                        innerColor="#FBBF24"
+                                        delay={(idx * 0.08) % 0.3}
+                                        duration={0.45 + ((idx * 7) % 5) * 0.06}
+                                        xDrift={(idx % 2 === 0 ? 1 : -1) * (4 + (idx % 4) * 2)}
+                                    />
+
+                                    {/* Secondary Dancing Side Flame */}
+                                    <CartoonFlame
+                                        size={12 + (idx % 2) * 4}
+                                        color="#F97316"
+                                        innerColor="#FDE047"
+                                        delay={0.15 + (idx * 0.05) % 0.25}
+                                        duration={0.4 + ((idx * 3) % 4) * 0.06}
+                                        xDrift={(idx % 2 === 0 ? -1 : 1) * (8 + (idx % 3) * 3)}
+                                    />
+
+                                    {/* Ember Sparks */}
+                                    <EmberSpark delay={(idx * 0.12) % 0.4} />
+                                </span>
+                            )}
+
+                            {/* Sizzling Steam & Splash Bursts when being hit by Water */}
+                            {isBeingExtinguished && (
+                                <span className="absolute -top-6 left-0 right-0 bottom-0 pointer-events-none z-25 overflow-visible">
+                                    {/* Puffy Steam Puffs */}
+                                    <CartoonSteam delay={0} xOffset={-8} />
+                                    <CartoonSteam delay={0.06} xOffset={8} />
+                                    <CartoonSteam delay={0.12} xOffset={0} />
+
+                                    {/* Water Splash Particles */}
+                                    {[0, 60, 120, 180, 240, 300].map((angle, sIdx) => (
+                                        <WaterSplashParticle
+                                            key={sIdx}
+                                            angle={angle}
+                                            speed={22 + (sIdx % 3) * 8}
+                                            delay={sIdx * 0.02}
+                                        />
+                                    ))}
+                                </span>
+                            )}
+
+                            {/* Letter Character */}
+                            <motion.span
+                                className="inline-block"
+                                animate={
+                                    isExtinguished
+                                        ? {
+                                              color: "#ffffff",
+                                              textShadow:
+                                                  "0 3px 10px rgba(0,0,0,0.6), 0 0 15px rgba(255,255,255,0.4)",
+                                              scale: isBeingExtinguished
+                                                  ? [1.25, 0.95, 1]
+                                                  : 1,
+                                              y: 0,
+                                              rotate: 0,
+                                          }
+                                        : {
+                                              color: [
+                                                  "#FEF08A",
+                                                  "#F97316",
+                                                  "#EF4444",
+                                                  "#F59E0B",
+                                                  "#FEF08A",
+                                              ],
+                                              textShadow: [
+                                                  "0 0 12px rgba(239,68,68,0.9), 0 0 24px rgba(249,115,22,0.7)",
+                                                  "0 0 18px rgba(251,191,36,1), 0 0 30px rgba(245,158,11,0.8)",
+                                                  "0 0 12px rgba(239,68,68,0.9), 0 0 24px rgba(249,115,22,0.7)",
+                                              ],
+                                              scale: [1, 1.08, 0.96, 1.05, 1],
+                                              y: [0, -3, 2, -2, 0],
+                                              rotate: [
+                                                  0,
+                                                  (idx % 2 === 0 ? 1 : -1) * 3,
+                                                  (idx % 2 === 0 ? -1 : 1) * 2,
+                                                  0,
+                                              ],
+                                          }
+                                }
+                                transition={
+                                    isExtinguished
+                                        ? {
+                                              duration: 0.4,
+                                              type: "spring",
+                                              stiffness: 280,
+                                              damping: 14,
+                                          }
+                                        : {
+                                              duration: 0.5 + (idx % 4) * 0.08,
+                                              repeat: Infinity,
+                                              repeatType: "mirror",
+                                          }
+                                }
+                            >
+                                {char}
+                            </motion.span>
+                        </span>
+                    );
+                })}
+            </span>
+        </h2>
     );
 }
