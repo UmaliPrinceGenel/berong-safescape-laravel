@@ -27,6 +27,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/Components/ui/button";
 import { FireExtinguishedText } from "./fire-extinguished-text";
+import { BinaryScrambleText } from "./binary-scramble-text";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/Components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
@@ -711,6 +712,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
     const [isMobileViewport, setIsMobileViewport] = useState(false);
     const [isLaptopOrSmaller, setIsLaptopOrSmaller] = useState(false);
     const [heroesReplay, setHeroesReplay] = useState(0);
+    const [devsReplay, setDevsReplay] = useState(0);
 
     useEffect(() => {
         if (typeof window === "undefined") return;
@@ -1513,12 +1515,21 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                         <div className="relative z-10 px-4 sm:px-8">
                             <div className="text-center mb-10 sm:mb-16 shrink-0 w-full">
                                 <div className="mb-6 flex justify-center">
-                                    <span className="bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-5 py-1.5 sm:py-2 rounded-full inline-flex items-center border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default">
+                                    <button
+                                        type="button"
+                                        onClick={() => setDevsReplay((prev) => prev + 1)}
+                                        title="Click to re-scramble developer binary!"
+                                        className="bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-5 py-1.5 sm:py-2 rounded-full inline-flex items-center border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] hover:bg-red-50 dark:hover:bg-slate-800 active:translate-y-1 active:shadow-none transition-all duration-150 cursor-pointer"
+                                    >
                                         The Research Team
-                                    </span>
+                                    </button>
                                 </div>
                                 <h2 className="text-4xl sm:text-5xl font-black text-slate-800 dark:text-white mb-4 transition-colors">
-                                    <BinaryScrambleText text="Meet the Developers" />
+                                    <BinaryScrambleText 
+                                        text="Meet the Developers" 
+                                        replayTrigger={devsReplay} 
+                                        hoverToScramble={true} 
+                                    />
                                 </h2>
                                 <p className="text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto text-lg transition-colors">
                                     Computer Science researchers majoring in Intelligent Systems who designed and developed SafeScape and SafeScape 2.0.
@@ -1549,12 +1560,21 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                 transition={{ duration: 0.7 }}
                             >
                                 <div className="mb-6 flex justify-center">
-                                    <span className="bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-5 py-1.5 sm:py-2 rounded-full inline-flex items-center border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default">
+                                    <button
+                                        type="button"
+                                        onClick={() => setDevsReplay((prev) => prev + 1)}
+                                        title="Click to re-scramble developer binary!"
+                                        className="bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-5 py-1.5 sm:py-2 rounded-full inline-flex items-center border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] hover:bg-red-50 dark:hover:bg-slate-800 active:translate-y-1 active:shadow-none transition-all duration-150 cursor-pointer"
+                                    >
                                         The Research Team
-                                    </span>
+                                    </button>
                                 </div>
                                 <h2 className="text-4xl sm:text-5xl font-black text-slate-800 dark:text-white mb-4 transition-colors">
-                                    <BinaryScrambleText text="Meet the Developers" />
+                                    <BinaryScrambleText 
+                                        text="Meet the Developers" 
+                                        replayTrigger={devsReplay} 
+                                        hoverToScramble={true} 
+                                    />
                                 </h2>
                                 <p className="text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto text-lg transition-colors">
                                     Computer Science researchers majoring in Intelligent Systems who designed and developed SafeScape and SafeScape 2.0.
@@ -1585,67 +1605,6 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                 </div>
             )}
         </div>
-    );
-}
-
-const BINARY_CHARS = "01";
-
-function BinaryScrambleText({ text, className = "" }: { text: string, className?: string }) {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-    return (
-        <span ref={ref} className={className}>
-            {text.split("").map((char, index) => {
-                if (char === " ") return <span key={index}> </span>;
-                return (
-                    <BinaryScrambleLetter 
-                        key={index} 
-                        char={char} 
-                        trigger={isInView} 
-                        delay={index * 0.05} 
-                    />
-                );
-            })}
-        </span>
-    );
-}
-
-function BinaryScrambleLetter({ char, trigger, delay }: { char: string, trigger: boolean, delay: number }) {
-    const [displayChar, setDisplayChar] = useState("0");
-    const [isDecoded, setIsDecoded] = useState(false);
-    
-    useEffect(() => {
-        if (!trigger) return;
-        
-        let iterations = 0;
-        const maxIterations = 15;
-        let timeoutId: any;
-        
-        const startDelay = setTimeout(() => {
-            const interval = setInterval(() => {
-                if (iterations >= maxIterations) {
-                    clearInterval(interval);
-                    setDisplayChar(char);
-                    setIsDecoded(true);
-                } else {
-                    setDisplayChar(BINARY_CHARS[Math.floor(Math.random() * BINARY_CHARS.length)]);
-                    iterations++;
-                }
-            }, 30);
-            timeoutId = interval;
-        }, delay * 1000);
-        
-        return () => {
-            clearTimeout(startDelay);
-            clearInterval(timeoutId);
-        };
-    }, [trigger, char, delay]);
-
-    return (
-        <span className={isDecoded ? "" : "text-slate-400 dark:text-slate-600 font-mono opacity-80"}>
-            {trigger ? displayChar : "0"}
-        </span>
     );
 }
 

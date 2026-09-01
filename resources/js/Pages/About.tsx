@@ -34,6 +34,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/Components/ui/button";
 import { FireExtinguishedText } from "../Components/fire-extinguished-text";
+import { BinaryScrambleText } from "@/Components/binary-scramble-text";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/Components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
@@ -510,6 +511,7 @@ export default function AboutPage() {
     const [isBerongHovered, setIsBerongHovered] = useState(false);
     const [isBerongToggled, setIsBerongToggled] = useState(false);
     const [heroesReplay, setHeroesReplay] = useState(0);
+    const [devsReplay, setDevsReplay] = useState(0);
 
     useEffect(() => {
         if (isLightboxOpen) {
@@ -1138,12 +1140,21 @@ export default function AboutPage() {
                             transition={{ duration: 0.7 }}
                         >
                             <div className="mb-6 flex justify-center">
-                                <span className="bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-5 py-1.5 sm:py-2 rounded-full inline-flex items-center border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] active:translate-y-1 active:shadow-none transition-all duration-150 cursor-default">
+                                <button
+                                    type="button"
+                                    onClick={() => setDevsReplay((prev) => prev + 1)}
+                                    title="Click to re-scramble developer binary!"
+                                    className="bg-white dark:bg-slate-900 text-red-600 dark:text-red-400 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] px-5 py-1.5 sm:py-2 rounded-full inline-flex items-center border-2 border-red-200 dark:border-red-900/50 shadow-[0_3px_0_#fca5a5] dark:shadow-[0_3px_0_#7f1d1d] sm:shadow-[0_4px_0_#fca5a5] sm:dark:shadow-[0_4px_0_#7f1d1d] select-none hover:-translate-y-0.5 hover:shadow-[0_5px_0_#fca5a5] dark:hover:shadow-[0_5px_0_#7f1d1d] hover:bg-red-50 dark:hover:bg-slate-800 active:translate-y-1 active:shadow-none transition-all duration-150 cursor-pointer"
+                                >
                                     The Research Team
-                                </span>
+                                </button>
                             </div>
                             <h2 className="text-3xl sm:text-4xl font-bold text-slate-800 dark:text-white mb-4 transition-colors">
-                                Meet the Developers
+                                <BinaryScrambleText 
+                                    text="Meet the Developers" 
+                                    replayTrigger={devsReplay} 
+                                    hoverToScramble={true} 
+                                />
                             </h2>
                             <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg transition-colors">
                                 Computer Science researchers majoring in Intelligent Systems who designed and developed SafeScape and SafeScape 2.0.
