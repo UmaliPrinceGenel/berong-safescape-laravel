@@ -109,15 +109,8 @@ export function BinaryScrambleText({
                         display: randomChar,
                         status: "scrambling",
                     };
-                } else if (elapsed >= charEnd && elapsed < charEnd + 140) {
-                    // Brief lock-in flash state
-                    return {
-                        char,
-                        display: char,
-                        status: "locked",
-                    };
                 } else {
-                    // Fully resolved
+                    // Fully resolved directly to final letter
                     return {
                         char,
                         display: char,
@@ -195,26 +188,15 @@ export function BinaryScrambleText({
                     );
                 }
 
-                // Styling based on decode lifecycle
+                // Styling based on decode lifecycle - all using parent font-family
                 if (item.status === "scrambling") {
                     return (
                         <motion.span
                             key={index}
-                            className="inline-block font-mono font-black text-[#d60000] dark:text-red-400 scale-105 transition-transform duration-75"
+                            className="inline-block font-bold tabular-nums text-[#d60000] dark:text-red-400 scale-105 transition-transform duration-75"
                         >
                             {item.display}
                         </motion.span>
-                    );
-                }
-
-                if (item.status === "locked") {
-                    return (
-                        <span
-                            key={index}
-                            className="inline-block font-black text-red-500 dark:text-red-300 font-mono transition-colors duration-150"
-                        >
-                            {item.display}
-                        </span>
                     );
                 }
 
@@ -222,14 +204,14 @@ export function BinaryScrambleText({
                     return (
                         <span
                             key={index}
-                            className="inline-block font-mono text-slate-400/70 dark:text-slate-600/70 opacity-60 text-[0.95em]"
+                            className="inline-block font-bold tabular-nums text-slate-400/70 dark:text-slate-600/70 opacity-60 text-[0.95em]"
                         >
                             {item.display}
                         </span>
                     );
                 }
 
-                // Resolved
+                // Resolved: identical font, weight, and color matching parent heading
                 return (
                     <span key={index} className="inline-block transition-colors duration-200">
                         {item.display}
@@ -242,7 +224,7 @@ export function BinaryScrambleText({
                 <motion.span
                     animate={{ opacity: [1, 0, 1] }}
                     transition={{ repeat: Infinity, duration: 0.5, ease: "linear" }}
-                    className="inline-block ml-1 font-mono font-black text-[#d60000] dark:text-red-400"
+                    className="inline-block ml-1 font-bold text-[#d60000] dark:text-red-400"
                 >
                     _
                 </motion.span>
