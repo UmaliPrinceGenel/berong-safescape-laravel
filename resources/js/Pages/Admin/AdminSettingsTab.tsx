@@ -285,7 +285,7 @@ export const AdminSettingsTab: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         {/* CARD 1: Warning Alerts Settings */}
-        <div className="rounded-[1.75rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-white/90 dark:bg-slate-800/50 backdrop-blur-md transition-all p-6 sm:p-7 md:p-8 flex flex-col gap-5 sm:gap-6">
+        <div className="rounded-[1.75rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md transition-all p-6 sm:p-7 md:p-8 flex flex-col gap-5 sm:gap-6">
           {/* Header Row */}
           <div className="flex items-center gap-3">
             <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 p-2 sm:p-2.5 rounded-xl shadow-sm shrink-0">
@@ -368,7 +368,7 @@ export const AdminSettingsTab: React.FC = () => {
         </div>
 
         {/* CARD 2: Maintenance Mode settings */}
-        <div className={`rounded-[1.75rem] sm:rounded-[2rem] border-[3px] shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] transition-all duration-300 bg-white/90 dark:bg-slate-800/50 overflow-hidden p-6 sm:p-7 md:p-8 flex flex-col gap-5 sm:gap-6 ${
+        <div className={`rounded-[1.75rem] sm:rounded-[2rem] border-[3px] shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] transition-all duration-300 bg-slate-50 dark:bg-slate-800/50 overflow-hidden p-6 sm:p-7 md:p-8 flex flex-col gap-5 sm:gap-6 ${
           maintenance.is_active 
             ? "border-red-500/50 shadow-red-500/10 dark:border-red-500/30" 
             : "border-slate-200 dark:border-slate-700"

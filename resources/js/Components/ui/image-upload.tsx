@@ -133,7 +133,7 @@ export function ImageUpload({
   };
 
   return (
-    <div className="rounded-[1.75rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 backdrop-blur-md shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden transition-all h-full flex flex-col p-6 sm:p-7 md:p-8 gap-5 sm:gap-6">
+    <div className="rounded-[1.75rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 backdrop-blur-md shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_8px_0_#0f172a] overflow-hidden transition-all h-full flex flex-col p-6 sm:p-7 md:p-8 gap-5 sm:gap-6">
       {/* Header Row */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
@@ -172,7 +172,7 @@ export function ImageUpload({
         <div className="relative flex-1 min-h-[260px] sm:min-h-[300px]">
           {!(previewUrl || uploadUrl) ? (
             <div
-              className="absolute inset-0 border-2 sm:border-[2.5px] border-dashed border-slate-200 dark:border-slate-700 rounded-xl flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-all duration-300 group/upload bg-slate-50/50 dark:bg-slate-800/30 p-4 sm:p-6"
+              className="absolute inset-0 border-2 sm:border-[2.5px] border-dashed border-slate-200 dark:border-slate-700 rounded-xl flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-slate-100/60 dark:hover:bg-slate-900/50 transition-all duration-300 group/upload bg-white/60 dark:bg-slate-800/30 p-4 sm:p-6"
               onClick={() => fileInputRef.current?.click()}
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => { e.preventDefault(); processFile(e.dataTransfer.files[0]); }}
