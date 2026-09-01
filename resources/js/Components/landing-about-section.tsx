@@ -819,6 +819,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+    const [isBerongFlipped, setIsBerongFlipped] = useState(false);
 
     useEffect(() => {
         if (isLightboxOpen) {
@@ -909,7 +910,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
 
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                         <div className="flex flex-col lg:flex-row items-center justify-center gap-6 xl:gap-10 max-w-6xl mx-auto w-full my-auto">
-                            {/* Berong Mascot - 3D Rotation on Scroll */}
+                            {/* Berong Mascot - 3D Rotation on Scroll & Interactive Coin Flip on Hover */}
                             <motion.div
                                 className="flex-shrink-0 flex justify-center lg:justify-end lg:w-[45%]"
                                 style={{
@@ -917,7 +918,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                     scale: mascotScale,
                                 }}
                             >
-                                <div className="relative w-48 h-48 sm:w-72 sm:h-72 lg:w-[320px] lg:h-[320px] xl:w-[380px] xl:h-[380px]">
+                                <div className="relative w-48 h-48 sm:w-72 sm:h-72 lg:w-[320px] lg:h-[320px] xl:w-[380px] xl:h-[380px] [perspective:1000px]">
                                     <motion.div
                                         className="relative w-full h-full"
                                         initial={{ opacity: 0, scale: 0.8 }}
@@ -932,12 +933,34 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                             scale: { duration: 0.6 }
                                         }}
                                     >
-                                        <img
-                                            src="/berong-official-logo.webp"
-                                            alt="Berong's E-Learning - Official Logo"
-                                            loading="lazy"
-                                            className="absolute inset-0 w-full h-full object-contain z-10 drop-shadow-[0_20px_25px_rgba(0,0,0,0.3)] transition-all"
-                                        />
+                                        <motion.div
+                                            className="relative w-full h-full [transform-style:preserve-3d] cursor-pointer group"
+                                            animate={{ rotateY: isBerongFlipped ? 180 : 0 }}
+                                            transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
+                                            onHoverStart={() => setIsBerongFlipped(true)}
+                                            onHoverEnd={() => setIsBerongFlipped(false)}
+                                            onClick={() => setIsBerongFlipped(prev => !prev)}
+                                        >
+                                            {/* Front Face: Official Circular Logo */}
+                                            <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] flex items-center justify-center">
+                                                <img
+                                                    src="/berong-official-logo.webp"
+                                                    alt="Berong's E-Learning - Official Logo"
+                                                    loading="lazy"
+                                                    className="w-full h-full object-contain drop-shadow-[0_20px_25px_rgba(0,0,0,0.3)] transition-all select-none"
+                                                />
+                                            </div>
+
+                                            {/* Back Face: Berong Mascot Waving */}
+                                            <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] flex items-center justify-center">
+                                                <img
+                                                    src="/berong_mascot.png"
+                                                    alt="Berong Mascot Waving"
+                                                    loading="lazy"
+                                                    className="w-full h-full object-contain drop-shadow-[0_20px_25px_rgba(0,0,0,0.3)] transition-all select-none"
+                                                />
+                                            </div>
+                                        </motion.div>
                                     </motion.div>
                                 </div>
                             </motion.div>
