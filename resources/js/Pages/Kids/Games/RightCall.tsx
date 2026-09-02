@@ -47,7 +47,6 @@ export default function RightCall() {
       <Head title="The Right Call" />
       
       <div 
-        style={{ viewTransitionName: 'kids-card-morph-escape-room-game' }}
         className="fixed inset-0 bg-black z-[9999] flex items-center justify-center overflow-hidden touch-none"
       >
         

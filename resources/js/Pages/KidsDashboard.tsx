@@ -268,7 +268,9 @@ const KidsDashboardPage = ({ modules, progress }: KidsPageProps) => {
           !document.startViewTransition || 
           content.id === "activity-portal" || 
           content.id === "safescape-course" || 
-          content.id === "video-portal"
+          content.id === "video-portal" ||
+          content.id === "video-game" ||
+          content.id === "escape-room-game"
         ) {
           router.visit(content.href)
           return

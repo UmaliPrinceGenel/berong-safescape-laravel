@@ -561,19 +561,6 @@ html.lightbox-open [id*="feedback-widget"] {
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Smooth View Transitions for Kids Grid Content Morphing */
-::view-transition-old(kids-card-morph-video-game),
-::view-transition-new(kids-card-morph-video-game),
-::view-transition-old(kids-card-image-video-game),
-::view-transition-new(kids-card-image-video-game),
-::view-transition-old(kids-card-title-video-game),
-::view-transition-new(kids-card-title-video-game),
-::view-transition-old(kids-card-morph-escape-room-game),
-::view-transition-new(kids-card-morph-escape-room-game),
-::view-transition-old(kids-card-image-escape-room-game),
-::view-transition-new(kids-card-image-escape-room-game),
-::view-transition-old(kids-card-title-escape-room-game),
-::view-transition-new(kids-card-title-escape-room-game),
 ::view-transition-old(mission-prep-modal-morph),
 ::view-transition-new(mission-prep-modal-morph),
 ::view-transition-old(mission-prep-shield-morph),
