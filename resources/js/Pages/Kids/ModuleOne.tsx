@@ -384,10 +384,18 @@ const ModuleOnePage = ({ initialProgress }: { initialProgress?: any }) => {
               <video
                 ref={videoRef}
                 controls
+                playsInline
                 className="w-full h-full object-cover"
                 onPlay={handleVideoPlay}
               >
                 <source src="/modules/assets/videos/m1.mp4" type="video/mp4" />
+                <track
+                  kind="subtitles"
+                  src="/modules/assets/subtitles/m1.vtt"
+                  srcLang="en"
+                  label="English"
+                  default
+                />
                 Your browser doesn't support HTML5 video.
               </video>
             </div>

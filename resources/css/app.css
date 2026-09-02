@@ -603,5 +603,18 @@ html.lightbox-open [id*="feedback-widget"] {
   animation-timing-function: ease-out;
 }
 
+/* Video Subtitles (Closed Captions) */
+video::cue {
+  background-color: rgba(15, 23, 42, 0.88);
+  color: #ffffff;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  border-radius: 8px;
+  padding: 4px 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
 
 

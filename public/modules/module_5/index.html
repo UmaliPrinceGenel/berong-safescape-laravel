@@ -548,8 +548,9 @@
                 <div class="ss-section-badge bg-green-500 border-[3px] border-white dark:border-slate-800 shadow-sm text-white transition-colors"><i class="fa-regular fa-circle-check"></i></div>
                 <h2 class="text-lg sm:text-3xl font-black text-red-500 mb-4 sm:mb-6 drop-shadow-sm">Watch the Intro Video</h2>
                 <div class="w-full aspect-video bg-slate-100 dark:bg-slate-950 rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-sm border-[3px] sm:border-[4px] border-red-200 dark:border-red-900/30 relative group transition-colors">
-                    <video id="module-video" controls class="w-full h-full object-cover" onplay="onVideoPlay()" onended="onVideoEnd()">
+                    <video id="module-video" controls playsinline class="w-full h-full object-cover" onplay="onVideoPlay()" onended="onVideoEnd()">
                         <source src="../assets/videos/m5.mp4" type="video/mp4">
+                        <track kind="subtitles" src="../assets/subtitles/m5.vtt" srclang="en" label="English" default>
                     </video>
                 </div>
                 <p class="text-center text-yellow-600 dark:text-yellow-500 font-bold text-xs sm:text-sm mt-4 sm:mt-6 uppercase tracking-widest transition-colors"><i class="fa-solid fa-expand mr-1"></i> Watch in Fullscreen for best viewing</p>

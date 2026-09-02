@@ -255,8 +255,9 @@
 
                 <!-- TV Screen -->
                 <div class="w-full aspect-video bg-black rounded-2xl overflow-hidden border-[4px] border-slate-800 dark:border-slate-950 relative group shadow-inner">
-                    <video id="module-video" controls class="w-full h-full object-cover" onplay="onVideoPlay()">
+                    <video id="module-video" controls playsinline class="w-full h-full object-cover" onplay="onVideoPlay()">
                         <source src="../assets/videos/m1.mp4" type="video/mp4">
+                        <track kind="subtitles" src="../assets/subtitles/m1.vtt" srclang="en" label="English" default>
                     </video>
                 </div>
         
