@@ -252,7 +252,7 @@ export function RegistrationWizard({ onBackToLogin }: RegistrationWizardProps) {
         if (!data.lastName.trim()) errors.lastName = "Last Name is required"
         if (!data.firstName.trim()) errors.firstName = "First Name is required"
         if (!data.age) errors.age = "Age is required"
-        else if (parseInt(data.age) < 1 || parseInt(data.age) > 99) errors.age = "Please enter a valid age (1-99)"
+        else if (parseInt(data.age) < 3 || parseInt(data.age) > 99) errors.age = "Minimum age is 3 years old (3-99)"
         if (!data.gender) errors.gender = "Please select your gender"
         break
 
@@ -655,7 +655,7 @@ export function RegistrationWizard({ onBackToLogin }: RegistrationWizardProps) {
                 type="number"
                 inputMode="numeric"
                 placeholder="Enter your age"
-                min="1"
+                min="3"
                 max="99"
                 value={data.age}
                 onChange={(e) => {

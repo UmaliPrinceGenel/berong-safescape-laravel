@@ -97,8 +97,8 @@ function AuthContent() {
       }
       if (!registerData.age) {
         errors.age = "Age is required"
-      } else if (Number.parseInt(registerData.age) < 1 || Number.parseInt(registerData.age) > 99) {
-        errors.age = "Please enter a valid age (1-99)"
+      } else if (Number.parseInt(registerData.age) < 3 || Number.parseInt(registerData.age) > 99) {
+        errors.age = "Minimum age is 3 years old (3-99)"
       }
     }
 
@@ -290,8 +290,8 @@ function AuthContent() {
       return
     }
 
-    if (!registerData.age || Number.parseInt(registerData.age) < 1) {
-      setError("Please enter a valid age")
+    if (!registerData.age || Number.parseInt(registerData.age) < 3) {
+      setError("Minimum age is 3 years old")
       return
     }
 

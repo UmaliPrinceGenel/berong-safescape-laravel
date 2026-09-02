@@ -83,7 +83,7 @@ class AuthApiController extends Controller
             'password' => ['required', 'string', Password::min(8)->mixedCase()->numbers()->symbols()],
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
-            'age' => 'required|integer|min:1|max:99',
+            'age' => 'required|integer|min:3|max:99',
             'gender' => 'required|string',
             'barangay' => 'required|string',
         ]);
