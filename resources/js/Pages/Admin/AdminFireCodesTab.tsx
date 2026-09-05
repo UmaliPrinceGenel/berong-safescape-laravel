@@ -186,7 +186,7 @@ export const AdminFireCodesTab: React.FC<FireCodesTabProps> = ({
                     <FileText className="h-4 w-4 shrink-0" />
                     <span className="truncate flex-1">Uploaded: {newFireCode.filename}</span>
                     <a
-                      href={`/modules/bfp_manuals/${newFireCode.filename}`}
+                      href={`/modules/bfp_manuals/${encodeURIComponent(newFireCode.filename)}`}
                       target="_blank"
                       rel="noreferrer"
                       className="hover:underline flex items-center text-blue-600 dark:text-blue-400 shrink-0"
@@ -328,7 +328,7 @@ export const AdminFireCodesTab: React.FC<FireCodesTabProps> = ({
                     <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80 mt-1">
                       {section.filename ? (
                         <a 
-                          href={`/modules/bfp_manuals/${section.filename}`} 
+                          href={`/modules/bfp_manuals/${encodeURIComponent(section.filename)}`} 
                           target="_blank" 
                           rel="noreferrer" 
                           className="inline-flex items-center gap-2 max-w-full px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/60 text-blue-700 dark:text-blue-300 text-xs font-bold hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors group/link min-w-0"

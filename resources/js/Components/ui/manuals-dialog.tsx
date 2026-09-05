@@ -66,14 +66,14 @@ export function ManualsDialog({ children }: { children: React.ReactNode }) {
 
   const handleView = (manual: Manual) => {
     if (manual.filename) {
-      window.open(`/modules/bfp_manuals/${manual.filename}`, '_blank');
+      window.open(`/modules/bfp_manuals/${encodeURIComponent(manual.filename)}`, '_blank');
     }
   };
 
   const handleDownload = (manual: Manual) => {
     if (!manual.filename) return;
     const link = document.createElement('a');
-    link.href = `/modules/bfp_manuals/${manual.filename}`;
+    link.href = `/modules/bfp_manuals/${encodeURIComponent(manual.filename)}`;
     link.download = manual.filename;
     document.body.appendChild(link);
     link.click();
@@ -263,11 +263,6 @@ export function ManualsDialog({ children }: { children: React.ReactNode }) {
                                     <span className={`inline-flex items-center rounded-full px-2 py-0.5 font-bold text-[8px] sm:text-[9px] tracking-wider uppercase border shrink-0 ${colors.badge}`}>
                                       {manual.category}
                                     </span>
-                                    {manual.filename && (
-                                      <span className="hidden md:inline-block text-[8px] font-bold text-slate-400 dark:text-slate-500 font-mono truncate max-w-[150px]">
-                                        {manual.filename}
-                                      </span>
-                                    )}
                                   </div>
                                   <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium pl-7 leading-relaxed line-clamp-2">
                                     {manual.description || "No description provided."}
