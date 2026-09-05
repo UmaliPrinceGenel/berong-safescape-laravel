@@ -151,14 +151,14 @@ export function ManualsDialog({ children }: { children: React.ReactNode }) {
                 onClick={() => setIsOpen(false)}
               />
 
-              {/* Morphing Modal Container */}
+              {/* Morphing Modal Container with fixed height */}
               <motion.div
                 key="manuals-modal"
                 initial={{ opacity: 0, scale: 0.86, y: 24 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.88, y: 16 }}
                 transition={{ type: "spring", damping: 28, stiffness: 360, mass: 0.8 }}
-                className="w-[95vw] sm:max-w-4xl lg:max-w-5xl max-h-[88vh] rounded-[1.75rem] sm:rounded-[2.25rem] border-[3px] sm:border-[4px] border-blue-600 dark:border-blue-500 bg-white dark:bg-slate-900 p-4 sm:p-6 md:p-8 shadow-2xl flex flex-col my-auto relative z-10 overflow-hidden"
+                className="w-[95vw] sm:max-w-4xl lg:max-w-5xl h-[88vh] sm:h-[82vh] max-h-[760px] min-h-[420px] rounded-[1.75rem] sm:rounded-[2.25rem] border-[3px] sm:border-[4px] border-blue-600 dark:border-blue-500 bg-white dark:bg-slate-900 p-4 sm:p-6 md:p-8 shadow-2xl flex flex-col my-auto relative z-10 overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Header */}
@@ -192,13 +192,21 @@ export function ManualsDialog({ children }: { children: React.ReactNode }) {
                     <button
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
-                      className={`px-3 py-1.5 rounded-xl text-[10px] font-black transition-all outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 cursor-pointer ${
+                      className={`relative px-3.5 py-1.5 rounded-xl text-[11px] font-black transition-colors duration-200 outline-none focus:outline-none cursor-pointer shrink-0 z-0 ${
                         activeCategory === cat
-                          ? "bg-blue-600 text-white shadow-[0_2px_0_#1d4ed8]"
+                          ? "text-white"
                           : "bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700"
                       }`}
                     >
-                      {cat}
+                      {activeCategory === cat && (
+                        <motion.div
+                          layoutId="activeManualsMobileTab"
+                          className="absolute inset-0 bg-blue-600 rounded-xl shadow-[0_2px_0_#1d4ed8] -z-10"
+                          initial={false}
+                          transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                        />
+                      )}
+                      <span className="relative z-10">{cat}</span>
                     </button>
                   ))}
                 </div>
@@ -209,7 +217,7 @@ export function ManualsDialog({ children }: { children: React.ReactNode }) {
                     <button
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
-                      className={`relative flex-1 font-black text-xs transition-colors duration-300 rounded-xl py-2.5 outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 cursor-pointer ${
+                      className={`relative flex-1 font-black text-xs transition-colors duration-200 rounded-xl py-2.5 outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 cursor-pointer z-0 ${
                         activeCategory === cat
                           ? "text-white"
                           : "text-slate-500 dark:text-slate-400 hover:bg-white/40 dark:hover:bg-slate-700/40 hover:text-slate-700 dark:hover:text-slate-200"
@@ -218,9 +226,9 @@ export function ManualsDialog({ children }: { children: React.ReactNode }) {
                       {activeCategory === cat && (
                         <motion.div
                           layoutId="activeManualsTab"
-                          className="absolute inset-0 bg-blue-600 rounded-xl shadow-[0_3px_0_#1d4ed8]"
+                          className="absolute inset-0 bg-blue-600 rounded-xl shadow-[0_3px_0_#1d4ed8] -z-10"
                           initial={false}
-                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                          transition={{ type: "spring", stiffness: 450, damping: 35 }}
                         />
                       )}
                       <span className="relative z-10">{cat}</span>
@@ -228,68 +236,85 @@ export function ManualsDialog({ children }: { children: React.ReactNode }) {
                   ))}
                 </div>
 
-                {/* Outer content container with standard fixed height and internal scroll to keep modal size constant */}
-                <div className="space-y-3 pt-1 flex-1 overflow-y-auto pr-1 sm:pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200 dark:[&::-webkit-scrollbar-thumb]:bg-slate-800 [&::-webkit-scrollbar-thumb]:rounded-full flex flex-col justify-start">
+                {/* Content container with fixed height and smooth internal scroll */}
+                <div className="pt-1 flex-1 overflow-y-auto pr-1 sm:pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200 dark:[&::-webkit-scrollbar-thumb]:bg-slate-800 [&::-webkit-scrollbar-thumb]:rounded-full flex flex-col min-h-0">
                   {loading ? (
-                    <div className="flex flex-col items-center justify-center flex-1 py-12">
+                    <div className="flex flex-col items-center justify-center flex-1 py-12 my-auto">
                       <Loader2 className="h-7 w-7 animate-spin text-blue-600 mb-2" />
                       <p className="text-xs text-slate-500 dark:text-slate-400 font-bold">Synchronizing manual database...</p>
                     </div>
-                  ) : filteredManuals.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center flex-1 py-12 text-center">
-                      <Info className="h-8 w-8 text-slate-400 mb-2" />
-                      <h3 className="text-slate-800 dark:text-white font-extrabold text-sm mb-0.5">No Items Found</h3>
-                      <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold">No registered entries for this category.</p>
-                    </div>
                   ) : (
-                    <div className="grid gap-3 sm:gap-3.5">
-                      {filteredManuals.map((manual, idx) => {
-                        const colors = getCategoryColors(manual.category);
-                        return (
-                          <motion.div
-                            key={manual.id}
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.02 * idx, duration: 0.2 }}
-                          >
-                            <Card className="bg-white dark:bg-slate-800 rounded-2xl border-2 border-b-[4px] border-slate-200 dark:border-slate-700 hover:-translate-y-0.5 hover:border-slate-300 dark:hover:border-slate-600 shadow-xs dark:shadow-[0_4px_0_#0f172a] transition-all overflow-hidden p-3.5 sm:p-4 py-3.5 sm:py-4 gap-0">
-                              <CardContent className="p-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                                <div className="flex-1 min-w-0 space-y-1">
-                                  <div className="flex items-center gap-2 flex-wrap">
-                                    <div className={`p-1.5 rounded-lg shrink-0 ${colors.iconBg}`}>
-                                      <FileText className={`h-4 w-4 ${colors.iconText}`} strokeWidth={2.5} />
-                                    </div>
-                                    <h3 className="font-extrabold text-slate-800 dark:text-white text-xs sm:text-base leading-snug line-clamp-2 sm:line-clamp-1 flex-1 min-w-0">{manual.title}</h3>
-                                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 font-bold text-[8px] sm:text-[9px] tracking-wider uppercase border shrink-0 ${colors.badge}`}>
-                                      {manual.category}
-                                    </span>
-                                  </div>
-                                  <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium pl-7 leading-relaxed line-clamp-2">
-                                    {manual.description || "No description provided."}
-                                  </p>
-                                </div>
-                                <div className="flex flex-row items-center justify-end sm:justify-start gap-2 pt-2.5 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-700/60 shrink-0">
-                                  <button
-                                    onClick={() => handleView(manual)}
-                                    className="flex-1 sm:flex-initial inline-flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white font-extrabold h-8.5 px-3.5 sm:px-4 rounded-xl text-xs shadow-[0_2px_0_#1d4ed8] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
-                                  >
-                                    <Eye className="h-3.5 w-3.5 mr-1.5" strokeWidth={2.5} />
-                                    View
-                                  </button>
-                                  <button
-                                    onClick={() => handleDownload(manual)}
-                                    className="flex-1 sm:flex-initial inline-flex items-center justify-center bg-slate-100 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-extrabold h-8.5 px-3.5 sm:px-4 rounded-xl text-xs shadow-[0_2px_0_#cbd5e1] dark:shadow-[0_2px_0_#0f172a] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
-                                  >
-                                    <Download className="h-3.5 w-3.5 mr-1.5" strokeWidth={2.5} />
-                                    Save
-                                  </button>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          </motion.div>
-                        );
-                      })}
-                    </div>
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={activeCategory}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.18, ease: "easeOut" }}
+                        className="flex-1 flex flex-col min-h-0"
+                      >
+                        {filteredManuals.length === 0 ? (
+                          <div className="flex flex-col items-center justify-center flex-1 my-auto py-12 text-center">
+                            <div className="h-14 w-14 rounded-2xl bg-slate-100 dark:bg-slate-800/80 flex items-center justify-center mb-3 text-slate-400 dark:text-slate-500">
+                              <Info className="h-7 w-7" />
+                            </div>
+                            <h3 className="text-slate-800 dark:text-white font-extrabold text-sm sm:text-base mb-1">No Items Found</h3>
+                            <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-bold max-w-xs">
+                              No registered entries found for {activeCategory === "All" ? "any category" : `the "${activeCategory}" category`}.
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="grid gap-3 sm:gap-3.5 pb-2">
+                            {filteredManuals.map((manual, idx) => {
+                              const colors = getCategoryColors(manual.category);
+                              return (
+                                <motion.div
+                                  key={manual.id}
+                                  initial={{ opacity: 0, y: 6 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ delay: 0.015 * idx, duration: 0.18 }}
+                                >
+                                  <Card className="bg-white dark:bg-slate-800 rounded-2xl border-2 border-b-[4px] border-slate-200 dark:border-slate-700 hover:-translate-y-0.5 hover:border-slate-300 dark:hover:border-slate-600 shadow-xs dark:shadow-[0_4px_0_#0f172a] transition-all overflow-hidden p-3.5 sm:p-4 py-3.5 sm:py-4 gap-0">
+                                    <CardContent className="p-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                      <div className="flex-1 min-w-0 space-y-1">
+                                        <div className="flex items-center gap-2 flex-wrap">
+                                          <div className={`p-1.5 rounded-lg shrink-0 ${colors.iconBg}`}>
+                                            <FileText className={`h-4 w-4 ${colors.iconText}`} strokeWidth={2.5} />
+                                          </div>
+                                          <h3 className="font-extrabold text-slate-800 dark:text-white text-xs sm:text-base leading-snug line-clamp-2 sm:line-clamp-1 flex-1 min-w-0">{manual.title}</h3>
+                                          <span className={`inline-flex items-center rounded-full px-2 py-0.5 font-bold text-[8px] sm:text-[9px] tracking-wider uppercase border shrink-0 ${colors.badge}`}>
+                                            {manual.category}
+                                          </span>
+                                        </div>
+                                        <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium pl-7 leading-relaxed line-clamp-2">
+                                          {manual.description || "No description provided."}
+                                        </p>
+                                      </div>
+                                      <div className="flex flex-row items-center justify-end sm:justify-start gap-2 pt-2.5 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-700/60 shrink-0">
+                                        <button
+                                          onClick={() => handleView(manual)}
+                                          className="flex-1 sm:flex-initial inline-flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white font-extrabold h-8.5 px-3.5 sm:px-4 rounded-xl text-xs shadow-[0_2px_0_#1d4ed8] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
+                                        >
+                                          <Eye className="h-3.5 w-3.5 mr-1.5" strokeWidth={2.5} />
+                                          View
+                                        </button>
+                                        <button
+                                          onClick={() => handleDownload(manual)}
+                                          className="flex-1 sm:flex-initial inline-flex items-center justify-center bg-slate-100 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-extrabold h-8.5 px-3.5 sm:px-4 rounded-xl text-xs shadow-[0_2px_0_#cbd5e1] dark:shadow-[0_2px_0_#0f172a] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
+                                        >
+                                          <Download className="h-3.5 w-3.5 mr-1.5" strokeWidth={2.5} />
+                                          Save
+                                        </button>
+                                      </div>
+                                    </CardContent>
+                                  </Card>
+                                </motion.div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </motion.div>
+                    </AnimatePresence>
                   )}
                 </div>
               </motion.div>
