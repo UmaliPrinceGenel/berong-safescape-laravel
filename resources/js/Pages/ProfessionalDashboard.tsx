@@ -34,21 +34,18 @@ import { ProfessionalWelcomeBanner } from "@/Components/professional-welcome-ban
 import { playSound } from '@/lib/audio'
 
 const VideoSkeleton = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6 w-full">
         {[1, 2, 3, 4, 5, 6].map((i) => (
-            <Card key={i} className="flex flex-row sm:flex-col bg-white rounded-[1.25rem] sm:rounded-[1.5rem] border-2 border-b-[4px] border-slate-200 overflow-hidden shadow-sm h-auto items-stretch animate-pulse">
-                <CardHeader className="p-2 sm:p-0 sm:mb-4 w-[140px] sm:w-full shrink-0">
-                    <div className="w-full h-full sm:aspect-video bg-slate-200 rounded-xl sm:rounded-none sm:rounded-t-[1.3rem] min-h-[75px]" />
-                </CardHeader>
-                <CardContent className="flex flex-col flex-1 py-3 pr-3 pl-1 sm:px-5 sm:pb-5 sm:pt-0 justify-center gap-2">
-                    <div className="h-4 sm:h-5 bg-slate-200 rounded w-3/4 mb-1" />
-                    <div className="hidden sm:block h-3 bg-slate-200 rounded w-full" />
-                    <div className="hidden sm:block h-3 bg-slate-200 rounded w-5/6" />
-                    <div className="flex items-center justify-between mt-auto pt-2">
-                        <div className="h-3 bg-slate-200 rounded w-16" />
-                        <div className="hidden sm:block h-4 bg-slate-200 rounded-full w-20" />
+            <Card key={i} className="flex flex-row sm:flex-col bg-white dark:bg-slate-900 rounded-[1.25rem] sm:rounded-[1.5rem] border-[3px] border-slate-200 dark:border-slate-800 p-2.5 sm:p-3 overflow-hidden shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] h-auto animate-pulse gap-0">
+                <div className="w-[135px] xs:w-[155px] sm:w-full aspect-video bg-slate-200 dark:bg-slate-800 rounded-xl sm:rounded-2xl shrink-0" />
+                <div className="flex flex-row items-start gap-2.5 sm:gap-3 flex-1 min-w-0 pl-3 sm:pl-0 sm:mt-3">
+                    <div className="hidden sm:block h-9 w-9 rounded-full bg-slate-200 dark:bg-slate-800 shrink-0 mt-0.5" />
+                    <div className="flex flex-col flex-1 min-w-0 space-y-2 py-0.5">
+                        <div className="h-3.5 sm:h-4 bg-slate-200 dark:bg-slate-800 rounded w-5/6" />
+                        <div className="h-3.5 sm:h-4 bg-slate-200 dark:bg-slate-800 rounded w-3/5" />
+                        <div className="h-3 bg-slate-100 dark:bg-slate-800/60 rounded w-2/5 mt-1" />
                     </div>
-                </CardContent>
+                </div>
             </Card>
         ))}
     </div>
@@ -74,12 +71,43 @@ const getYouTubeId = (id: string) => {
           } else if (url.hostname.includes('youtu.be')) {
             id = url.pathname.slice(1);
           }
-        } catch (e) {}
+        } catch {
+          // ignore
+        }
       }
     }
-    if (id.includes('?')) id = id.split('?')[0];
-    if (id.includes('&')) id = id.split('&')[0];
-    return id;
+    return id.trim();
+};
+
+const formatTimeAgo = (dateStr?: string | null) => {
+    if (!dateStr) return "Recently added";
+    try {
+        const date = new Date(dateStr);
+        if (isNaN(date.getTime())) return "Recently added";
+        
+        const now = new Date();
+        const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+        
+        if (diffInSeconds < 60) return "Just now";
+        const diffInMinutes = Math.floor(diffInSeconds / 60);
+        if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+        const diffInHours = Math.floor(diffInMinutes / 60);
+        if (diffInHours < 24) return `${diffInHours}h ago`;
+        const diffInDays = Math.floor(diffInHours / 24);
+        if (diffInDays === 1) return "1 day ago";
+        if (diffInDays < 7) return `${diffInDays} days ago`;
+        const diffInWeeks = Math.floor(diffInDays / 7);
+        if (diffInWeeks === 1) return "1 week ago";
+        if (diffInWeeks < 4) return `${diffInWeeks} weeks ago`;
+        const diffInMonths = Math.floor(diffInDays / 30);
+        if (diffInMonths === 1) return "1 month ago";
+        if (diffInMonths < 12) return `${diffInMonths} months ago`;
+        const diffInYears = Math.floor(diffInDays / 365);
+        if (diffInYears === 1) return "1 year ago";
+        return `${diffInYears} years ago`;
+    } catch {
+        return "Recently added";
+    }
 };
 
 const PROFESSIONAL_RANKS = [
@@ -575,7 +603,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                         className="h-full"
                                     >
                                         <Card
-                                            className={`flex flex-row sm:flex-col h-full cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.25rem] sm:rounded-[1.5rem] border-[3px] transition-all duration-300 overflow-hidden p-2.5 sm:p-0 gap-0 ${
+                                            className={`flex flex-row sm:flex-col h-full cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.25rem] sm:rounded-[1.5rem] border-[3px] transition-all duration-300 overflow-hidden p-2.5 sm:p-3 gap-0 ${
                                                 selectedVideo?.id === video.id
                                                     ? 'border-red-500 shadow-[0_6px_0_#ef4444] ring-2 ring-red-400/30'
                                                     : 'border-slate-200 dark:border-slate-800 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#0f172a]'
@@ -583,19 +611,19 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                             onClick={() => handleVideoSelect(video)}
                                         >
                                             {/* Thumbnail Box */}
-                                            <div className="relative w-[130px] xs:w-[150px] sm:w-full aspect-video bg-slate-900 rounded-xl sm:rounded-none sm:rounded-t-[1.25rem] overflow-hidden shrink-0 border border-slate-100 dark:border-slate-800 sm:border-none">
+                                            <div className="relative w-[135px] xs:w-[155px] sm:w-full aspect-video bg-slate-900 rounded-xl sm:rounded-2xl overflow-hidden shrink-0 border border-slate-100 dark:border-slate-800">
                                                 <img
                                                     src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.jpg`}
                                                     alt={video.title}
                                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                                 />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent opacity-60 group-hover:opacity-30 transition-opacity" />
 
                                                 {/* Status Badge */}
                                                 {watchedIds.has(video.id.toString()) && (
-                                                    <div className="absolute top-1.5 left-1.5 sm:top-3 sm:left-3 z-20">
-                                                        <div className="bg-emerald-500/95 backdrop-blur-md text-white font-black text-[8px] sm:text-[10px] tracking-wider uppercase px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full shadow-md border border-white/30 flex items-center gap-1">
-                                                            <CheckCircle2 className="h-3 w-3" />
+                                                    <div className="absolute top-1.5 left-1.5 sm:top-2.5 sm:left-2.5 z-20">
+                                                        <div className="bg-emerald-500/95 backdrop-blur-xs text-white font-black text-[8px] sm:text-[9.5px] tracking-wider uppercase px-2 py-0.5 rounded-full shadow-md border border-white/20 flex items-center gap-1">
+                                                            <CheckCircle2 className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                                                             Watched
                                                         </div>
                                                     </div>
@@ -603,42 +631,60 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
 
                                                 {/* Duration Badge Overlay */}
                                                 {video.duration && (
-                                                    <div className="absolute bottom-1.5 right-1.5 sm:bottom-2.5 sm:right-2.5 bg-black/80 backdrop-blur-md px-2 py-0.5 rounded-lg text-[10px] sm:text-xs font-extrabold text-white tracking-wider flex items-center gap-1 shadow-md border border-white/10 z-20">
-                                                        <Clock className="h-3 w-3 text-red-400" />
+                                                    <div className="absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 bg-black/85 backdrop-blur-xs px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-extrabold text-white tracking-wide flex items-center gap-1 shadow-md border border-white/10 z-20">
+                                                        <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-red-400" />
                                                         {video.duration}
                                                     </div>
                                                 )}
 
                                                 {/* Play Icon Overlay */}
-                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
-                                                    <div className="w-9 h-9 sm:w-12 sm:h-12 bg-[#d60000] text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white/40 transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                                                        <Play className="h-4 w-4 sm:h-5 sm:w-5 ml-0.5" fill="currentColor" />
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10 pointer-events-none">
+                                                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-600/95 text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white/40 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                                                        <Play className="h-4 w-4 sm:h-5 sm:w-5 ml-0.5 fill-current" />
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            {/* Info Section */}
-                                            <CardContent className="p-0 sm:p-5 pl-3 sm:pl-5 flex flex-col justify-between flex-1 min-w-0 py-0.5 sm:py-4">
-                                                <div className="flex flex-col justify-start">
-                                                    <CardTitle className="text-xs sm:text-base font-black text-slate-800 dark:text-white line-clamp-2 min-h-[2.25rem] sm:min-h-[2.6rem] leading-tight sm:leading-snug group-hover:text-[#d60000] dark:group-hover:text-red-400 transition-colors flex items-center sm:items-start">
-                                                        {video.title}
-                                                    </CardTitle>
-                                                    {video.description ? (
-                                                        <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 line-clamp-1 sm:line-clamp-2 min-h-[1rem] sm:min-h-[2.25rem] mt-0.5 sm:mt-1.5 leading-tight sm:leading-normal">
-                                                            {video.description}
-                                                        </p>
-                                                    ) : (
-                                                        <div className="min-h-[1rem] sm:min-h-[2.25rem] mt-0.5 sm:mt-1.5" />
-                                                    )}
+                                            {/* Info Section (YouTube Layout) */}
+                                            <div className="flex flex-row items-start gap-2.5 sm:gap-3 flex-1 min-w-0 pl-3 sm:pl-0 sm:mt-3">
+                                                {/* Channel Avatar (Desktop) */}
+                                                <div className="hidden sm:flex shrink-0 mt-0.5">
+                                                    <div className="h-9 w-9 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-xs flex items-center justify-center p-0.5">
+                                                        <img
+                                                            src="/berong-official-logo.webp"
+                                                            alt="Bureau of Fire Protection"
+                                                            className="w-full h-full object-contain rounded-full"
+                                                        />
+                                                    </div>
                                                 </div>
 
-                                                <div className="flex items-center justify-end mt-3 pt-2 sm:pt-3 border-t border-slate-100 dark:border-slate-800/80">
-                                                    <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-red-600 hover:bg-red-500 dark:bg-red-600 dark:hover:bg-red-500 text-white font-black text-xs sm:text-sm shadow-[0_3px_0_#991b1b] dark:shadow-[0_3px_0_#7f1d1d] group-hover:shadow-[0_4px_0_#7f1d1d] group-hover:-translate-y-0.5 group-active:translate-y-0.5 group-active:shadow-none transition-all duration-200 shrink-0 uppercase tracking-wider">
-                                                        <Play className="h-3.5 w-3.5 fill-current" />
-                                                        Watch
-                                                    </span>
+                                                {/* Text Details Column */}
+                                                <div className="flex flex-col flex-1 min-w-0 justify-start">
+                                                    <h3 className="text-xs xs:text-sm sm:text-[15px] font-extrabold text-slate-800 dark:text-white line-clamp-2 leading-snug group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                                                        {video.title}
+                                                    </h3>
+
+                                                    {/* Channel Line */}
+                                                    <div className="flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 mt-1 truncate">
+                                                        <span className="truncate">Bureau of Fire Protection</span>
+                                                        <CheckCircle2 className="h-3 w-3 text-slate-400 dark:text-slate-500 shrink-0 fill-slate-200 dark:fill-slate-700" />
+                                                    </div>
+
+                                                    {/* Metadata Line */}
+                                                    <div className="flex items-center gap-1.5 text-[10px] xs:text-[11px] sm:text-xs font-medium text-slate-400 dark:text-slate-500 mt-0.5">
+                                                        <span className="capitalize">{video.category || "Training"}</span>
+                                                        <span>•</span>
+                                                        <span>{formatTimeAgo(video.created_at || video.createdAt)}</span>
+                                                    </div>
+
+                                                    {/* Description (desktop only - subtle 1-line summary) */}
+                                                    {video.description && (
+                                                        <p className="hidden sm:block text-[11px] text-slate-400 dark:text-slate-500 line-clamp-1 mt-1 font-normal leading-relaxed">
+                                                            {video.description}
+                                                        </p>
+                                                    )}
                                                 </div>
-                                            </CardContent>
+                                            </div>
                                         </Card>
                                     </motion.div>
                                 ))}

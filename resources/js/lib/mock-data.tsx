@@ -23,6 +23,9 @@ export interface VideoContent {
   youtubeId: string
   category: "professional" | "adult" | "kids"
   duration: string
+  created_at?: string
+  createdAt?: string
+  channelTitle?: string
 }
 
 export const carouselImages: CarouselImage[] = [

@@ -244,7 +244,7 @@ Route::get('/maintenance', function () {
                     ->get(),
                 'initialVideos' => Inertia::defer(fn () => \App\Models\Video::where('isActive', true)
                     ->where('category', 'adult')
-                    ->select('id', 'title', 'description', 'youtubeId', 'duration', 'category', 'order')
+                    ->select('id', 'title', 'description', 'youtubeId', 'duration', 'category', 'order', 'created_at')
                     ->orderBy('order', 'asc')
                     ->orderBy('created_at', 'desc')
                     ->get()),
@@ -264,7 +264,7 @@ Route::get('/maintenance', function () {
         return Inertia::render('ProfessionalDashboard', [
             'initialVideos' => Inertia::defer(fn () => \App\Models\Video::where('isActive', true)
                 ->where('category', 'professional')
-                ->select('id', 'title', 'description', 'youtubeId', 'duration', 'category', 'order')
+                ->select('id', 'title', 'description', 'youtubeId', 'duration', 'category', 'order', 'created_at')
                 ->orderBy('order', 'asc')
                 ->orderBy('created_at', 'desc')
                 ->take(12)
