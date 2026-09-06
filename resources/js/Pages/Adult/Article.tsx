@@ -4,8 +4,15 @@ import React, { useState } from "react"
 import ReactDOM, { flushSync } from "react-dom"
 import { Head, Link, router } from '@inertiajs/react'
 import DashboardLayout from "@/Layouts/DashboardLayout"
-import { ArrowLeft, User, Calendar, Maximize2, X, Flame } from "lucide-react"
+import { ArrowLeft, ArrowRight, User, Calendar, Maximize2, X, Flame } from "lucide-react"
 import DOMPurify from "dompurify"
+
+interface ArticleNavInfo {
+    id: number | string
+    title: string
+    imageUrl?: string
+    category?: string
+}
 
 interface BlogArticleProps {
     blog: {
@@ -20,9 +27,11 @@ interface BlogArticleProps {
         created_at: string
         createdAt?: string
     }
+    prevArticle?: ArticleNavInfo | null
+    nextArticle?: ArticleNavInfo | null
 }
 
-const BlogArticleClient = ({ blog }: BlogArticleProps) => {
+const BlogArticleClient = ({ blog, prevArticle, nextArticle }: BlogArticleProps) => {
     const [isImageExpanded, setIsImageExpanded] = useState(false);
     const [isLightboxToggling, setIsLightboxToggling] = useState(false);
 
@@ -124,8 +133,8 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
             <div className="fixed inset-0 bg-background/90 -z-10 pointer-events-none transition-colors duration-500"></div>
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-24 relative z-10">
-                {/* Desktop absolute-positioned Back to Articles button (Upper Leftmost corner) */}
-                <div className="hidden lg:block lg:absolute lg:top-1.5 lg:left-4 xl:left-6 z-20">
+                {/* Desktop absolute-positioned navigation (Upper Leftmost corner) */}
+                <div className="hidden lg:flex items-center gap-2 lg:absolute lg:top-1.5 lg:left-4 xl:left-6 z-20">
                     <Link 
                         href="/adult#articles-section" 
                         className="group inline-flex items-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 bg-white dark:bg-slate-800 rounded-full text-slate-700 dark:text-slate-200 font-bold hover:text-slate-900 dark:hover:text-white border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-slate-900 active:border-b-2 active:translate-y-[2px] shadow-sm transition-all text-xs sm:text-sm"
@@ -133,17 +142,66 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                         <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform duration-300" strokeWidth={3} />
                         Back to Articles
                     </Link>
+
+                    {prevArticle && (
+                        <Link 
+                            href={`/adult/blog/${prevArticle.id}`}
+                            preserveScroll={false}
+                            title={prevArticle.title}
+                            className="group inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 bg-white dark:bg-slate-800 rounded-full text-slate-700 dark:text-slate-200 font-bold hover:text-slate-900 dark:hover:text-white border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-slate-900 active:border-b-2 active:translate-y-[2px] shadow-sm transition-all text-xs sm:text-sm"
+                        >
+                            <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform duration-300" strokeWidth={3} />
+                            Previous
+                        </Link>
+                    )}
+
+                    {nextArticle && (
+                        <Link 
+                            href={`/adult/blog/${nextArticle.id}`}
+                            preserveScroll={false}
+                            title={nextArticle.title}
+                            className="group inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 bg-white dark:bg-slate-800 rounded-full text-slate-700 dark:text-slate-200 font-bold hover:text-slate-900 dark:hover:text-white border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-slate-900 active:border-b-2 active:translate-y-[2px] shadow-sm transition-all text-xs sm:text-sm"
+                        >
+                            Next
+                            <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform duration-300" strokeWidth={3} />
+                        </Link>
+                    )}
                 </div>
 
-                {/* Navigation Bar - Mobile/Tablet only to avoid overlaps */}
-                <div className="mb-4 sm:mb-6 flex lg:hidden">
+                {/* Navigation Bar - Mobile/Tablet */}
+                <div className="mb-4 sm:mb-6 flex items-center justify-between lg:hidden gap-2">
                     <Link 
                         href="/adult#articles-section" 
-                        className="group inline-flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-5 sm:py-2.5 bg-white dark:bg-slate-800 rounded-full text-slate-700 dark:text-slate-200 font-bold hover:text-slate-900 dark:hover:text-white border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-slate-900 active:border-b-2 active:translate-y-[2px] shadow-sm transition-all text-xs sm:text-sm"
+                        className="group inline-flex items-center gap-1.5 px-3.5 py-2 bg-white dark:bg-slate-800 rounded-full text-slate-700 dark:text-slate-200 font-bold hover:text-slate-900 dark:hover:text-white border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-slate-900 active:border-b-2 active:translate-y-[2px] shadow-sm transition-all text-xs"
                     >
-                        <ArrowLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4 group-hover:-translate-x-1 transition-transform duration-300" strokeWidth={3} />
-                        Back to Articles
+                        <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform duration-300" strokeWidth={3} />
+                        Articles
                     </Link>
+
+                    <div className="flex items-center gap-1.5">
+                        {prevArticle && (
+                            <Link 
+                                href={`/adult/blog/${prevArticle.id}`}
+                                preserveScroll={false}
+                                title={prevArticle.title}
+                                className="group inline-flex items-center gap-1 px-3 py-2 bg-white dark:bg-slate-800 rounded-full text-slate-700 dark:text-slate-200 font-bold hover:text-slate-900 dark:hover:text-white border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-slate-900 active:border-b-2 active:translate-y-[2px] shadow-sm transition-all text-xs"
+                            >
+                                <ArrowLeft className="h-3 w-3" strokeWidth={3} />
+                                Prev
+                            </Link>
+                        )}
+                        {nextArticle && (
+                            <Link 
+                                href={`/adult/blog/${nextArticle.id}`}
+                                preserveScroll={false}
+                                title={nextArticle.title}
+                                className="group inline-flex items-center gap-1 px-3 py-2 bg-white dark:bg-slate-800 rounded-full text-slate-700 dark:text-slate-200 font-bold hover:text-slate-900 dark:hover:text-white border-2 border-slate-200 dark:border-slate-700 border-b-[4px] dark:border-b-slate-900 active:border-b-2 active:translate-y-[2px] shadow-sm transition-all text-xs"
+                            >
+                                Next
+                                <ArrowRight className="h-3 w-3" strokeWidth={3} />
+                            </Link>
+                        )}
+                    </div>
                 </div>
 
                 {/* Main Unified Article Card */}
@@ -220,6 +278,69 @@ const BlogArticleClient = ({ blog }: BlogArticleProps) => {
                             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content || '') }}
                         />
                     </div>
+
+                    {/* Article Navigation: Previous & Next Article */}
+                    {(prevArticle || nextArticle) && (
+                        <div className="border-t border-slate-200/80 dark:border-slate-700/60 p-4 sm:p-7 md:p-8 bg-slate-50/75 dark:bg-slate-900/60 transition-colors">
+                            <div className="flex items-center justify-between mb-4">
+                                <span className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                                    Continue Reading
+                                </span>
+                                <Link 
+                                    href="/adult#articles-section"
+                                    className="text-xs font-bold text-orange-600 dark:text-orange-400 hover:underline"
+                                >
+                                    All Articles
+                                </Link>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                {/* Previous Article Card */}
+                                {prevArticle ? (
+                                    <Link
+                                        href={`/adult/blog/${prevArticle.id}`}
+                                        preserveScroll={false}
+                                        className="group flex flex-col justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 hover:border-orange-500 dark:hover:border-orange-500 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 text-left"
+                                    >
+                                        <div className="flex items-center gap-1.5 text-xs font-extrabold text-slate-400 dark:text-slate-400 mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                                            <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1" strokeWidth={2.5} />
+                                            <span>Previous Article</span>
+                                        </div>
+                                        <div className="font-black text-sm sm:text-base text-slate-800 dark:text-white line-clamp-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors leading-snug">
+                                            {prevArticle.title}
+                                        </div>
+                                    </Link>
+                                ) : (
+                                    <div className="hidden sm:flex flex-col justify-center p-4 sm:p-5 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800/80 text-slate-400 dark:text-slate-500">
+                                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">First Article</span>
+                                        <span className="text-xs font-semibold text-slate-400/80 dark:text-slate-500/80 mt-1">You are reading the first article</span>
+                                    </div>
+                                )}
+
+                                {/* Next Article Card */}
+                                {nextArticle ? (
+                                    <Link
+                                        href={`/adult/blog/${nextArticle.id}`}
+                                        preserveScroll={false}
+                                        className="group flex flex-col justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 hover:border-orange-500 dark:hover:border-orange-500 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 text-left sm:text-right"
+                                    >
+                                        <div className="flex items-center sm:justify-end gap-1.5 text-xs font-extrabold text-slate-400 dark:text-slate-400 mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                                            <span>Next Article</span>
+                                            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={2.5} />
+                                        </div>
+                                        <div className="font-black text-sm sm:text-base text-slate-800 dark:text-white line-clamp-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors leading-snug">
+                                            {nextArticle.title}
+                                        </div>
+                                    </Link>
+                                ) : (
+                                    <div className="hidden sm:flex flex-col justify-center items-end p-4 sm:p-5 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800/80 text-slate-400 dark:text-slate-500 text-right">
+                                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Latest Article</span>
+                                        <span className="text-xs font-semibold text-slate-400/80 dark:text-slate-500/80 mt-1">You have reached the latest article</span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </article>
 
                 {/* Emergency Protocol */}

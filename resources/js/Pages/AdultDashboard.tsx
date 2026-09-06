@@ -9,7 +9,7 @@ import { Card, CardContent, CardTitle, CardHeader, CardDescription } from "@/Com
 import { Button } from "@/Components/ui/button"
 import { Input } from "@/Components/ui/input"
 import { Alert, AlertDescription } from "@/Components/ui/alert"
-import { Flame, Search, BookOpen, Calendar, User, ArrowRight, AlertCircle, Maximize2, Clock, Play, X, ChevronDown, ChevronUp } from "lucide-react"
+import { Flame, Search, BookOpen, Calendar, User, ArrowRight, AlertCircle, Maximize2, Clock, Play, X, ChevronDown, ChevronUp, FileText } from "lucide-react"
 import type { BlogPost } from "@/lib/mock-data"
 import { Link } from '@inertiajs/react';
 import { Footer } from "@/Components/footer"
@@ -374,89 +374,137 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                             )}
                         </div>
                     ) : (
-                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-                            {filteredBlogs.map((blog) => (
-                                <Link 
-                                    key={blog.id} 
-                                    id={`article-card-${blog.id}`}
-                                    href={`/adult/blog/${blog.id}`} 
-                                    onClick={(e) => handleArticleClick(e, blog.id, `/adult/blog/${blog.id}`)}
-                                    className="outline-none block w-full group h-full"
-                                >
-                                    <div 
-                                        style={{
-                                            viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-card-morph' : 'none'
-                                        }}
-                                        className="flex flex-col h-full bg-white dark:bg-slate-800/90 rounded-xl sm:rounded-[1.75rem] overflow-hidden relative transition-all duration-300 border-[2px] border-slate-100 dark:border-slate-700/80 shadow-[0_2px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.3)] group-hover:-translate-y-1.5 group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] dark:group-hover:shadow-[0_12px_32px_rgba(249,115,22,0.15)] group-active:translate-y-0 group-active:shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
-                                    >
-                                        {/* Image Section */}
-                                        <div className="relative h-28 sm:h-52 shrink-0 w-full overflow-hidden bg-slate-100 dark:bg-slate-900">
-                                            <img
-                                                src={blog.imageUrl || "/placeholder.svg?height=300&width=400"}
-                                                alt={blog.title}
-                                                decoding="async"
-                                                loading="lazy"
-                                                style={{
-                                                    viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-hero-image' : 'none'
-                                                }}
-                                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                                            />
-                                            {/* Bottom Gradient Overlay */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent z-[1]" />
-                                            
-                                            {/* Read Time / Date on Image */}
-                                            <div className="absolute bottom-3 left-3 z-[2] flex items-center gap-2">
-                                                <span className="text-white/90 text-[10px] sm:text-xs font-bold flex items-center gap-1">
-                                                    <Calendar className="h-3 w-3" strokeWidth={2.5} />
-                                                    {new Date((blog as any).created_at || blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                                                </span>
-                                            </div>
-                                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                            {filteredBlogs.map((blog) => {
+                                const readingTimeMinutes = Math.max(2, Math.ceil(((blog.content?.length || 600) + (blog.excerpt?.length || 100)) / 500));
+                                const formattedDate = new Date((blog as any).created_at || blog.createdAt).toLocaleDateString('en-US', { 
+                                    year: 'numeric', 
+                                    month: 'short', 
+                                    day: 'numeric' 
+                                });
+                                const authorName = typeof blog.author === 'string' ? blog.author : blog.author?.name || 'BFP Admin';
+                                const authorInitial = authorName.charAt(0).toUpperCase();
 
-                                        {/* Accent Line */}
-                                        <div className="h-[2px] sm:h-[3px] w-full bg-gradient-to-r from-orange-500 via-red-500 to-orange-400" />
-                                        
-                                        {/* Content Area */}
-                                        <div className="p-2.5 sm:p-5 flex flex-col flex-1 bg-white dark:bg-slate-800/90 transition-colors">
-                                            <h3 
-                                                style={{
-                                                    viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-hero-title' : 'none'
-                                                }}
-                                                className="font-black text-[11px] sm:text-[1.05rem] text-slate-800 dark:text-white line-clamp-2 mb-1.5 sm:mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors leading-snug tracking-tight"
-                                            >
-                                                {blog.title}
-                                            </h3>
-                                            
-                                            <p className="text-[10px] sm:text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 sm:line-clamp-3 mb-2.5 sm:mb-5 leading-relaxed flex-1 transition-colors">
-                                                {blog.excerpt || ''}
-                                            </p>
-                                            
-                                            {/* Footer */}
-                                            <div className="flex items-center justify-between pt-2 sm:pt-4 border-t border-slate-100/80 dark:border-slate-700/40 mt-auto transition-colors">
-                                                {/* Author */}
-                                                <div className="flex flex-col min-w-0 leading-tight">
-                                                    <span className="hidden sm:inline text-xs font-extrabold text-slate-700 dark:text-slate-300 truncate transition-colors">
-                                                        {typeof blog.author === 'string' ? blog.author : blog.author?.name}
-                                                    </span>
-                                                    <span className="sm:hidden text-[10px] font-extrabold text-slate-600 dark:text-slate-400 truncate transition-colors">
-                                                        {(() => {
-                                                            const name = typeof blog.author === 'string' ? blog.author : blog.author?.name || '';
-                                                            return name.length > 10 ? name.split(' ')[0] : name;
-                                                        })()}
-                                                    </span>
-                                                    <span className="text-[8px] sm:text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-0.5">Publisher</span>
-                                                </div>
+                                return (
+                                    <Link 
+                                        key={blog.id} 
+                                        id={`article-card-${blog.id}`}
+                                        href={`/adult/blog/${blog.id}`} 
+                                        onClick={(e) => handleArticleClick(e, blog.id, `/adult/blog/${blog.id}`)}
+                                        className="outline-none block w-full group h-full cursor-pointer"
+                                    >
+                                        <div 
+                                            style={{
+                                                viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-card-morph' : 'none'
+                                            }}
+                                            className="flex flex-col h-full bg-white dark:bg-slate-900/95 rounded-2xl sm:rounded-3xl overflow-hidden relative transition-all duration-300 border-2 border-slate-200/80 dark:border-slate-800 hover:border-orange-500/50 dark:hover:border-orange-500/50 shadow-sm hover:shadow-[0_16px_36px_rgba(249,115,22,0.12)] dark:hover:shadow-[0_16px_36px_rgba(0,0,0,0.5)] hover:-translate-y-1.5 active:translate-y-0"
+                                        >
+                                            {/* Article Header Media Area */}
+                                            <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-950">
+                                                {/* Ambient blurred backdrop so portrait infographics don't leave empty borders */}
+                                                {blog.imageUrl && (
+                                                    <img
+                                                        src={blog.imageUrl}
+                                                        alt=""
+                                                        aria-hidden="true"
+                                                        className="absolute inset-0 w-full h-full object-cover blur-md scale-125 opacity-40 dark:opacity-30 transition-transform duration-700 ease-out group-hover:scale-135"
+                                                    />
+                                                )}
                                                 
-                                                {/* Read CTA Button */}
-                                                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white font-black text-xs sm:text-sm shadow-[0_3px_0_#c2410c] dark:shadow-[0_3px_0_#9a3412] group-hover:shadow-[0_4px_0_#9a3412] group-hover:-translate-y-0.5 group-active:translate-y-0.5 group-active:shadow-none transition-all duration-200 shrink-0 uppercase tracking-wider">
-                                                    <BookOpen className="h-3.5 w-3.5" strokeWidth={2.5} />
-                                                    Read
-                                                </span>
+                                                {/* Main Article Image */}
+                                                <img
+                                                    src={blog.imageUrl || "/placeholder.svg?height=300&width=400"}
+                                                    alt={blog.title}
+                                                    decoding="async"
+                                                    loading="lazy"
+                                                    style={{
+                                                        viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-hero-image' : 'none'
+                                                    }}
+                                                    className="relative z-10 w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                                                />
+
+                                                {/* Scrim overlay for crisp contrast */}
+                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent z-10 pointer-events-none" />
+
+                                                {/* Category Badge - Top Left */}
+                                                <div className="absolute top-3 left-3 z-20">
+                                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-slate-950/80 text-orange-400 border border-orange-500/20 backdrop-blur-md shadow-sm">
+                                                        <FileText className="h-3 w-3 text-orange-400" />
+                                                        <span>{blog.category ? `${blog.category} Advisory` : "Fire Safety Advisory"}</span>
+                                                    </span>
+                                                </div>
+
+                                                {/* Reading Time Badge - Top Right */}
+                                                <div className="absolute top-3 right-3 z-20">
+                                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold text-white/90 bg-slate-950/70 border border-white/10 backdrop-blur-md shadow-sm">
+                                                        <Clock className="h-3 w-3 text-amber-400" />
+                                                        <span>{readingTimeMinutes} min read</span>
+                                                    </span>
+                                                </div>
+
+                                                {/* Date - Bottom Left of Image */}
+                                                <div className="absolute bottom-2.5 left-3.5 z-20 flex items-center gap-1.5">
+                                                    <Calendar className="h-3 w-3 text-orange-300" strokeWidth={2.5} />
+                                                    <span className="text-white/95 text-[11px] sm:text-xs font-semibold drop-shadow-sm">
+                                                        {formattedDate}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            {/* Article Content Area */}
+                                            <div className="p-4 sm:p-5 flex flex-col flex-1 bg-white dark:bg-slate-900/95 transition-colors">
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-orange-600 dark:text-orange-400">
+                                                        Bureau of Fire Protection
+                                                    </span>
+                                                </div>
+
+                                                <h3 
+                                                    style={{
+                                                        viewTransitionName: String(activeMorphId) === String(blog.id) ? 'article-hero-title' : 'none'
+                                                    }}
+                                                    className="font-black text-sm sm:text-base md:text-lg text-slate-800 dark:text-white line-clamp-2 mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors leading-snug tracking-tight"
+                                                >
+                                                    {blog.title}
+                                                </h3>
+                                                
+                                                <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed flex-1">
+                                                    {blog.excerpt || ''}
+                                                </p>
+                                                
+                                                {/* Editorial Footer - No Button */}
+                                                <div className="flex items-center justify-between pt-3.5 mt-3.5 border-t border-slate-100 dark:border-slate-800/80 transition-colors">
+                                                    {/* Author Signature */}
+                                                    <div className="flex items-center gap-2 min-w-0">
+                                                        <div className="h-7 w-7 rounded-full bg-orange-500/10 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 flex items-center justify-center font-black text-xs border border-orange-500/20 shrink-0">
+                                                            {authorInitial}
+                                                        </div>
+                                                        <div className="flex flex-col min-w-0 leading-tight">
+                                                            <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 truncate">
+                                                                {authorName}
+                                                            </span>
+                                                            <span className="text-[9px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                                                Publisher
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Editorial Read Story Prompt */}
+                                                    <div className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-black text-orange-600 dark:text-orange-400 group-hover:text-orange-500 transition-colors">
+                                                        <span>Read Article</span>
+                                                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={2.5} />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Tactile Bottom Accent Line that slides across on hover */}
+                                            <div className="h-1 w-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                                <div className="h-full w-0 group-hover:w-full bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 transition-all duration-500 ease-out" />
                                             </div>
                                         </div>
-                                    </div>
-                                </Link>
-                            ))}
+                                    </Link>
+                                );
+                            })}
                         </div>
                     )}
                 </div>
