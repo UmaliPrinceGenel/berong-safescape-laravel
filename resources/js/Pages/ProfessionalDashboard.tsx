@@ -450,7 +450,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                             }}
                             className="max-w-5xl mx-auto scroll-mt-36 sm:scroll-mt-44 overflow-hidden"
                         >
-                            <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-6 transition-all duration-300 space-y-3.5 sm:space-y-4 ring-2 ring-red-500/20">
+                            <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-5 transition-all duration-300 gap-2.5 sm:gap-3 ring-2 ring-red-500/20">
                                 <div className="flex items-start justify-between gap-3">
                                     <motion.div
                                         key={selectedVideo.id || selectedVideo.youtubeId}
@@ -504,54 +504,60 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                 </motion.div>
 
                                 {/* YouTube-Style Expandable Description Box */}
-                                {selectedVideo.description && (
-                                    <div 
-                                        onClick={() => setIsDescriptionExpanded(prev => !prev)}
-                                        className="mt-3.5 sm:mt-4 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-100/90 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 transition-colors cursor-pointer group/desc"
-                                    >
-                                        <div className="flex items-center gap-2 mb-2 text-xs font-bold text-slate-700 dark:text-slate-300">
-                                            <div className="h-5 w-5 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 flex items-center justify-center shrink-0">
-                                                <img
-                                                    src="/berong-official-logo.webp"
-                                                    alt="Bureau of Fire Protection"
-                                                    className="w-full h-full object-contain"
-                                                />
-                                            </div>
-                                            <span className="text-slate-800 dark:text-slate-200 font-bold">Bureau of Fire Protection</span>
-                                            <CheckCircle2 className="h-3.5 w-3.5 text-slate-400 dark:text-slate-500 shrink-0 fill-slate-200 dark:fill-slate-700" />
-                                            <span>•</span>
-                                            <span className="capitalize text-red-600 dark:text-red-400 font-extrabold">{selectedVideo.category || "Professional Training"}</span>
-                                            <span>•</span>
-                                            <span className="text-slate-500 dark:text-slate-400">{formatTimeAgo(selectedVideo.created_at || selectedVideo.createdAt)}</span>
+                                <div 
+                                    onClick={() => setIsDescriptionExpanded(prev => !prev)}
+                                    className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-100/90 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 transition-colors cursor-pointer group/desc"
+                                >
+                                    <div className="flex items-center gap-2 mb-1.5 text-xs font-bold text-slate-700 dark:text-slate-300">
+                                        <div className="h-5 w-5 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 flex items-center justify-center shrink-0">
+                                            <img
+                                                src="/berong-official-logo.webp"
+                                                alt="Bureau of Fire Protection"
+                                                className="w-full h-full object-contain"
+                                            />
                                         </div>
-                                        <p className={cn(
-                                            "text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line",
-                                            !isDescriptionExpanded && "line-clamp-3"
-                                        )}>
-                                            {selectedVideo.description}
-                                        </p>
-                                        <button
-                                            type="button"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setIsDescriptionExpanded(prev => !prev);
-                                            }}
-                                            className="mt-2 text-xs font-black text-slate-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 inline-flex items-center gap-1 transition-colors cursor-pointer"
-                                        >
-                                            {isDescriptionExpanded ? (
-                                                <>
-                                                    <span>Show less</span>
-                                                    <ChevronUp className="h-3.5 w-3.5" />
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <span>See more</span>
-                                                    <ChevronDown className="h-3.5 w-3.5" />
-                                                </>
-                                            )}
-                                        </button>
+                                        <span className="text-slate-800 dark:text-slate-200 font-bold">Bureau of Fire Protection</span>
+                                        <CheckCircle2 className="h-3.5 w-3.5 text-slate-400 dark:text-slate-500 shrink-0 fill-slate-200 dark:fill-slate-700" />
+                                        <span>•</span>
+                                        <span className="capitalize text-red-600 dark:text-red-400 font-extrabold">{selectedVideo.category || "Professional Training"}</span>
+                                        <span>•</span>
+                                        <span className="text-slate-500 dark:text-slate-400">{formatTimeAgo(selectedVideo.created_at || selectedVideo.createdAt)}</span>
                                     </div>
-                                )}
+                                    {selectedVideo.description && selectedVideo.description.trim() ? (
+                                        <>
+                                            <p className={cn(
+                                                "text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line",
+                                                !isDescriptionExpanded && "line-clamp-3"
+                                            )}>
+                                                {selectedVideo.description}
+                                            </p>
+                                            <button
+                                                type="button"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setIsDescriptionExpanded(prev => !prev);
+                                                }}
+                                                className="mt-1.5 text-xs font-black text-slate-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 inline-flex items-center gap-1 transition-colors cursor-pointer"
+                                            >
+                                                {isDescriptionExpanded ? (
+                                                    <>
+                                                        <span>Show less</span>
+                                                        <ChevronUp className="h-3.5 w-3.5" />
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <span>See more</span>
+                                                        <ChevronDown className="h-3.5 w-3.5" />
+                                                    </>
+                                                )}
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <p className="text-xs sm:text-sm font-medium text-slate-400 dark:text-slate-500 italic">
+                                            No description provided for this video.
+                                        </p>
+                                    )}
+                                </div>
                             </Card>
                         </motion.div>
                     )}
