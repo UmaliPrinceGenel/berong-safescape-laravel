@@ -413,139 +413,6 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                     </Link>
                 </div>
 
-                {/* Video Player with Smooth Animated Expand/Collapse */}
-                <AnimatePresence mode="wait">
-                    {selectedVideo && (
-                        <motion.div
-                            key="professional-video-player"
-                            ref={playerRef}
-                            initial={{ opacity: 0, height: 0, marginTop: 0, marginBottom: 0, scale: 0.96 }}
-                            animate={{ 
-                                opacity: 1, 
-                                height: "auto", 
-                                marginTop: 32, 
-                                marginBottom: 40, 
-                                scale: 1,
-                                transition: {
-                                    height: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-                                    marginTop: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-                                    marginBottom: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-                                    opacity: { duration: 0.3, delay: 0.05 },
-                                    scale: { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
-                                }
-                            }}
-                            exit={{ 
-                                opacity: 0, 
-                                height: 0, 
-                                marginTop: 0, 
-                                marginBottom: 0, 
-                                scale: 0.96,
-                                transition: {
-                                    height: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
-                                    marginTop: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
-                                    marginBottom: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
-                                    opacity: { duration: 0.2 },
-                                    scale: { duration: 0.35, ease: "easeIn" }
-                                }
-                            }}
-                            className="max-w-5xl mx-auto scroll-mt-36 sm:scroll-mt-44 overflow-hidden"
-                        >
-                            <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-5 transition-all duration-300 gap-2.5 sm:gap-3 ring-2 ring-red-500/20">
-                                <div className="flex items-start justify-between gap-3">
-                                    <motion.div
-                                        key={selectedVideo.id || selectedVideo.youtubeId}
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, y: -8 }}
-                                        transition={{ duration: 0.3, delay: 0.1 }}
-                                        className="min-w-0 flex-1 pt-0.5"
-                                    >
-                                        <h3 className="text-base sm:text-2xl font-black text-slate-800 dark:text-white leading-tight">
-                                            {selectedVideo.title}
-                                        </h3>
-                                    </motion.div>
-                                    <motion.button
-                                        whileHover={{ scale: 1.12, rotate: 90 }}
-                                        whileTap={{ scale: 0.88 }}
-                                        onClick={handleClosePlayer}
-                                        className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0 cursor-pointer shadow-sm active:scale-95"
-                                        title="Close Player"
-                                        aria-label="Close Player"
-                                    >
-                                        <X className="h-5 w-5" strokeWidth={2.5} />
-                                    </motion.button>
-                                </div>
-
-                                <motion.div 
-                                    initial={{ opacity: 0, scale: 0.98 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.35, delay: 0.15 }}
-                                    className="aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 relative group"
-                                >
-                                    <div id="youtube-player-container" className="w-full h-full">
-                                        <div id="youtube-player" className="w-full h-full" />
-                                    </div>
-                                </motion.div>
-
-                                {/* YouTube-Style Expandable Description Box */}
-                                <div 
-                                    onClick={() => setIsDescriptionExpanded(prev => !prev)}
-                                    className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-100/90 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 transition-colors cursor-pointer group/desc"
-                                >
-                                    <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-2.5 text-xs font-bold text-slate-700 dark:text-slate-300 flex-wrap">
-                                        <div className="h-5 w-5 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 flex items-center justify-center shrink-0">
-                                            <img
-                                                src="/berong-official-logo.webp"
-                                                alt="Bureau of Fire Protection"
-                                                className="w-full h-full object-contain"
-                                            />
-                                        </div>
-                                        <span className="text-slate-800 dark:text-slate-200 font-bold">Bureau of Fire Protection</span>
-                                        <CheckCircle2 className="h-3.5 w-3.5 text-slate-400 dark:text-slate-500 shrink-0 fill-slate-200 dark:fill-slate-700" />
-                                        <span className="text-slate-400 dark:text-slate-500">•</span>
-                                        <span className="text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">{formatTimeAgo(selectedVideo.created_at || selectedVideo.createdAt)}</span>
-                                    </div>
-                                    {selectedVideo.description && selectedVideo.description.trim() ? (
-                                        <>
-                                            <p className={cn(
-                                                "text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line",
-                                                !isDescriptionExpanded && "line-clamp-3"
-                                            )}>
-                                                {selectedVideo.description}
-                                            </p>
-                                            <button
-                                                type="button"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setIsDescriptionExpanded(prev => !prev);
-                                                }}
-                                                className="mt-1.5 text-xs font-black text-slate-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 inline-flex items-center gap-1 transition-colors cursor-pointer"
-                                            >
-                                                {isDescriptionExpanded ? (
-                                                    <>
-                                                        <span>Show less</span>
-                                                        <ChevronUp className="h-3.5 w-3.5" />
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <span>See more</span>
-                                                        <ChevronDown className="h-3.5 w-3.5" />
-                                                    </>
-                                                )}
-                                            </button>
-                                        </>
-                                    ) : (
-                                        <p className="text-xs sm:text-sm font-medium text-slate-400 dark:text-slate-500 italic">
-                                            No description provided for this video.
-                                        </p>
-                                    )}
-                                </div>
-                            </Card>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
                 {/* Video Grid Section */}
                 <motion.div 
                     layout 
@@ -616,6 +483,131 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                             className="w-full pl-11 pr-4 py-3.5 rounded-2xl border-[3px] border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/20 text-sm font-semibold transition-all duration-300"
                         />
                     </div>
+
+                    {/* Video Player with Smooth Animated Expand/Collapse (Positioned below Search Bar) */}
+                    <AnimatePresence mode="wait">
+                        {selectedVideo && (
+                            <motion.div
+                                key="professional-video-player"
+                                ref={playerRef}
+                                initial={{ opacity: 0, height: 0, scale: 0.96 }}
+                                animate={{ 
+                                    opacity: 1, 
+                                    height: "auto", 
+                                    scale: 1,
+                                    transition: {
+                                        height: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
+                                        opacity: { duration: 0.3, delay: 0.05 },
+                                        scale: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
+                                    }
+                                }}
+                                exit={{ 
+                                    opacity: 0, 
+                                    height: 0, 
+                                    scale: 0.96,
+                                    transition: {
+                                        height: { duration: 0.4, ease: [0.25, 1, 0.5, 1] },
+                                        opacity: { duration: 0.2 },
+                                        scale: { duration: 0.3, ease: "easeIn" }
+                                    }
+                                }}
+                                className="w-full max-w-5xl mx-auto scroll-mt-28 sm:scroll-mt-36 overflow-hidden"
+                            >
+                                <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-5 transition-all duration-300 gap-2.5 sm:gap-3 ring-2 ring-red-500/20">
+                                    <div className="flex items-start justify-between gap-3">
+                                        <motion.div
+                                            key={selectedVideo.id || selectedVideo.youtubeId}
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, y: -8 }}
+                                            transition={{ duration: 0.3, delay: 0.1 }}
+                                            className="min-w-0 flex-1 pt-0.5"
+                                        >
+                                            <h3 className="text-base sm:text-2xl font-black text-slate-800 dark:text-white leading-tight">
+                                                {selectedVideo.title}
+                                            </h3>
+                                        </motion.div>
+                                        <motion.button
+                                            whileHover={{ scale: 1.12, rotate: 90 }}
+                                            whileTap={{ scale: 0.88 }}
+                                            onClick={handleClosePlayer}
+                                            className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0 cursor-pointer shadow-sm active:scale-95"
+                                            title="Close Player"
+                                            aria-label="Close Player"
+                                        >
+                                            <X className="h-5 w-5" strokeWidth={2.5} />
+                                        </motion.button>
+                                    </div>
+
+                                    <motion.div 
+                                        initial={{ opacity: 0, scale: 0.98 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.35, delay: 0.15 }}
+                                        className="aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 relative group"
+                                    >
+                                        <div id="youtube-player-container" className="w-full h-full">
+                                            <div id="youtube-player" className="w-full h-full" />
+                                        </div>
+                                    </motion.div>
+
+                                    {/* YouTube-Style Expandable Description Box */}
+                                    <div 
+                                        onClick={() => setIsDescriptionExpanded(prev => !prev)}
+                                        className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-100/90 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 transition-colors cursor-pointer group/desc"
+                                    >
+                                        <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-2.5 text-xs font-bold text-slate-700 dark:text-slate-300 flex-wrap">
+                                            <div className="h-5 w-5 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 flex items-center justify-center shrink-0">
+                                                <img
+                                                    src="/berong-official-logo.webp"
+                                                    alt="Bureau of Fire Protection"
+                                                    className="w-full h-full object-contain"
+                                                />
+                                            </div>
+                                            <span className="text-slate-800 dark:text-slate-200 font-bold">Bureau of Fire Protection</span>
+                                            <CheckCircle2 className="h-3.5 w-3.5 text-slate-400 dark:text-slate-500 shrink-0 fill-slate-200 dark:fill-slate-700" />
+                                            <span className="text-slate-400 dark:text-slate-500">•</span>
+                                            <span className="text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">{formatTimeAgo(selectedVideo.created_at || selectedVideo.createdAt)}</span>
+                                        </div>
+                                        {selectedVideo.description && selectedVideo.description.trim() ? (
+                                            <>
+                                                <p className={cn(
+                                                    "text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line",
+                                                    !isDescriptionExpanded && "line-clamp-3"
+                                                )}>
+                                                    {selectedVideo.description}
+                                                </p>
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setIsDescriptionExpanded(prev => !prev);
+                                                    }}
+                                                    className="mt-1.5 text-xs font-black text-slate-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 inline-flex items-center gap-1 transition-colors cursor-pointer"
+                                                >
+                                                    {isDescriptionExpanded ? (
+                                                        <>
+                                                            <span>Show less</span>
+                                                            <ChevronUp className="h-3.5 w-3.5" />
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <span>See more</span>
+                                                            <ChevronDown className="h-3.5 w-3.5" />
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <p className="text-xs sm:text-sm font-medium text-slate-400 dark:text-slate-500 italic">
+                                                No description provided for this video.
+                                            </p>
+                                        )}
+                                    </div>
+                                </Card>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                     <Deferred data="initialVideos" fallback={<VideoSkeleton />}>
                         {filteredVideos.length === 0 ? (
                             <Card className="rounded-[2rem] border-slate-200 dark:border-slate-700 dark:bg-slate-800 hover:shadow-md transition-shadow">
