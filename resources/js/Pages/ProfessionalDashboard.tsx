@@ -12,7 +12,7 @@ import { Badge } from "@/Components/ui/badge"
 import { Button } from "@/Components/ui/button"
 import { Input } from "@/Components/ui/input"
 import { Alert, AlertDescription } from "@/Components/ui/alert"
-import { Trophy, Star, Shield, Zap, Medal, Video, Clock, Search, BookOpen, FileText, AlertCircle, Play, CheckCircle2, GraduationCap, ArrowRight, CircleHelp, Gamepad2, X } from "lucide-react"
+import { Trophy, Star, Shield, Zap, Medal, Video, Clock, Search, BookOpen, FileText, AlertCircle, Play, CheckCircle2, GraduationCap, ArrowRight, CircleHelp, Gamepad2, X, ChevronDown, ChevronUp } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -131,6 +131,7 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
     const ytPlayerRef = useRef<any>(null)
     const currentRankRef = useRef<HTMLDivElement>(null)
     const [isYTReady, setIsYTReady] = useState(false)
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
 
     // Auto-scroll to current rank when Rank Guide modal opens
     useEffect(() => {
@@ -313,10 +314,12 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
             ytPlayerRef.current = null
         }
         setSelectedVideo(null)
+        setIsDescriptionExpanded(false)
     }
 
     const handleVideoSelect = (video: VideoContent) => {
         setSelectedVideo(video)
+        setIsDescriptionExpanded(false)
         setTimeout(() => {
             playerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
         }, 150)
@@ -475,11 +478,6 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                         <h3 className="text-base sm:text-2xl font-black text-slate-800 dark:text-white leading-tight">
                                             {selectedVideo.title}
                                         </h3>
-                                        {selectedVideo.description && (
-                                            <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                                                {selectedVideo.description}
-                                            </p>
-                                        )}
                                     </motion.div>
                                     <motion.button
                                         whileHover={{ scale: 1.12, rotate: 90 }}
@@ -504,6 +502,56 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                         <div id="youtube-player" className="w-full h-full" />
                                     </div>
                                 </motion.div>
+
+                                {/* YouTube-Style Expandable Description Box */}
+                                {selectedVideo.description && (
+                                    <div 
+                                        onClick={() => setIsDescriptionExpanded(prev => !prev)}
+                                        className="mt-3.5 sm:mt-4 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-100/90 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 transition-colors cursor-pointer group/desc"
+                                    >
+                                        <div className="flex items-center gap-2 mb-2 text-xs font-bold text-slate-700 dark:text-slate-300">
+                                            <div className="h-5 w-5 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 flex items-center justify-center shrink-0">
+                                                <img
+                                                    src="/berong-official-logo.webp"
+                                                    alt="Bureau of Fire Protection"
+                                                    className="w-full h-full object-contain"
+                                                />
+                                            </div>
+                                            <span className="text-slate-800 dark:text-slate-200 font-bold">Bureau of Fire Protection</span>
+                                            <CheckCircle2 className="h-3.5 w-3.5 text-slate-400 dark:text-slate-500 shrink-0 fill-slate-200 dark:fill-slate-700" />
+                                            <span>•</span>
+                                            <span className="capitalize text-red-600 dark:text-red-400 font-extrabold">{selectedVideo.category || "Professional Training"}</span>
+                                            <span>•</span>
+                                            <span className="text-slate-500 dark:text-slate-400">{formatTimeAgo(selectedVideo.created_at || selectedVideo.createdAt)}</span>
+                                        </div>
+                                        <p className={cn(
+                                            "text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line",
+                                            !isDescriptionExpanded && "line-clamp-3"
+                                        )}>
+                                            {selectedVideo.description}
+                                        </p>
+                                        <button
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setIsDescriptionExpanded(prev => !prev);
+                                            }}
+                                            className="mt-2 text-xs font-black text-slate-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 inline-flex items-center gap-1 transition-colors cursor-pointer"
+                                        >
+                                            {isDescriptionExpanded ? (
+                                                <>
+                                                    <span>Show less</span>
+                                                    <ChevronUp className="h-3.5 w-3.5" />
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span>See more</span>
+                                                    <ChevronDown className="h-3.5 w-3.5" />
+                                                </>
+                                            )}
+                                        </button>
+                                    </div>
+                                )}
                             </Card>
                         </motion.div>
                     )}
@@ -676,13 +724,6 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                         <span>•</span>
                                                         <span>{formatTimeAgo(video.created_at || video.createdAt)}</span>
                                                     </div>
-
-                                                    {/* Description (desktop only - subtle 1-line summary) */}
-                                                    {video.description && (
-                                                        <p className="hidden sm:block text-[11px] text-slate-400 dark:text-slate-500 line-clamp-1 mt-1 font-normal leading-relaxed">
-                                                            {video.description}
-                                                        </p>
-                                                    )}
                                                 </div>
                                             </div>
                                         </Card>
