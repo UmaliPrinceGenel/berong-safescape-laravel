@@ -9,7 +9,7 @@ import { Card, CardContent, CardTitle, CardHeader, CardDescription } from "@/Com
 import { Button } from "@/Components/ui/button"
 import { Input } from "@/Components/ui/input"
 import { Alert, AlertDescription } from "@/Components/ui/alert"
-import { Flame, Search, BookOpen, Calendar, User, ArrowRight, AlertCircle, Maximize2, Clock, Play, X, ChevronDown, ChevronUp } from "lucide-react"
+import { Flame, Search, BookOpen, User, ArrowRight, AlertCircle, Maximize2, Clock, Play, X, ChevronDown, ChevronUp } from "lucide-react"
 import type { BlogPost } from "@/lib/mock-data"
 import { Link } from '@inertiajs/react';
 import { Footer } from "@/Components/footer"
@@ -401,16 +401,6 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                                 }}
                                                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                                             />
-                                            {/* Bottom Gradient Overlay */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent z-[1]" />
-                                            
-                                            {/* Read Time / Date on Image */}
-                                            <div className="absolute bottom-3 left-3 z-[2] flex items-center gap-2">
-                                                <span className="text-white/90 text-[10px] sm:text-xs font-bold flex items-center gap-1">
-                                                    <Calendar className="h-3 w-3" strokeWidth={2.5} />
-                                                    {new Date((blog as any).created_at || blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                                                </span>
-                                            </div>
                                         </div>
 
                                         {/* Accent Line */}
@@ -447,10 +437,9 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                                     <span className="text-[8px] sm:text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-0.5">Publisher</span>
                                                 </div>
                                                 
-                                                {/* Read CTA Button */}
-                                                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white font-black text-xs sm:text-sm shadow-[0_3px_0_#c2410c] dark:shadow-[0_3px_0_#9a3412] group-hover:shadow-[0_4px_0_#9a3412] group-hover:-translate-y-0.5 group-active:translate-y-0.5 group-active:shadow-none transition-all duration-200 shrink-0 uppercase tracking-wider">
-                                                    <BookOpen className="h-3.5 w-3.5" strokeWidth={2.5} />
-                                                    Read
+                                                {/* Posted Time */}
+                                                <span className="text-[10px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 whitespace-nowrap shrink-0">
+                                                    {formatTimeAgo((blog as any).created_at || blog.createdAt)}
                                                 </span>
                                             </div>
                                         </div>
