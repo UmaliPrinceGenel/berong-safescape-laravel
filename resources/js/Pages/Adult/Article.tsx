@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react"
 import ReactDOM, { flushSync } from "react-dom"
 import { Head, Link } from '@inertiajs/react'
 import DashboardLayout from "@/Layouts/DashboardLayout"
-import { ArrowLeft, User, Calendar, Maximize2, X, Flame, ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from "lucide-react"
+import { ArrowLeft, User, Calendar, Maximize2, X, Flame, ChevronLeft, ChevronRight } from "lucide-react"
 import DOMPurify from "dompurify"
 import { cn } from "@/lib/utils"
 
@@ -36,7 +36,6 @@ const BlogArticleClient = ({ blog, allBlogs }: BlogArticleProps) => {
 
     const [lightboxImage, setLightboxImage] = useState<{ url: string; title: string } | null>(null);
     const [isLightboxToggling, setIsLightboxToggling] = useState(false);
-    const [expandedDescriptions, setExpandedDescriptions] = useState<Record<string, boolean>>({});
 
     const containerRef = useRef<HTMLDivElement>(null);
     const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -308,7 +307,6 @@ const BlogArticleClient = ({ blog, allBlogs }: BlogArticleProps) => {
                             ? new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
                             : 'Recently';
                         const authorName = typeof item.author === 'string' ? item.author : item.author?.name || 'BFP Admin';
-                        const isExpanded = !!expandedDescriptions[String(item.id)];
 
                         return (
                             <div
@@ -340,37 +338,47 @@ const BlogArticleClient = ({ blog, allBlogs }: BlogArticleProps) => {
                                             : "shadow-md border border-slate-200/60 dark:border-slate-700/50 hover:border-orange-500/30"
                                     )}
                                 >
-                                    {/* Header Section - Super Compact without tag */}
-                                    <div className="px-4 py-2.5 sm:px-6 sm:py-3 bg-white dark:bg-transparent transition-colors">
-                                        <div className="flex items-start justify-between gap-3">
-                                            <div className="min-w-0 flex-1">
-                                                <h1 
-                                                    style={{ 
-                                                        viewTransitionName: (String(item.id) === String(blog.id) && !lightboxImage && !isLightboxToggling) 
-                                                            ? 'article-hero-title' 
-                                                            : 'none' 
-                                                    }}
-                                                    className="text-base sm:text-lg md:text-xl font-black text-slate-800 dark:text-white leading-snug tracking-tight mb-1 transition-colors line-clamp-1 sm:line-clamp-2"
-                                                >
-                                                    {item.title}
-                                                </h1>
-                                                
-                                                <div className="flex items-center gap-2 text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400">
-                                                    <span className="font-extrabold text-slate-700 dark:text-slate-300">{authorName}</span>
-                                                    <span className="text-slate-300 dark:text-slate-600">•</span>
-                                                    <span>{formattedDate}</span>
-                                                </div>
-                                            </div>
-
+                                    {/* Header Section */}
+                                    <div className="p-3.5 sm:p-5 pb-2 sm:pb-3 bg-white dark:bg-transparent transition-colors">
+                                        <div className="flex items-center justify-between gap-2 mb-1.5 sm:mb-2">
+                                            <span className="inline-block px-2 py-0.5 bg-orange-500/10 dark:bg-orange-500/10 text-orange-600 dark:orange-400 font-extrabold text-[9px] sm:text-[10px] uppercase tracking-wider rounded-full border border-orange-500/20 shadow-sm transition-colors">
+                                                Fire Safety Education
+                                            </span>
                                             {!isActive && (
-                                                <span className="shrink-0 text-[10px] sm:text-xs font-bold text-orange-500 bg-orange-50 dark:bg-orange-950/40 px-2.5 py-1 rounded-full border border-orange-500/20">
+                                                <span className="text-[10px] sm:text-xs font-bold text-orange-500 bg-orange-50 dark:bg-orange-950/40 px-2 py-0.5 rounded-full border border-orange-500/20">
                                                     Click to view
                                                 </span>
                                             )}
                                         </div>
+                                        
+                                        <h1 
+                                            style={{ 
+                                                viewTransitionName: (String(item.id) === String(blog.id) && !lightboxImage && !isLightboxToggling) 
+                                                    ? 'article-hero-title' 
+                                                    : 'none' 
+                                            }}
+                                            className="text-base sm:text-lg md:text-xl font-black text-slate-800 dark:text-white leading-snug tracking-tight mb-2 transition-colors line-clamp-2"
+                                        >
+                                            {item.title}
+                                        </h1>
+                                        
+                                        <div className="flex flex-wrap items-center gap-3 text-slate-500 dark:text-slate-400 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                                <div className="h-6 w-6 sm:h-7 sm:w-7 rounded-lg bg-slate-100 dark:bg-slate-900 flex items-center justify-center border border-slate-200/50 dark:border-slate-800/80 shadow-inner shrink-0 transition-colors">
+                                                    <User className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-slate-500 dark:text-slate-400" />
+                                                </div>
+                                                <div className="text-left py-0.5 leading-tight">
+                                                    <div className="font-extrabold text-slate-800 dark:text-slate-200 text-xs sm:text-[13px] transition-colors">{authorName}</div>
+                                                    <div className="flex items-center gap-1 text-[10px] font-semibold text-slate-400 dark:text-slate-500 mt-0.5 transition-colors">
+                                                        <Calendar className="h-2.5 w-2.5" />
+                                                        {formattedDate}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    {/* Expandable Image Section */}
+                                    {/* Expandable Image Section (constrained height to prevent vertical bloat) */}
                                     {item.imageUrl && (
                                         <div className="px-3 sm:px-5">
                                             <div 
@@ -388,7 +396,7 @@ const BlogArticleClient = ({ blog, allBlogs }: BlogArticleProps) => {
                                                 <img 
                                                     src={item.imageUrl} 
                                                     alt={item.title} 
-                                                    className="w-full max-h-[250px] sm:max-h-[280px] md:max-h-[300px] object-contain transition-transform duration-300 group-hover:scale-[1.005]"
+                                                    className="w-full max-h-[260px] sm:max-h-[300px] md:max-h-[320px] object-contain transition-transform duration-300 group-hover:scale-[1.005]"
                                                     style={{ 
                                                         viewTransitionName: (String(item.id) === String(blog.id) && !lightboxImage) 
                                                             ? 'article-hero-image' 
@@ -409,45 +417,19 @@ const BlogArticleClient = ({ blog, allBlogs }: BlogArticleProps) => {
                                         </div>
                                     )}
 
-                                    {/* Article Content - 3 Lines with See More button */}
-                                    <div className="px-4 py-2.5 sm:px-6 sm:py-3 relative">
+                                    {/* Article Content */}
+                                    <div className="p-3.5 sm:p-5 pt-2.5 sm:pt-3 relative">
                                         <div 
-                                            className={cn(
-                                                "prose prose-slate dark:prose-invert max-w-none transition-all duration-300",
-                                                "prose-headings:font-black prose-headings:text-slate-800 dark:prose-headings:text-white prose-headings:tracking-tight",
-                                                "prose-h2:text-sm sm:prose-h2:text-base prose-h2:mt-1.5 prose-h2:mb-1",
-                                                "prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:font-medium prose-p:leading-relaxed prose-p:text-xs sm:prose-p:text-[13px] prose-p:m-0",
-                                                "prose-a:text-orange-600 dark:prose-a:text-orange-400 prose-a:font-bold",
-                                                "prose-strong:font-black prose-strong:text-slate-800 dark:prose-strong:text-white",
-                                                !isExpanded && "line-clamp-3"
-                                            )}
+                                            className="prose prose-slate dark:prose-invert max-w-none 
+                                                prose-headings:font-black prose-headings:text-slate-800 dark:prose-headings:text-white prose-headings:tracking-tight 
+                                                prose-h2:text-sm sm:prose-h2:text-base prose-h2:mt-2 prose-h2:mb-1.5
+                                                prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:font-medium prose-p:leading-relaxed prose-p:mb-2 prose-p:text-xs sm:prose-p:text-[13px]
+                                                prose-a:text-orange-600 dark:prose-a:text-orange-400 prose-a:font-bold prose-a:no-underline hover:prose-a:underline
+                                                prose-strong:font-black prose-strong:text-slate-800 dark:prose-strong:text-white
+                                                prose-ul:marker:text-orange-400 dark:prose-ul:marker:text-orange-500 prose-li:font-medium prose-li:text-xs sm:prose-li:text-[13px]
+                                                prose-img:rounded-xl prose-img:shadow-md border-slate-100 dark:border-slate-700"
                                             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item.content || item.excerpt || '') }}
                                         />
-
-                                        {/* See More / Show Less Button */}
-                                        <button
-                                            type="button"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setExpandedDescriptions(prev => ({
-                                                    ...prev,
-                                                    [String(item.id)]: !prev[String(item.id)]
-                                                }));
-                                            }}
-                                            className="mt-1 text-xs font-black text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 inline-flex items-center gap-1 transition-colors cursor-pointer"
-                                        >
-                                            {isExpanded ? (
-                                                <>
-                                                    <span>Show less</span>
-                                                    <ChevronUp className="h-3.5 w-3.5" strokeWidth={2.5} />
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <span>See More</span>
-                                                    <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />
-                                                </>
-                                            )}
-                                        </button>
                                     </div>
                                 </article>
                             </div>
