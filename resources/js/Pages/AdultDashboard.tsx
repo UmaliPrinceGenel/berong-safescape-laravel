@@ -9,13 +9,14 @@ import { Card, CardContent, CardTitle, CardHeader, CardDescription } from "@/Com
 import { Button } from "@/Components/ui/button"
 import { Input } from "@/Components/ui/input"
 import { Alert, AlertDescription } from "@/Components/ui/alert"
-import { Flame, Search, BookOpen, Calendar, User, ArrowRight, AlertCircle, Maximize2, Clock, Play, X } from "lucide-react"
+import { Flame, Search, BookOpen, Calendar, User, ArrowRight, AlertCircle, Maximize2, Clock, Play, X, ChevronDown, ChevronUp } from "lucide-react"
 import type { BlogPost } from "@/lib/mock-data"
 import { Link } from '@inertiajs/react';
 import { Footer } from "@/Components/footer"
 import DashboardLayout from "@/Layouts/DashboardLayout"
 import SpotlightCard from "@/Components/ui/spotlight-card"
 import "@/Components/ui/spotlight-card.css"
+import { cn } from "@/lib/utils"
 
 import { AdultWelcomeBanner } from "@/Components/adult-welcome-banner"
 import { AdultDashboardSkeleton } from "@/Components/dashboard-skeletons"
@@ -52,11 +53,44 @@ const getYouTubeId = (url: string) => {
     return url;
 };
 
+const formatTimeAgo = (dateStr?: string | null) => {
+    if (!dateStr) return "Recently added";
+    try {
+        const date = new Date(dateStr);
+        if (isNaN(date.getTime())) return "Recently added";
+        
+        const now = new Date();
+        const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+        
+        if (diffInSeconds < 60) return "Just now";
+        const diffInMinutes = Math.floor(diffInSeconds / 60);
+        if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+        const diffInHours = Math.floor(diffInMinutes / 60);
+        if (diffInHours < 24) return `${diffInHours}h ago`;
+        const diffInDays = Math.floor(diffInHours / 24);
+        if (diffInDays === 1) return "1 day ago";
+        if (diffInDays < 7) return `${diffInDays} days ago`;
+        const diffInWeeks = Math.floor(diffInDays / 7);
+        if (diffInWeeks === 1) return "1 week ago";
+        if (diffInWeeks < 4) return `${diffInWeeks} weeks ago`;
+        const diffInMonths = Math.floor(diffInDays / 30);
+        if (diffInMonths === 1) return "1 month ago";
+        if (diffInMonths < 12) return `${diffInMonths} months ago`;
+        const diffInYears = Math.floor(diffInDays / 365);
+        if (diffInYears === 1) return "1 year ago";
+        return `${diffInYears} years ago`;
+    } catch {
+        return "Recently added";
+    }
+};
+
 const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) => {
     
     const { user } = useAuth()
     const [searchQuery, setSearchQuery] = useState("")
+    const [videoSearchQuery, setVideoSearchQuery] = useState("")
     const [selectedVideo, setSelectedVideo] = useState<any>(null)
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
     const [activeMorphId, setActiveMorphId] = useState<string | number | null>(null)
 
     const handleArticleClick = (e: React.MouseEvent, blogId: string | number, href: string) => {
@@ -156,10 +190,12 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
             ytPlayerRef.current = null
         }
         setSelectedVideo(null)
+        setIsDescriptionExpanded(false)
     }
 
     const handleSelectVideo = (video: any) => {
         setSelectedVideo(video)
+        setIsDescriptionExpanded(false)
         setTimeout(() => {
             playerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
         }, 150)
@@ -170,6 +206,12 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
             (blog.title?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
             (blog.excerpt?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
             (blog.content?.toLowerCase() || "").includes(searchQuery.toLowerCase()),
+    )
+
+    const filteredVideos = videos.filter(
+        (video: any) =>
+            (video.title?.toLowerCase() || "").includes(videoSearchQuery.toLowerCase()) ||
+            (video.description?.toLowerCase() || "").includes(videoSearchQuery.toLowerCase()),
     )
 
     return (
@@ -419,127 +461,157 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                     )}
                 </div>
 
-                {/* Video Player with Smooth Animated Expand/Collapse */}
-                <AnimatePresence mode="wait">
-                    {selectedVideo && (
-                        <motion.div
-                            key="adult-video-player"
-                            ref={playerRef}
-                            initial={{ opacity: 0, height: 0, marginTop: 0, marginBottom: 0, scale: 0.96 }}
-                            animate={{ 
-                                opacity: 1, 
-                                height: "auto", 
-                                marginTop: 32, 
-                                marginBottom: 40, 
-                                scale: 1,
-                                transition: {
-                                    height: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-                                    marginTop: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-                                    marginBottom: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-                                    opacity: { duration: 0.3, delay: 0.05 },
-                                    scale: { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
-                                }
-                            }}
-                            exit={{ 
-                                opacity: 0, 
-                                height: 0, 
-                                marginTop: 0, 
-                                marginBottom: 0, 
-                                scale: 0.96,
-                                transition: {
-                                    height: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
-                                    marginTop: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
-                                    marginBottom: { duration: 0.48, ease: [0.25, 1, 0.5, 1] },
-                                    opacity: { duration: 0.2 },
-                                    scale: { duration: 0.35, ease: "easeIn" }
-                                }
-                            }}
-                            className="max-w-5xl mx-auto scroll-mt-36 sm:scroll-mt-44 overflow-hidden"
-                        >
-                            <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-6 transition-all duration-300 space-y-3.5 sm:space-y-4 ring-2 ring-orange-500/20">
-                                <div className="flex items-start justify-between gap-3">
-                                    <motion.div
-                                        key={selectedVideo.id || selectedVideo.youtubeId}
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, y: -8 }}
-                                        transition={{ duration: 0.3, delay: 0.1 }}
-                                        className="min-w-0 flex-1"
-                                    >
-                                        <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                                            <span className="inline-flex items-center rounded-full px-2.5 py-0.5 font-black bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 text-[10px] tracking-wider uppercase border border-orange-200 dark:border-orange-900/50 shadow-sm">
-                                                <span className="relative flex h-2 w-2 mr-1.5">
-                                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                                                </span>
-                                                NOW PLAYING
-                                            </span>
-                                            {selectedVideo.duration && (
-                                                <span className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 dark:text-slate-400">
-                                                    <Clock className="h-3.5 w-3.5 text-orange-500" />
-                                                    {selectedVideo.duration}
-                                                </span>
-                                            )}
-                                        </div>
-                                        <h3 className="text-base sm:text-2xl font-black text-slate-800 dark:text-white leading-tight">
-                                            {selectedVideo.title}
-                                        </h3>
-                                        {selectedVideo.description && (
-                                            <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                                                {selectedVideo.description}
-                                            </p>
-                                        )}
-                                    </motion.div>
-                                    <motion.button
-                                        whileHover={{ scale: 1.12, rotate: 90 }}
-                                        whileTap={{ scale: 0.88 }}
-                                        onClick={handleClosePlayer}
-                                        className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0 cursor-pointer shadow-sm active:scale-95"
-                                        title="Close Player"
-                                        aria-label="Close Player"
-                                    >
-                                        <X className="h-5 w-5" strokeWidth={2.5} />
-                                    </motion.button>
-                                </div>
-
-                                <motion.div 
-                                    initial={{ opacity: 0, scale: 0.98 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.35, delay: 0.15 }}
-                                    className="aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 relative group"
-                                >
-                                    <div id="youtube-player-container" className="w-full h-full">
-                                        <div id="youtube-player" className="w-full h-full" />
-                                    </div>
-                                </motion.div>
-                            </Card>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
                 {/* Videos Section */}
                 <motion.div 
                     layout 
                     transition={{ duration: 0.48, ease: [0.25, 1, 0.5, 1] }} 
                     id="videos-section" 
-                    className="mt-16 sm:mt-24"
+                    className="mt-16 sm:mt-24 space-y-6"
                 >
-                    <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-8">
+                    <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
                         <div>
                             <h2 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight">Fire Safety Videos</h2>
                             <p className="text-slate-500 dark:text-slate-400 font-medium text-sm mt-1">Watch educational videos designed to help you prepare for emergency situations.</p>
                         </div>
                     </div>
-                    
+
+                    {/* Search Bar - Positioned right before video player / cards */}
+                    <div className="relative group w-full max-w-md">
+                        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500 group-focus-within:text-orange-500 transition-colors duration-300" />
+                        <input
+                            type="text"
+                            placeholder="Search fire safety videos..."
+                            value={videoSearchQuery}
+                            onChange={(e) => setVideoSearchQuery(e.target.value)}
+                            className="w-full pl-11 pr-4 py-3.5 rounded-2xl border-[3px] border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 text-sm font-semibold transition-all duration-300"
+                        />
+                    </div>
+
+                    {/* Video Player with Smooth Animated Expand/Collapse (Positioned below Search Bar) */}
+                    <AnimatePresence mode="wait">
+                        {selectedVideo && (
+                            <motion.div
+                                key="adult-video-player"
+                                ref={playerRef}
+                                initial={{ opacity: 0, height: 0, scale: 0.96 }}
+                                animate={{ 
+                                    opacity: 1, 
+                                    height: "auto", 
+                                    scale: 1,
+                                    transition: {
+                                        height: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
+                                        opacity: { duration: 0.3, delay: 0.05 },
+                                        scale: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
+                                    }
+                                }}
+                                exit={{ 
+                                    opacity: 0, 
+                                    height: 0, 
+                                    scale: 0.96,
+                                    transition: {
+                                        height: { duration: 0.4, ease: [0.25, 1, 0.5, 1] },
+                                        opacity: { duration: 0.2 },
+                                        scale: { duration: 0.3, ease: "easeIn" }
+                                    }
+                                }}
+                                className="w-full max-w-5xl mx-auto scroll-mt-28 sm:scroll-mt-36 overflow-hidden"
+                            >
+                                <Card className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] border-[3px] border-slate-200 dark:border-slate-800 shadow-[0_8px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] sm:shadow-[0_8px_0_#cbd5e1] dark:sm:shadow-[0_8px_0_#0f172a] overflow-hidden p-3.5 sm:p-5 transition-all duration-300 gap-2.5 sm:gap-3 ring-2 ring-orange-500/20">
+                                    <div className="flex items-start justify-between gap-3">
+                                        <motion.div
+                                            key={selectedVideo.id || selectedVideo.youtubeId}
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, y: -8 }}
+                                            transition={{ duration: 0.3, delay: 0.1 }}
+                                            className="min-w-0 flex-1 pt-0.5"
+                                        >
+                                            <h3 className="text-base sm:text-2xl font-black text-slate-800 dark:text-white leading-tight">
+                                                {selectedVideo.title}
+                                            </h3>
+                                        </motion.div>
+                                        <motion.button
+                                            whileHover={{ scale: 1.12, rotate: 90 }}
+                                            whileTap={{ scale: 0.88 }}
+                                            onClick={handleClosePlayer}
+                                            className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0 cursor-pointer shadow-sm active:scale-95"
+                                            title="Close Player"
+                                            aria-label="Close Player"
+                                        >
+                                            <X className="h-5 w-5" strokeWidth={2.5} />
+                                        </motion.button>
+                                    </div>
+
+                                    <motion.div 
+                                        initial={{ opacity: 0, scale: 0.98 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.35, delay: 0.15 }}
+                                        className="aspect-video bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 relative group"
+                                    >
+                                        <div id="youtube-player-container" className="w-full h-full">
+                                            <div id="youtube-player" className="w-full h-full" />
+                                        </div>
+                                    </motion.div>
+
+                                    {/* YouTube-Style Expandable Description Box */}
+                                    <div 
+                                        onClick={() => setIsDescriptionExpanded(prev => !prev)}
+                                        className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-100/90 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 transition-colors cursor-pointer group/desc"
+                                    >
+                                        <div className="flex items-center gap-2 mb-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                                            <span>{formatTimeAgo(selectedVideo.created_at || selectedVideo.createdAt)}</span>
+                                        </div>
+                                        {selectedVideo.description && selectedVideo.description.trim() ? (
+                                            <>
+                                                <p className={cn(
+                                                    "text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line",
+                                                    !isDescriptionExpanded && "line-clamp-3"
+                                                )}>
+                                                    {selectedVideo.description}
+                                                </p>
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setIsDescriptionExpanded(prev => !prev);
+                                                    }}
+                                                    className="mt-1.5 text-xs font-black text-slate-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 inline-flex items-center gap-1 transition-colors cursor-pointer"
+                                                >
+                                                    {isDescriptionExpanded ? (
+                                                        <>
+                                                            <span>Show less</span>
+                                                            <ChevronUp className="h-3.5 w-3.5" />
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <span>See more</span>
+                                                            <ChevronDown className="h-3.5 w-3.5" />
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <p className="text-xs sm:text-sm font-medium text-slate-400 dark:text-slate-500 italic">
+                                                No description provided for this video.
+                                            </p>
+                                        )}
+                                    </div>
+                                </Card>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
                     <Deferred data="initialVideos" fallback={<AdultDashboardSkeleton />}>
-                        {videos.length === 0 ? (
+                        {filteredVideos.length === 0 ? (
                             <div className="relative overflow-hidden bg-white dark:bg-slate-800 border-[4px] border-dashed border-slate-300 dark:border-slate-700 rounded-[2rem] p-12 flex flex-col items-center justify-center text-center shadow-sm">
                                 <div className="bg-slate-100 dark:bg-slate-700 h-16 w-16 rounded-full flex items-center justify-center mb-4">
                                     <Play className="h-6 w-6 text-slate-400 dark:text-slate-500" strokeWidth={3} />
                                 </div>
-                                <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-1">No Videos Available</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm max-w-sm">Please check back later! Videos are added regularly by the administrator.</p>
+                                <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-1">No Videos Found</h3>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm max-w-sm">
+                                    {videoSearchQuery ? "No videos match your search query." : "Please check back later! Videos are added regularly by the administrator."}
+                                </p>
                             </div>
                         ) : (
                             <motion.div 
@@ -548,7 +620,7 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.4, ease: "easeOut" }}
                             >
-                                {videos.map((video: any, idx: number) => (
+                                {filteredVideos.map((video: any, idx: number) => (
                                     <motion.div
                                         key={video.id}
                                         initial={{ opacity: 0, y: 16 }}
@@ -557,60 +629,67 @@ const AdultPageClient = ({ initialBlogs, initialVideos }: AdultPageClientProps) 
                                         className="h-full"
                                     >
                                         <Card
-                                            className={`flex flex-row sm:flex-col h-full cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.25rem] sm:rounded-[1.5rem] border-[3px] transition-all duration-300 overflow-hidden p-2.5 sm:p-0 gap-0 ${
+                                            className={cn(
+                                                "flex flex-row sm:flex-col h-full cursor-pointer group bg-white dark:bg-slate-900 rounded-[1.25rem] sm:rounded-[1.5rem] border-[3px] transition-all duration-300 overflow-hidden p-2.5 sm:p-3 gap-0",
                                                 selectedVideo?.id === video.id
-                                                    ? 'border-orange-500 shadow-[0_6px_0_#f97316] ring-2 ring-orange-400/30'
-                                                    : 'border-slate-200 dark:border-slate-800 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] hover:-translate-y-1 hover:shadow-[0_6px_0_#cbd5e1] dark:hover:shadow-[0_6px_0_#0f172a]'
-                                            } active:translate-y-0.5 active:shadow-none`}
+                                                    ? "border-orange-500 shadow-[0_6px_0_#ea580c] ring-2 ring-orange-400/30"
+                                                    : "border-slate-200 dark:border-slate-800 shadow-[0_4px_0_#cbd5e1] dark:shadow-[0_4px_0_#0f172a] hover:border-orange-500/40 hover:-translate-y-1 hover:shadow-[0_8px_0_#cbd5e1] dark:hover:shadow-[0_8px_0_#0f172a] active:translate-y-0.5 active:shadow-none"
+                                            )}
                                             onClick={() => handleSelectVideo(video)}
                                         >
                                             {/* Thumbnail Box */}
-                                            <div className="relative w-[130px] xs:w-[150px] sm:w-full aspect-video bg-slate-900 rounded-xl sm:rounded-none sm:rounded-t-[1.25rem] overflow-hidden shrink-0 border border-slate-100 dark:border-slate-800 sm:border-none">
+                                            <div className="relative w-[135px] xs:w-[155px] sm:w-full aspect-video bg-slate-900 rounded-xl sm:rounded-2xl overflow-hidden shrink-0 border border-slate-100 dark:border-slate-800/80">
                                                 <img
                                                     src={`https://img.youtube.com/vi/${getYouTubeId(video.youtubeId)}/mqdefault.jpg`}
                                                     alt={video.title}
+                                                    loading="lazy"
                                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                                 />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-30 transition-opacity" />
 
                                                 {/* Duration Badge Overlay */}
                                                 {video.duration && (
-                                                    <div className="absolute bottom-1.5 right-1.5 sm:bottom-2.5 sm:right-2.5 bg-black/80 backdrop-blur-md px-2 py-0.5 rounded-lg text-[10px] sm:text-xs font-extrabold text-white tracking-wider flex items-center gap-1 shadow-md border border-white/10 z-20">
-                                                        <Clock className="h-3 w-3 text-orange-400" />
+                                                    <div className="absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 bg-black/85 backdrop-blur-md px-1.5 py-0.5 sm:px-2 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-black text-white tracking-wider flex items-center gap-1 shadow-md border border-white/10 z-20">
+                                                        <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-orange-400" />
                                                         {video.duration}
                                                     </div>
                                                 )}
 
                                                 {/* Play Icon Overlay */}
-                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
-                                                    <div className="w-9 h-9 sm:w-12 sm:h-12 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white/40 transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                                                        <Play className="h-4 w-4 sm:h-5 sm:w-5 ml-0.5" fill="currentColor" />
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10 pointer-events-none">
+                                                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-500/95 text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white/40 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                                                        <Play className="h-4 w-4 sm:h-5 sm:w-5 ml-0.5 fill-current" />
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            {/* Info Section */}
-                                            <CardContent className="p-0 sm:p-5 pl-3 sm:pl-5 flex flex-col justify-between flex-1 min-w-0 py-0.5 sm:py-4">
-                                                <div className="flex flex-col justify-start">
-                                                    <CardTitle className="text-xs sm:text-base font-black text-slate-800 dark:text-white line-clamp-2 min-h-[2.25rem] sm:min-h-[2.6rem] leading-tight sm:leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors flex items-center sm:items-start">
-                                                        {video.title}
-                                                    </CardTitle>
-                                                    {video.description ? (
-                                                        <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 line-clamp-1 sm:line-clamp-2 min-h-[1rem] sm:min-h-[2.25rem] mt-0.5 sm:mt-1.5 leading-tight sm:leading-normal">
-                                                            {video.description}
-                                                        </p>
-                                                    ) : (
-                                                        <div className="min-h-[1rem] sm:min-h-[2.25rem] mt-0.5 sm:mt-1.5" />
-                                                    )}
+                                            {/* Info Section (YouTube Layout) */}
+                                            <div className="flex flex-row items-start gap-2.5 sm:gap-3 flex-1 min-w-0 pl-3 sm:pl-0 sm:mt-3">
+                                                {/* Mascot Avatar (Desktop) */}
+                                                <div className="hidden sm:flex shrink-0 mt-0.5">
+                                                    <div className="h-9 w-9 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-xs flex items-center justify-center p-0.5">
+                                                        <img
+                                                            src="/berong-official-logo.webp"
+                                                            alt="SafeScape"
+                                                            className="w-full h-full object-contain rounded-full"
+                                                        />
+                                                    </div>
                                                 </div>
 
-                                                <div className="flex items-center justify-end mt-3 pt-2 sm:pt-3 border-t border-slate-100 dark:border-slate-800/80">
-                                                    <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white font-black text-xs sm:text-sm shadow-[0_3px_0_#c2410c] dark:shadow-[0_3px_0_#9a3412] group-hover:shadow-[0_4px_0_#9a3412] group-hover:-translate-y-0.5 group-active:translate-y-0.5 group-active:shadow-none transition-all duration-200 shrink-0 uppercase tracking-wider">
-                                                        <Play className="h-3.5 w-3.5 fill-current" />
-                                                        Watch
-                                                    </span>
+                                                {/* Text Details Column */}
+                                                <div className="flex flex-col flex-1 min-w-0 justify-start">
+                                                    <h3 className="text-xs xs:text-sm sm:text-[15px] font-extrabold text-slate-800 dark:text-white line-clamp-2 leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                                                        {video.title}
+                                                    </h3>
+
+                                                    {/* Metadata Line */}
+                                                    <div className="flex items-center gap-1.5 text-[10px] xs:text-[11px] sm:text-xs font-medium text-slate-400 dark:text-slate-500 mt-1">
+                                                        <span className="capitalize">{video.category || "Adult"}</span>
+                                                        <span>•</span>
+                                                        <span>{formatTimeAgo(video.created_at || video.createdAt)}</span>
+                                                    </div>
                                                 </div>
-                                            </CardContent>
+                                            </div>
                                         </Card>
                                     </motion.div>
                                 ))}
