@@ -822,8 +822,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-    const [isBerongHovered, setIsBerongHovered] = useState(false);
-    const [isBerongToggled, setIsBerongToggled] = useState(false);
+    const [isBerongFlipped, setIsBerongFlipped] = useState(false);
 
     useEffect(() => {
         if (isLightboxOpen) {
@@ -923,21 +922,28 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                 }}
                             >
                                 <div 
-                                    className="relative w-48 h-48 sm:w-72 sm:h-72 lg:w-[320px] lg:h-[320px] xl:w-[380px] xl:h-[380px] cursor-pointer select-none"
+                                    className="relative w-48 h-48 sm:w-72 sm:h-72 lg:w-[320px] lg:h-[320px] xl:w-[380px] xl:h-[380px] cursor-pointer select-none touch-manipulation"
                                     style={{ perspective: 1200 }}
-                                    onMouseEnter={() => setIsBerongHovered(true)}
-                                    onMouseLeave={() => {
-                                        setIsBerongHovered(false);
-                                        setIsBerongToggled(false);
+                                    onMouseEnter={(e) => {
+                                        if ((e.nativeEvent as any)?.pointerType === 'touch') return;
+                                        if (typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                                            setIsBerongFlipped(true);
+                                        }
                                     }}
-                                    onClick={() => setIsBerongToggled(prev => !prev)}
+                                    onMouseLeave={(e) => {
+                                        if ((e.nativeEvent as any)?.pointerType === 'touch') return;
+                                        if (typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                                            setIsBerongFlipped(false);
+                                        }
+                                    }}
+                                    onClick={() => setIsBerongFlipped(prev => !prev)}
                                     role="button"
                                     tabIndex={0}
                                     aria-label="Flip Berong Logo"
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter' || e.key === ' ') {
                                             e.preventDefault();
-                                            setIsBerongToggled(prev => !prev);
+                                            setIsBerongFlipped(prev => !prev);
                                         }
                                     }}
                                 >
@@ -958,7 +964,7 @@ export function LandingAboutSection({ carouselNode }: { carouselNode?: React.Rea
                                         {/* 3D Coin Flip: Smoothly flips on desktop hover and on mobile tap/click */}
                                         <div
                                             className={`relative w-full h-full transition-transform duration-700 ease-out ${
-                                                (isBerongHovered || isBerongToggled) ? '[transform:rotateY(180deg)]' : '[transform:rotateY(0deg)]'
+                                                isBerongFlipped ? '[transform:rotateY(180deg)]' : '[transform:rotateY(0deg)]'
                                             }`}
                                             style={{ transformStyle: "preserve-3d" }}
                                         >
