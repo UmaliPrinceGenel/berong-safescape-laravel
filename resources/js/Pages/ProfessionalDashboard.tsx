@@ -556,18 +556,8 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                         onClick={() => setIsDescriptionExpanded(prev => !prev)}
                                         className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-100/90 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 transition-colors cursor-pointer group/desc"
                                     >
-                                        <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-2.5 text-xs font-bold text-slate-700 dark:text-slate-300 flex-wrap">
-                                            <div className="h-5 w-5 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 flex items-center justify-center shrink-0">
-                                                <img
-                                                    src="/berong-official-logo.webp"
-                                                    alt="Bureau of Fire Protection"
-                                                    className="w-full h-full object-contain"
-                                                />
-                                            </div>
-                                            <span className="text-slate-800 dark:text-slate-200 font-bold">Bureau of Fire Protection</span>
-                                            <CheckCircle2 className="h-3.5 w-3.5 text-slate-400 dark:text-slate-500 shrink-0 fill-slate-200 dark:fill-slate-700" />
-                                            <span className="text-slate-400 dark:text-slate-500">•</span>
-                                            <span className="text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">{formatTimeAgo(selectedVideo.created_at || selectedVideo.createdAt)}</span>
+                                        <div className="flex items-center gap-2 mb-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                                            <span>{formatTimeAgo(selectedVideo.created_at || selectedVideo.createdAt)}</span>
                                         </div>
                                         {selectedVideo.description && selectedVideo.description.trim() ? (
                                             <>
@@ -693,14 +683,8 @@ const ProfessionalDashboard = ({ initialVideos, watchedVideoIds = [] }: Professi
                                                         {video.title}
                                                     </h3>
 
-                                                    {/* Channel Line */}
-                                                    <div className="flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 mt-1 truncate">
-                                                        <span className="truncate">Bureau of Fire Protection</span>
-                                                        <CheckCircle2 className="h-3 w-3 text-slate-400 dark:text-slate-500 shrink-0 fill-slate-200 dark:fill-slate-700" />
-                                                    </div>
-
                                                     {/* Metadata Line */}
-                                                    <div className="flex items-center gap-1.5 text-[10px] xs:text-[11px] sm:text-xs font-medium text-slate-400 dark:text-slate-500 mt-0.5">
+                                                    <div className="flex items-center gap-1.5 text-[10px] xs:text-[11px] sm:text-xs font-medium text-slate-400 dark:text-slate-500 mt-1">
                                                         <span className="capitalize">{video.category || "Training"}</span>
                                                         <span>•</span>
                                                         <span>{formatTimeAgo(video.created_at || video.createdAt)}</span>
