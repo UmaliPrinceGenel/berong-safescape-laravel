@@ -253,21 +253,8 @@ Route::get('/maintenance', function () {
 
     Route::get('/adult/blog/{id}', function ($id) {
         $blog = BlogPost::with('author:id,name')->findOrFail($id);
-
-        $allBlogs = BlogPost::where('isPublished', true)
-            ->orderBy('order', 'asc')
-            ->orderBy('created_at', 'desc')
-            ->select('id', 'title', 'imageUrl', 'category')
-            ->get();
-
-        $currentIndex = $allBlogs->search(fn ($b) => (string) $b->id === (string) $blog->id);
-        $prevArticle = ($currentIndex !== false && $currentIndex > 0) ? $allBlogs->get($currentIndex - 1) : null;
-        $nextArticle = ($currentIndex !== false && $currentIndex < $allBlogs->count() - 1) ? $allBlogs->get($currentIndex + 1) : null;
-
         return Inertia::render('Adult/Article', [
             'blog' => $blog,
-            'prevArticle' => $prevArticle,
-            'nextArticle' => $nextArticle,
         ]);
     })->name('adult.blog.show');
     }); // End Adult role group
