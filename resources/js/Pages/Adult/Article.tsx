@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react"
 import ReactDOM, { flushSync } from "react-dom"
 import { Head, Link } from '@inertiajs/react'
 import DashboardLayout from "@/Layouts/DashboardLayout"
-import { ArrowLeft, User, Calendar, Maximize2, X, Flame, ChevronLeft, ChevronRight } from "lucide-react"
+import { ArrowLeft, User, Calendar, Maximize2, X, Flame, ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from "lucide-react"
 import DOMPurify from "dompurify"
 import { cn } from "@/lib/utils"
 
@@ -36,6 +36,15 @@ const BlogArticleClient = ({ blog, allBlogs }: BlogArticleProps) => {
 
     const [lightboxImage, setLightboxImage] = useState<{ url: string; title: string } | null>(null);
     const [isLightboxToggling, setIsLightboxToggling] = useState(false);
+
+    const [expandedArticles, setExpandedArticles] = useState<Record<string | number, boolean>>({});
+
+    const toggleArticleExpand = (id: string | number) => {
+        setExpandedArticles(prev => ({
+            ...prev,
+            [id]: !prev[id]
+        }));
+    };
 
     const containerRef = useRef<HTMLDivElement>(null);
     const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -302,6 +311,9 @@ const BlogArticleClient = ({ blog, allBlogs }: BlogArticleProps) => {
                 >
                     {articles.map((item, idx) => {
                         const isActive = idx === activeIndex;
+                        const isExpanded = !!expandedArticles[item.id];
+                        const rawText = (item.content || item.excerpt || '').replace(/<[^>]*>/g, '').trim();
+                        const isLongContent = rawText.length > 180;
                         const dateString = item.created_at || item.createdAt;
                         const formattedDate = dateString 
                             ? new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
@@ -420,16 +432,43 @@ const BlogArticleClient = ({ blog, allBlogs }: BlogArticleProps) => {
                                     {/* Article Content */}
                                     <div className="p-3.5 sm:p-5 pt-2.5 sm:pt-3 relative">
                                         <div 
-                                            className="prose prose-slate dark:prose-invert max-w-none 
-                                                prose-headings:font-black prose-headings:text-slate-800 dark:prose-headings:text-white prose-headings:tracking-tight 
-                                                prose-h2:text-sm sm:prose-h2:text-base prose-h2:mt-2 prose-h2:mb-1.5
-                                                prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:font-medium prose-p:leading-relaxed prose-p:mb-2 prose-p:text-xs sm:prose-p:text-[13px]
-                                                prose-a:text-orange-600 dark:prose-a:text-orange-400 prose-a:font-bold prose-a:no-underline hover:prose-a:underline
-                                                prose-strong:font-black prose-strong:text-slate-800 dark:prose-strong:text-white
-                                                prose-ul:marker:text-orange-400 dark:prose-ul:marker:text-orange-500 prose-li:font-medium prose-li:text-xs sm:prose-li:text-[13px]
-                                                prose-img:rounded-xl prose-img:shadow-md border-slate-100 dark:border-slate-700"
+                                            className={cn(
+                                                "prose prose-slate dark:prose-invert max-w-none transition-all duration-300",
+                                                "prose-headings:font-black prose-headings:text-slate-800 dark:prose-headings:text-white prose-headings:tracking-tight",
+                                                "prose-h2:text-sm sm:prose-h2:text-base prose-h2:mt-2 prose-h2:mb-1.5",
+                                                "prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:font-medium prose-p:leading-relaxed prose-p:mb-2 prose-p:text-xs sm:prose-p:text-[13px]",
+                                                "prose-a:text-orange-600 dark:prose-a:text-orange-400 prose-a:font-bold prose-a:no-underline hover:prose-a:underline",
+                                                "prose-strong:font-black prose-strong:text-slate-800 dark:prose-strong:text-white",
+                                                "prose-ul:marker:text-orange-400 dark:prose-ul:marker:text-orange-500 prose-li:font-medium prose-li:text-xs sm:prose-li:text-[13px]",
+                                                "prose-img:rounded-xl prose-img:shadow-md border-slate-100 dark:border-slate-700",
+                                                !isExpanded && "line-clamp-5"
+                                            )}
                                             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item.content || item.excerpt || '') }}
                                         />
+                                        {isLongContent && (
+                                            <div className="flex justify-end mt-1.5">
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        toggleArticleExpand(item.id);
+                                                    }}
+                                                    className="text-xs font-black text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 inline-flex items-center gap-1 transition-colors cursor-pointer py-0.5 px-2 rounded-full bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20 shadow-xs"
+                                                >
+                                                    {isExpanded ? (
+                                                        <>
+                                                            <span>Show Less</span>
+                                                            <ChevronUp className="h-3.5 w-3.5" strokeWidth={2.5} />
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <span>See More</span>
+                                                            <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 </article>
                             </div>
@@ -456,8 +495,8 @@ const BlogArticleClient = ({ blog, allBlogs }: BlogArticleProps) => {
                     </div>
                 )}
 
-                {/* Emergency Protocol - Compact & Snug */}
-                <div className="max-w-3xl mx-auto px-4 mt-1.5 sm:mt-2">
+                {/* Emergency Protocol - Positioned cleanly below cards, dynamically moves with expand */}
+                <div className="max-w-3xl mx-auto px-4 mt-2 sm:mt-3 transition-all duration-300 ease-in-out">
                     <div className="overflow-hidden rounded-xl sm:rounded-2xl bg-red-500/[0.02] dark:bg-red-500/[0.03] backdrop-blur-md border border-red-500/20 dark:border-red-500/25 p-3 sm:p-4 shadow-sm transition-colors">
                         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center">
                             <div className="relative shrink-0">
