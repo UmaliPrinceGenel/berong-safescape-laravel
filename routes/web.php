@@ -253,8 +253,17 @@ Route::get('/maintenance', function () {
 
     Route::get('/adult/blog/{id}', function ($id) {
         $blog = BlogPost::with('author:id,name')->findOrFail($id);
+        $allBlogs = BlogPost::with('author:id,name')
+            ->where('isPublished', true)
+            ->orderBy('order', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        if (!$allBlogs->contains('id', $blog->id)) {
+            $allBlogs->prepend($blog);
+        }
         return Inertia::render('Adult/Article', [
             'blog' => $blog,
+            'allBlogs' => $allBlogs,
         ]);
     })->name('adult.blog.show');
     }); // End Adult role group
